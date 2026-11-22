@@ -1,0 +1,59 @@
+name: Server report
+description: I ran dogu against an MCP server. Here is what happened, good or bad.
+title: "Server report: "
+labels: ["server report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The most useful report right now. Reports that a server works are welcome too.
+        Before you paste output, remove tokens and anything private.
+  - type: input
+    id: server
+    attributes:
+      label: Server
+      description: Its name and where it comes from (npm package, URL, repo).
+      placeholder: "@modelcontextprotocol/server-github, or https://mcp.linear.app/mcp"
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: Did it work?
+      options:
+        - "Yes, everything I tried worked"
+        - "Partly"
+        - "No"
+    validations:
+      required: true
+  - type: dropdown
+    id: transport
+    attributes:
+      label: How it connects
+      options:
+        - "Local (command)"
+        - "Remote (url), no login"
+        - "Remote (url), with dogu login"
+        - "Remote (url), with a token in headers"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What you ran and what happened
+      description: The commands, and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: debug
+    attributes:
+      label: Output of `DOGU_DEBUG=1 dogu sync`
+      description: Only needed if something broke.
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: dogu version and OS
+      placeholder: "dogu 0.2.1, macOS 26 arm64"
+    validations:
+      required: true

@@ -2,18 +2,26 @@
   <img src="assets/hero.svg" width="100%" alt="dogu fetches your tools. The logo is a wrench that is also a long dog: the open end is its head, the ring end its tail, two bolts its legs. Your MCP tools, as a folder of commands: a folder tree shows ~/mcp with github, gmail and files folders, each holding tools as runnable programs.">
 </p>
 
+<p align="center">
+  <a href="https://github.com/New1Direction/dogu/actions/workflows/ci.yml"><img src="https://github.com/New1Direction/dogu/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/New1Direction/dogu/releases/latest"><img src="https://img.shields.io/github/v/release/New1Direction/dogu" alt="Latest release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"></a>
+</p>
+
 **dogu turns every MCP tool you have into a small program in a folder.**
 
 An AI agent then uses your tools the way it uses any other command: `ls` to find one, `--help` to learn it, a pipe to chain two. It reads nothing about the tools it does not use.
 
 ```
-cargo install --git https://github.com/New1Direction/dogu
+curl -fsSL https://raw.githubusercontent.com/New1Direction/dogu/main/install.sh | sh
 dogu sync
 ```
 
 <p align="center">
-  <img src="assets/demo.svg" width="100%" alt="A terminal session. dogu sync connects to three MCP servers with 36 tools. ls shows the memory server's tools as files. search_nodes --help prints its parameters. A tool runs and its output is piped to jq. A TypeScript program runs in the sandbox.">
+  <img src="assets/agent.gif" width="100%" alt="Claude Code, run headless, is told only: Your tools are in the mcp folder, read its README first. It reads the README, greps the github and deepwiki READMEs, reads search_repositories --help, searches GitHub for the modelcontextprotocol repos with the most stars, then reads the DeepWiki structure of the top one. It answers with servers, python-sdk and typescript-sdk and the six doc sections of servers, in 6 turns and 10 seconds.">
 </p>
+
+<p align="center"><sub>Claude Code, told only where the folder is. Recorded live: each ▸ is a command it ran. <a href="assets/agent.tape">How this was made</a>.</sub></p>
 
 ## The problem
 
@@ -27,6 +35,8 @@ dogu keeps the tools on disk instead. The agent reads one short README, then loo
 
 That is measured, not estimated: 36 tools from the official filesystem, memory and everything servers. The more tools you connect, the bigger the gap, because the README grows by one line per server and the definitions grow by every tool.
 
+With servers people use every day, the gap is wider. GitHub's official server, Context7 and DeepWiki have 51 tools between them, and their definitions come to 55,687 bytes. The dogu README for the same three is 1,546 bytes: 36 times less. (Definitions measured as each tool's name, description and input schema in JSON, which is what a client sends to the model.)
+
 ## What you get
 
 - **A smaller context.** The agent reads about the tools it uses and no others.
@@ -38,7 +48,15 @@ That is measured, not estimated: 36 tools from the official filesystem, memory a
 
 ## Install
 
-You need [Rust](https://rustup.rs) to build it.
+On macOS or Linux:
+
+```
+curl -fsSL https://raw.githubusercontent.com/New1Direction/dogu/main/install.sh | sh
+```
+
+It downloads the build for your machine from the latest release, checks its SHA-256, and puts `dogu` in `~/.local/bin`. Set `DOGU_INSTALL_DIR` to put it somewhere else.
+
+Or build it with [Rust](https://rustup.rs):
 
 ```
 cargo install --git https://github.com/New1Direction/dogu
@@ -87,6 +105,10 @@ For example, with GitHub and a filesystem server connected:
 ```
 
 ## Use a tool
+
+<p align="center">
+  <img src="assets/demo.gif" width="100%" alt="A terminal session with real hosted servers. dogu sync reads the config: context7 2 tools, deepwiki 3 tools, github 46 tools. ls shows the apps and the deepwiki tools as files. deepwiki/ask_wiki_question --help prints its parameters with no network call. github/search_repositories finds the modelcontextprotocol repos with the most stars and jq prints their names. A TypeScript program in the sandbox searches GitHub and reads each top repo's DeepWiki structure in one run.">
+</p>
 
 ```sh
 github/create_issue --help                                  # parameters, from a saved copy. No network.
@@ -206,15 +228,15 @@ Transports: stdio and Streamable HTTP.
 
 - **The official MCP conformance suite**, `@modelcontextprotocol/conformance`. 35 client scenarios pass: 8 for the protocol and the 27 core OAuth ones (discovery, PKCE, scopes, step-up, issuer checks, token endpoint auth, registration). Run them with `sh tests/conformance.sh`.
 - **The sandbox escape test**, `tests/escape.ts`.
-- **Real servers**: the official filesystem, memory and everything servers, a server built with the v2 TypeScript SDK, the SDK's OAuth demo server, DeepWiki, and Linear with a real OAuth login and token refresh.
+- **Real servers**: the official filesystem, memory and everything servers, a server built with the v2 TypeScript SDK, the SDK's OAuth demo server, and these hosted ones: GitHub's official server (with a token), Linear (with `dogu login`, including token refresh), Context7 and DeepWiki.
 - **A real agent**: Claude Code, told only "Your tools are in ~/mcp. Read ~/mcp/README.md first.", used the folder for a three-step job with no errors, and did the same through `dogu serve` with no shell.
 
 ## Status
 
-This is version 0.2 and it is new. Here is what has not been done yet:
+This is version 0.2.1 and it is new. Here is what has not been done yet:
 
 - It has been built and run on **Linux and macOS**. Windows does not work: the tools are `sh` scripts.
-- Of the **hosted servers**, only Linear and DeepWiki have been tried. GitHub, Notion and others have not. Real services have quirks. If one breaks, please open an issue with the output of `DOGU_DEBUG=1 dogu sync`.
+- Of the **hosted servers**, GitHub, Linear, Context7 and DeepWiki have been tried. Notion and others have not. Real services have quirks. If one breaks, please open an issue with the output of `DOGU_DEBUG=1 dogu sync`.
 - **Tools that ask the user a question mid-call** (elicitation, sampling) are not supported. The call fails with a clear message.
 - **Resources and prompts** are not exposed. Tools only.
 - **Each command starts its server, runs the tool and stops it.** A server started with `npx` takes a second or more per call. `dogu serve`, and a program run with `dogu run`, keep connections open.
@@ -285,7 +307,7 @@ About 3,100 lines of Rust and JavaScript, with five dependencies and no async ru
 
 1. Keep local servers running between commands, so `npx` servers are fast in the folder too.
 2. Resources as plain read-only files in each app's folder.
-3. Prebuilt binaries and a Homebrew formula.
+3. A Homebrew formula.
 4. Windows.
 
 Issues and pull requests are welcome. The most useful report right now is "I ran it against server X and this happened".

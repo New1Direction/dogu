@@ -1,0 +1,24 @@
+name: Bug
+description: Something in dogu itself is broken.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, and what you got.
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output
+      description: Run it again with DOGU_DEBUG=1 if it helps. Remove tokens and anything private.
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: dogu version and OS
+      placeholder: "dogu 0.2.1, Ubuntu 24.04 x86_64"
+    validations:
+      required: true

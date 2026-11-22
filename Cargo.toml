@@ -1,9 +1,14 @@
 [package]
 name = "dogu"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 description = "Your MCP tools as a folder of commands, and as a sandboxed code API"
 license = "MIT"
+repository = "https://github.com/New1Direction/dogu"
+readme = "README.md"
+keywords = ["mcp", "ai-agents", "cli", "llm", "code-mode"]
+categories = ["command-line-utilities", "development-tools"]
+exclude = ["assets/", ".github/"]
 
 [dependencies]
 serde_json = { version = "1", features = ["preserve_order"] }

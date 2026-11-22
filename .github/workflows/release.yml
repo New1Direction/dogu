@@ -1,0 +1,77 @@
+name: Release
+
+# A tag like v0.2.1 builds dogu for macOS and Linux and attaches the archives to a GitHub release.
+# A pull request that touches the release setup runs the same builds without publishing.
+on:
+  push:
+    tags: ["v[0-9]+.*"]
+  pull_request:
+    paths:
+      - .github/workflows/release.yml
+      - install.sh
+      - Cargo.toml
+      - Cargo.lock
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  create-release:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the release
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Tag matches Cargo.toml
+        run: |
+          version=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)
+          [ "v$version" = "$GITHUB_REF_NAME" ] || { echo "tag $GITHUB_REF_NAME but Cargo.toml says $version"; exit 1; }
+      - uses: taiki-e/create-gh-release-action@045e5c0ed9c50cc1f96de7e891a09ad3daea245f # v1.12.0
+        with:
+          changelog: CHANGELOG.md
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  upload-assets:
+    needs: create-release
+    # Runs after the release is made, or on its own for a pull request.
+    if: ${{ !cancelled() && (needs.create-release.result == 'success' || github.event_name == 'pull_request') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: aarch64-apple-darwin
+            os: macos-latest
+          - target: x86_64-apple-darwin
+            os: macos-latest
+          - target: x86_64-unknown-linux-musl
+            os: ubuntu-latest
+          - target: aarch64-unknown-linux-musl
+            os: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write # attach the archives
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: dtolnay/rust-toolchain@39008827e6b4319a349e9a42dfc90579dd25f1ca # stable
+        with:
+          toolchain: stable
+      - name: Install cross
+        if: runner.os == 'Linux'
+        uses: taiki-e/install-action@fe3acb53a98b62c772db35de75ce0e4595e7ca8c # v2.90.8
+        with:
+          tool: cross
+      - uses: taiki-e/upload-rust-binary-action@f0d45ae91ee7b8ee928de7a9d04d893a08bcbec6 # v1.30.2
+        with:
+          bin: dogu
+          target: ${{ matrix.target }}
+          locked: true
+          tar: unix
+          zip: none
+          checksum: sha256
+          dry-run: ${{ github.event_name == 'pull_request' }}
+          dry-run-intended: ${{ github.event_name == 'pull_request' }}
+          token: ${{ secrets.GITHUB_TOKEN }}
