@@ -204,6 +204,6 @@ write({
   "seconds.svg": seconds("2026-11-22-exp5-warm-rotated", [
     ["direct", "Loading the servers directly"],
     ["codemode", "dogu code mode, 0.5.0"],
-    ["codemode-b", "dogu code mode, next version"],
+    ["codemode-b", "dogu code mode, 0.6.0"],
   ]),
 });

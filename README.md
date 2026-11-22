@@ -309,7 +309,7 @@ Transports: stdio and Streamable HTTP.
 
 ## Status
 
-This is version 0.6.0 and it is new. Here is what has not been done yet:
+This is version 0.6.1 and it is new. Here is what has not been done yet:
 
 - It has been built and run on **Linux and macOS**. Windows does not work: the tools are `sh` scripts.
 - Of the **hosted servers**, GitHub, Linear, Context7 and DeepWiki have been tried. Notion and others have not. Real services have quirks. If one breaks, please open an issue with the output of `DOGU_DEBUG=1 dogu sync`.

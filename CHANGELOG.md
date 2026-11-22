@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.1] - 2026-11-22
+
+### Fixed
+
+- Code mode picks the right tool where a name misleads. `search`'s description now says what each tool does, with any sentence that limits a tool first: GitHub's `search_issues` "Already scoped to is:issue" searches issues only, so it cannot count issues and pull requests together. On new held-out tasks written for this: 17 -> 21 right out of 21, the same as loading the servers directly.
+- Calls to HTTP servers reuse one connection. dogu stopped reading each streamed answer at the answer itself, so every call opened a new TCP and TLS connection; a GitHub call on an open connection went from about 600 to 400 ms.
+- `dogu serve`'s warm start opens the network connection of modern HTTP servers too; before, connecting to them sent nothing, so the first call still paid for it.
+
+### Changed
+
+- `run_code`'s description shows how to start calls together with `Promise.all`, and says to print a whole result rather than a slice when its shape is unknown (dogu shortens long output itself). Both cut model turns and tool time on new held-out tasks.
+
 ## [0.6.0] - 2026-11-22
 
 ### Changed
