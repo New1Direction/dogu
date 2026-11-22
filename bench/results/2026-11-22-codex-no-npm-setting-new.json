@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.5.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "f7e90f1",
+  "dirty": true,
+  "answers": {
+    "memory-years": [
+      "4"
+    ]
+  },
+  "records": [
+    {
+      "setup": "codex-folder",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "4 entities have an observation saying they started before 2019.",
+        "turns": 2,
+        "seconds": 11.311766167000002,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48198,
+        "outputTokens": 92,
+        "inputBreakdown": {
+          "fresh": 10566,
+          "cacheWrite": 0,
+          "cacheRead": 37632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/run - <<'EOF' const g = await tools.memory.read_graph({}); console.log(JSON.stringify(g).slice(0,2200)); EOF\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "4 entities have an observation saying they started before 2019.",
+        "turns": 2,
+        "seconds": 15.231196249999998,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 47952,
+        "outputTokens": 123,
+        "inputBreakdown": {
+          "fresh": 10320,
+          "cacheWrite": 0,
+          "cacheRead": 37632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/memory/read_graph --json | jq -r '.entities[] | .name as \"'$n | .observations[] | select(test(\"start|found|establish|launch|began\";\"i\")) | [$n,.] | @tsv'\"'\""
+        ]
+      }
+    }
+  ]
+}

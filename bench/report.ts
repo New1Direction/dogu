@@ -37,6 +37,7 @@ export const SETUP_LABELS: Record<string, string> = {
   "folder-read": "dogu folder, \"read the README\"",
   codemode: "dogu serve (code mode)",
   "codemode-b": "dogu code mode, candidate build",
+  utcp: "UTCP code-mode 1.2.1",
 };
 
 /** One row per setup: how often it was right, and what it cost on average. */
@@ -83,6 +84,7 @@ const BASELINES: Record<string, ReadonlyArray<string>> = {
   "folder-read": ["direct", "direct-search"],
   codemode: ["direct", "direct-search"],
   "codemode-b": ["codemode", "direct"],
+  utcp: ["direct", "codemode"],
   "codex-folder": ["codex-direct"],
   "pi-folder": ["pi-direct", "pi-codemode"],
 };

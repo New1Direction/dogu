@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.5.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "f7e90f1",
+  "dirty": true,
+  "answers": {
+    "memory-years": [
+      "7"
+    ]
+  },
+  "records": [
+    {
+      "setup": "codex-folder",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**7 entities** in the knowledge graph have an observation saying they started before 2022.",
+        "turns": 4,
+        "seconds": 18.24156025,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 97399,
+        "outputTokens": 372,
+        "inputBreakdown": {
+          "fresh": 21367,
+          "cacheWrite": 0,
+          "cacheRead": 76032
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/memory/read_graph --json | jq '{count:(.entities|length), matches:[.entities[] | . as \"'$e | [.observations[] | select(test(\"start|began|found|establish\";\"i\"))] | select(length>0) | {name:$e.name,obs:.}]}'\"'\"",
+          "/bin/zsh -lc 'set -o pipefail npm_config_cache=\"$(mktemp -d)\" ../mcp/memory/read_graph --json | jq '\"'{count:(.entities|length), matches:[.entities[] | . as \"'$e | [.observations[] | select(test(\"start|began|found|establish\";\"i\"))] | select",
+          "/bin/zsh -lc 'set -o pipefail npm_config_cache=\"$(mktemp -d /private/tmp/graph-npm.XXXXXX)\" ../mcp/memory/read_graph --json | jq '\"'{count:(.entities|length), matches:[.entities[] | . as \"'$e | [.observations[] | select(test(\"start|began|fo"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**7 entities** have an observation saying they started before 2022.",
+        "turns": 4,
+        "seconds": 21.968588041,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 97462,
+        "outputTokens": 400,
+        "inputBreakdown": {
+          "fresh": 11446,
+          "cacheWrite": 0,
+          "cacheRead": 86016
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/run - <<'EOF' const g = await tools.memory.read_graph({}); console.log(Object.keys(g)); const entities = g.entities ?? g; if (Array.isArray(entities)) { console.log(entities.length); const hits = entities.flatMap(e => e",
+          "/bin/zsh -lc 'npm_config_cache=\"$(mktemp -d)\" ../mcp/run - <<'\"'EOF' const g = await tools.memory.read_graph({}); console.log(Object.keys(g)); const entities = g.entities ?? g; if (Array.isArray(entities)) { console.log(entities.length); co",
+          "/bin/zsh -lc 'npm_config_cache=\"$(mktemp -d /private/tmp/graph-cache.XXXXXX)\" ../mcp/memory/read_graph --json | jq '\"'{total:(.entities|length), matches:[.entities[] | .name as \"'$n | .observations[] | select(test(\"'\"\\\\\\\\bstart\\\";\\\"i\\\")) | "
+        ]
+      }
+    }
+  ]
+}
