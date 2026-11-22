@@ -70,7 +70,7 @@ pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
     }
 
     let width = servers.keys().map(|n| n.len()).max().unwrap_or(0);
-    let mut index = Vec::new(); // lines for the top README
+    let mut index = Vec::new(); // entries for the top README
     let mut failed = 0;
     let mut need_login = false;
     // Which protocol era each server speaks, so later calls can skip the detection step.
@@ -79,13 +79,13 @@ pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
     for (name, result) in results {
         match result {
             Ok(Fetched { info, tools, era, skipped }) => {
-                write_server(&root, &me, name, &info, &tools)?;
+                let lines = write_server(&root, &me, name, &info, &tools)?;
                 eras.insert(name.clone(), json!(era));
                 println!("  ok    {name:width$}  {} tools", tools.len());
                 for note in skipped {
                     println!("        left out {note}");
                 }
-                index.push(format!("- `{}/` — {} tools{}", safe(name), tools.len(), title_of(&info)));
+                index.push(IndexEntry::Fresh { app: safe(name), title: title_of(&info), tools: lines });
             }
             Err(e) => {
                 failed += 1;
@@ -95,7 +95,7 @@ pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
                 }
                 // Keep the old folder, if there is one, so one broken server does not hide its tools.
                 if root.join(safe(name)).is_dir() {
-                    index.push(format!("- `{}/` — (not refreshed: server did not answer)", safe(name)));
+                    index.push(IndexEntry::Stale { app: safe(name) });
                 }
             }
         }
@@ -116,6 +116,7 @@ pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
     let shown = config::tilde(&root);
     println!("\nYour tools are in {shown}");
     println!("Tell your agent:  Your tools are in {shown}. Read {shown}/README.md first.");
+    println!("Faster: put the list in your agent's standing instructions instead. In CLAUDE.md:  @{shown}/README.md");
     if need_login {
         println!("Some servers need a login. Run `dogu login`, then `dogu sync` again.");
     } else if failed > 0 {
@@ -158,7 +159,27 @@ fn title_of(info: &Value) -> String {
     }
 }
 
-fn write_server(root: &Path, me: &Path, name: &str, info: &Value, tools: &[Value]) -> Result<(), String> {
+/// One tool's line in a README: its file, its flags and the start of its description.
+struct ToolLine {
+    file: String,
+    flags: String,
+    about: String,
+    /// ` → {fields}` when the tool says what it returns, else empty.
+    returns: String,
+}
+
+/// An app in the top README: freshly synced with its tools, or kept from an earlier sync.
+enum IndexEntry {
+    Fresh { app: String, title: String, tools: Vec<ToolLine> },
+    Stale { app: String },
+}
+
+/// The top README lists every tool with its flags while that stays under this size, so an agent
+/// can usually run a tool straight after reading it. Past it, only the tool names are listed.
+const INDEX_BUDGET: usize = 16_000;
+
+/// Writes the app's folder and returns its tools' README lines.
+fn write_server(root: &Path, me: &Path, name: &str, info: &Value, tools: &[Value]) -> Result<Vec<ToolLine>, String> {
     let dir = root.join(safe(name));
     let schemas = root.join(".dogu/schemas").join(safe(name));
     let _ = fs::remove_dir_all(&dir);
@@ -171,7 +192,8 @@ fn write_server(root: &Path, me: &Path, name: &str, info: &Value, tools: &[Value
         readme.push_str(text.trim());
         readme.push_str("\n\n");
     }
-    readme.push_str("Run `./<tool> --help` to see a tool's parameters.\n\n");
+    readme.push_str("Each line shows a tool and its flags. Run `./<tool> --help` for what the flags mean.\n\n");
+    let mut lines = Vec::new();
 
     for tool in tools {
         let Some(tool_name) = tool["name"].as_str() else { continue };
@@ -193,11 +215,15 @@ fn write_server(root: &Path, me: &Path, name: &str, info: &Value, tools: &[Value
 
         write(&schema_path(root, name, tool_name), &serde_json::to_string_pretty(tool).unwrap())?;
 
+        let flags = crate::call::flags_of(tool);
         let about = first_line(tool["description"].as_str().unwrap_or(""));
-        readme.push_str(&format!("- `{file}` — {about}\n"));
+        let returns = crate::call::returns_of(tool).map(|r| format!(" → {r}")).unwrap_or_default();
+        readme.push_str(&format!("- `{file}{flags}` — {about}{returns}\n"));
+        lines.push(ToolLine { file, flags, about: first_sentence(&about), returns });
     }
     write(&dir.join("index.d.ts"), &types_file(name, tools))?;
-    write(&dir.join("README.md"), &readme)
+    write(&dir.join("README.md"), &readme)?;
+    Ok(lines)
 }
 
 /// The server's tools written as TypeScript types. An agent reads this before writing a program.
@@ -211,35 +237,44 @@ fn types_file(server: &str, tools: &[Value]) -> String {
          declare const tools: {{\n  {app}: {{\n"
     );
     for tool in tools {
-        let Some(name) = tool["name"].as_str() else { continue };
-        if let Some(d) = tool["description"].as_str() {
-            out.push_str("    /**\n");
-            for line in d.trim().lines() {
-                out.push_str(&format!("     * {}\n", line.trim_end().replace("*/", "* /")));
-            }
-            out.push_str("     */\n");
-        }
-        let input = &tool["inputSchema"];
-        let required: Vec<&str> =
-            input["required"].as_array().map(|a| a.iter().filter_map(Value::as_str).collect()).unwrap_or_default();
-        let returns = if tool["outputSchema"].is_object() { ts_type(&tool["outputSchema"], 0) } else { "any".into() };
-        match input["properties"].as_object().filter(|p| !p.is_empty()) {
-            None => out.push_str(&format!("    {}(args?: {{}}): Promise<{returns}>;\n\n", ident(name))),
-            Some(props) => {
-                let optional = if required.is_empty() { "?" } else { "" };
-                out.push_str(&format!("    {}(args{optional}: {{\n", ident(name)));
-                for (key, prop) in props {
-                    if let Some(d) = prop["description"].as_str() {
-                        out.push_str(&format!("      /** {} */\n", d.trim().replace('\n', " ").replace("*/", "* /")));
-                    }
-                    let mark = if required.contains(&key.as_str()) { "" } else { "?" };
-                    out.push_str(&format!("      {}{mark}: {};\n", ts_key(key), ts_type(prop, 0)));
-                }
-                out.push_str(&format!("    }}): Promise<{returns}>;\n\n"));
-            }
-        }
+        out.push_str(&tool_decl(tool, "    ", ""));
     }
     out.push_str("  };\n};\n");
+    out
+}
+
+/// One tool as a TypeScript declaration with its doc comment, e.g. `name(args: {...}): Promise<any>;`.
+/// `indent` goes before every line and `prefix` before the name, such as `tools.github.`.
+pub fn tool_decl(tool: &Value, indent: &str, prefix: &str) -> String {
+    let Some(name) = tool["name"].as_str() else { return String::new() };
+    let mut out = String::new();
+    if let Some(d) = tool["description"].as_str() {
+        out.push_str(&format!("{indent}/**\n"));
+        for line in d.trim().lines() {
+            out.push_str(&format!("{indent} * {}\n", line.trim_end().replace("*/", "* /")));
+        }
+        out.push_str(&format!("{indent} */\n"));
+    }
+    let input = &tool["inputSchema"];
+    let required: Vec<&str> =
+        input["required"].as_array().map(|a| a.iter().filter_map(Value::as_str).collect()).unwrap_or_default();
+    let returns = if tool["outputSchema"].is_object() { ts_type(&tool["outputSchema"], 0) } else { "any".into() };
+    let id = format!("{prefix}{}", ident(name));
+    match input["properties"].as_object().filter(|p| !p.is_empty()) {
+        None => out.push_str(&format!("{indent}{id}(args?: {{}}): Promise<{returns}>;\n\n")),
+        Some(props) => {
+            let optional = if required.is_empty() { "?" } else { "" };
+            out.push_str(&format!("{indent}{id}(args{optional}: {{\n"));
+            for (key, prop) in props {
+                if let Some(d) = prop["description"].as_str() {
+                    out.push_str(&format!("{indent}  /** {} */\n", d.trim().replace('\n', " ").replace("*/", "* /")));
+                }
+                let mark = if required.contains(&key.as_str()) { "" } else { "?" };
+                out.push_str(&format!("{indent}  {}{mark}: {};\n", ts_key(key), ts_type(prop, 0)));
+            }
+            out.push_str(&format!("{indent}}}): Promise<{returns}>;\n\n"));
+        }
+    }
     out
 }
 
@@ -318,10 +353,15 @@ fn ts_type(schema: &Value, depth: usize) -> String {
     }
 }
 
-fn root_readme(index: &[String]) -> String {
+fn root_readme(index: &[IndexEntry]) -> String {
     format!(
         "# Tools as files\n\n\
          Every folder here is an app. Every file inside it is a tool you can run.\n\n\
+         Every tool and its flags are listed at the end of this file, so you can usually run one\n\
+         straight away. Run `<app>/<tool> --help` for what a tool's flags mean.\n\n\
+         A `→ {{fields}}` after a tool means `--json` prints JSON with those fields. Pick the ones you need\n\
+         with `jq` in the same command, without looking at the output first:\n\
+         `<app>/<tool> --name value --json | jq '{{id, name}}'`\n\n\
          | To do this | Run this |\n\
          |---|---|\n\
          | See the apps | `ls` |\n\
@@ -348,9 +388,44 @@ fn root_readme(index: &[String]) -> String {
          - Types for an app's tools: `cat <app>/index.d.ts`\n\
          - Also: `./run program.ts`, and `./run --allow <app> ...` to limit which tools it may call.\n\n\
          ## Apps\n\n{}\n",
-        index.join("\n")
+        app_index(index)
     )
 }
+
+/// The apps and their tools: with flags if that fits in INDEX_BUDGET, else names only.
+fn app_index(index: &[IndexEntry]) -> String {
+    let full = index.iter().map(|e| app_entry(e, true)).collect::<Vec<_>>().join("\n");
+    if full.len() <= INDEX_BUDGET {
+        return full;
+    }
+    index.iter().map(|e| app_entry(e, false)).collect::<Vec<_>>().join("\n")
+}
+
+fn app_entry(entry: &IndexEntry, with_flags: bool) -> String {
+    match entry {
+        IndexEntry::Stale { app } => format!("- `{app}/` — (not refreshed: server did not answer)"),
+        IndexEntry::Fresh { app, title, tools } if with_flags => {
+            let lines: Vec<String> =
+                tools.iter().map(|t| format!("- `{app}/{}{}` — {}{}", t.file, t.flags, t.about, t.returns)).collect();
+            format!("### `{app}/` — {} tools{title}\n\n{}\n", tools.len(), lines.join("\n"))
+        }
+        IndexEntry::Fresh { app, title, tools } => {
+            let names: Vec<&str> = tools.iter().map(|t| t.file.as_str()).collect();
+            format!("- `{app}/` — {} tools{title}: {}", tools.len(), names.join(", "))
+        }
+    }
+}
+
+/// The first sentence of a description, cut to 100 characters: enough to choose a tool by.
+fn first_sentence(text: &str) -> String {
+    let sentence = text.split(". ").next().unwrap_or(text).trim_end_matches('.');
+    match sentence.chars().count() > 100 {
+        true => format!("{}…", sentence.chars().take(100).collect::<String>()),
+        false => format!("{sentence}."),
+    }
+}
+
+
 
 fn first_line(s: &str) -> String {
     let line = s.trim().lines().next().unwrap_or("").trim();

@@ -20,7 +20,8 @@ pub fn run(root: &Path, server: &str, tool: &str, args: &[String]) -> Result<i32
         return Ok(0);
     }
     let raw = args.iter().any(|a| a == "--raw");
-    let args: Vec<&String> = args.iter().filter(|a| *a != "--raw").collect();
+    let as_json = args.iter().any(|a| a == "--json");
+    let args: Vec<&String> = args.iter().filter(|a| *a != "--raw" && *a != "--json").collect();
 
     let input = &schema["inputSchema"];
     let arguments = parse_args(&args, input).map_err(|e| format!("{e}\nRun with --help to see the parameters."))?;
@@ -56,6 +57,8 @@ pub fn run(root: &Path, server: &str, tool: &str, args: &[String]) -> Result<i32
 
     if raw {
         println!("{}", serde_json::to_string_pretty(&result).unwrap());
+    } else if as_json && result["isError"] != true {
+        println!("{}", json_of(&result));
     } else {
         print_result(&result);
     }
@@ -167,6 +170,16 @@ fn print_result(result: &Value) {
     }
 }
 
+/// The answer as one line of JSON, for `--json`: the structured result if the tool gave one, else its
+/// text if that is JSON, else the text as a JSON string. Always valid JSON, so `jq` can read it.
+fn json_of(result: &Value) -> String {
+    if !result["structuredContent"].is_null() {
+        return result["structuredContent"].to_string();
+    }
+    let text = result_text(result);
+    serde_json::from_str::<Value>(&text).unwrap_or(Value::String(text)).to_string()
+}
+
 /// The answer from a tool as plain text.
 pub fn result_text(result: &Value) -> String {
     let blocks = result["content"].as_array().cloned().unwrap_or_default();
@@ -235,19 +248,9 @@ fn help(tool: &str, schema: &Value) -> String {
         input["required"].as_array().map(|a| a.iter().filter_map(Value::as_str).collect()).unwrap_or_default();
     let empty = Map::new();
     let props = input["properties"].as_object().unwrap_or(&empty);
-    // Required parameters first.
-    let mut keys: Vec<&String> = props.keys().collect();
-    keys.sort_by_key(|k| !required.contains(&k.as_str()));
+    let keys = ordered_keys(props, &required);
 
-    let mut usage = format!("  ./{name}");
-    for k in &keys {
-        let t = type_text(&props[*k]);
-        if required.contains(&k.as_str()) {
-            usage.push_str(&format!(" --{k} <{t}>"));
-        } else {
-            usage.push_str(&format!(" [--{k} <{t}>]"));
-        }
-    }
+    let usage = format!("  ./{name}{}", flags_of(schema));
     let json_line = format!("  ./{name} '{}'", json_example(&keys, &required, props).replace('\'', "'\\''"));
     let pipe_line = format!("  ... | ./{name} -");
     let width = json_line.chars().count().max(pipe_line.chars().count()) + 5;
@@ -273,8 +276,65 @@ fn help(tool: &str, schema: &Value) -> String {
             out.push('\n');
         }
     }
-    out.push_str("\nAdd --raw to print the full JSON answer from the server.\n");
+    if let Some(fields) = returns_of(schema) {
+        out.push_str(&format!("\nReturns (with --json): {fields}\n"));
+    }
+    out.push_str("\nAdd --json to print the result as one line of JSON, or --raw for the server's full answer.\n");
     out
+}
+
+/// How many returned fields `returns_of` names before it cuts the list.
+const MAX_RETURN_FIELDS: usize = 8;
+
+/// The top-level fields a tool returns, from its output schema: `{tag_name, name, html_url}`.
+/// An agent that sees them can pick fields with jq straight away instead of looking at the output first.
+pub fn returns_of(tool: &Value) -> Option<String> {
+    shape_of(&tool["outputSchema"])
+}
+
+fn shape_of(schema: &Value) -> Option<String> {
+    // `null | {...}` and other unions: use the first choice that has a shape.
+    if let Some(choices) = ["anyOf", "oneOf"].iter().find_map(|k| schema[*k].as_array()) {
+        return choices.iter().find_map(shape_of);
+    }
+    if let Some(props) = schema["properties"].as_object().filter(|p| !p.is_empty()) {
+        let names: Vec<&str> = props.keys().map(String::as_str).take(MAX_RETURN_FIELDS).collect();
+        let more = if props.len() > MAX_RETURN_FIELDS { ", …" } else { "" };
+        return Some(format!("{{{}{more}}}", names.join(", ")));
+    }
+    if kind_of(schema) == "array" {
+        return shape_of(&schema["items"]).map(|s| format!("[{s}]"));
+    }
+    None
+}
+
+/// Parameter names with the required ones first.
+fn ordered_keys<'a>(props: &'a Map<String, Value>, required: &[&str]) -> Vec<&'a String> {
+    let mut keys: Vec<&String> = props.keys().collect();
+    keys.sort_by_key(|k| !required.contains(&k.as_str()));
+    keys
+}
+
+/// A tool's flags as one line, required first: ` --query <string> [--sort stars|forks]`.
+/// An enum shows its choices; any other type shows in angle brackets.
+pub fn flags_of(schema: &Value) -> String {
+    let input = &schema["inputSchema"];
+    let required: Vec<&str> =
+        input["required"].as_array().map(|a| a.iter().filter_map(Value::as_str).collect()).unwrap_or_default();
+    let Some(props) = input["properties"].as_object() else { return String::new() };
+    ordered_keys(props, &required)
+        .iter()
+        .map(|k| {
+            let value = match props[*k]["enum"].is_array() {
+                true => type_text(&props[*k]),
+                false => format!("<{}>", type_text(&props[*k])),
+            };
+            match required.contains(&k.as_str()) {
+                true => format!(" --{k} {value}"),
+                false => format!(" [--{k} {value}]"),
+            }
+        })
+        .collect()
 }
 
 /// A JSON example for --help, from the tool's own parameters: the required ones, or else the
@@ -402,6 +462,34 @@ mod tests {
         let text = help("ping", &schema(json!({ "type": "object", "properties": {} })));
 
         assert!(text.contains("./ping '{}'"), "{text}");
+    }
+
+    #[test]
+    fn returns_lists_the_top_level_fields_of_the_output() {
+        let tool = json!({ "outputSchema": { "type": "object", "properties": { "tag_name": {}, "name": {}, "html_url": {} } } });
+
+        assert_eq!(returns_of(&tool).as_deref(), Some("{tag_name, name, html_url}"));
+    }
+
+    #[test]
+    fn returns_sees_through_a_nullable_object_and_cuts_long_lists() {
+        let fields: serde_json::Map<String, Value> = (1..=12).map(|i| (format!("f{i}"), json!({}))).collect();
+        let tool = json!({ "outputSchema": { "anyOf": [{ "type": "null" }, { "type": "object", "properties": fields }] } });
+
+        assert_eq!(returns_of(&tool).as_deref(), Some("{f1, f2, f3, f4, f5, f6, f7, f8, …}"));
+    }
+
+    #[test]
+    fn returns_is_none_without_an_output_schema() {
+        assert_eq!(returns_of(&json!({ "name": "t" })), None);
+    }
+
+    #[test]
+    fn help_shows_what_a_tool_returns() {
+        let s = json!({ "name": "t", "inputSchema": { "type": "object", "properties": {} },
+                        "outputSchema": { "type": "object", "properties": { "tag_name": {}, "name": {} } } });
+
+        assert!(help("t", &s).contains("Returns (with --json): {tag_name, name}"), "{}", help("t", &s));
     }
 
     #[test]

@@ -326,3 +326,58 @@ fn sync_shows_paths_under_home_with_a_tilde() {
     assert!(stdout(&o).contains("Your tools are in ~/mcp. Read ~/mcp/README.md first."), "stdout: {}", stdout(&o));
     assert!(!stdout(&o).contains(home.to_str().unwrap()), "stdout: {}", stdout(&o));
 }
+
+// --- Fewer turns: what the agent can see without asking ---
+
+fn fixture_config(home: &Path) -> PathBuf {
+    let server = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/mcp_server.py");
+    let config = home.join("fixture.json");
+    write_json(&config, &json!({ "mcpServers": { "fx": { "command": "python3", "args": [server] } } }));
+    config
+}
+
+#[test]
+fn the_top_readme_lists_every_tool_with_its_flags() {
+    let home = scratch("index");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+
+    let o = dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+
+    assert!(stdout(&o).contains("ok    fx"), "sync failed: {}{}", stdout(&o), stderr(&o));
+    let readme = std::fs::read_to_string(out.join("README.md")).unwrap();
+    assert!(readme.contains("`fx/search_repositories --query <string> [--sort stars|forks] [--perPage <number>]`"), "{readme}");
+    assert!(readme.contains("`fx/count`"), "{readme}");
+    assert!(readme.contains("Search GitHub repositories by a query."), "{readme}");
+    assert!(readme.contains("→ {query, items}"), "the fields it returns: {readme}");
+    assert!(readme.contains("`--json` prints JSON with those fields"), "says what the arrow means: {readme}");
+}
+
+#[test]
+fn an_app_readme_lists_each_tool_with_its_flags() {
+    let home = scratch("app-index");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+
+    let readme = std::fs::read_to_string(out.join("fx/README.md")).unwrap();
+    assert!(readme.contains("`search_repositories --query <string> [--sort stars|forks] [--perPage <number>]`"), "{readme}");
+}
+
+#[test]
+fn json_flag_prints_the_structured_result() {
+    let home = scratch("json-flag");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+    let root = out.to_str().unwrap();
+
+    let text = dogu(&home, &home, &["call", "--root", root, "fx", "wiki"]);
+    let json = dogu(&home, &home, &["call", "--root", root, "fx", "wiki", "--json"]);
+    let search = dogu(&home, &home, &["call", "--root", root, "fx", "search_repositories", "--query", "x", "--json"]);
+
+    assert_eq!(stdout(&text).trim(), "# Title\n- one\n- two");
+    assert_eq!(stdout(&json).trim(), r##"{"result":"# Title\n- one\n- two"}"##);
+    assert!(stdout(&search).trim().starts_with(r#"{"query":"x","items":[{"name":"servers""#), "{}", stdout(&search));
+}
