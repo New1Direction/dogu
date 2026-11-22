@@ -1,11 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 210" width="720" height="210" role="img" aria-labelledby="t"><title id="t">Cost per task, Claude Code with Sonnet, 8 held-out tasks</title><style>
   text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 13px; fill: #0b0b0b; }
   .muted { fill: #52514e; font-size: 12px; }
+  .big { font-size: 34px; font-weight: 650; }
+  .head { font-size: 15px; font-weight: 600; }
   .grid { stroke: #e1e0d9; stroke-width: 1; }
   .axis { stroke: #c3c2b7; stroke-width: 1; }
+  .line { stroke: #52514e; stroke-width: 1.5; fill: none; }
+  .card { fill: #f3f2ee; stroke: #e1e0d9; }
+  .page { fill: #fcfcfb; stroke: #8a8983; stroke-width: 1; }
   .dogu { fill: #2a78d6; } .other { fill: #eb6834; } .more { fill: #e34948; }
+  .s-dogu { stroke: #2a78d6; } .s-other { stroke: #eb6834; }
+  .startup { fill: #eda100; } .model { fill: #6250d6; } .tools { fill: #1baf7a; }
+  .gap { stroke: #fcfcfb; stroke-width: 2; }
   @media (prefers-color-scheme: dark) {
     text { fill: #f0efec; } .muted { fill: #c3c2b7; }
-    .grid { stroke: #2c2c2a; } .axis { stroke: #383835; }
+    .grid { stroke: #2c2c2a; } .axis { stroke: #383835; } .line { stroke: #c3c2b7; }
+    .card { fill: #232322; stroke: #383835; } .page { fill: #1a1a19; stroke: #8a8983; }
     .dogu { fill: #3987e5; } .other { fill: #d95926; } .more { fill: #e66767; }
+    .s-dogu { stroke: #3987e5; } .s-other { stroke: #d95926; }
+    .startup { fill: #c98500; } .model { fill: #9085e9; } .tools { fill: #199e70; }
+    .gap { stroke: #1a1a19; }
   }</style><rect class="other" x="300" y="12" width="12" height="12" rx="3"/><text x="318" y="22">Without dogu</text><rect class="dogu" x="490" y="12" width="12" height="12" rx="3"/><text x="508" y="22">With dogu</text><line class="grid" x1="300" x2="300" y1="40" y2="184"/><text class="muted" x="300" y="200" text-anchor="middle">$0</text><line class="grid" x1="387.5" x2="387.5" y1="40" y2="184"/><text class="muted" x="387.5" y="200" text-anchor="middle">$0.01</text><line class="grid" x1="475" x2="475" y1="40" y2="184"/><text class="muted" x="475" y="200" text-anchor="middle">$0.02</text><line class="grid" x1="562.5" x2="562.5" y1="40" y2="184"/><text class="muted" x="562.5" y="200" text-anchor="middle">$0.03</text><line class="grid" x1="650" x2="650" y1="40" y2="184"/><text class="muted" x="650" y="200" text-anchor="middle">$0.04</text><line class="axis" x1="300" x2="300" y1="40" y2="184"/><text x="290" y="65" text-anchor="end">Loading the servers directly</text><path class="other" d="M300,52 h297.48515104166677 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-297.48515104166677 z"/><text x="607.4851510416668" y="65">$0.034</text><text x="290" y="99" text-anchor="end">Directly, with Claude Code's tool search</text><path class="other" d="M300,86 h320.2181614583334 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-320.2181614583334 z"/><text x="630.2181614583334" y="99">$0.037</text><text x="290" y="133" text-anchor="end">dogu folder</text><path class="dogu" d="M300,120 h110.3826614583333 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-110.3826614583333 z"/><text x="420.3826614583333" y="133">$0.013</text><text x="290" y="167" text-anchor="end">dogu code mode</text><path class="dogu" d="M300,154 h105.85606770833328 a4,4 0 0 1 4,4 v10 a4,4 0 0 1 -4,4 h-105.85606770833328 z"/><text x="415.8560677083333" y="167">$0.013</text></svg>

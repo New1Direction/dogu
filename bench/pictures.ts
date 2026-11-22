@@ -200,9 +200,10 @@ console.log(`pages: ${LANES.map((l) => `${l.setup} ${Math.round(firstTurn(sonnet
 write({
   "how-it-works.svg": howItWorks(),
   "glance.svg": glance(),
-  "seconds.svg": seconds("2026-11-22-timeline", [
+  // The fair-order run (setups take turns going first), without the Context7 task (its quota ran out).
+  "seconds.svg": seconds("2026-11-22-exp5-warm-rotated", [
     ["direct", "Loading the servers directly"],
-    ["folder", "dogu folder"],
-    ["codemode", "dogu code mode"],
+    ["codemode", "dogu code mode, 0.5.0"],
+    ["codemode-b", "dogu code mode, next version"],
   ]),
 });

@@ -12,7 +12,9 @@ dogu gives the agent the same tools in a lighter way. We tested whether that is 
 - With Codex, dogu read 30% less and was faster, in normal and in fast mode.
 - One agent's own feature (pi's "code mode") beat dogu on cost.
 
-Every number below comes from the files in [`bench/results/`](bench/results/), and you can [run the tests yourself](#run-it-yourself).
+![At a glance: 62% lower cost per task with the dogu folder in Claude Code; 120 of 120 answers right; 53% fewer tokens read with Codex and Terra; and the trade-off, about 1 second slower on quick tasks than loading the tools directly](docs/bench/glance.svg)
+
+Every number below comes from the files in [`bench/results/`](bench/results/), and you can [run the tests yourself](#run-it-yourself). The research behind the next version, including the experiments that lost, is in [docs/research/code-mode.md](docs/research/code-mode.md).
 
 ## A few words first
 
@@ -25,6 +27,10 @@ Every number below comes from the files in [`bench/results/`](bench/results/), a
 | **Loading the servers directly** | The usual way: the agent gets every tool's full description up front. |
 | **dogu folder** | Each tool becomes a small command in a folder, and the agent gets one short line per tool. |
 | **dogu code mode** | The agent writes a short program that calls the tools it needs. |
+
+![How each way works. Loading the servers directly, the agent reads every tool's full manual before every task, 29k tokens, then calls tools by name. With the dogu folder it reads one line per tool, 12k tokens, and runs a short command. In dogu code mode it reads the tool names, 4k tokens, and sends one small program; dogu runs it in a sandbox, calls run at the same time, and only what the program prints comes back](docs/bench/how-it-works.svg)
+
+The stacks of pages are drawn to scale: one page for every 2,500 tokens the agent reads before it starts (Claude Code with Sonnet, median).
 
 ## 1. What a task costs
 
@@ -53,6 +59,21 @@ Every number below comes from the files in [`bench/results/`](bench/results/), a
 | dogu code mode | 5.5 s |
 
 Here dogu does **not** win. With every tool already described, the agent can act at once; with dogu it first looks up the one tool it needs. On quick tasks that extra step costs about a second.
+
+### Where the seconds go
+
+To see why, the bench now records when each step of a task happens. One thing it showed: the time above is Claude Code's own count, which **leaves out start-up**. Loading the servers directly, Claude Code connects to every server before the task begins, 1.2 s that is not in the time above. dogu starts in a quarter of a second.
+
+![Where the seconds of a task go, on average. Loading the servers directly: 1.2 s starting up, 3.1 s the model working, 0.6 s tools running, 4.9 s in all. dogu code mode 0.5.0: 0.25 s, 3.5 s, 1.2 s, 5.0 s. The next version of dogu code mode: 0.26 s, 3.6 s, 1.4 s, 5.3 s](docs/bench/seconds.svg)
+
+| A task with all its steps (7 tasks × 3 runs) | Loading directly | dogu code mode 0.5.0 | dogu code mode, next version |
+|---|---|---|---|
+| Typical (median) | 4.6 s | 4.5 s | **3.6 s** |
+| Average (mean) | **4.9 s** | 5.0 s | 5.3 s |
+| Per task in an open session (median, start-up left out) | **3.3 s** | 4.3 s | 3.4 s |
+| Cost per task | $0.030 | $0.012 | **$0.011** |
+
+The next version (not released yet) lists every tool with what it needs, so the agent can usually skip the look-up step, and it connects to the tools as it starts. In a typical task it is now as fast as loading the servers directly. The average is higher because of a few tasks where the agent picked a slow way: paging through every open pull request instead of searching, or fetching releases one at a time.
 
 ## 3. Other agents
 
@@ -111,9 +132,9 @@ We also tried letting a strong model (Sonnet) save the tool and a cheap model (H
 
 ## 6. Where dogu does not win
 
-- With Claude Code, on quick one-step tasks, **loading the tools directly is about a second faster**.
+- With Claude Code, on quick one-step tasks, **loading the tools directly is about a second faster** with dogu 0.5.0. The next version closes most of that gap; see [Where the seconds go](#where-the-seconds-go).
 - In **pi**, pi's own code mode is cheaper than dogu's folder.
-- With **Codex**, without the `~/.npm` setting the saving was small (6%), because a local tool could not start.
+- With **Codex**, without the `~/.npm` setting the saving was small (6%), because a local tool could not start. The next version needs no setting: it gives npm a cache folder it is allowed to write.
 - An agent told only "read the README first", instead of having the tool list in its standing instructions, **costs more** than loading the tools directly, because it reads the long list in the middle of every task.
 
 ## How we kept it fair

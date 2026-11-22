@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 514 250" width="514" height="250" role="img" aria-labelledby="t"><title id="t">dogu at a glance: the headline numbers, including where it loses</title><style>
+  text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 13px; fill: #0b0b0b; }
+  .muted { fill: #52514e; font-size: 12px; }
+  .big { font-size: 34px; font-weight: 650; }
+  .head { font-size: 15px; font-weight: 600; }
+  .grid { stroke: #e1e0d9; stroke-width: 1; }
+  .axis { stroke: #c3c2b7; stroke-width: 1; }
+  .line { stroke: #52514e; stroke-width: 1.5; fill: none; }
+  .card { fill: #f3f2ee; stroke: #e1e0d9; }
+  .page { fill: #fcfcfb; stroke: #8a8983; stroke-width: 1; }
+  .dogu { fill: #2a78d6; } .other { fill: #eb6834; } .more { fill: #e34948; }
+  .s-dogu { stroke: #2a78d6; } .s-other { stroke: #eb6834; }
+  .startup { fill: #eda100; } .model { fill: #6250d6; } .tools { fill: #1baf7a; }
+  .gap { stroke: #fcfcfb; stroke-width: 2; }
+  @media (prefers-color-scheme: dark) {
+    text { fill: #f0efec; } .muted { fill: #c3c2b7; }
+    .grid { stroke: #2c2c2a; } .axis { stroke: #383835; } .line { stroke: #c3c2b7; }
+    .card { fill: #232322; stroke: #383835; } .page { fill: #1a1a19; stroke: #8a8983; }
+    .dogu { fill: #3987e5; } .other { fill: #d95926; } .more { fill: #e66767; }
+    .s-dogu { stroke: #3987e5; } .s-other { stroke: #d95926; }
+    .startup { fill: #c98500; } .model { fill: #9085e9; } .tools { fill: #199e70; }
+    .gap { stroke: #1a1a19; }
+  }</style><rect class="card" x="10" y="10" width="240" height="108" rx="10"/><rect class="dogu" x="10" y="10" width="6" height="108" rx="3"/><text class="big" x="30" y="58">62%</text><text x="30" y="84">lower cost per task</text><text class="muted" x="30" y="102">Claude Code, dogu folder</text><rect class="card" x="262" y="10" width="240" height="108" rx="10"/><rect class="dogu" x="262" y="10" width="6" height="108" rx="3"/><text class="big" x="282" y="58">120 / 120</text><text x="282" y="84">answers right, every way</text><text class="muted" x="282" y="102">8 held-out tasks, Sonnet</text><rect class="card" x="10" y="130" width="240" height="108" rx="10"/><rect class="dogu" x="10" y="130" width="6" height="108" rx="3"/><text class="big" x="30" y="178">53%</text><text x="30" y="204">fewer tokens read</text><text class="muted" x="30" y="222">Codex with Terra</text><rect class="card" x="262" y="130" width="240" height="108" rx="10"/><rect class="more" x="262" y="130" width="6" height="108" rx="3"/><text class="big" x="282" y="178">+1.0 s</text><text x="282" y="204">slower on quick tasks</text><text class="muted" x="282" y="222">vs loading the tools directly</text></svg>
