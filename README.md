@@ -40,6 +40,8 @@ Measured, not estimated, on [8 tasks written before any run and never tuned agai
 | dogu folder, tool list in the agent's instructions | 12.1k | 25.1k | **$0.013** | 5.1s |
 | dogu code mode (`dogu serve`) | **4.3k** | **15.0k** | **$0.013** | 5.5s |
 
+![Cost per task with Claude Code: loading the servers directly $0.034, with Claude Code's tool search $0.037, dogu folder $0.013, dogu code mode $0.013](docs/bench/cost.svg)
+
 On Haiku the order is the same: dogu costs 56 to 60% less than both. Loading the servers directly is about a second faster on these short tasks, because it needs no step to find a tool. Tool search reads fewer tokens than loading everything, but costs more, because it brings tool definitions in mid-session, and those are cached at the higher write price.
 
 ### Other agents
@@ -49,7 +51,7 @@ The gap depends on the agent:
 - **Codex** (its default model): the dogu folder in `AGENTS.md` read 6% fewer tokens at the same speed as Codex with the servers loaded directly. Codex's own instructions are large, so tool definitions are a smaller share. With the servers loaded directly, Codex went around them with `curl` in 6 of 16 runs; with the folder, never.
 - **pi** (gpt-6.1-sol): the dogu folder was 35% cheaper and 15% faster than pi with the tools declared directly. pi has its own code mode, built for the same problem, and it was cheaper still: the folder cost 24% more, and was 21% faster.
 
-All results, and how to run them yourself: [`bench/`](bench/).
+**[The benchmarks in plain words, with charts](BENCHMARKS.md).** All results, and how to run them yourself: [`bench/`](bench/).
 
 ## What you get
 
