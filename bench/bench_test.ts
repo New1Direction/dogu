@@ -182,6 +182,7 @@ Deno.test("every held-out task is in the held-out suite, and the suites do not s
   assertEquals(TASKS.filter((t) => t.suite === "heldout6").length, 7);
   assertEquals(TASKS.filter((t) => t.suite === "multistep").length, 5);
   assertEquals(TASKS.filter((t) => t.suite === "heldout8").length, 5);
+  assertEquals(TASKS.filter((t) => t.suite === "heldout9").length, 5);
 });
 
 Deno.test("headline says more, not negative fewer, when a setup used more", () => {
@@ -263,6 +264,11 @@ const SAMPLE_FACTS: Record<string, ReadonlyArray<string>> = {
   "vite-tags": ["v8.3.8", "v0.8.3", "|", "awesome-vite"],
   "encode-newest": ["django-rest-framework"],
   "mixed-tags": ["bun-v1.4.5", "v8.3.8", "|", "apistar"],
+  "svelte-tags": ["svelte@5.59.1", "|", "sapper", "realworld"],
+  "tauri-tags": ["wry-v0.57.3", "|", "awesome-tauri"],
+  "nushell-tags": ["0.117.0", "|", "nupm"],
+  "hono-tags": ["v4.13.20", "|", "examples"],
+  "astro-newest": ["flue"],
 };
 
 Deno.test("every task's check accepts its right answer and rejects a non-answer", () => {

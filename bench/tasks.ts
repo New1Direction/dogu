@@ -16,7 +16,7 @@ export interface Ctx {
   readonly seeded: { readonly word: string; readonly entity: string; readonly year: number; readonly startedThen: string; readonly entityYear: number };
 }
 
-export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3" | "heldout4" | "heldout5" | "heldout6" | "multistep" | "heldout8";
+export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3" | "heldout4" | "heldout5" | "heldout6" | "multistep" | "heldout8" | "heldout9";
 
 /** The facts a right answer must contain. What "contain" means is up to each task's check. */
 export type Facts = ReadonlyArray<string>;
@@ -741,6 +741,54 @@ export const TASKS: ReadonlyArray<Task> = [
       "What is the tag of the latest release of each of these GitHub repos: oven-sh/bun, vitejs/vite, astral-sh/ruff, tokio-rs/axum and encode/apistar? Say which have no release.",
     fetch: (ctx) => tagsOf(ctx, ["oven-sh/bun", "vitejs/vite", "astral-sh/ruff", "tokio-rs/axum", "encode/apistar"]).pipe(Effect.map(tagsAndNones)),
     check: tagsAndNonesCheck,
+  },
+
+  // --- held out, set 9: frozen before experiment 12 (Promise.allSettled printing one field). Like set 8, on
+  // orgs not used before: fan-out where some calls fail. ---
+  {
+    id: "svelte-tags",
+    suite: "heldout9",
+    kind: "fan-out where some calls fail",
+    prompt: "For each of the 5 most-starred repos in the sveltejs GitHub org, what is the tag of its latest release? List each repo with its tag, and say which have no release.",
+    fetch: (ctx) => topRepos(ctx, "sveltejs", 5).pipe(Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))), Effect.map(tagsAndNones)),
+    check: tagsAndNonesCheck,
+  },
+  {
+    id: "tauri-tags",
+    suite: "heldout9",
+    kind: "fan-out where some calls fail",
+    prompt: "For each of the 5 most-starred repos in the tauri-apps GitHub org, what is the tag of its latest release? List each repo with its tag, and say which have no release.",
+    fetch: (ctx) => topRepos(ctx, "tauri-apps", 5).pipe(Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))), Effect.map(tagsAndNones)),
+    check: tagsAndNonesCheck,
+  },
+  {
+    id: "nushell-tags",
+    suite: "heldout9",
+    kind: "fan-out where some calls fail",
+    prompt: "For each of the 5 most-starred repos in the nushell GitHub org, what is the tag of its latest release? List each repo with its tag, and say which have no release.",
+    fetch: (ctx) => topRepos(ctx, "nushell", 5).pipe(Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))), Effect.map(tagsAndNones)),
+    check: tagsAndNonesCheck,
+  },
+  {
+    id: "hono-tags",
+    suite: "heldout9",
+    kind: "fan-out where some calls fail",
+    prompt: "For each of the 5 most-starred repos in the honojs GitHub org, what is the tag of its latest release? List each repo with its tag, and say which have no release.",
+    fetch: (ctx) => topRepos(ctx, "honojs", 5).pipe(Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))), Effect.map(tagsAndNones)),
+    check: tagsAndNonesCheck,
+  },
+  {
+    id: "astro-newest",
+    suite: "heldout9",
+    kind: "fan-out where some calls fail, compare",
+    prompt:
+      "Of the 5 most-starred repos in the withastro GitHub org, which published its latest release most recently? Put just its name on the first line.",
+    fetch: (ctx) =>
+      topRepos(ctx, "withastro", 5).pipe(
+        Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))),
+        Effect.map((xs) => [xs.filter((x) => x.at !== "").reduce((a, b) => (b.at > a.at ? b : a)).repo.split("/")[1]]),
+      ),
+    check: (a, f) => has(firstLine(a), f[0]),
   },
 ];
 
