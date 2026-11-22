@@ -1,0 +1,93 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.3.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "78f799d",
+  "dirty": false,
+  "answers": {
+    "memory-find": [
+      "Project Alder"
+    ]
+  },
+  "records": [
+    {
+      "setup": "codex-folder",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Alder",
+        "turns": 2,
+        "seconds": 8.197912041,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 47506,
+        "outputTokens": 96,
+        "inputBreakdown": {
+          "fresh": 10130,
+          "cacheWrite": 0,
+          "cacheRead": 37376
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/memory/search_nodes --query belpenzoqui --json | jq -r '.entities[] | select(any(.observations[]; test(\\\"\\\\\\\\bbelpenzoqui\\\\\\\\b\\\"; \\\"i\\\"))) | .name'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Alder",
+        "turns": 2,
+        "seconds": 8.007940875000001,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 47498,
+        "outputTokens": 91,
+        "inputBreakdown": {
+          "fresh": 10122,
+          "cacheWrite": 0,
+          "cacheRead": 37376
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/memory/search_nodes --query belpenzoqui --json | jq -r '.entities[] | select(any(.observations[]; test(\\\"\\\\\\\\bbelpenzoqui\\\\\\\\b\\\"; \\\"i\\\"))) | .name'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Alder",
+        "turns": 2,
+        "seconds": 9.609554292,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 47507,
+        "outputTokens": 96,
+        "inputBreakdown": {
+          "fresh": 10131,
+          "cacheWrite": 0,
+          "cacheRead": 37376
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/memory/search_nodes --query belpenzoqui --json | jq -r '.entities[] | select(any(.observations[]; test(\\\"\\\\\\\\bbelpenzoqui\\\\\\\\b\\\"; \\\"i\\\"))) | .name'\""
+        ]
+      }
+    }
+  ]
+}
