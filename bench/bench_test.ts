@@ -4,7 +4,7 @@ import { Effect, Result } from "npm:effect@4.1.5";
 import { assert, assertEquals } from "jsr:@std/assert@1";
 import { metricsOf } from "./claude.ts";
 import { headline, type RunRecord } from "./report.ts";
-import { TASKS, type Truth } from "./tasks.ts";
+import { TASKS } from "./tasks.ts";
 
 const line = (v: unknown) => JSON.stringify(v);
 const usage = (input: number, created: number, read: number, output: number) => ({
@@ -83,32 +83,50 @@ Deno.test("a stream with no result, or an error result, is a NoResult", () => {
   assert(Result.isFailure(failed) && failed.failure._tag === "NoResult");
 });
 
-const truth: Truth = {
-  latestTag: "v2.4.0",
-  top3: ["servers", "python-sdk", "typescript-sdk"],
-  sections: ["Introduction to Model Context Protocol Servers", "Reference Servers Overview", "Development and Contribution", "Glossary"],
-  context7Ids: ["/effect-ts/effect", "/effect-ts/website"],
-  mostIssues: ["typescript-sdk"],
-};
-const check = (id: string, answer: string) => TASKS.find((t) => t.id === id)!.check(answer, truth);
+const check = (id: string, answer: string, facts: ReadonlyArray<string>) => TASKS.find((t) => t.id === id)!.check(answer, facts);
 
-Deno.test("task checks accept right answers and reject wrong ones", () => {
-  assert(check("lookup", "The latest release is 2.4.0."));
-  assert(!check("lookup", "The latest release is 2.3.9."));
-  assert(check("search", "1. servers 2. python-sdk 3. typescript-sdk"));
-  assert(!check("search", "servers, python-sdk, inspector"));
-  assert(check("chain", "Introduction, Reference servers, Contribution guide, Glossary"));
-  assert(!check("chain", "Overview and Glossary"));
-  assert(check("docs", "The ID is /effect-ts/effect."));
-  assert(!check("docs", "The ID is /effect/core."));
-  assert(check("compare", "typescript-sdk\nIt has 705 open issues."));
-  assert(!check("compare", "python-sdk\ntypescript-sdk has fewer."));
+Deno.test("tuning checks accept right answers and reject wrong ones", () => {
+  assert(check("lookup", "The latest release is 2.4.0.", ["v2.4.0"]));
+  assert(!check("lookup", "The latest release is 2.3.9.", ["v2.4.0"]));
+  assert(check("search", "1. servers 2. python-sdk 3. typescript-sdk", ["servers", "python-sdk", "typescript-sdk"]));
+  assert(!check("search", "servers, python-sdk, inspector", ["servers", "python-sdk", "typescript-sdk"]));
+  const sections = ["Introduction to Model Context Protocol Servers", "Reference Servers Overview", "Development and Contribution", "Glossary"];
+  assert(check("chain", "Introduction, Reference servers, Contribution guide, Glossary", sections));
+  assert(!check("chain", "Overview and Glossary", sections));
+  assert(check("docs", "The ID is /effect-ts/effect.", ["/effect-ts/effect", "/effect-ts/website"]));
+  assert(!check("docs", "The ID is /effect/core.", ["/effect-ts/effect"]));
+  assert(check("compare", "typescript-sdk\nIt has 705 open issues.", ["typescript-sdk"]));
+  assert(!check("compare", "python-sdk\ntypescript-sdk has fewer.", ["typescript-sdk"]));
+});
+
+Deno.test("held-out checks are strict", () => {
+  assert(check("created", "It was created on 2021-05-28.", ["2021-05-28"]));
+  assert(!check("created", "It was created in May 2021.", ["2021-05-28"]));
+  assert(check("issue-title", 'The title is "Add `--port` flag".', ["Add --port flag"]));
+  assert(!check("issue-title", "The title is Add flag.", ["Add --port flag"]));
+  assert(check("release-tags", "servers: none\npython-sdk: v1.20.0\ntypescript-sdk: 2.4.0", ["v1.20.0", "v2.4.0"]));
+  assert(!check("release-tags", "python-sdk: v1.20.0 only", ["v1.20.0", "v2.4.0"]));
+  assert(check("memory-find", "It is Project Cedar.", ["Project Cedar"]));
+  assert(!check("memory-find", "It is Project Birch.", ["Project Cedar"]));
+  // A number must match as a whole number: 12 is not 120.
+  assert(check("tokio-sections", "It has 12 top-level sections.", ["12"]));
+  assert(!check("tokio-sections", "It has 120 top-level sections.", ["12"]));
+  assert(check("axum-releases", "axum has published 87 releases.", ["87"]));
+  assert(!check("axum-releases", "axum has published 870 releases.", ["87"]));
+});
+
+Deno.test("every held-out task is in the held-out suite, and the suites do not share ids", () => {
+  const ids = TASKS.map((t) => t.id);
+  assertEquals(new Set(ids).size, ids.length);
+  assertEquals(TASKS.filter((t) => t.suite === "heldout").length, 8);
+  assertEquals(TASKS.filter((t) => t.suite === "tuning").length, 5);
 });
 
 Deno.test("headline says more, not negative fewer, when a setup used more", () => {
   const rec = (setup: string, tokens: number, cost: number): RunRecord => ({
     setup,
     task: "t",
+    suite: "heldout",
     rep: 1,
     correct: true,
     metrics: { answer: "", turns: 1, seconds: 1, costUsd: cost, firstTurnTokens: tokens, totalInputTokens: tokens, outputTokens: 1, toolCalls: 0, bypassedTools: false, steps: [], inputBreakdown: { fresh: 0, cacheWrite: 0, cacheRead: 0 } },
@@ -116,6 +134,6 @@ Deno.test("headline says more, not negative fewer, when a setup used more", () =
 
   const text = headline([rec("direct", 100, 1), rec("folder", 50, 0.5), rec("codemode", 120, 1.2)], ["direct", "folder", "codemode"]);
 
-  assert(text.includes("50% fewer input tokens and 50% lower cost"), text);
-  assert(text.includes("20% more input tokens and 20% higher cost"), text);
+  assert(text.includes("50% fewer input tokens, 50% lower cost"), text);
+  assert(text.includes("20% more input tokens, 20% higher cost"), text);
 });

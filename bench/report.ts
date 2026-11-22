@@ -5,6 +5,7 @@ import type { RunMetrics } from "./claude.ts";
 export interface RunRecord {
   readonly setup: string;
   readonly task: string;
+  readonly suite: string;
   readonly rep: number;
   readonly correct: boolean;
   readonly metrics?: RunMetrics;
@@ -23,6 +24,7 @@ const pct = (part: number, whole: number) => (whole === 0 ? "0%" : `${Math.round
 
 export const SETUP_LABELS: Record<string, string> = {
   direct: "MCP servers loaded directly",
+  "direct-search": "Loaded directly, Claude Code tool search on",
   folder: "dogu folder, list in instructions",
   "folder-read": "dogu folder, \"read the README\"",
   codemode: "dogu serve (code mode)",
@@ -66,17 +68,23 @@ export const taskTable = (
 const change = (ratio: number, less: string, more: string) =>
   ratio <= 1 ? `${pct(1 - ratio, 1)} ${less}` : `${pct(ratio - 1, 1)} ${more}`;
 
-/** Headline numbers versus the direct setup, for the README. */
+/** Headline numbers for each dogu setup, against loading the servers directly with and without tool search. */
 export const headline = (records: ReadonlyArray<RunRecord>, setups: ReadonlyArray<string>): string => {
-  const base = records.filter((r) => r.setup === "direct" && r.metrics).map((r) => r.metrics!);
-  if (base.length === 0) return "";
+  const metricsOf = (setup: string) => records.filter((r) => r.setup === setup && r.metrics).map((r) => r.metrics!);
+  const versus = (setup: string, baseline: string) => {
+    const base = metricsOf(baseline);
+    const ms = metricsOf(setup);
+    if (base.length === 0 || ms.length === 0) return "";
+    const tokens = median(ms.map((m) => m.totalInputTokens)) / median(base.map((m) => m.totalInputTokens));
+    const cost = mean(ms.map((m) => m.costUsd)) / mean(base.map((m) => m.costUsd));
+    const time = median(ms.map((m) => m.seconds)) / median(base.map((m) => m.seconds));
+    return `${change(tokens, "fewer", "more")} input tokens, ${change(cost, "lower", "higher")} cost and ${change(time, "less", "more")} time than ${SETUP_LABELS[baseline].toLowerCase()}`;
+  };
   return setups
-    .filter((s) => s !== "direct")
-    .map((s) => {
-      const ms = records.filter((r) => r.setup === s && r.metrics).map((r) => r.metrics!);
-      const tokens = median(ms.map((m) => m.totalInputTokens)) / median(base.map((m) => m.totalInputTokens));
-      const cost = mean(ms.map((m) => m.costUsd)) / mean(base.map((m) => m.costUsd));
-      return `- ${SETUP_LABELS[s]}: ${change(tokens, "fewer", "more")} input tokens and ${change(cost, "lower", "higher")} cost than loading the servers directly.`;
-    })
+    .filter((s) => !s.startsWith("direct"))
+    .flatMap((s) =>
+      ["direct", "direct-search"].filter((b) => setups.includes(b)).map((b) => versus(s, b)).filter((t) => t !== "")
+        .map((t) => `- ${SETUP_LABELS[s]}: ${t}.`)
+    )
     .join("\n");
 };
