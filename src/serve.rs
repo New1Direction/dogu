@@ -98,7 +98,8 @@ pub fn run(opts: &Options) -> Result<(), String> {
                     "name": "run_code",
                     "description": "Run a TypeScript program in a sandbox. It cannot use files or the network. It can \
                                     call tools with `await tools.<app>.<tool>({...})` and print with console.log. \
-                                    Returns what the program printed.",
+                                    Calls that do not depend on each other run at the same time when you start \
+                                    them together with Promise.all. Returns what the program printed.",
                     "inputSchema": { "type": "object", "required": ["code"], "properties": {
                         "code": { "type": "string", "description": "The TypeScript program" }
                     } }
