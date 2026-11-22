@@ -30,7 +30,8 @@ pub fn schema_path(root: &Path, server: &str, tool: &str) -> PathBuf {
     root.join(".dogu/schemas").join(safe(server)).join(format!("{}.json", safe(tool)))
 }
 
-pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
+/// `read_only`: Some(true) for --read-only, Some(false) for --all-tools, None to keep the folder's last choice.
+pub fn run(source: &config::Source, root: &Path, read_only: Option<bool>) -> Result<(), String> {
     let servers = config::load(source)?;
     if servers.is_empty() {
         return Err(format!("{} lists no servers", source.describe()));
@@ -69,6 +70,10 @@ pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
         }
     }
 
+    let read_only = read_only.unwrap_or(old_state["readOnly"] == true);
+    if read_only {
+        println!("Read-only: keeping only the tools each server marks read-only. `--all-tools` brings the rest back.");
+    }
     let width = servers.keys().map(|n| n.len()).max().unwrap_or(0);
     let mut titles = serde_json::Map::new(); // each app's name for the top README
     let mut stale = Vec::new(); // servers that did not answer; their old folder, if any, is kept
@@ -80,9 +85,17 @@ pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
     for (name, result) in results {
         match result {
             Ok(Fetched { info, tools, era, skipped }) => {
+                let all = tools.len();
+                let tools: Vec<Value> = tools
+                    .into_iter()
+                    .filter(|t| !read_only || crate::call::safety_of(t) == Some("read-only"))
+                    .collect();
                 write_server(&root, &me, name, &info, &tools)?;
                 eras.insert(name.clone(), json!(era));
-                println!("  ok    {name:width$}  {} tools", tools.len());
+                match all - tools.len() {
+                    0 => println!("  ok    {name:width$}  {} tools", tools.len()),
+                    left => println!("  ok    {name:width$}  {} tools (left out {left} tools not marked read-only)", tools.len()),
+                }
                 for note in skipped {
                     println!("        left out {note}");
                 }
@@ -102,7 +115,7 @@ pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
 
     let state = json!({
         "config": config_path, "project": source.project, "servers": servers.keys().collect::<Vec<_>>(),
-        "eras": eras, "titles": titles, "stale": stale,
+        "eras": eras, "titles": titles, "stale": stale, "readOnly": read_only,
     });
     write(&ours.join("state.json"), &serde_json::to_string_pretty(&state).unwrap())?;
     write_root_readme(&root)?;
@@ -162,6 +175,8 @@ struct ToolLine {
     about: String,
     /// ` → {fields}` when the tool says what it returns, else empty.
     returns: String,
+    /// ` [read-only]` and the like, when the server says what the tool may change, else empty.
+    safety: String,
 }
 
 /// An app in the top README: freshly synced with its tools, or kept from an earlier sync.
@@ -215,6 +230,7 @@ fn tool_line(tool: &Value) -> ToolLine {
         flags: crate::call::flags_of(tool),
         about: first_sentence(&about),
         returns: crate::call::returns_of(tool).map(|r| format!(" → {r}")).unwrap_or_default(),
+        safety: crate::call::safety_of(tool).map(|s| format!(" [{s}]")).unwrap_or_default(),
     }
 }
 
@@ -358,7 +374,8 @@ fn write_server(root: &Path, me: &Path, name: &str, info: &Value, tools: &[Value
         let flags = crate::call::flags_of(tool);
         let about = first_line(tool["description"].as_str().unwrap_or(""));
         let returns = crate::call::returns_of(tool).map(|r| format!(" → {r}")).unwrap_or_default();
-        readme.push_str(&format!("- `{file}{flags}` — {about}{returns}\n"));
+        let safety = crate::call::safety_of(tool).map(|s| format!(" [{s}]")).unwrap_or_default();
+        readme.push_str(&format!("- `{file}{flags}` — {about}{returns}{safety}\n"));
     }
     write(&dir.join("index.d.ts"), &types_file(name, tools))?;
     write(&dir.join("README.md"), &readme)
@@ -558,8 +575,8 @@ fn app_entry(entry: &IndexEntry, detail: Detail) -> String {
             let lines: Vec<String> = tools
                 .iter()
                 .map(|t| match detail {
-                    Detail::Full => format!("- `{app}/{}{}` — {}{}", t.file, t.flags, t.about, t.returns),
-                    _ => format!("- `{app}/{}{}`{}", t.file, t.flags, t.returns),
+                    Detail::Full => format!("- `{app}/{}{}` — {}{}{}", t.file, t.flags, t.about, t.returns, t.safety),
+                    _ => format!("- `{app}/{}{}`{}{}", t.file, t.flags, t.returns, t.safety),
                 })
                 .collect();
             format!("### `{app}/` — {} tools{title}\n\n{}\n", tools.len(), lines.join("\n"))
@@ -632,6 +649,7 @@ mod tests {
                     flags: " --repo <string>".into(),
                     about: "x".repeat(about_len),
                     returns: " → {id, name}".into(),
+                    safety: String::new(),
                 })
                 .collect(),
         }

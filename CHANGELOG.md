@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- The README and `--help` show what each tool may change, as its server says: `[read-only]`, `[changes things]` or `[may delete or overwrite]`.
+- `dogu sync --read-only` keeps only the tools servers mark read-only, and remembers it; `--all-tools` undoes it. Left-out tools cannot be called.
+
 ## [0.4.0] - 2026-11-22
 
 ### Added

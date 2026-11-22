@@ -249,6 +249,17 @@ In this order:
 
 </details>
 
+## Keep an agent to read-only tools
+
+Servers can say what each tool may change. The README shows it next to each tool, `[read-only]`, `[changes things]` or `[may delete or overwrite]`, and so does `--help`. dogu never guesses: a tool the server says nothing about gets no label.
+
+```
+dogu sync --read-only     # keep only the tools the servers mark read-only
+dogu sync --all-tools     # bring the rest back
+```
+
+`--read-only` is remembered for later syncs. A tool it leaves out has no command, is not in code mode, and `dogu call` refuses it. A server that marks nothing loses all its tools: with GitHub's official server, Context7 and DeepWiki, it keeps 28 of GitHub's 46 tools, both of Context7's, and none of DeepWiki's.
+
 ## What the sandbox protects, and what it does not
 
 A program run by `dogu run` or `run_code` has every Deno permission switched off. `tests/escape.ts` tries 17 ways out. All 17 are blocked:

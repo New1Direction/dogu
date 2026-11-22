@@ -22,11 +22,13 @@ use std::path::PathBuf;
 const USAGE: &str = "\
 dogu — your MCP tools as a folder of commands, and as a sandboxed code API
 
-  dogu sync [--config <mcp.json>] [--out <folder>] [--link-skill]
+  dogu sync [--config <mcp.json>] [--out <folder>] [--link-skill] [--read-only | --all-tools]
       Ask every server in the config for its tools and write them to the folder.
       Default folder: ~/mcp. Run it again when your servers change.
       --link-skill links the folder into ~/.claude/skills and ~/.agents/skills as the skill
       `mcp-tools`, so agents that read Agent Skills find the tools on their own.
+      --read-only keeps only the tools each server marks read-only, and is remembered for later
+      syncs; --all-tools brings the rest back.
 
   dogu login [--config <mcp.json>] [server...]
       Log in to remote servers that need it (opens your browser). With no name: all that need it.
@@ -98,12 +100,15 @@ fn run(args: &[String]) -> Result<i32, String> {
             let mut config_arg = None;
             let mut out = default_root;
             let mut link = false;
+            let mut read_only = None;
             let mut it = args[1..].iter();
             while let Some(a) = it.next() {
                 match a.as_str() {
                     "--config" => config_arg = Some(it.next().ok_or("--config needs a file")?.clone()),
                     "--out" => out = PathBuf::from(it.next().ok_or("--out needs a folder")?),
                     "--link-skill" => link = true,
+                    "--read-only" => read_only = Some(true),
+                    "--all-tools" => read_only = Some(false),
                     other => return Err(format!("unknown option {other}\n\n{USAGE}")),
                 }
             }
@@ -120,7 +125,7 @@ fn run(args: &[String]) -> Result<i32, String> {
             } else {
                 println!("Reading {}", source.describe());
             }
-            sync::run(&source, &out)?;
+            sync::run(&source, &out, read_only)?;
             if link {
                 println!("\nAgent Skills:");
                 for line in sync::link_skill(&std::fs::canonicalize(&out).map_err(|e| e.to_string())?) {

@@ -22,6 +22,7 @@ TOOLS = [
             },
             "required": ["query"],
         },
+        "annotations": {"readOnlyHint": True},
         "outputSchema": {
             "type": "object",
             "properties": {"query": {"type": "string"}, "items": {"type": "array", "items": {"type": "object"}}},
@@ -37,6 +38,13 @@ TOOLS = [
         "name": "count",
         "description": "Add one to a counter and return it.",
         "inputSchema": {"type": "object", "properties": {}},
+        "annotations": {"readOnlyHint": False, "destructiveHint": False},
+    },
+    {
+        "name": "reset",
+        "description": "Set the counter back to zero.",
+        "inputSchema": {"type": "object", "properties": {}},
+        "annotations": {"readOnlyHint": False, "destructiveHint": True},
     },
 ]
 
@@ -62,6 +70,9 @@ def call(name, args):
     if name == "wiki":
         text = "# Title\n- one\n- two"
         return {"content": [{"type": "text", "text": text}], "structuredContent": {"result": text}}
+    if name == "reset":
+        counter = 0
+        return {"content": [{"type": "text", "text": "0"}], "structuredContent": {"count": 0}}
     if name == "count":
         counter += 1
         return {"content": [{"type": "text", "text": str(counter)}], "structuredContent": {"count": counter}}

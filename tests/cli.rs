@@ -551,3 +551,63 @@ fn a_server_that_dies_at_start_shows_what_it_said() {
     assert!(stdout(&o).contains("npm error code EPERM"), "shows the server's own words: {}", stdout(&o));
     assert!(stdout(&o).contains("~/.npm"), "says what probably happened: {}", stdout(&o));
 }
+
+// --- What a tool may change, as the server says ---
+
+#[test]
+fn the_readme_says_what_a_tool_may_change_when_the_server_says() {
+    let home = scratch("labels");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+
+    let readme = std::fs::read_to_string(out.join("README.md")).unwrap();
+    let line = |tool: &str| readme.lines().find(|l| l.contains(&format!("`fx/{tool}"))).unwrap_or("").to_string();
+    assert!(line("search_repositories").contains("[read-only]"), "{readme}");
+    assert!(line("count").contains("[changes things]"), "{readme}");
+    assert!(line("reset").contains("[may delete or overwrite]"), "{readme}");
+    assert!(!line("wiki").contains('['), "no label when the server says nothing: {}", line("wiki"));
+}
+
+#[test]
+fn read_only_sync_keeps_only_read_only_tools_and_remembers_it() {
+    let home = scratch("read-only");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+    let sync = |extra: &[&str]| {
+        let mut args = vec!["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()];
+        args.extend_from_slice(extra);
+        dogu(&home, &home, &args)
+    };
+
+    let first = sync(&["--read-only"]);
+    let again = sync(&[]);
+
+    assert!(stdout(&first).contains("left out 3 tools"), "{}", stdout(&first));
+    assert!(out.join("fx/search_repositories").is_file());
+    for gone in ["count", "reset", "wiki"] {
+        assert!(!out.join("fx").join(gone).exists(), "{gone} should be left out");
+    }
+    assert!(stdout(&again).contains("read-only"), "a re-sync keeps it: {}", stdout(&again));
+    assert!(!out.join("fx/count").exists());
+
+    sync(&["--all-tools"]);
+    assert!(out.join("fx/count").is_file(), "--all-tools brings them back");
+}
+
+#[test]
+fn a_left_out_tool_cannot_be_called_from_the_folder_or_from_code() {
+    let home = scratch("read-only-call");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap(), "--read-only"]);
+    let root = out.to_str().unwrap();
+
+    let call = dogu(&home, &home, &["call", "--root", root, "fx", "reset"]);
+    let code = dogu(&home, &home, &["run", "--root", root, "-e", "await tools.fx.reset({})"]);
+
+    assert_eq!(call.status.code(), Some(1));
+    assert!(stderr(&call).contains("read-only"), "{}", stderr(&call));
+    assert_ne!(code.status.code(), Some(0), "{}", stdout(&code));
+}

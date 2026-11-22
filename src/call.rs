@@ -39,6 +39,14 @@ pub fn run(root: &Path, server: &str, tool: &str, args: &[String]) -> Result<i32
         }
     }
 
+    // A tool left out by `dogu sync --read-only` has no saved schema, and must not be callable either.
+    if schema.is_null() && saved_state(root).is_some_and(|s| s["readOnly"] == true) {
+        return Err(format!(
+            "{server}/{tool} is not in this folder: it was synced with --read-only, which keeps only the tools \
+             the server marks read-only. Run `dogu sync --all-tools` to bring the others back."
+        ));
+    }
+
     // A forged tool is a program, run in the sandbox.
     if server == crate::sync::FORGED {
         let started = std::time::Instant::now();
@@ -259,6 +267,9 @@ fn help(tool: &str, schema: &Value) -> String {
         out.push_str(d.trim());
         out.push_str("\n\n");
     }
+    if let Some(safety) = safety_of(schema) {
+        out.push_str(&format!("The server says this tool is: {safety}.\n\n"));
+    }
 
     let input = &schema["inputSchema"];
     let required: Vec<&str> =
@@ -298,6 +309,21 @@ fn help(tool: &str, schema: &Value) -> String {
     }
     out.push_str("\nAdd --json to print the result as one line of JSON, or --raw for the server's full answer.\n");
     out
+}
+
+/// What a tool may change, as its server says in its annotations. None when the server does not say:
+/// dogu never guesses.
+pub fn safety_of(tool: &Value) -> Option<&'static str> {
+    let hints = &tool["annotations"];
+    if hints["readOnlyHint"] == true {
+        Some("read-only")
+    } else if hints["destructiveHint"] == true {
+        Some("may delete or overwrite")
+    } else if hints["readOnlyHint"] == false {
+        Some("changes things")
+    } else {
+        None
+    }
 }
 
 /// How many returned fields `returns_of` names before it cuts the list.
