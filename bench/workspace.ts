@@ -7,7 +7,13 @@ import type { Ctx } from "./tasks.ts";
 
 export const RUN_TIMEOUT = Duration.minutes(5);
 export const ANSWER_RULE = " Use only the tools you have been given. Answer in under 6 lines.";
-export const ALL_SETUPS = ["direct", "direct-search", "folder", "folder-read", "codemode", "codex-direct", "codex-folder"] as const;
+export const ALL_SETUPS = [
+  "direct", "direct-search", "folder", "folder-read", "codemode",
+  "codex-direct", "codex-folder",
+  "pi-direct", "pi-codemode", "pi-folder",
+] as const;
+/** pi runs the same model as Claude Code's `sonnet`, with thinking off as in Claude Code's default. */
+const PI_MODEL = Deno.env.get("PI_MODEL") ?? "anthropic/claude-sonnet-5-5";
 /** The Codex binary; set CODEX_BIN when it is not on your PATH. CODEX_MODEL picks a model, else Codex's default. */
 const CODEX_BIN = Deno.env.get("CODEX_BIN") ?? "codex";
 const CODEX_MODEL = Deno.env.get("CODEX_MODEL");
@@ -25,6 +31,7 @@ export interface Workspace {
   readonly seeded: Ctx["seeded"];
   readonly memoryFile: string | null; // the memory server's file, when it runs
   readonly codexHome: string; // CODEX_HOME: your Codex login linked in, nothing else of yours
+  readonly hosted: Record<string, unknown>; // the hosted servers, with ${GITHUB_TOKEN} left for the agent to fill in
 }
 
 const writePrivate = (path: string, text: string) =>
@@ -97,7 +104,7 @@ export const makeWorkspace = (options: { readonly memory: boolean }) =>
       yield* Effect.promise(() => Deno.symlink(login, `${codexHome}/auth.json`).catch(() => undefined));
       return {
         dir, root, directConfig: `${dir}/direct.json`, serveConfig: `${dir}/serve.json`, token, mcpServers, seeded: memory.seeded,
-        memoryFile: options.memory ? `${dir}/memory.jsonl` : null, codexHome,
+        memoryFile: options.memory ? `${dir}/memory.jsonl` : null, codexHome, hosted,
       };
     }),
     (ws) => Effect.tryPromise(() => Deno.remove(ws.dir, { recursive: true })).pipe(Effect.orElseSucceed(() => undefined)),
@@ -124,6 +131,39 @@ const codexArgs = (prompt: string, cwd: string, extra: ReadonlyArray<string>) =>
   ...(CODEX_MODEL ? ["-m", CODEX_MODEL] : []),
   "-C", cwd, ...extra, prompt,
 ];
+
+/** pi's own config folder for a setup: your pi login linked in, our servers, nothing else of yours. */
+export const piAgentDir = (ws: Workspace, setup: Setup) => `${ws.dir}/pi-agent-${setup}`;
+
+/**
+ * pi setups. pi-direct declares every MCP tool; pi-codemode is pi's own code mode, where MCP tools are
+ * reached from scripts; pi-folder is the dogu folder, with the README as appended system instructions.
+ */
+const piArgs = (setup: Setup, prompt: string, ws: Workspace) =>
+  Effect.gen(function* () {
+    const agentDir = piAgentDir(ws, setup);
+    yield* Effect.promise(() => Deno.mkdir(agentDir, { recursive: true }));
+    const login = `${Deno.env.get("HOME")}/.pi/agent/auth.json`;
+    yield* Effect.promise(() => Deno.symlink(login, `${agentDir}/auth.json`).catch(() => undefined));
+    const exposure = setup === "pi-direct" ? "direct" : "codemode";
+    const servers = {
+      ...Object.fromEntries(Object.entries(ws.hosted).map(([n, s]) => [n, { ...(s as object), exposure }])),
+      ...(ws.memoryFile
+        ? { memory: { command: "npx", args: ["-y", "@modelcontextprotocol/server-memory"], env: { MEMORY_FILE_PATH: ws.memoryFile }, exposure } }
+        : {}),
+    };
+    if (setup === "pi-folder") {
+      yield* Effect.promise(() => Deno.writeTextFile(`${agentDir}/APPEND_SYSTEM.md`, `Your tools are in ${ws.root}. This is its README:\n\n`));
+      const text = yield* readme(ws);
+      yield* Effect.promise(() => Deno.writeTextFile(`${agentDir}/APPEND_SYSTEM.md`, text, { append: true }));
+    } else {
+      yield* writePrivate(`${agentDir}/mcp.json`, JSON.stringify({ mcpServers: servers }));
+    }
+    const tools = { "pi-direct": ["--tools", "mcp__*"], "pi-codemode": ["--tools", "codemode"], "pi-folder": ["--tools", "bash,read", "--no-mcp"] }[
+      setup as "pi-direct" | "pi-codemode" | "pi-folder"
+    ];
+    return ["--mode", "json", "--no-session", "--no-skills", "--no-context-files", "--offline", "--model", PI_MODEL, "--thinking", "off", ...tools, prompt];
+  });
 
 /** Our servers as Codex config overrides. */
 const codexServers = (ws: Workspace) => [
@@ -152,6 +192,9 @@ export const argsFor = (setup: Setup, prompt: string, ws: Workspace, runId: stri
     // Codex read a bare "Run <id>." as something to look up, so for Codex the ID is a labelled note at the end.
     // It still makes every conversation unique, which is all it is for.
     const codexPrompt = `${prompt} (Run ID ${runId}, for logging only; ignore it.)`;
+    if (setup.startsWith("pi-")) {
+      return { agent: "pi", bin: "pi", args: yield* piArgs(setup, `Run ${runId}. ${prompt}`, ws) } as Call;
+    }
     if (setup === "codex-direct") {
       return { agent: "codex", bin: CODEX_BIN, args: codexArgs(codexPrompt, cwd, codexServers(ws)) } as Call;
     }
@@ -166,7 +209,7 @@ export const argsFor = (setup: Setup, prompt: string, ws: Workspace, runId: stri
     const common = ["-p", `Run ${runId}. ${told}${prompt}`, "--model", model, "--setting-sources", "project", "--strict-mcp-config"];
     const bash = ["--mcp-config", '{"mcpServers":{}}', "--tools", "Bash", "Read", "--allowedTools", "Bash", "Read"];
     const standing = setup === "folder" ? `Your tools are in ${ws.root}. This is its README:\n\n${yield* readme(ws)}` : "";
-    const tools: Record<Exclude<Setup, "codex-direct" | "codex-folder">, ReadonlyArray<string>> = {
+    const tools: Record<"direct" | "direct-search" | "folder" | "folder-read" | "codemode", ReadonlyArray<string>> = {
       direct: ["--mcp-config", ws.directConfig, "--tools", "", "--allowedTools", ...ws.mcpServers],
       // Claude Code's own answer to the same problem: tool definitions deferred, found with ToolSearch.
       "direct-search": ["--mcp-config", ws.directConfig, "--tools", "ToolSearch", "--allowedTools", "ToolSearch", ...ws.mcpServers],
@@ -177,13 +220,15 @@ export const argsFor = (setup: Setup, prompt: string, ws: Workspace, runId: stri
         "--allowedTools", "mcp__tools__search", "mcp__tools__run_code", "mcp__tools__forge",
       ],
     };
-    return { agent: "claude", bin: "claude", args: [...common, ...tools[setup], "--output-format", "stream-json", "--verbose"] } as Call;
+    const claudeSetup = setup as keyof typeof tools;
+    return { agent: "claude", bin: "claude", args: [...common, ...tools[claudeSetup], "--output-format", "stream-json", "--verbose"] } as Call;
   });
 
 export const envFor = (setup: Setup, ws: Workspace): Record<string, string> => ({
   GITHUB_TOKEN: ws.token,
   ...(setup === "direct-search" ? { ENABLE_TOOL_SEARCH: "true" } : {}),
   ...(setup.startsWith("codex") ? { CODEX_HOME: ws.codexHome } : {}),
+  ...(setup.startsWith("pi-") ? { PI_CODING_AGENT_DIR: piAgentDir(ws, setup) } : {}),
 });
 
 /** One short session before measuring, so a setup starts with its standing part cached. */

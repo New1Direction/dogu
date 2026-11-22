@@ -2,7 +2,7 @@
 
 import { Effect, Result } from "npm:effect@4.1.5";
 import { assert, assertEquals } from "jsr:@std/assert@1";
-import { codexMetricsOf, metricsOf } from "./claude.ts";
+import { codexMetricsOf, metricsOf, piMetricsOf } from "./claude.ts";
 import { headline, type RunRecord } from "./report.ts";
 import { TASKS } from "./tasks.ts";
 
@@ -94,6 +94,39 @@ Deno.test("reads a Codex stream: steps, usage, the last message as the answer, n
   assertEquals(out.success.turns, 3);
   assertEquals(out.success.inputBreakdown, { fresh: 300, cacheWrite: 100, cacheRead: 600 });
   assertEquals(out.success.steps[1], 'mcp__deepwiki__read_wiki_structure {"repoName":"a/b"}');
+});
+
+const piMessage = (content: unknown[], usage: { input: number; output: number; cacheRead: number; cacheWrite: number; cost: number }, stopReason = "stop") =>
+  line({
+    type: "message_end",
+    message: { role: "assistant", content, stopReason, usage: { ...usage, totalTokens: 0, cost: { total: usage.cost } } },
+  });
+
+Deno.test("reads a pi stream: one assistant message per turn, cost summed", () => {
+  const stream = [
+    line({ type: "session", version: 3 }),
+    line({ type: "message_end", message: { role: "user", content: [{ type: "text", text: "q" }] } }),
+    piMessage([{ type: "toolCall", id: "1", name: "bash", arguments: { command: "github/x --json | jq .id" } }], { input: 10, output: 5, cacheRead: 3000, cacheWrite: 200, cost: 0.002 }),
+    piMessage([{ type: "text", text: "The id is 7." }], { input: 4, output: 9, cacheRead: 3200, cacheWrite: 50, cost: 0.001 }),
+  ].join("\n");
+
+  const out = run(piMetricsOf(stream, 3));
+
+  assert(Result.isSuccess(out));
+  assertEquals(out.success.answer, "The id is 7.");
+  assertEquals(out.success.turns, 2);
+  assertEquals(out.success.firstTurnTokens, 3210);
+  assertEquals(out.success.costUsd, 0.003);
+  assertEquals(out.success.steps, ["github/x --json | jq .id"]);
+});
+
+Deno.test("a pi run that errors, like an expired login, is a NoResult with the reason", () => {
+  const stream = piMessage([], { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, cost: 0 }, "error")
+    .replace('"stopReason":"error"', '"stopReason":"error","errorMessage":"Refresh token expired"');
+
+  const out = run(piMetricsOf(stream, 1));
+
+  assert(Result.isFailure(out) && out.failure._tag === "NoResult" && out.failure.detail.includes("Refresh token expired"));
 });
 
 Deno.test("a stream with no result, or an error result, is a NoResult", () => {

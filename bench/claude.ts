@@ -216,7 +216,70 @@ export const codexMetricsOf = (stream: string, seconds: number): Effect.Effect<R
   });
 };
 
-export type Agent = "claude" | "codex";
+// --- pi: `pi --mode json` ---
+
+const PiUsage = Schema.Struct({
+  input: Schema.Number,
+  output: Schema.Number,
+  cacheRead: Schema.Number,
+  cacheWrite: Schema.Number,
+  cost: Schema.Struct({ total: Schema.Number }),
+});
+const PiMessageEnd = Schema.Struct({
+  type: Schema.Literal("message_end"),
+  message: Schema.Struct({
+    role: Schema.Literal("assistant"),
+    content: Schema.Array(Schema.Unknown),
+    usage: PiUsage,
+    stopReason: Schema.String,
+    errorMessage: Schema.optional(Schema.String),
+  }),
+});
+const PiBlock = Schema.Struct({
+  type: Schema.String,
+  text: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.String),
+  arguments: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+});
+const asPiMessage = Schema.decodeUnknownOption(PiMessageEnd);
+const asPiBlock = Schema.decodeUnknownOption(PiBlock);
+
+/** pi reports each assistant message with its usage and cost; one message is one turn. */
+export const piMetricsOf = (stream: string, seconds: number): Effect.Effect<RunMetrics, NoResult> => {
+  const messages = stream.split("\n").filter((l) => l.trim() !== "").map(parseLine)
+    .flatMap((e) => Option.toArray(asPiMessage(e)).map((m) => m.message));
+  const failed = messages.find((m) => m.stopReason === "error");
+  if (messages.length === 0 || failed) {
+    return Effect.fail(new NoResult({ detail: failed?.errorMessage?.slice(0, 300) ?? stream.slice(-400) }));
+  }
+  const blocks = messages.map((m) => m.content.flatMap((b) => Option.toArray(asPiBlock(b))));
+  const calls = blocks.flat().filter((b) => b.type === "toolCall");
+  const steps = calls.map((b) =>
+    (typeof b.arguments?.command === "string" ? b.arguments.command : `${b.name} ${JSON.stringify(b.arguments ?? {})}`)
+      .replace(/\s+/g, " ").slice(0, 240)
+  );
+  const read = (u: typeof PiUsage.Type) => u.input + u.cacheRead + u.cacheWrite;
+  const answer = blocks.at(-1)!.filter((b) => b.type === "text").map((b) => b.text ?? "").join("\n");
+  return Effect.succeed({
+    answer,
+    turns: messages.length,
+    seconds,
+    costUsd: messages.reduce((sum, m) => sum + m.usage.cost.total, 0),
+    firstTurnTokens: read(messages[0].usage),
+    totalInputTokens: messages.reduce((sum, m) => sum + read(m.usage), 0),
+    outputTokens: messages.reduce((sum, m) => sum + m.usage.output, 0),
+    inputBreakdown: {
+      fresh: messages.reduce((sum, m) => sum + m.usage.input, 0),
+      cacheWrite: messages.reduce((sum, m) => sum + m.usage.cacheWrite, 0),
+      cacheRead: messages.reduce((sum, m) => sum + m.usage.cacheRead, 0),
+    },
+    toolCalls: calls.length,
+    bypassedTools: steps.some((s) => BYPASS.test(s)),
+    steps,
+  });
+};
+
+export type Agent = "claude" | "codex" | "pi";
 
 /** One headless agent run. Killed after `timeout`; retried once if it produced no result. */
 export const runAgent = (
@@ -229,7 +292,7 @@ export const runAgent = (
     const started = performance.now();
     const stream = yield* runCommand(bin, args, { cwd: options.cwd, env: options.env });
     const seconds = (performance.now() - started) / 1000;
-    return yield* (agent === "codex" ? codexMetricsOf(stream, seconds) : metricsOf(stream));
+    return yield* (agent === "codex" ? codexMetricsOf(stream, seconds) : agent === "pi" ? piMetricsOf(stream, seconds) : metricsOf(stream));
   }).pipe(
     Effect.timeout(options.timeout),
     Effect.retry({ times: 1, while: (e) => e._tag === "NoResult" }),
