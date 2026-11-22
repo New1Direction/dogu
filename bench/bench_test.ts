@@ -178,6 +178,7 @@ Deno.test("every held-out task is in the held-out suite, and the suites do not s
   assertEquals(TASKS.filter((t) => t.suite === "heldout2").length, 8);
   assertEquals(TASKS.filter((t) => t.suite === "heldout3").length, 8);
   assertEquals(TASKS.filter((t) => t.suite === "heldout4").length, 7);
+  assertEquals(TASKS.filter((t) => t.suite === "heldout5").length, 7);
 });
 
 Deno.test("headline says more, not negative fewer, when a setup used more", () => {
@@ -235,6 +236,13 @@ const SAMPLE_FACTS: Record<string, ReadonlyArray<string>> = {
   "pushed-last": ["oven-sh/bun"],
   "ruff-section": ["Formatter"],
   "entity-year": ["2019"],
+  "uv-open-prs": ["150"],
+  "uv-open-issues": ["1900"],
+  "click-open-both": ["120"],
+  "click-stars": ["16000"],
+  "flask-release-date": ["2026-05-01"],
+  "click-newest-issue": ["Shell completion breaks with nested groups"],
+  "click-testing-section": ["Testing Utilities"],
 };
 
 Deno.test("every task's check accepts its right answer and rejects a non-answer", () => {
@@ -253,6 +261,8 @@ Deno.test("heldout2 checks are strict where they must be and tolerant where coun
   assert(check("two-libraries", "React: /facebook/react, Vue: /vuejs/core", ["/facebook/react", "|", "/vuejs/core"]));
   assert(!check("two-libraries", "React: /facebook/react only", ["/facebook/react", "|", "/vuejs/core"]));
   assert(check("memory-years", "4 entities started before 2019.", ["4"]));
+  assert(check("click-newest-issue", "It is: Choice fails with unhashable choices", ["[tag] Choice fails with unhashable choices"]));
+  assert(!check("click-newest-issue", "It is: Something else", ["[tag] Choice fails with unhashable choices"]));
   // Agents often write small numbers out, and that is a right answer.
   assert(check("memory-years", "Eight entities started before 2023.", ["8"]));
   assert(!check("memory-years", "Eighteen entities.", ["8"]));

@@ -129,6 +129,7 @@ const program = Effect.scoped(
       ...section("Held-out tasks, set 2 (frozen before the code-mode speed work)", records.filter((r) => r.suite === "heldout2"), tasksOf("heldout2")),
       ...section("Held-out tasks, set 3 (frozen before the work on calls made together)", records.filter((r) => r.suite === "heldout3"), tasksOf("heldout3")),
       ...section("Held-out tasks, set 4 (frozen before the change about printing whole results)", records.filter((r) => r.suite === "heldout4"), tasksOf("heldout4")),
+      ...section("Held-out tasks, set 5 (frozen before the accuracy fix)", records.filter((r) => r.suite === "heldout5"), tasksOf("heldout5")),
       ...section("Tuning tasks (dogu was tuned while watching these)", records.filter((r) => r.suite === "tuning"), tasksOf("tuning")),
     ].join("\n");
     const out = `${HERE}results/${env("BENCH_OUT", date)}`;
