@@ -17,6 +17,7 @@ const INSTRUCTIONS: &str = "\
 This server gives you many tools through a few. The description of `run_code` lists every tool with its \
 required arguments. When that is enough, call `run_code` straight away with one TypeScript program that \
 calls them as `await tools.<app>.<tool>({...})`; if a call fails, its error shows the tool's full type. \
+Start calls that do not depend on each other together with Promise.all: they run at the same time. \
 Call `search` first only when you need optional arguments or the shape of a result. Do several steps in \
 one program, and print only what you need to see. When a program is worth keeping, save it with `forge` \
 and call it next time as `tools.forged.<name>({...})`.";
@@ -236,8 +237,12 @@ fn catalog(opts: &Options) -> String {
 }
 
 const RUN_CODE_ABOUT: &str = "Run a TypeScript program in a sandbox (no files, no network). Call tools with \
-`await tools.<app>.<tool>({...})` and print with console.log; calls started together with Promise.all run \
-at the same time. Returns what the program printed. The tools, grouped by the arguments they require, `app (args): tools`:\n";
+`await tools.<app>.<tool>({...})` and print with console.log. Returns what the program printed.\n\
+Calls that do not depend on each other: start them together, so they run at the same time. A loop with \
+`await` inside runs them one after another, which is much slower:\n\
+  const [a, b] = await Promise.all([tools.app.one({ id: 1 }), tools.app.two({ id: 2 })]);\n\
+  const items = await Promise.all(ids.map((id) => tools.app.get_item({ id })));\n\
+The tools, grouped by the arguments they require, `app (args): tools`:\n";
 
 fn run_code_description(opts: &Options) -> String {
     format!("{RUN_CODE_ABOUT}{}", quick_list(opts, DESCRIPTION_LIMIT - RUN_CODE_ABOUT.len()))
@@ -414,6 +419,7 @@ mod tests {
         assert!(tight.contains("fx: count, search_repositories"), "{tight}");
         assert!(!tight.contains("(query)"), "{tight}");
         assert!(run_code_description(&opts).len() <= DESCRIPTION_LIMIT);
+        assert!(run_code_description(&opts).contains("await Promise.all(ids.map("), "shows how to make calls together");
     }
 
     #[test]
