@@ -105,9 +105,12 @@ impl Client {
         let transport = match server {
             Server::Stdio { command, args, env, cwd } => {
                 let debug = std::env::var("DOGU_DEBUG").is_ok();
+                let home = std::env::var_os("HOME").map(std::path::PathBuf::from).unwrap_or_default();
+                let npm_cache = npm_cache_env(command, env, &home, &std::env::temp_dir());
                 let mut child = Command::new(command)
                     .args(args)
                     .envs(env)
+                    .envs(npm_cache)
                     .current_dir(cwd)
                     .stdin(Stdio::piped())
                     .stdout(Stdio::piped())
@@ -678,6 +681,33 @@ impl Drop for Client {
     }
 }
 
+/// npx keeps downloads in `~/.npm`. A sandbox such as Codex's may block writing there, and then every
+/// server started with npx fails. In that case only, npm gets a cache in the temp folder, which sandboxes
+/// allow. A cache you set yourself (`npm_config_cache`) is left alone.
+fn npm_cache_env(
+    command: &str,
+    env: &BTreeMap<String, String>,
+    home: &std::path::Path,
+    tmp: &std::path::Path,
+) -> Option<(String, String)> {
+    let name = std::path::Path::new(command).file_name()?.to_str()?;
+    if !matches!(name, "npx" | "npm") {
+        return None;
+    }
+    let is_cache = |k: &str| k.eq_ignore_ascii_case("npm_config_cache");
+    if env.keys().any(|k| is_cache(k)) || std::env::vars_os().any(|(k, _)| k.to_str().is_some_and(is_cache)) {
+        return None;
+    }
+    let cache = home.join(".npm");
+    let probe = cache.join(format!(".dogu-write-check-{}", std::process::id()));
+    let writable = std::fs::create_dir_all(&cache).is_ok() && std::fs::write(&probe, b"").is_ok();
+    let _ = std::fs::remove_file(&probe);
+    match writable {
+        true => None,
+        false => Some(("npm_config_cache".into(), tmp.join("dogu-npm-cache").display().to_string())),
+    }
+}
+
 /// The `_meta` every modern request carries: the version, who we are, what we can do.
 fn meta(version: &str) -> Value {
     json!({
@@ -820,4 +850,40 @@ pub fn header_params(schema: &Value) -> Result<Vec<(Vec<String>, String)>, Strin
     let mut out = Vec::new();
     walk(schema, true, &mut Vec::new(), &mut out)?;
     Ok(out)
+}
+
+#[cfg(test)]
+mod npm_cache_tests {
+    use super::*;
+    use std::os::unix::fs::PermissionsExt;
+
+    fn home(name: &str) -> std::path::PathBuf {
+        let h = std::env::temp_dir().join(format!("dogu-npm-home-{}-{name}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&h);
+        std::fs::create_dir_all(h.join(".npm")).unwrap();
+        h
+    }
+
+    #[test]
+    fn npx_gets_a_cache_it_can_write_when_the_sandbox_blocks_npms_own() {
+        let h = home("blocked");
+        std::fs::set_permissions(h.join(".npm"), std::fs::Permissions::from_mode(0o555)).unwrap();
+        let tmp = std::env::temp_dir();
+
+        let env = npm_cache_env("npx", &BTreeMap::new(), &h, &tmp);
+
+        std::fs::set_permissions(h.join(".npm"), std::fs::Permissions::from_mode(0o755)).unwrap();
+        assert_eq!(env, Some(("npm_config_cache".to_string(), tmp.join("dogu-npm-cache").display().to_string())));
+    }
+
+    #[test]
+    fn npm_is_left_alone_when_its_cache_is_writable_or_set_or_the_command_is_not_npm() {
+        let h = home("open");
+        let tmp = std::env::temp_dir();
+        let set = BTreeMap::from([("npm_config_cache".to_string(), "/elsewhere".to_string())]);
+
+        assert_eq!(npm_cache_env("npx", &BTreeMap::new(), &h, &tmp), None);
+        assert_eq!(npm_cache_env("/usr/local/bin/npx", &set, &h, &tmp), None);
+        assert_eq!(npm_cache_env("uvx", &BTreeMap::new(), &h, &tmp), None);
+    }
 }
