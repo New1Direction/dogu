@@ -42,7 +42,7 @@ Measured, not estimated, on [tasks written before any run](bench/): GitHub's off
 
 ![Cost per task with Claude Code and dogu 0.7.0: loading the servers directly $0.036, with Claude Code's tool search $0.038, dogu folder $0.013, dogu code mode $0.011](docs/bench/cost.svg)
 
-dogu's code mode costs 68% less than loading the servers directly and is also faster; the folder costs 63% less, and is about 1.4 s slower per task once a session is open (counting start-up, which Claude Code's own time leaves out, they tie). Tool search reads fewer tokens than loading everything, but costs more, because it brings tool definitions in mid-session, and those are cached at the higher write price. Times are medians. On Haiku the order of cost is the same: code mode 57% less than loading directly, the folder 53% less. On tasks that fan out to many calls dogu halves the cost too, and code mode is faster when the agent starts the calls together; see [the benchmarks](BENCHMARKS.md#tasks-with-many-calls).
+dogu's code mode costs 68% less than loading the servers directly and is also faster; the folder costs 63% less, and is about 1.4 s slower per task once a session is open (counting start-up, which Claude Code's own time leaves out, they tie). Tool search reads fewer tokens than loading everything, but costs more, because it brings tool definitions in mid-session, and those are cached at the higher write price. Times are medians. The cheapest setup measured is dogu's code mode with Haiku: $0.0010 per task, all answers right, 97% less than Sonnet with the servers loaded directly. On Haiku the order of cost is the same: code mode 57% less than loading directly, the folder 53% less. On tasks that fan out to many calls dogu halves the cost too, and code mode is faster when the agent starts the calls together; see [the benchmarks](BENCHMARKS.md#tasks-with-many-calls).
 
 ### Other agents
 
@@ -368,6 +368,7 @@ The usual `mcp.json`:
 | `DOGU_DEBUG` | Show what local servers print, and more detail on failures |
 | `DOGU_WARM` | `0`: no background dogu for the folder; every command connects on its own |
 | `DOGU_WARM_IDLE` | Seconds the folder's background dogu waits for a call before it leaves. Default 600 |
+| `DOGU_CACHE_SECS` | Seconds a read-only tool's answer is kept, so the same call again is answered at once. Default 30; `0` turns it off |
 
 ## How it is built
 

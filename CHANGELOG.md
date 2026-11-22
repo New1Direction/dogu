@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- A repeated call to a read-only tool (one the server marks `readOnlyHint`) with the same arguments, within `DOGU_CACHE_SECS` seconds (30; 0 turns it off), is answered from memory, in `dogu serve`, `dogu run` and the folder's background dogu. Agents often call a tool to look, then again to take a field out. On held-out tasks: tool time 1.00 -> 0.61 s, average task 4.58 -> 4.01 s, same cost and answers.
+
 ## [0.7.1] - 2026-11-22
 
 ### Changed

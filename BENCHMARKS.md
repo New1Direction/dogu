@@ -45,6 +45,8 @@ The tasks were written down and saved **before** any test ran, so they could not
 | **dogu folder** | **$0.013** | 21 of 21 |
 | **dogu code mode** | **$0.011** | 21 of 21 |
 
+**The cheapest setup we measured:** dogu's code mode with Claude Code's Haiku model, $0.0010 per task, 21 of 21 answers right on the same tasks: 91% less than dogu with Sonnet, and 97% less than Sonnet with the servers loaded directly. For work that is mostly calling tools and reading their answers, a small model is often enough. ([Haiku results](bench/results/2026-11-22-heldout-haiku-v0.7.0.md))
+
 **Why is tool search more expensive, when it reads less?** AI companies give a big discount for text the agent has read before (this is called caching). dogu's tool list stays the same from task to task, so it gets that discount. Tool search adds tool descriptions in the middle of each task, and new text in the middle is charged at the full price.
 
 ## 2. How long a task takes
