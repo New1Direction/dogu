@@ -76,7 +76,9 @@ const svg = (title: string, h: number, body: string) => frame(title, W, h, body)
 
 // --- The charts ---
 
-const sonnet = load("2026-11-22-heldout-sonnet");
+// The headline runs: Claude Code with Sonnet, dogu 0.7.0 (7 of the 8 held-out tasks; Context7's free
+// quota was used up, so its task is left out). The 0.5.0 runs are in 2026-11-22-heldout-sonnet.
+const sonnet = load("2026-11-22-heldout-v0.7.0");
 const haiku = load("2026-11-22-heldout-haiku");
 const pi = load("2026-11-22-heldout-pi");
 // Codex with ~/.npm writable in its sandbox, as dogu's README says (the earlier run without it is in
@@ -98,14 +100,14 @@ const KEY: ReadonlyArray<[string, string]> = [["other", "Without dogu"], ["dogu"
 
 const charts: Record<string, string> = {
   "cost.svg": bars(
-    "Cost per task, Claude Code with Sonnet, 8 held-out tasks",
+    "Cost per task, Claude Code with Sonnet, dogu 0.7.0, 7 held-out tasks",
     claudeSetups.map(([s, label, cls]) => ({ label, value: cost(sonnet, s), cls, shown: `$${cost(sonnet, s).toFixed(3)}` })),
     0.04,
     [[0, "$0"], [0.01, "$0.01"], [0.02, "$0.02"], [0.03, "$0.03"], [0.04, "$0.04"]],
     KEY,
   ),
   "time.svg": bars(
-    "Time per task, Claude Code with Sonnet, 8 held-out tasks",
+    "Time per task, Claude Code with Sonnet, dogu 0.7.0, 7 held-out tasks",
     claudeSetups.map(([s, label, cls]) => ({ label, value: time(sonnet, s), cls, shown: `${time(sonnet, s).toFixed(1)} s` })),
     6,
     [[0, "0 s"], [2, "2 s"], [4, "4 s"], [6, "6 s"]],
@@ -115,8 +117,8 @@ const charts: Record<string, string> = {
     const rows: Row[] = [
       ["Claude Code, Sonnet: vs loading directly", change(cost(sonnet, "folder"), cost(sonnet, "direct"))],
       ["Claude Code, Sonnet: vs its tool search", change(cost(sonnet, "folder"), cost(sonnet, "direct-search"))],
-      ["Claude Code, Haiku: vs loading directly", change(cost(haiku, "folder"), cost(haiku, "direct"))],
-      ["Claude Code, Haiku: vs its tool search", change(cost(haiku, "folder"), cost(haiku, "direct-search"))],
+      ["Claude Code, Haiku (0.5.0): vs loading directly", change(cost(haiku, "folder"), cost(haiku, "direct"))],
+      ["Claude Code, Haiku (0.5.0): vs its tool search", change(cost(haiku, "folder"), cost(haiku, "direct-search"))],
       ["pi 6.2, code mode: vs loading directly", change(cost(pi62, "pi-dogu"), cost(pi62, "pi-direct"))],
       ["pi 6.2, code mode: vs pi's code mode", change(cost(pi62, "pi-dogu"), cost(pi62, "pi-codemode"))],
       ["pi 6.1, folder: vs loading directly", change(cost(pi, "pi-folder"), cost(pi, "pi-direct"))],

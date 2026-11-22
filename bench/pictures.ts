@@ -6,8 +6,9 @@
 
 import { change, cost, esc, firstTurn, load, mean, type Rec, type Segment, svg, time, tokens, write } from "./svg.ts";
 
-const sonnet = load("2026-11-22-heldout-sonnet");
-const terra = load("2026-11-22-heldout-codex-terra-fast0");
+// dogu 0.7.0, Claude Code with Sonnet (see charts.ts).
+const sonnet = load("2026-11-22-heldout-v0.7.0");
+const pi62 = load("2026-11-22-pi-gpt62");
 
 // --- How each way works ---
 
@@ -27,7 +28,7 @@ interface Lane {
 const LANES: ReadonlyArray<Lane> = [
   { title: "Loading the servers directly", cls: "other", setup: "direct", reads: "every tool's full manual", sends: "tool calls by name", middle: null, together: false },
   { title: "dogu folder", cls: "dogu", setup: "folder", reads: "one line per tool", sends: "a short command", middle: "dogu", together: false },
-  { title: "dogu code mode", cls: "dogu", setup: "codemode", reads: "the tool names", sends: "one small program", middle: "dogu sandbox", together: true },
+  { title: "dogu code mode", cls: "dogu", setup: "codemode", reads: "tools, what they need and do", sends: "one small program", middle: "dogu sandbox", together: true },
 ];
 
 const LANE_W = 250;
@@ -120,18 +121,19 @@ const correctOf = (rs: Rec[]) => {
   return [heldOut.filter((r) => r.correct).length, heldOut.length];
 };
 
+/** The time tile says whichever way it went: slower in red, faster in blue. */
+const timeTile = (diff: number): Tile =>
+  diff > 0
+    ? { big: `+${diff.toFixed(1)} s`, line1: "slower per task (code mode)", line2: "vs loading the tools directly", cls: "more" }
+    : { big: `${(-diff).toFixed(1)} s`, line1: "faster per task (code mode)", line2: "vs loading the tools directly", cls: "dogu" };
+
 const glance = () => {
   const [right, all] = correctOf(sonnet);
   const tiles: ReadonlyArray<Tile> = [
-    { big: `${-change(cost(sonnet, "folder"), cost(sonnet, "direct"))}%`, line1: "lower cost per task", line2: "Claude Code, dogu folder", cls: "dogu" },
-    { big: `${right} / ${all}`, line1: "answers right, every way", line2: "8 held-out tasks, Sonnet", cls: "dogu" },
-    { big: `${-change(tokens(terra, "codex-folder"), tokens(terra, "codex-direct"))}%`, line1: "fewer tokens read", line2: "Codex with Terra", cls: "dogu" },
-    {
-      big: `+${(time(sonnet, "folder") - time(sonnet, "direct")).toFixed(1)} s`,
-      line1: "slower on quick tasks",
-      line2: "vs loading the tools directly",
-      cls: "more",
-    },
+    { big: `${-change(cost(sonnet, "codemode"), cost(sonnet, "direct"))}%`, line1: "lower cost per task", line2: "Claude Code, dogu code mode", cls: "dogu" },
+    { big: `${right} / ${all}`, line1: "answers right, every way", line2: "held-out tasks, Sonnet, 0.7.0", cls: "dogu" },
+    { big: `${-change(cost(pi62, "pi-dogu"), cost(pi62, "pi-codemode"))}%`, line1: "cheaper than pi's code mode", line2: "inside pi, gpt-6.2-sol", cls: "dogu" },
+    timeTile(time(sonnet, "codemode") - time(sonnet, "direct")),
   ];
   // Two by two, so the tiles stay readable when GitHub shrinks the picture on a phone.
   const tw = 240, th = 108, gap = 12, cols = 2;

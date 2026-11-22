@@ -4,15 +4,15 @@ AI coding agents like Claude Code, Codex and pi can use extra tools, such as "se
 
 dogu gives the agent the same tools in a lighter way. We tested whether that is really cheaper and faster, with real agents doing real tasks, and checked every answer.
 
-**The short version:**
+**The short version** (dogu 0.7.0):
 
-- With Claude Code, tasks cost **about 60% less** with dogu, and the answers were just as right.
-- dogu was also cheaper than Claude Code's own fix for this problem, "tool search", by about 65%.
-- Loading the tools the usual way is still **about a second faster** on quick, one-step tasks.
-- With Codex, dogu read 30% less and was faster, in normal and in fast mode.
+- With Claude Code, tasks cost **about two-thirds less** with dogu: 68% less with dogu's code mode, 63% with its folder. The answers were just as right.
+- dogu was also about 70% cheaper than Claude Code's own fix for this problem, "tool search".
+- **dogu's code mode is also the fastest:** 3.7 s per task against 3.9 s loading the tools the usual way, and 3.9 s against 5.4 s counting start-up. The folder is still slower in a session that is already open.
 - Inside pi, **dogu's code mode beats pi's own code mode**: about a third cheaper and faster, on two sets of tasks.
+- With Codex, dogu read 30% less and was faster, in normal and in fast mode.
 
-![At a glance: 62% lower cost per task with the dogu folder in Claude Code; 120 of 120 answers right; 53% fewer tokens read with Codex and Terra; and the trade-off, about 1 second slower on quick tasks than loading the tools directly](docs/bench/glance.svg)
+![At a glance, dogu 0.7.0: 68% lower cost per task with dogu's code mode in Claude Code; 84 of 84 answers right; 31% cheaper than pi's own code mode inside pi; and 0.2 s faster per task than loading the tools directly](docs/bench/glance.svg)
 
 Every number below comes from the files in [`bench/results/`](bench/results/), and you can [run the tests yourself](#run-it-yourself). The research behind each version, including the experiments that lost, is in [docs/research/code-mode.md](docs/research/code-mode.md).
 
@@ -28,74 +28,60 @@ Every number below comes from the files in [`bench/results/`](bench/results/), a
 | **dogu folder** | Each tool becomes a small command in a folder, and the agent gets one short line per tool. |
 | **dogu code mode** | The agent writes a short program that calls the tools it needs. |
 
-![How each way works. Loading the servers directly, the agent reads every tool's full manual before every task, 29k tokens, then calls tools by name. With the dogu folder it reads one line per tool, 12k tokens, and runs a short command. In dogu code mode it reads the tool names, 4k tokens, and sends one small program; dogu runs it in a sandbox, calls run at the same time, and only what the program prints comes back](docs/bench/how-it-works.svg)
+![How each way works. Loading the servers directly, the agent reads every tool's full manual before every task, 29k tokens, then calls tools by name. With the dogu folder it reads one line per tool, 13k tokens, and runs a short command. In dogu code mode it reads the tools with what they need and what they do, 7k tokens, and sends one small program; dogu runs it in a sandbox, calls run at the same time, and only what the program prints comes back](docs/bench/how-it-works.svg)
 
 The stacks of pages are drawn to scale: one page for every 2,500 tokens the agent reads before it starts (Claude Code with Sonnet, median).
 
 ## 1. What a task costs
 
-8 tasks, written down and saved **before** any test ran, so they could not be tweaked to make dogu look good. Each was done 3 times by Claude Code with the Sonnet model: 120 runs, and all 120 answers were right.
+The tasks were written down and saved **before** any test ran, so they could not be tweaked to make dogu look good. Each was done 3 times by Claude Code with the Sonnet model, with dogu 0.7.0: 84 runs, and all 84 answers were right. (There are 8 tasks; one uses Context7, whose free monthly quota had run out, so it was left out of this run for every setup alike. The 0.5.0 runs with all 8 are in [`bench/results`](bench/results/2026-11-22-heldout-sonnet.md).)
 
-![Cost per task with Claude Code: loading the servers directly $0.034, with Claude Code's tool search $0.037, dogu folder $0.013, dogu code mode $0.013](docs/bench/cost.svg)
+![Cost per task with Claude Code and dogu 0.7.0: loading the servers directly $0.036, with Claude Code's tool search $0.038, dogu folder $0.013, dogu code mode $0.011](docs/bench/cost.svg)
 
 | Way of giving the agent its tools | Cost per task | Answers right |
 |---|---|---|
-| Loading the servers directly | $0.034 | 24 of 24 |
-| Directly, with Claude Code's tool search | $0.037 | 24 of 24 |
-| **dogu folder** | **$0.013** | 24 of 24 |
-| **dogu code mode** | **$0.013** | 24 of 24 |
+| Loading the servers directly | $0.036 | 21 of 21 |
+| Directly, with Claude Code's tool search | $0.038 | 21 of 21 |
+| **dogu folder** | **$0.013** | 21 of 21 |
+| **dogu code mode** | **$0.011** | 21 of 21 |
 
 **Why is tool search more expensive, when it reads less?** AI companies give a big discount for text the agent has read before (this is called caching). dogu's tool list stays the same from task to task, so it gets that discount. Tool search adds tool descriptions in the middle of each task, and new text in the middle is charged at the full price.
 
 ## 2. How long a task takes
 
-![Time per task with Claude Code: loading the servers directly 4.2 seconds, with tool search 5.6, dogu folder 5.1, dogu code mode 5.5](docs/bench/time.svg)
+![Time per task with Claude Code and dogu 0.7.0: loading the servers directly 3.9 seconds, with tool search 6.0, dogu folder 5.3, dogu code mode 3.7](docs/bench/time.svg)
 
-| Way of giving the agent its tools | Time per task (typical) |
-|---|---|
-| **Loading the servers directly** | **4.2 s** |
-| Directly, with Claude Code's tool search | 5.6 s |
-| dogu folder | 5.1 s |
-| dogu code mode | 5.5 s |
+| Way of giving the agent its tools | Per task, in an open session (typical) | Counting start-up (typical) |
+|---|---|---|
+| Loading the servers directly | 3.9 s | 5.4 s |
+| Directly, with Claude Code's tool search | 6.0 s | 7.2 s |
+| dogu folder | 5.3 s | 5.4 s |
+| **dogu code mode** | **3.7 s** | **3.9 s** |
 
-Here dogu does **not** win. With every tool already described, the agent can act at once; with dogu it first looks up the one tool it needs. On quick tasks that extra step costs about a second.
+dogu's code mode is now the fastest way, as well as the cheapest. Until 0.6.0 it was about a second slower: with every tool already described, the agent could act at once, while with dogu it first looked the tool up. Now dogu's list says what each tool needs and does, so the agent usually skips that step; dogu connects to the tools while the model reads the task, keeps its connections open, and runs calls made together at the same time.
+
+The folder is still about 1.4 s slower per task in an open session. Counting start-up it ties, and it costs 63% less.
 
 ### Where the seconds go
 
-To see why, the bench now records when each step of a task happens. One thing it showed: the time above is Claude Code's own count, which **leaves out start-up**. Loading the servers directly, Claude Code connects to every server before the task begins, 1.2 s that is not in the time above. dogu starts in a quarter of a second.
+The bench records when each step of a task happens. One thing it showed: Claude Code's own count of a task's time, the first column above, **leaves out start-up**. Loading the servers directly, Claude Code connects to every server before the task begins: 1.25 s here. dogu starts in a quarter of a second. The second column counts it.
 
-![Where the seconds of a task go, on average. Loading the servers directly: 1.2 s starting up, 3.1 s the model working, 0.6 s tools running, 4.9 s in all. dogu code mode 0.5.0: 0.25 s, 3.5 s, 1.2 s, 5.0 s. dogu code mode 0.6.0: 0.26 s, 3.6 s, 1.4 s, 5.3 s](docs/bench/seconds.svg)
+![Where the seconds of a task went in earlier versions, on average. Loading the servers directly: 1.2 s starting up, 3.1 s the model working, 0.6 s tools running, 4.9 s in all. dogu code mode 0.5.0: 0.25 s, 3.5 s, 1.2 s, 5.0 s. dogu code mode 0.6.0: 0.26 s, 3.6 s, 1.4 s, 5.3 s](docs/bench/seconds.svg)
 
-| A task with all its steps (7 tasks × 3 runs) | Loading directly | dogu code mode 0.5.0 | dogu code mode 0.6.0 |
-|---|---|---|---|
-| Typical (median) | 4.6 s | 4.5 s | **3.6 s** |
-| Average (mean) | **4.9 s** | 5.0 s | 5.3 s |
-| Per task in an open session (median, start-up left out) | **3.3 s** | 4.3 s | 3.4 s |
-| Cost per task | $0.030 | $0.012 | **$0.011** |
-
-0.6.0 lists every tool with what it needs, so the agent can usually skip the look-up step, and it connects to the tools as it starts. In a typical task it is as fast as loading the servers directly. The average is higher because of a few tasks where the agent picked a slow way: paging through every open pull request instead of searching, or fetching releases one at a time.
-
-**0.6.1** reuses its connection to each server, shows the agent how to start calls together, and says what each tool does so the agent picks the right one. On held-out tasks it had never been tuned on (7 tasks × 3 runs, [results](bench/results/2026-11-22-exp9-regression-set4.md)):
-
-| | Right | Per task, open session (median) | With start-up (median) | Cost per task |
-|---|---|---|---|---|
-| Loading the servers directly | 21/21 | 3.87 s | 5.22 s | $0.025 |
-| **dogu code mode 0.6.1** | **21/21** | **3.42 s** | **3.77 s** | **$0.012** |
-
-On a second set, made of the tricky counting questions where code mode used to pick the wrong tool, both got 21 of 21 and loading directly was faster (3.7 s against 5.0 s median). The full record, including what did not work, is in [docs/research/code-mode.md](docs/research/code-mode.md).
+That picture is from the 0.6.0 work, on another set of tasks. With 0.7.0 on the tasks above, the model worked 3.3 s on average with code mode against 4.3 s loading directly, and tools ran 1.1 s against 0.7 s. How each version got here, including the experiments that lost, is in [docs/research/code-mode.md](docs/research/code-mode.md).
 
 ## 3. Other agents
 
-The same 8 tasks, with three agents (for pi with gpt-6.2, a newer set of 8). Each bar compares dogu with that agent's usual way, and, where the agent has one, with its own fix for the same problem: dogu's folder, and for pi with gpt-6.2 dogu's code mode. Left of zero means dogu was cheaper; right means it cost more.
+The same tasks, with three agents (for pi with gpt-6.2, a newer set of 8). Claude Code with Sonnet is dogu 0.7.0; the other rows are from earlier versions, as marked. Each bar compares dogu with that agent's usual way, and, where the agent has one, with its own fix for the same problem: dogu's folder, and for pi with gpt-6.2 dogu's code mode. Left of zero means dogu was cheaper; right means it cost more.
 
-![Change in cost per task with dogu: Claude Code Sonnet -62% vs loading directly and -65% vs tool search; Haiku -56% and -52%; pi with gpt-6.2-sol, dogu code mode -73% vs loading directly and -31% vs pi's own code mode; pi with gpt-6.1-sol, dogu folder -35% vs loading directly and +24% vs pi's code mode; Codex -30% in tokens](docs/bench/agents.svg)
+![Change in cost per task with dogu: Claude Code Sonnet -63% vs loading directly and -65% vs tool search (0.7.0); Haiku -56% and -52% (0.5.0); pi with gpt-6.2-sol, dogu code mode -73% vs loading directly and -31% vs pi's own code mode; pi with gpt-6.1-sol, dogu folder -35% vs loading directly and +24% vs pi's code mode; Codex -30% in tokens](docs/bench/agents.svg)
 
 | Agent and model | Compared with | Change in cost with dogu |
 |---|---|---|
-| Claude Code, Sonnet | Loading directly | **62% less** |
-| Claude Code, Sonnet | Its tool search | **65% less** |
-| Claude Code, Haiku | Loading directly | **56% less** |
-| Claude Code, Haiku | Its tool search | **52% less** |
+| Claude Code, Sonnet, dogu folder (0.7.0) | Loading directly | **63% less** |
+| Claude Code, Sonnet, dogu folder (0.7.0) | Its tool search | **65% less** |
+| Claude Code, Haiku, dogu folder (0.5.0) | Loading directly | **56% less** |
+| Claude Code, Haiku, dogu folder (0.5.0) | Its tool search | **52% less** |
 | pi, gpt-6.2-sol, dogu code mode | Loading directly | **73% less** |
 | pi, gpt-6.2-sol, dogu code mode | Its own code mode | **31% less** |
 | pi, gpt-6.1-sol, dogu folder | Loading directly | **35% less** |
@@ -154,14 +140,17 @@ We also tried letting a strong model (Sonnet) save the tool and a cheap model (H
 
 ## 6. Where dogu does not win
 
-- With Claude Code, on quick one-step tasks, **loading the tools directly was about a second faster** with dogu 0.5.0. 0.6.1 is as fast or faster on typical tasks, but on some multi-step counting tasks loading directly is still faster; see [Where the seconds go](#where-the-seconds-go).
+- With Claude Code, **the dogu folder is about 1.4 s slower per task** than loading the tools directly, in a session that is already open (counting start-up, they tie). dogu's code mode is not slower.
+- On some multi-step counting tasks, loading the tools directly was faster than dogu's code mode (3.7 s against 5.0 s); see the [research log](docs/research/code-mode.md).
 - In **pi**, pi's own code mode is still a little cheaper than dogu's *folder* (dogu's code mode is cheaper than both).
-- With **Codex**, without the `~/.npm` setting the saving was small (6%), because a local tool could not start. Since 0.6.0 no setting is needed: dogu gives npm a cache folder it is allowed to write.
+- With **Codex** before 0.6.0, without the `~/.npm` setting the saving was small (6%), because a local tool could not start. Since 0.6.0 no setting is needed: dogu gives npm a cache folder it is allowed to write.
 - An agent told only "read the README first", instead of having the tool list in its standing instructions, **costs more** than loading the tools directly, because it reads the long list in the middle of every task.
 
 ## How we kept it fair
 
-- **The tasks were saved before any test ran** ([commit 7890a28](https://github.com/New1Direction/dogu/commit/7890a28)), and dogu was never adjusted for them. 5 earlier tasks, which dogu *was* tuned on, are reported separately.
+- **The tasks were saved before any test ran** ([commit 7890a28](https://github.com/New1Direction/dogu/commit/7890a28)). 5 earlier tasks, which dogu *was* tuned on, are reported separately. Through 0.6.0, dogu was never adjusted while watching these 8. Since then, reading how agents worked on them suggested one change (showing how to start calls together), and that change, like every later one, was judged on a new set of tasks saved before the change was made (sets 2 to 6 in [`bench/tasks.ts`](bench/tasks.ts)).
+- **Setups take turns going first** on each task, so none always runs right after the others have used a server (and met its rate limits).
+- **Both kinds of time are reported:** Claude Code's own count, which leaves out start-up, and the whole run with start-up.
 - **Every answer is checked** against the real answer, fetched live just before the test (for example from GitHub). One task hides a made-up word that changes every run, so the answer cannot be guessed.
 - **The checks are checked:** before any test, each check must accept the right answer and reject "I don't know."
 - **The competitors' best features were included:** Claude Code's tool search and pi's code mode.
@@ -176,4 +165,4 @@ You need Claude Code, the GitHub command line `gh` (both logged in), dogu and [D
 deno run --allow-run --allow-env --allow-read --allow-write --allow-net bench/run.ts
 ```
 
-The full method, and how to choose agents, tasks and models, is in [`bench/README.md`](bench/README.md). The charts on this page are drawn from the result files by `bench/charts.ts`.
+The full method, and how to choose agents, tasks and models, is in [`bench/README.md`](bench/README.md). The charts and pictures on this page are drawn from the result files by `bench/charts.ts` and `bench/pictures.ts`.

@@ -31,24 +31,24 @@ Connect an agent to MCP servers and every tool's full definition is loaded into 
 
 dogu keeps the tools on disk instead. The agent gets one line per tool, with its flags, and looks up the details only for the tool it uses.
 
-Measured, not estimated, on [8 tasks written before any run and never tuned against](bench/): GitHub's official server, Context7, DeepWiki and a local memory server, 3 runs each, every answer checked. Claude Code on Sonnet, 120 runs, all right:
+Measured, not estimated, on [tasks written before any run](bench/): GitHub's official server, Context7, DeepWiki and a local memory server, 3 runs each, every answer checked. Claude Code on Sonnet with dogu 0.7.0, 84 runs, all right (7 of the 8 tasks: the Context7 one was left out for every setup because its free quota had run out):
 
-| | Read before starting | Read in total | Cost per task | Time |
-|---|---|---|---|---|
-| The servers loaded directly | 29.0k tokens | 59.1k | $0.034 | **4.2s** |
-| The same, with Claude Code's tool search on | 7.0k | 23.6k | $0.037 | 5.6s |
-| dogu folder, tool list in the agent's instructions | 12.1k | 25.1k | **$0.013** | 5.1s |
-| dogu code mode (`dogu serve`) | **4.3k** | **15.0k** | **$0.013** | 5.5s |
+| | Read before starting | Read in total | Cost per task | Time per task | With start-up |
+|---|---|---|---|---|---|
+| The servers loaded directly | 29.0k tokens | 59.3k | $0.036 | 3.9 s | 5.4 s |
+| The same, with Claude Code's tool search on | 7.0k | 23.0k | $0.038 | 6.0 s | 7.2 s |
+| dogu folder, tool list in the agent's instructions | 12.6k | 26.8k | $0.013 | 5.3 s | 5.4 s |
+| **dogu code mode (`dogu serve`)** | **6.7k** | **13.9k** | **$0.011** | **3.7 s** | **3.9 s** |
 
-![Cost per task with Claude Code: loading the servers directly $0.034, with Claude Code's tool search $0.037, dogu folder $0.013, dogu code mode $0.013](docs/bench/cost.svg)
+![Cost per task with Claude Code and dogu 0.7.0: loading the servers directly $0.036, with Claude Code's tool search $0.038, dogu folder $0.013, dogu code mode $0.011](docs/bench/cost.svg)
 
-On Haiku the order is the same: dogu costs 56 to 60% less than both. Loading the servers directly is about a second faster on these short tasks, because it needs no step to find a tool. Tool search reads fewer tokens than loading everything, but costs more, because it brings tool definitions in mid-session, and those are cached at the higher write price.
+dogu's code mode costs 68% less than loading the servers directly and is also faster; the folder costs 63% less, and is about 1.4 s slower per task once a session is open (counting start-up, which Claude Code's own time leaves out, they tie). Tool search reads fewer tokens than loading everything, but costs more, because it brings tool definitions in mid-session, and those are cached at the higher write price. Times are medians. On Haiku (dogu 0.5.0) the order of cost was the same: 56 to 60% less.
 
 ### Other agents
 
 The gap depends on the agent:
 
-- **Codex** (its default model): the dogu folder in `AGENTS.md` read 30% fewer tokens and was faster than Codex with the servers loaded directly, 11.2 s against 13.8 s, and in Codex's fast mode 9.2 s against 10.0 s. That is with `~/.npm` writable (below); without it, a local server cannot start and the saving was 6%. With the Terra model it read about half the tokens, and fast mode took it from 11.1 s to 7.3 s per task. With the servers loaded directly, Codex often skipped them and fetched pages with `curl` itself (11 of 32 runs); with the folder, 1 of 32.
+- **Codex** (its default model): the dogu folder in `AGENTS.md` read 30% fewer tokens and was faster than Codex with the servers loaded directly, 11.2 s against 13.8 s, and in Codex's fast mode 9.2 s against 10.0 s. That was measured with `~/.npm` writable; before 0.6.0, without it a local server could not start and the saving was 6%. dogu now handles that itself. With the Terra model it read about half the tokens, and fast mode took it from 11.1 s to 7.3 s per task. With the servers loaded directly, Codex often skipped them and fetched pages with `curl` itself (11 of 32 runs); with the folder, 1 of 32.
 - **pi**: pi has its own code mode, built for the same problem. With gpt-6.2-sol, dogu's code mode (`dogu serve` added to pi as an MCP server) beat it on two sets of tasks: 31% and 35% cheaper, 36% and 28% faster, the same answers right, and 73% cheaper than pi with the tools declared directly. pi's code mode searches for each tool first, which takes a turn; dogu's list already says what each tool needs. (The dogu folder, with gpt-6.1-sol, was the fastest in pi but cost 24% more than pi's code mode.)
 
 **[The benchmarks in plain words, with charts](BENCHMARKS.md).** All results, and how to run them yourself: [`bench/`](bench/).
@@ -106,7 +106,7 @@ For any other agent, one line in `AGENTS.md` or a system prompt works too, at th
 
 Or let agents find it on their own: the folder is also an [Agent Skill](https://agentskills.io). `dogu sync --link-skill` links it into `~/.claude/skills` and `~/.agents/skills`, where Claude Code, Codex, pi and others look.
 
-**Codex users:** Codex's sandbox blocks `~/.npm`, so local servers that start with `npx` cannot run inside it. Allow it in `~/.codex/config.toml`:
+**Codex users:** Codex's sandbox blocks npm's cache in `~/.npm`. Since 0.6.0 dogu notices that and gives npm a cache in the temp folder, so local servers that start with `npx` work with no setting. To let npm keep its own cache instead, allow it in `~/.codex/config.toml`:
 
 ```toml
 [sandbox_workspace_write]
@@ -307,7 +307,7 @@ Transports: stdio and Streamable HTTP.
 - **The sandbox escape test**, `tests/escape.ts`.
 - **Real servers**: the official filesystem, memory and everything servers, a server built with the v2 TypeScript SDK, the SDK's OAuth demo server, and these hosted ones: GitHub's official server (with a token), Linear (with `dogu login`, including token refresh), Context7 and DeepWiki.
 - **A real agent**: Claude Code, told only "Your tools are in ~/mcp. Read ~/mcp/README.md first.", used the folder for a three-step job with no errors, and did the same through `dogu serve` with no shell.
-- **A benchmark** (`bench/`, written with [Effect](https://effect.website)): Claude Code, Codex and pi, each with the servers loaded directly and through dogu, on tasks written before any run, with every answer checked. Over 400 runs. Results are in `bench/results/`.
+- **A benchmark** (`bench/`, written with [Effect](https://effect.website)): Claude Code, Codex and pi, each with the servers loaded directly and through dogu, on tasks written before any run, with every answer checked. Over 1,700 runs. Results are in `bench/results/`.
 
 ## Status
 
@@ -317,8 +317,8 @@ This is version 0.7.0 and it is new. Here is what has not been done yet:
 - Of the **hosted servers**, GitHub, Linear, Context7 and DeepWiki have been tried. Notion and others have not. Real services have quirks. If one breaks, please open an issue with the output of `DOGU_DEBUG=1 dogu sync`.
 - **Tools that ask the user a question mid-call** (elicitation, sampling) are not supported. The call fails with a clear message.
 - **Resources and prompts** are not exposed. Tools only.
-- **Inside Codex's sandbox, local `npx` servers need `~/.npm` writable** (see above). When a local server dies at start, dogu shows what it said.
-- **Each command starts its server, runs the tool and stops it.** A server started with `npx` takes a second or more per call. `dogu serve`, and a program run with `dogu run`, keep connections open.
+- **When a local server dies at start**, dogu shows what it said. (Inside Codex's sandbox, npx servers work without any setting since 0.6.0.)
+- **The folder's background dogu is Unix only.** On a system without it, each command starts its server, runs the tool and stops it.
 - **Types are stripped, not checked**, before a program runs. A wrong parameter shows up as an error from the tool.
 - **The old SSE transport** from 2024 is not supported.
 
