@@ -85,12 +85,27 @@ export interface RunMetrics {
   /** Tokens the model read over the whole run, cached or not. */
   readonly totalInputTokens: number;
   readonly outputTokens: number;
+  /** Where the input tokens went: fresh, written to the prompt cache, read from it. Cache writes cost most. */
+  readonly inputBreakdown: { readonly fresh: number; readonly cacheWrite: number; readonly cacheRead: number };
   readonly toolCalls: number;
   /** The agent went around its tools, e.g. curl to the GitHub API. */
   readonly bypassedTools: boolean;
+  /** What the agent did, one line per tool call, in order. */
+  readonly steps: ReadonlyArray<string>;
 }
 
-const BYPASS = /\b(curl|wget)\b|api\.github\.com/;
+/** Ways around the given tools: plain HTTP, or the GitHub CLI, which is often logged in. */
+const BYPASS = /\b(curl|wget)\b|api\.github\.com|(^|[\s;&|(])gh\s+(api|repo|search|issue|pr|release)\b/;
+
+/** One readable line for a tool call: the shell command, the file read, or the MCP tool and its input. */
+const stepOf = (tool: typeof ToolUse.Type): string => {
+  const text = typeof tool.input.command === "string"
+    ? tool.input.command
+    : typeof tool.input.file_path === "string"
+    ? `read ${tool.input.file_path}`
+    : `${tool.name} ${JSON.stringify(tool.input)}`;
+  return text.replace(/\s+/g, " ").slice(0, 240);
+};
 
 const parseLine = (line: string): unknown => {
   try {
@@ -131,8 +146,14 @@ export const metricsOf = (stream: string): Effect.Effect<RunMetrics, NoResult> =
     firstTurnTokens: usages.length > 0 ? read(usages[0]) : 0,
     totalInputTokens: usages.reduce((sum, u) => sum + read(u), 0),
     outputTokens: usages.reduce((sum, u) => sum + u.output_tokens, 0),
+    inputBreakdown: {
+      fresh: usages.reduce((sum, u) => sum + u.input_tokens, 0),
+      cacheWrite: usages.reduce((sum, u) => sum + (u.cache_creation_input_tokens ?? 0), 0),
+      cacheRead: usages.reduce((sum, u) => sum + (u.cache_read_input_tokens ?? 0), 0),
+    },
     toolCalls: tools.length,
     bypassedTools: tools.some((t) => typeof t.input.command === "string" && BYPASS.test(t.input.command)),
+    steps: tools.map(stepOf),
   });
 };
 

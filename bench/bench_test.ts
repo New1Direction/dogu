@@ -39,6 +39,8 @@ Deno.test("counts each model message once, even when it spans several events", (
   assertEquals(out.success.seconds, 12.5);
   assertEquals(out.success.answer, "the answer");
   assertEquals(out.success.bypassedTools, false);
+  assertEquals(out.success.steps, ["ls"]);
+  assertEquals(out.success.inputBreakdown, { fresh: 5, cacheWrite: 1050, cacheRead: 1000 });
 });
 
 Deno.test("flags an agent that goes around its tools with curl", () => {
@@ -52,6 +54,25 @@ Deno.test("flags an agent that goes around its tools with curl", () => {
   const out = run(metricsOf(stream));
 
   assert(Result.isSuccess(out) && out.success.bypassedTools);
+});
+
+Deno.test("flags the GitHub CLI as going around the tools", () => {
+  const stream = [
+    assistant("m1", usage(1, 1, 0, 1), [
+      { type: "tool_use", name: "Bash", input: { command: "gh api repos/x/y/releases/latest --jq .tag_name" } },
+    ]),
+    result("x"),
+  ].join("\n");
+  const fine = [
+    assistant("m1", usage(1, 1, 0, 1), [{ type: "tool_use", name: "Bash", input: { command: "github/search --q high" } }]),
+    result("x"),
+  ].join("\n");
+
+  const out = run(metricsOf(stream));
+  const ok = run(metricsOf(fine));
+
+  assert(Result.isSuccess(out) && out.success.bypassedTools);
+  assert(Result.isSuccess(ok) && !ok.success.bypassedTools);
 });
 
 Deno.test("a stream with no result, or an error result, is a NoResult", () => {
@@ -90,7 +111,7 @@ Deno.test("headline says more, not negative fewer, when a setup used more", () =
     task: "t",
     rep: 1,
     correct: true,
-    metrics: { answer: "", turns: 1, seconds: 1, costUsd: cost, firstTurnTokens: tokens, totalInputTokens: tokens, outputTokens: 1, toolCalls: 0, bypassedTools: false },
+    metrics: { answer: "", turns: 1, seconds: 1, costUsd: cost, firstTurnTokens: tokens, totalInputTokens: tokens, outputTokens: 1, toolCalls: 0, bypassedTools: false, steps: [], inputBreakdown: { fresh: 0, cacheWrite: 0, cacheRead: 0 } },
   });
 
   const text = headline([rec("direct", 100, 1), rec("folder", 50, 0.5), rec("codemode", 120, 1.2)], ["direct", "folder", "codemode"]);

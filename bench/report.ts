@@ -23,7 +23,8 @@ const pct = (part: number, whole: number) => (whole === 0 ? "0%" : `${Math.round
 
 export const SETUP_LABELS: Record<string, string> = {
   direct: "MCP servers loaded directly",
-  folder: "dogu folder (bash)",
+  folder: "dogu folder, list in instructions",
+  "folder-read": "dogu folder, \"read the README\"",
   codemode: "dogu serve (code mode)",
 };
 
