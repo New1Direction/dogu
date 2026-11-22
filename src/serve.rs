@@ -233,38 +233,8 @@ const RUN_CODE_ABOUT: &str = "Run a TypeScript program in a sandbox (no files, n
 `await tools.<app>.<tool>({...})` and print with console.log; calls started together with Promise.all run \
 at the same time. Returns what the program printed. The tools, grouped by the arguments they require, `app (args): tools`:\n";
 
-/// Field names shown per result in run_code's description; the full type is one `search` away.
-const RETURN_FIELDS: usize = 6;
-const RETURNS_ABOUT: &str = "\nWhat they return (the first fields):\n";
-
 fn run_code_description(opts: &Options) -> String {
-    let tools = quick_list(opts, DESCRIPTION_LIMIT - RUN_CODE_ABOUT.len());
-    let room = DESCRIPTION_LIMIT.saturating_sub(RUN_CODE_ABOUT.len() + tools.len() + RETURNS_ABOUT.len());
-    match returns_list(opts, room) {
-        returns if returns.is_empty() => format!("{RUN_CODE_ABOUT}{tools}"),
-        returns => format!("{RUN_CODE_ABOUT}{tools}{RETURNS_ABOUT}{returns}"),
-    }
-}
-
-/// What each tool returns, for the tools that say: tools with the same result share a line,
-/// `search_code, search_issues → {total_count, incomplete_results, items}`. Empty if it does not fit
-/// in `budget`, since a half list would look whole.
-fn returns_list(opts: &Options, budget: usize) -> String {
-    let mut groups: Vec<(String, Vec<String>)> = Vec::new();
-    for server in servers_of(opts) {
-        for (name, schema) in tools_of(opts, &server) {
-            let Some(shape) = crate::call::returns_brief(&schema, RETURN_FIELDS) else { continue };
-            match groups.iter_mut().find(|(s, _)| *s == shape) {
-                Some((_, names)) => names.push(name),
-                None => groups.push((shape, vec![name])),
-            }
-        }
-    }
-    let text = groups.iter().map(|(shape, names)| format!("{} → {shape}", names.join(", "))).collect::<Vec<_>>().join("\n");
-    match text.chars().count() <= budget {
-        true => text,
-        false => String::new(),
-    }
+    format!("{RUN_CODE_ABOUT}{}", quick_list(opts, DESCRIPTION_LIMIT - RUN_CODE_ABOUT.len()))
 }
 
 /// Each app's tools with their required arguments. Tools that need the same arguments share them, which
@@ -352,8 +322,7 @@ mod tests {
         std::fs::create_dir_all(&schemas).unwrap();
         std::fs::write(root.join(".dogu/state.json"), json!({ "servers": ["fx"] }).to_string()).unwrap();
         let search = json!({ "name": "search_repositories", "description": "Search GitHub repositories by a query.",
-            "inputSchema": { "type": "object", "properties": { "query": { "type": "string" } }, "required": ["query"] },
-            "outputSchema": { "type": "object", "properties": { "total_count": { "type": "integer" }, "items": { "type": "array" } } } });
+            "inputSchema": { "type": "object", "properties": { "query": { "type": "string" } }, "required": ["query"] } });
         let count = json!({ "name": "count", "description": "Add one to a counter.", "inputSchema": { "type": "object" } });
         std::fs::write(schemas.join("search_repositories.json"), search.to_string()).unwrap();
         std::fs::write(schemas.join("count.json"), count.to_string()).unwrap();
@@ -439,18 +408,6 @@ mod tests {
         assert!(tight.contains("fx: count, search_repositories"), "{tight}");
         assert!(!tight.contains("(query)"), "{tight}");
         assert!(run_code_description(&opts).len() <= DESCRIPTION_LIMIT);
-    }
-
-    #[test]
-    fn run_code_says_what_tools_return_so_a_program_reads_the_right_fields() {
-        let opts = folder("returns-list");
-
-        let text = run_code_description(&opts);
-        let tight = returns_list(&opts, 10);
-
-        assert!(text.contains("search_repositories → {total_count, items}"), "{text}");
-        assert!(!text.contains("count →"), "a tool that declares no result has no line: {text}");
-        assert!(tight.is_empty(), "{tight}");
     }
 
     #[test]
