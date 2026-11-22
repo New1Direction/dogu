@@ -8,9 +8,11 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"></a>
 </p>
 
-**dogu turns every MCP tool you have into a small program in a folder.**
+**Code mode and a local folder of commands, for every MCP tool you have.**
 
-An AI agent then uses your tools the way it uses any other command: `ls` to find one, `--help` to learn it, a pipe to chain two. It reads nothing about the tools it does not use.
+dogu turns each tool into a small program in a folder. An agent uses them the way it uses any other command: `ls` to find one, `--help` to learn it, a pipe to chain two. For a job with many calls, it writes one TypeScript program and dogu runs it in a sandbox.
+
+Either way, the agent reads nothing about the tools it does not use. With GitHub, Context7 and DeepWiki connected, that is a 1.5 KB README instead of 55 KB of tool definitions on every turn.
 
 ```
 curl -fsSL https://raw.githubusercontent.com/New1Direction/dogu/main/install.sh | sh
@@ -252,7 +254,7 @@ No. It is a normal folder of small scripts that `dogu sync` writes. A real mount
 The folder works with any agent that can run shell commands. `dogu serve` works with any app that can connect to an MCP server.
 
 **Is this "code mode"?**
-The second and third ways are, yes: the agent writes code that calls tools, and results flow between tools without passing through the model. The folder is the same idea with bash in place of TypeScript, and with nothing to install but dogu.
+Yes, in two forms. In the sandbox and in `dogu serve`, the agent writes TypeScript that calls tools. In the folder, it writes shell: each tool is a command, and pipes carry results from one tool to the next. Either way, results flow between tools without passing through the model, and it all runs on your machine with nothing to install but dogu.
 
 **Do I have to change my MCP servers?**
 No. dogu is a client. It reads the config you already have.
