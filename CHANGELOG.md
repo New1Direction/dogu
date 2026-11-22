@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.6.0] - 2026-11-22
+
+### Changed
+
+- Code mode in Claude Code usually needs one model turn fewer. `run_code`'s description lists every tool with the arguments it requires, grouped by those arguments, within the 4,096 characters Claude Code shows of a description. On the second set of held-out tasks: typical task 4.5 s → 3.6 s with start-up, input tokens -30%, cost -10%, every answer right.
+- `dogu serve` connects to every server as it starts, while the model reads the task, as Claude Code does with its own servers. It never opens a login for this; a server that fails is connected on first use, as before.
+- Calls a program starts together (`Promise.all`) run at the same time, and the servers a program needs are connected at the same time: a program making 4 calls went from 2.4 s to 1.0 s.
+
+### Added
+
+- A failed tool call's error ends with the tool's full type, so the next try can get the arguments right.
+- BENCHMARKS.md has pictures: the headline numbers, how each way works, and where the seconds of a task go. [docs/research/code-mode.md](docs/research/code-mode.md) records every experiment, including the ones that lost.
+- The benchmark has a second set of held-out tasks, records when each step of a run happens, runs two builds against each other in one session, and rotates which setup goes first.
+
+### Fixed
+
+- Servers started with npx work inside Codex's sandbox without the `~/.npm` setting: when npm's cache cannot be written, dogu gives npm one in the temp folder.
+
 ## [0.5.0] - 2026-11-22
 
 ### Changed
