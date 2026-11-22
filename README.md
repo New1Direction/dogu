@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/hero.svg" width="100%" alt="dogu (道具, 'tools' in Japanese): your MCP tools, as a folder of commands. A folder tree shows ~/mcp with github, gmail and files folders, each holding tools as runnable programs.">
+  <img src="assets/hero.svg" width="100%" alt="dogu fetches your tools. A small dog holds a wrench in its mouth. Your MCP tools, as a folder of commands: a folder tree shows ~/mcp with github, gmail and files folders, each holding tools as runnable programs.">
 </p>
 
 **dogu turns every MCP tool you have into a small program in a folder.**
@@ -102,7 +102,7 @@ github/search_repos --query rust | jq '.items[].name' | head
 ## Three ways to use it
 
 <p align="center">
-  <img src="assets/modes.svg" width="100%" alt="Diagram. Your MCP servers connect to the dogu core, which connects, logs in, speaks old and new MCP, and logs every call. Three ways out: dogu sync gives a folder of commands, dogu run gives a sandbox for programs, dogu serve gives one MCP server with two tools.">
+  <img src="assets/modes.svg" width="100%" alt="Diagram. Your MCP servers connect to dogu, which connects, logs in, speaks old and new MCP, and logs every call. Three ways out: dogu sync gives a folder of commands, dogu run gives a sandbox for programs, dogu serve gives one MCP server with two tools.">
 </p>
 
 ### 1. A folder of commands
@@ -232,7 +232,7 @@ The second and third ways are, yes: the agent writes code that calls tools, and 
 No. dogu is a client. It reads the config you already have.
 
 **Where does the name come from?**
-道具 (dōgu) is Japanese for "tools".
+"Dogu" is Japanese for "tools". It also has a dog in it, and the dog fetches them.
 
 ## Configuration
 
