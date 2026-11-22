@@ -31,6 +31,7 @@ export const SETUP_LABELS: Record<string, string> = {
   "pi-direct": "pi, MCP tools declared directly",
   "pi-codemode": "pi, its own code mode",
   "pi-folder": "pi, dogu folder in instructions",
+  "pi-dogu": "pi, dogu code mode (dogu serve)",
   "codex-folder": "Codex, dogu folder in AGENTS.md",
   "direct-search": "Loaded directly, Claude Code tool search on",
   folder: "dogu folder, list in instructions",
@@ -89,6 +90,7 @@ const BASELINES: Record<string, ReadonlyArray<string>> = {
   utcp: ["direct", "codemode"],
   "codex-folder": ["codex-direct"],
   "pi-folder": ["pi-direct", "pi-codemode"],
+  "pi-dogu": ["pi-direct", "pi-codemode"],
 };
 
 export const headline = (records: ReadonlyArray<RunRecord>, setups: ReadonlyArray<string>): string => {

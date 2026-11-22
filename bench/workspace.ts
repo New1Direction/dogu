@@ -10,10 +10,12 @@ export const ANSWER_RULE = " Use only the tools you have been given. Answer in u
 export const ALL_SETUPS = [
   "direct", "direct-search", "folder", "folder-read", "folder-b", "codemode", "codemode-b", "utcp",
   "codex-direct", "codex-folder",
-  "pi-direct", "pi-codemode", "pi-folder",
+  "pi-direct", "pi-codemode", "pi-folder", "pi-dogu",
 ] as const;
 /** pi runs the same model as Claude Code's `sonnet`, with thinking off as in Claude Code's default. */
 const PI_MODEL = Deno.env.get("PI_MODEL") ?? "anthropic/claude-sonnet-5-5";
+/** pi's reasoning effort. gpt-6.2 models do not allow "off"; their lowest is "low". */
+const PI_THINKING = Deno.env.get("PI_THINKING") ?? "off";
 /**
  * An A/B test of two dogu builds in one run, so both meet the same API speed: `codemode` serves with the
  * dogu on your PATH, `codemode-b` with the binary at BENCH_DOGU_B.
@@ -202,17 +204,24 @@ const piArgs = (setup: Setup, prompt: string, ws: Workspace) =>
         ? { memory: { command: "npx", args: ["-y", "@modelcontextprotocol/server-memory"], env: { MEMORY_FILE_PATH: ws.memoryFile }, exposure } }
         : {}),
     };
-    if (setup === "pi-folder") {
+    if (setup === "pi-dogu") {
+      // dogu's code mode in pi: one MCP server, `dogu serve`, whose three tools pi declares directly.
+      const dogu = { command: DOGU_B ?? "dogu", args: ["serve", "--root", ws.root], env: { GITHUB_TOKEN: ws.token }, exposure: "direct" };
+      yield* writePrivate(`${agentDir}/mcp.json`, JSON.stringify({ mcpServers: { tools: dogu } }));
+    } else if (setup === "pi-folder") {
       yield* Effect.promise(() => Deno.writeTextFile(`${agentDir}/APPEND_SYSTEM.md`, `Your tools are in ${ws.root}. This is its README:\n\n`));
       const text = yield* readme(ws);
       yield* Effect.promise(() => Deno.writeTextFile(`${agentDir}/APPEND_SYSTEM.md`, text, { append: true }));
     } else {
       yield* writePrivate(`${agentDir}/mcp.json`, JSON.stringify({ mcpServers: servers }));
     }
-    const tools = { "pi-direct": ["--tools", "mcp__*"], "pi-codemode": ["--tools", "codemode"], "pi-folder": ["--tools", "bash,read", "--no-mcp"] }[
-      setup as "pi-direct" | "pi-codemode" | "pi-folder"
-    ];
-    return ["--mode", "json", "--no-session", "--no-skills", "--no-context-files", "--offline", "--model", PI_MODEL, "--thinking", "off", ...tools, prompt];
+    const tools = {
+      "pi-direct": ["--tools", "mcp__*"],
+      "pi-codemode": ["--tools", "codemode"],
+      "pi-folder": ["--tools", "bash,read", "--no-mcp"],
+      "pi-dogu": ["--tools", "mcp__*"],
+    }[setup as "pi-direct" | "pi-codemode" | "pi-folder" | "pi-dogu"];
+    return ["--mode", "json", "--no-session", "--no-skills", "--no-context-files", "--offline", "--model", PI_MODEL, "--thinking", PI_THINKING, ...tools, prompt];
   });
 
 /** Our servers as Codex config overrides. */
