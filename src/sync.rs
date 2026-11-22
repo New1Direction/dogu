@@ -255,7 +255,75 @@ pub fn write_root_readme(root: &Path) -> Result<(), String> {
     if !forged.is_empty() {
         index.push(IndexEntry::Fresh { app: FORGED.into(), title: " (made by your agents with ./forge)".into(), tools: forged });
     }
-    write(&root.join("README.md"), &root_readme(&index))
+    write(&root.join("README.md"), &root_readme(&index))?;
+    write(&root.join("SKILL.md"), &skill_file(root, &index))
+}
+
+/// The Agent Skills spec's limit for a description.
+const SKILL_DESCRIPTION_MAX: usize = 1024;
+
+/// SKILL.md makes the folder an Agent Skill (agentskills.io): an agent that reads skills sees the
+/// description in every session and opens README.md when a task needs one of the tools.
+fn skill_file(root: &Path, index: &[IndexEntry]) -> String {
+    let app = |e: &IndexEntry, detail: bool| match e {
+        IndexEntry::Fresh { app, title, tools } if detail => format!("{app} ({} tools{title})", tools.len()),
+        IndexEntry::Fresh { app, .. } | IndexEntry::Stale { app } => app.clone(),
+    };
+    let describe = |detail: bool| {
+        let apps: Vec<String> = index.iter().map(|e| app(e, detail)).collect();
+        format!(
+            "The user's MCP tools as commands in a folder: {}. Use when a task needs one of these services, \
+             or a tool an agent saved with forge. Read README.md there first.",
+            apps.join(", ")
+        )
+        .replace(" (", " - ")
+        .replace(')', "")
+    };
+    let description = Some(describe(true)).filter(|d| d.len() <= SKILL_DESCRIPTION_MAX).unwrap_or_else(|| describe(false));
+    let description: String = description.chars().take(SKILL_DESCRIPTION_MAX - "description: ".len()).collect();
+    let shown = config::tilde(root);
+    format!(
+        "---\nname: mcp-tools\ndescription: {}\n---\n\n# MCP tools\n\n\
+         Every MCP tool the user has is a command in `{shown}`. Read `{shown}/README.md` first: it lists every\n\
+         tool with its flags and the fields it returns, and says how to pipe tools together, write one program\n\
+         that calls several, and save a program as a new tool.\n\n\
+         Run tools from that folder, for example: `cd {shown} && <app>/<tool> --flag value --json | jq '{{id, name}}'`\n",
+        // A JSON string is a valid YAML double-quoted value, so `:` and quotes inside are safe.
+        serde_json::Value::String(description)
+    )
+}
+
+/// Link the folder into the skill folders agents read, so it is found with no instructions at all.
+/// Never replaces something already there.
+pub fn link_skill(root: &Path) -> Vec<String> {
+    let home = config::home();
+    [".claude/skills", ".agents/skills"]
+        .iter()
+        .map(|dir| {
+            let link = home.join(dir).join("mcp-tools");
+            let shown = config::tilde(&link);
+            if link.exists() || link.symlink_metadata().is_ok() {
+                return match fs::canonicalize(&link).ok() == fs::canonicalize(root).ok() {
+                    true => format!("  {shown} already links here"),
+                    false => format!("  {shown} exists and is something else, so it was left alone"),
+                };
+            }
+            match fs::create_dir_all(home.join(dir)).and_then(|_| symlink_dir(root, &link)) {
+                Ok(()) => format!("  linked {shown}"),
+                Err(e) => format!("  could not link {shown}: {e}"),
+            }
+        })
+        .collect()
+}
+
+#[cfg(unix)]
+fn symlink_dir(target: &Path, link: &Path) -> std::io::Result<()> {
+    std::os::unix::fs::symlink(target, link)
+}
+
+#[cfg(not(unix))]
+fn symlink_dir(_target: &Path, _link: &Path) -> std::io::Result<()> {
+    Err(std::io::Error::other("links are not supported here"))
 }
 
 /// The app that holds the tools agents make with `forge`.

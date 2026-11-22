@@ -488,3 +488,51 @@ fn forge_rejects_bad_names_missing_descriptions_and_silent_replacing() {
     assert!(stderr(&again).contains("--force"), "{}", stderr(&again));
     assert!(forced.status.success(), "{}", stderr(&forced));
 }
+
+// --- Agent Skills: the folder is a skill ---
+
+#[test]
+fn sync_writes_a_skill_file_that_says_what_the_tools_are_for() {
+    let home = scratch("skill");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+
+    let skill = std::fs::read_to_string(out.join("SKILL.md")).unwrap();
+    let frontmatter = skill.split("---").nth(1).expect("frontmatter");
+    assert!(frontmatter.contains("name: mcp-tools"), "{skill}");
+    let description = frontmatter.lines().find(|l| l.starts_with("description: ")).expect("description");
+    assert!(description.contains("fx"), "names the apps: {description}");
+    assert!(description.len() <= 1024, "the spec's limit: {}", description.len());
+    assert!(skill.contains("README.md"), "{skill}");
+    // The front matter must be valid YAML: the description has ": " in it, so it has to be quoted.
+    let yaml = Command::new("ruby")
+        .args(["-ryaml", "-e", "y = YAML.safe_load(STDIN.read.split('---')[1]); puts y['name']; puts y['description']"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .spawn()
+        .and_then(|mut c| {
+            use std::io::Write;
+            c.stdin.take().unwrap().write_all(skill.as_bytes())?;
+            c.wait_with_output()
+        });
+    if let Ok(out) = yaml {
+        assert!(out.status.success(), "front matter is not valid YAML: {skill}");
+        assert!(String::from_utf8_lossy(&out.stdout).starts_with("mcp-tools\nThe user's MCP tools"), "{}", String::from_utf8_lossy(&out.stdout));
+    }
+}
+
+#[test]
+fn link_skill_links_the_folder_into_the_agent_skill_folders() {
+    let home = scratch("link-skill");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+
+    let o = dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap(), "--link-skill"]);
+
+    for dir in [".claude/skills/mcp-tools", ".agents/skills/mcp-tools"] {
+        let link = home.join(dir);
+        assert!(link.join("SKILL.md").is_file(), "{dir} missing: {}{}", stdout(&o), stderr(&o));
+    }
+}

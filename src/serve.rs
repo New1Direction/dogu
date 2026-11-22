@@ -20,6 +20,10 @@ one TypeScript program that calls it as `await tools.<app>.<tool>({...})`. Do se
 program, and print only what you need to see. When a program is worth keeping, save it with `forge` and \
 call it next time as `tools.forged.<name>({...})`.";
 
+/// What run_code may hand back to the model. Past this, the middle is cut out with a note, so one
+/// careless print cannot flood the conversation.
+const MAX_RUN_OUTPUT: usize = 30_000;
+
 /// How many tools one search returns, each with its full type.
 const MAX_HITS: usize = 6;
 /// The list of every app and tool in `search`'s description stays under this size; past it, apps only.
@@ -144,11 +148,33 @@ fn run_code(opts: &Options, pool: &mut Pool, code: &str) -> Result<String, Strin
         text.push('\n');
     })?;
     text.push_str(&outcome.stderr);
+    let text = cap_output(text);
     if outcome.code == 0 {
         Ok(if text.is_empty() { "(the program printed nothing)".into() } else { text })
     } else {
         Err(text)
     }
+}
+
+/// Keep the start and the end of a long output, and say how much was cut from the middle.
+fn cap_output(text: String) -> String {
+    if text.len() <= MAX_RUN_OUTPUT {
+        return text;
+    }
+    let boundary = |mut at: usize| {
+        while !text.is_char_boundary(at) {
+            at -= 1;
+        }
+        at
+    };
+    let head = boundary(MAX_RUN_OUTPUT * 2 / 3);
+    let tail = boundary(text.len() - MAX_RUN_OUTPUT / 3);
+    format!(
+        "{}\n…{} characters cut from the middle. Print less, or filter in the program.…\n{}",
+        &text[..head],
+        tail - head,
+        &text[tail..]
+    )
 }
 
 /// An app's tools as (name in code, schema), sorted by name.
@@ -259,6 +285,22 @@ mod tests {
         std::fs::write(schemas.join("search_repositories.json"), search.to_string()).unwrap();
         std::fs::write(schemas.join("count.json"), count.to_string()).unwrap();
         Options::new(root)
+    }
+
+    #[test]
+    fn a_huge_program_output_is_cut_in_the_middle_with_a_note() {
+        let text = format!("start{}end", "x".repeat(MAX_RUN_OUTPUT * 2));
+
+        let cut = cap_output(text);
+
+        assert!(cut.len() < MAX_RUN_OUTPUT + 200, "{}", cut.len());
+        assert!(cut.starts_with("start") && cut.ends_with("end"));
+        assert!(cut.contains("characters cut from the middle"), "{}", &cut[..200.min(cut.len())]);
+    }
+
+    #[test]
+    fn a_normal_program_output_is_left_alone() {
+        assert_eq!(cap_output("hello\n".to_string()), "hello\n");
     }
 
     #[test]
