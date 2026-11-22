@@ -12,7 +12,7 @@
 
 dogu turns each tool into a small program in a folder. An agent uses them the way it uses any other command: `ls` to find one, `--help` to learn it, a pipe to chain two. For a job with many calls, it writes one TypeScript program and dogu runs it in a sandbox.
 
-Either way, the agent reads nothing about the tools it does not use. With GitHub, Context7 and DeepWiki connected, that is a 1.5 KB README instead of 55 KB of tool definitions on every turn.
+Measured with GitHub, Context7 and DeepWiki connected: either way costs about half as much per task as loading the servers into the agent directly, and gets the same answers. [The benchmark](bench/) is in the repo.
 
 ```
 curl -fsSL https://raw.githubusercontent.com/New1Direction/dogu/main/install.sh | sh
@@ -29,15 +29,17 @@ dogu sync
 
 Connect an agent to MCP servers and every tool's full definition is loaded into its context before you say a word. With a few servers that is thousands of tokens spent on tools the agent will mostly never call. It costs money on every message, and the more tools there are, the worse the agent gets at picking the right one.
 
-dogu keeps the tools on disk instead. The agent reads one short README, then looks up a tool only when it needs it.
+dogu keeps the tools on disk instead. The agent gets one line per tool, with its flags, and looks up the details only for the tool it uses.
 
-<p align="center">
-  <img src="assets/context.svg" width="100%" alt="Bar chart of what an agent must read up front, for 36 tools from 3 MCP servers. The usual way: 17,381 bytes of tool definitions. With dogu: a 1,577 byte README, 11 times less. Then about 430 bytes for each tool the agent decides to use.">
-</p>
+Measured, not estimated. Claude Code (Sonnet) did 5 tasks against GitHub's official server, Context7 and DeepWiki, 3 times each, with the tools given three ways. Every answer was checked, and all 45 were right.
 
-That is measured, not estimated: 36 tools from the official filesystem, memory and everything servers. The more tools you connect, the bigger the gap, because the README grows by one line per server and the definitions grow by every tool.
+| | Read before starting | Read in total | Cost per task | Time |
+|---|---|---|---|---|
+| The servers loaded directly (51 tool definitions) | 27.2k tokens | 55.8k | $0.025 | 3.8s |
+| dogu folder, tool list in the agent's instructions | 11.7k | 23.9k | **$0.013** | 4.4s |
+| dogu code mode (`dogu serve`) | **4.3k** | **14.5k** | **$0.013** | 4.9s |
 
-With servers people use every day, the gap is wider. GitHub's official server, Context7 and DeepWiki have 51 tools between them, and their definitions come to 55,687 bytes. The dogu README for the same three is 1,546 bytes: 36 times less. (Definitions measured as each tool's name, description and input schema in JSON, which is what a client sends to the model.)
+The more servers you connect, the bigger the gap: the direct way reads every tool's full definition on every turn, used or not. On these short tasks loading the servers directly is a little faster, because it needs no step to find a tool. [How it was measured, and how to run it yourself](bench/).
 
 ## What you get
 
@@ -82,7 +84,11 @@ dogu sync
 
 It takes the first one that lists any servers.
 
-Then tell your agent where the tools are. One line in `CLAUDE.md`, `AGENTS.md` or a system prompt is enough:
+Then tell your agent where the tools are. The fastest and cheapest way is to put the folder's README, which lists every tool, in its standing instructions. In Claude Code's `CLAUDE.md`:
+
+> @~/mcp/README.md
+
+For any other agent, one line in `AGENTS.md` or a system prompt works too, at the cost of one extra step per task:
 
 > Your tools are in ~/mcp. Read ~/mcp/README.md first.
 
@@ -124,6 +130,7 @@ github/search_repos --query rust | jq '.items[].name' | head
 - Results print to stdout. Errors print to stderr with exit code 1.
 - A missing parameter, a typo in a flag or a wrong type is caught before the server is called, with a message that says what to fix.
 - Images and audio are saved to a temp file, and the path is printed.
+- `--json` prints the result as one line of JSON, so `jq` always works. The README shows the fields each tool returns, like `→ {tag_name, html_url, …}`.
 - `--raw` prints the server's full JSON answer.
 
 ## Three ways to use it
@@ -232,6 +239,7 @@ Transports: stdio and Streamable HTTP.
 - **The sandbox escape test**, `tests/escape.ts`.
 - **Real servers**: the official filesystem, memory and everything servers, a server built with the v2 TypeScript SDK, the SDK's OAuth demo server, and these hosted ones: GitHub's official server (with a token), Linear (with `dogu login`, including token refresh), Context7 and DeepWiki.
 - **A real agent**: Claude Code, told only "Your tools are in ~/mcp. Read ~/mcp/README.md first.", used the folder for a three-step job with no errors, and did the same through `dogu serve` with no shell.
+- **A benchmark** (`bench/`): the same tasks with the servers loaded directly, through the folder, and through code mode, with every answer checked. Results are in `bench/results/`.
 
 ## Status
 
@@ -292,7 +300,7 @@ The usual `mcp.json`:
 
 ## How it is built
 
-About 3,300 lines of Rust and JavaScript, with five dependencies and no async runtime.
+About 3,400 lines of Rust and JavaScript, with five dependencies and no async runtime.
 
 | File | Job |
 |---|---|

@@ -1,0 +1,1263 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.2.1",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "truth": {
+    "latestTag": "v2.4.0",
+    "top3": [
+      "servers",
+      "python-sdk",
+      "typescript-sdk"
+    ],
+    "sections": [
+      "Introduction to Model Context Protocol Servers",
+      "Reference Servers Overview",
+      "Development and Contribution",
+      "Integration and Deployment",
+      "MCP Ecosystem",
+      "Glossary"
+    ],
+    "context7Ids": [
+      "/effect-ts/effect",
+      "/websites/effect_website_v4",
+      "/effect-ts/website",
+      "/websites/effect-ts_github_io_effect",
+      "/effect-ts/effect-smol"
+    ],
+    "mostIssues": [
+      "typescript-sdk",
+      "python-sdk"
+    ]
+  },
+  "records": [
+    {
+      "setup": "folder",
+      "task": "lookup",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release tag of modelcontextprotocol/typescript-sdk is **v2.4.0**. The release is named \"2.4.0\" and was published on 2026-10-23.\n\nRelease page: https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0",
+        "turns": 4,
+        "seconds": 7.99,
+        "costUsd": 0.018893600000000003,
+        "firstTurnTokens": 6474,
+        "totalInputTokens": 28931,
+        "outputTokens": 157,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2527,
+          "cacheRead": 26396
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ls github | grep -i -E \"release|tag\"; github/get-latest-release --help",
+          "cd <work>/mcp && github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk | head -c 1500",
+          "cd <work>/mcp && github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk | jq '{tag_name,name,publishe"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "lookup",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release tag of modelcontextprotocol/typescript-sdk is **v2.4.0**. It was published 2026-10-23.\nRelease page: https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0\n\nI got this from the GitHub tool `get_latest_release`.",
+        "turns": 5,
+        "seconds": 8.55,
+        "costUsd": 0.0237116,
+        "firstTurnTokens": 5914,
+        "totalInputTokens": 35562,
+        "outputTokens": 182,
+        "inputBreakdown": {
+          "fresh": 10,
+          "cacheWrite": 3276,
+          "cacheRead": 32276
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; grep -i release github/README.md",
+          "cd <work>/mcp; github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk | head -c 600",
+          "cd <work>/mcp; github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk | jq '{tag_name,name,published_"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "lookup",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release tag of `modelcontextprotocol/typescript-sdk` is **v2.4.0**. It was published on 2026-10-23.\n\nI got this from GitHub's \"latest release\" endpoint. That endpoint skips pre-releases and drafts, so a newer pre-release tag could exist.",
+        "turns": 4,
+        "seconds": 7.91,
+        "costUsd": 0.0124718,
+        "firstTurnTokens": 3837,
+        "totalInputTokens": 16961,
+        "outputTokens": 193,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 1695,
+          "cacheRead": 15258
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"github release\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.get_latest_release({owner:\\\"modelcontextprotocol\\\",repo:\\\"typescript-sdk\\\"});\\nconsole.log(JSON.stringify(r).slice(0,600));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.get_latest_release({owner:\\\"modelcontextprotocol\\\",repo:\\\"typescript-sdk\\\"});\\nconsole.log(r.tag_name, r.name, r.published_at, Object.keys(r));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "search",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org (as of 2026-11-22) are:\n1. **modelcontextprotocol/servers** has about 92,162 stars.\n2. **modelcontextprotocol/python-sdk** has about 24,933 stars.\n3. **modelcontextprotocol/typescript-sdk** has about 13,803 stars.",
+        "turns": 3,
+        "seconds": 5.114,
+        "costUsd": 0.0165589,
+        "firstTurnTokens": 6468,
+        "totalInputTokens": 21794,
+        "outputTokens": 156,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2579,
+          "cacheRead": 19209
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --help",
+          "cd <work>/mcp && github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "search",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org (star counts from the GitHub search tool today) are:\n\n1. `modelcontextprotocol/servers` has 92,162 stars.\n2. `modelcontextprotocol/python-sdk` has 24,933 stars.\n3. `modelcontextprotocol/typescript-sdk` has 13,803 stars.",
+        "turns": 4,
+        "seconds": 6.979,
+        "costUsd": 0.025899000000000005,
+        "firstTurnTokens": 5911,
+        "totalInputTokens": 30108,
+        "outputTokens": 173,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 4370,
+          "cacheRead": 25730
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; grep -i search github/README.md; github/search_repositories --help",
+          "cd <work>/mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3 | head -"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "search",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 3 repos in the modelcontextprotocol org by stars (run 6e2f730a):\n1. `modelcontextprotocol/servers`: about 92,162 stars\n2. `modelcontextprotocol/python-sdk`: about 24,933 stars\n3. `modelcontextprotocol/typescript-sdk`: about 13,803 stars",
+        "turns": 5,
+        "seconds": 7.098,
+        "costUsd": 0.0187864,
+        "firstTurnTokens": 3834,
+        "totalInputTokens": 22923,
+        "outputTokens": 233,
+        "inputBreakdown": {
+          "fresh": 10,
+          "cacheWrite": 3209,
+          "cacheRead": 19704
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"github repositories org\"}",
+          "mcp__tools__search {}",
+          "mcp__tools__search {\"app\":\"github\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "chain",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in the modelcontextprotocol org is `modelcontextprotocol/servers`, with about 92k stars. Its DeepWiki has six top-level sections:\n1. Introduction to Model Context Protocol Servers\n2. Reference Servers Overview\n3. Development and Contribution\n4. Integration and Deployment\n5. MCP Ecosystem\n6. Glossary",
+        "turns": 4,
+        "seconds": 8.923,
+        "costUsd": 0.027995100000000002,
+        "firstTurnTokens": 6483,
+        "totalInputTokens": 35831,
+        "outputTokens": 180,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 5012,
+          "cacheRead": 30811
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && cat deepwiki/README.md && grep -i -E \"repo|search\" github/README.md | head -20",
+          "cd ../mcp && github/search_repositories --query \"org:modelcontextprotocol\" --sort stars --order desc --perPage 3 | head -c 1500",
+          "cd ../mcp && deepwiki/read_wiki_structure --repoName modelcontextprotocol/servers | head -c 3000"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "chain",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in the modelcontextprotocol org is `modelcontextprotocol/servers`, with about 92k stars. Its DeepWiki has six top-level sections:\n1. Introduction to Model Context Protocol Servers\n2. Reference Servers Overview\n3. Development and Contribution\n4. Integration and Deployment\n5. MCP Ecosystem\n6. Glossary",
+        "turns": 5,
+        "seconds": 9.967,
+        "costUsd": 0.0380864,
+        "firstTurnTokens": 5924,
+        "totalInputTokens": 44534,
+        "outputTokens": 196,
+        "inputBreakdown": {
+          "fresh": 10,
+          "cacheWrite": 6660,
+          "cacheRead": 37864
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; cat deepwiki/README.md; grep -i search github/README.md; github/search_repositories --help",
+          "cd <work>/mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3",
+          "cd <work>/mcp; deepwiki/read_wiki_structure --repoName modelcontextprotocol/servers 2>&1 | head -60"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "chain",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in the modelcontextprotocol org is `modelcontextprotocol/servers`, with about 92k stars. Its DeepWiki has six top-level sections:\n1. Introduction to Model Context Protocol Servers\n2. Reference Servers Overview\n3. Development and Contribution\n4. Integration and Deployment\n5. MCP Ecosystem\n6. Glossary",
+        "turns": 8,
+        "seconds": 9.077,
+        "costUsd": 0.0261919,
+        "firstTurnTokens": 3851,
+        "totalInputTokens": 32593,
+        "outputTokens": 267,
+        "inputBreakdown": {
+          "fresh": 12,
+          "cacheWrite": 4282,
+          "cacheRead": 28299
+        },
+        "toolCalls": 7,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"deepwiki\"}",
+          "mcp__tools__search {\"query\":\"github repositories organization\"}",
+          "mcp__tools__search {}",
+          "mcp__tools__search {\"app\":\"deepwiki\"}",
+          "mcp__tools__search {\"app\":\"github\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:3} as any);\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"modelcontextprotocol/servers\\\"});\\nconsole.log(r.result);\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "docs",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The Context7 library ID for Effect is **`/effect-ts/effect`**. It is the main repo, with High source reputation and 11,407 snippets.\n\nContext7 also lists other Effect entries:\n- `/effect-ts/website`: docs site, with the highest benchmark score (72.71).\n- `/websites/effect_website_v4`: v4 docs.\n- `/websites/effect-ts_github_io_effect`: API docs.",
+        "turns": 3,
+        "seconds": 5.841,
+        "costUsd": 0.0187687,
+        "firstTurnTokens": 6467,
+        "totalInputTokens": 22794,
+        "outputTokens": 177,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3061,
+          "cacheRead": 19727
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ls context7 && context7/resolve-library-id --help",
+          "<work>/mcp/context7/resolve-library-id --libraryName \"Effect\" --query \"Effect TypeScript library\""
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "docs",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The Context7 library ID for Effect is **`/effect-ts/effect`**. It's the official repo, with High source reputation, 11,407 snippets, and versions including 3.x and 4.x.\n\nContext7 also lists these other Effect entries:\n- `/effect-ts/website` has the highest benchmark score, 72.71.\n- `/websites/effect_website_v4` has the most snippets, 29,577.",
+        "turns": 4,
+        "seconds": 8.613,
+        "costUsd": 0.0261427,
+        "firstTurnTokens": 5910,
+        "totalInputTokens": 30261,
+        "outputTokens": 184,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 4426,
+          "cacheRead": 25827
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; cat context7/README.md; context7/resolve-library-id --help",
+          "<work>/mcp/context7/resolve-library-id --query \"Effect TypeScript library\" --libraryName \"Effect\" | head -60"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "docs",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The main Context7 library ID for Effect is **`/effect-ts/effect`**. It's the official repo, with High source reputation and about 11.4k snippets.\n\nContext7 also lists these other Effect entries:\n- `/effect-ts/website`\n- `/websites/effect_website_v4`\n- `/websites/effect-ts_github_io_effect`\n- `/llmstxt/effect_website_llms_txt`",
+        "turns": 3,
+        "seconds": 5.992,
+        "costUsd": 0.0117071,
+        "firstTurnTokens": 3833,
+        "totalInputTokens": 12673,
+        "outputTokens": 186,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1856,
+          "cacheRead": 10811
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"context7\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.context7.resolve_library_id({libraryName:\\\"effect\\\", query:\\\"Effect TypeScript library\\\"});\\nconsole.log(typeof r===\\\"string\\\"?r:JSON.stringify(r).slice(0,3000));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "compare",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nOf the top 3 repos by stars, typescript-sdk has the most open issues.\n- typescript-sdk: 705 open issues (13,803 stars)\n- python-sdk: 431 open issues (24,933 stars)\n- servers: 17 open issues (92,162 stars)\n\nGitHub's `open_issues_count` also includes open pull requests.",
+        "turns": 3,
+        "seconds": 7.931,
+        "costUsd": 0.0189565,
+        "firstTurnTokens": 6486,
+        "totalInputTokens": 22406,
+        "outputTokens": 157,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3155,
+          "cacheRead": 19245
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp; github/search_repositories --help",
+          "cd <work>/mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3 --minima"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "compare",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nOf the three most-starred repos in the org, typescript-sdk has the most open issues. Its `open_issues_count` is 705, and GitHub counts open PRs in that figure.\n- servers: 92,162 stars, 17 open issues\n- python-sdk: 24,933 stars, 431 open issues\n- typescript-sdk: 13,803 stars, 705 open issues",
+        "turns": 4,
+        "seconds": 6.568,
+        "costUsd": 0.0282564,
+        "firstTurnTokens": 5929,
+        "totalInputTokens": 30730,
+        "outputTokens": 181,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 4938,
+          "cacheRead": 25784
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; grep -i search github/README.md; github/search_repositories --help",
+          "cd <work>/mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3 --minima"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "compare",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nOf the top 3 repos by stars, typescript-sdk has the most open issues. The count includes open PRs, because GitHub's `open_issues_count` does.\n- servers (92,162 stars): 17\n- python-sdk (24,933 stars): 431\n- typescript-sdk (13,803 stars): 705",
+        "turns": 4,
+        "seconds": 7.249,
+        "costUsd": 0.0185106,
+        "firstTurnTokens": 3851,
+        "totalInputTokens": 19470,
+        "outputTokens": 188,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3356,
+          "cacheRead": 16106
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"github repositories\"}",
+          "mcp__tools__search {\"app\":\"github\"}",
+          "mcp__tools__run_code {\"code\":\"const r:any=await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "lookup",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release tag of `modelcontextprotocol/typescript-sdk` is **v2.4.0**. It was published on 2026-10-23.\n\nI got this from the GitHub `get_latest_release` tool.",
+        "turns": 4,
+        "seconds": 8.013,
+        "costUsd": 0.0169764,
+        "firstTurnTokens": 6472,
+        "totalInputTokens": 28117,
+        "outputTokens": 147,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2105,
+          "cacheRead": 26004
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ls github | grep -i -E \"release|tag\"; github/get-latest-release --help",
+          "cd <work>/mcp && github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk | head -c 600",
+          "cd <work>/mcp && github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk | jq '{tag_name,name,publishe"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "lookup",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release tag of `modelcontextprotocol/typescript-sdk` is **v2.4.0**.\n\n- It was published on 2026-10-23.\n- It is a full release, not a draft or prerelease.\n- Release page: https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0",
+        "turns": 4,
+        "seconds": 6.358,
+        "costUsd": 0.0238065,
+        "firstTurnTokens": 5914,
+        "totalInputTokens": 28704,
+        "outputTokens": 160,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3931,
+          "cacheRead": 24765
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; grep -i release github/README.md; github/get_latest_release --help",
+          "cd <work>/mcp; github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk | head -20"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "lookup",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release tag of modelcontextprotocol/typescript-sdk is **v2.4.0**. It was published 2026-10-23.\n\nRelease page: https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0",
+        "turns": 5,
+        "seconds": 6.743,
+        "costUsd": 0.0172753,
+        "firstTurnTokens": 3838,
+        "totalInputTokens": 23673,
+        "outputTokens": 218,
+        "inputBreakdown": {
+          "fresh": 10,
+          "cacheWrite": 2610,
+          "cacheRead": 21053
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"github latest release\"}",
+          "mcp__tools__search {\"app\":\"github\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.get_latest_release({owner:\\\"modelcontextprotocol\\\",repo:\\\"typescript-sdk\\\"});\\nconsole.log(JSON.stringify(r).slice(0,600));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.get_latest_release({owner:\\\"modelcontextprotocol\\\",repo:\\\"typescript-sdk\\\"});\\nconsole.log(r.tag_name, r.name, r.published_at, r.html_url);\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "search",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org (as of 2026-11-22) are:\n1. `modelcontextprotocol/servers` has about 92,162 stars.\n2. `modelcontextprotocol/python-sdk` has about 24,933 stars.\n3. `modelcontextprotocol/typescript-sdk` has about 13,803 stars.",
+        "turns": 3,
+        "seconds": 5.986,
+        "costUsd": 0.0197903,
+        "firstTurnTokens": 6468,
+        "totalInputTokens": 23270,
+        "outputTokens": 156,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3321,
+          "cacheRead": 19943
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp; grep -i search github/README.md; github/search_repositories --help",
+          "cd <work>/mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3 | head -"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "search",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org are:\n\n1. `modelcontextprotocol/servers` has about 92,162 stars.\n2. `modelcontextprotocol/python-sdk` has about 24,933 stars.\n3. `modelcontextprotocol/typescript-sdk` has about 13,803 stars.\n\nI got these from a GitHub repository search of the org, sorted by stars.",
+        "turns": 4,
+        "seconds": 6.934,
+        "costUsd": 0.0295165,
+        "firstTurnTokens": 5909,
+        "totalInputTokens": 31884,
+        "outputTokens": 185,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 5211,
+          "cacheRead": 26665
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; grep -i -E \"search|repo\" github/README.md; github/search_repositories --help",
+          "<work>/mcp/github/search_repositories --query \"org:modelcontextprotocol\" --sort stars --order desc --perPage 3 | head -c 30"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "search",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 3 repos in the modelcontextprotocol org by stars (run 6b2e2399):\n\n1. **servers**: 92,162 stars\n2. **python-sdk**: 24,933 stars\n3. **typescript-sdk**: 13,803 stars",
+        "turns": 4,
+        "seconds": 5.941,
+        "costUsd": 0.018143100000000002,
+        "firstTurnTokens": 3834,
+        "totalInputTokens": 19392,
+        "outputTokens": 159,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3333,
+          "cacheRead": 16051
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"github repositories\"}",
+          "mcp__tools__search {\"app\":\"github\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "chain",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in the modelcontextprotocol org is `modelcontextprotocol/servers`, with about 92k stars. Its DeepWiki has six top-level sections:\n1. Introduction to Model Context Protocol Servers\n2. Reference Servers Overview\n3. Development and Contribution\n4. Integration and Deployment\n5. MCP Ecosystem\n6. Glossary",
+        "turns": 5,
+        "seconds": 6.966,
+        "costUsd": 0.030412500000000002,
+        "firstTurnTokens": 6485,
+        "totalInputTokens": 44736,
+        "outputTokens": 196,
+        "inputBreakdown": {
+          "fresh": 10,
+          "cacheWrite": 5241,
+          "cacheRead": 39485
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp; github/search-repositories --help; deepwiki/README.md 2>/dev/null; cat deepwiki/README.md",
+          "cd ../mcp; ls github | head -60; github/search_repositories --help",
+          "cd ../mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3",
+          "cd ../mcp; deepwiki/read_wiki_structure --repoName modelcontextprotocol/servers"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "chain",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in the modelcontextprotocol org is `modelcontextprotocol/servers`, with about 92k stars. Its DeepWiki has six top-level sections:\n1. Introduction to Model Context Protocol Servers\n2. Reference Servers Overview\n3. Development and Contribution\n4. Integration and Deployment\n5. MCP Ecosystem\n6. Glossary",
+        "turns": 5,
+        "seconds": 9.436,
+        "costUsd": 0.0383472,
+        "firstTurnTokens": 5926,
+        "totalInputTokens": 44562,
+        "outputTokens": 196,
+        "inputBreakdown": {
+          "fresh": 10,
+          "cacheWrite": 6680,
+          "cacheRead": 37872
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; cat deepwiki/README.md; grep -i search github/README.md; github/search_repositories --help",
+          "cd <work>/mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3",
+          "cd <work>/mcp; deepwiki/read_wiki_structure --repoName modelcontextprotocol/servers 2>&1 | head -60 || deepwiki/read_wiki_s"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "chain",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in the modelcontextprotocol org is `modelcontextprotocol/servers`, with about 92k stars. Its DeepWiki has six top-level sections:\n1. Introduction to Model Context Protocol Servers\n2. Reference Servers Overview\n3. Development and Contribution\n4. Integration and Deployment\n5. MCP Ecosystem\n6. Glossary",
+        "turns": 8,
+        "seconds": 9.058,
+        "costUsd": 0.026139100000000002,
+        "firstTurnTokens": 3848,
+        "totalInputTokens": 32555,
+        "outputTokens": 268,
+        "inputBreakdown": {
+          "fresh": 12,
+          "cacheWrite": 4272,
+          "cacheRead": 28271
+        },
+        "toolCalls": 7,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"deepwiki\"}",
+          "mcp__tools__search {\"query\":\"github repositories organization\"}",
+          "mcp__tools__search {}",
+          "mcp__tools__search {\"app\":\"deepwiki\"}",
+          "mcp__tools__search {\"app\":\"github\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:3} as any);\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"modelcontextprotocol/servers\\\"});\\nconsole.log(r.result);\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "docs",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The Context7 library ID for Effect is **`/effect-ts/effect`**. It's the main repo, with High source reputation and 11,407 code snippets.\n\nContext7 lists several other Effect entries:\n- `/effect-ts/website` has the highest benchmark score, 72.71.\n- `/websites/effect_website_v4` has the most snippets, 29,577.\n- `/websites/effect-ts_github_io_effect`\n- `/effect-ts/effect-smol`\n\n`/effect-ts/effect` also has versioned IDs, such as `/effect-ts/effect/effect_3.22.4`.",
+        "turns": 3,
+        "seconds": 6.09,
+        "costUsd": 0.0211121,
+        "firstTurnTokens": 6467,
+        "totalInputTokens": 23521,
+        "outputTokens": 234,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3474,
+          "cacheRead": 20041
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && cat context7/README.md && context7/resolve-library-id --help",
+          "cd <work>/mcp && context7/resolve-library-id --libraryName \"Effect\" --query \"Effect TypeScript library\" | head -40"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "docs",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The Context7 library ID for Effect is **`/effect-ts/effect`**. It's the main repo, with High source reputation and 11,407 code snippets. It also has versioned IDs, such as `/effect-ts/effect/effect_3.22.4`.\n\nContext7 lists other Effect entries too:\n- `/effect-ts/website`: the docs site, with the highest benchmark score (72.71).\n- `/websites/effect_website_v4`\n- `/websites/effect-ts_github_io_effect`\n- `/effect-ts/effect-smol`: a minimal subset of Effect.",
+        "turns": 4,
+        "seconds": 7.385,
+        "costUsd": 0.0271507,
+        "firstTurnTokens": 5910,
+        "totalInputTokens": 30358,
+        "outputTokens": 244,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 4523,
+          "cacheRead": 25827
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; cat context7/README.md; context7/resolve-library-id --help",
+          "cd <work>/mcp; context7/resolve-library-id --query \"Effect TypeScript library\" --libraryName \"Effect\" | head -60"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "docs",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The Context7 library ID for Effect is **`/effect-ts/effect`**. It's the main repo, with High source reputation and 11,407 snippets.\n\nContext7 also lists other Effect docs entries:\n- `/effect-ts/website` has the highest benchmark score, 72.71.\n- `/websites/effect_website_v4` has the most snippets, 29,577.",
+        "turns": 4,
+        "seconds": 7.098,
+        "costUsd": 0.019966200000000003,
+        "firstTurnTokens": 3833,
+        "totalInputTokens": 20194,
+        "outputTokens": 195,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3644,
+          "cacheRead": 16542
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"context7 resolve library id\"}",
+          "mcp__tools__search {\"app\":\"context7\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.context7.resolve_library_id({query:\\\"Effect TypeScript library\\\", libraryName:\\\"Effect\\\"});\\nconsole.log(typeof r===\\\"string\\\"?r.slice(0,2500):JSON.stringify(r).slice(0,2500));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "compare",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\nTop 3 by stars, with open issue counts. These counts also include open PRs, because GitHub counts both together.\n- servers: 92,162 stars, 17 open\n- python-sdk: 24,933 stars, 431 open\n- typescript-sdk: 13,803 stars, 705 open",
+        "turns": 3,
+        "seconds": 5.425,
+        "costUsd": 0.018760699999999998,
+        "firstTurnTokens": 6487,
+        "totalInputTokens": 22409,
+        "outputTokens": 137,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3156,
+          "cacheRead": 19247
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --help",
+          "cd <work>/mcp && github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3 --mini"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "compare",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nOf the three most-starred repos in modelcontextprotocol, typescript-sdk has the most open issues. The `open_issues_count` figure from GitHub includes open pull requests.\n- typescript-sdk: 705 open issues (13,803 stars)\n- python-sdk: 431 (24,933 stars)\n- servers: 17 (92,162 stars)",
+        "turns": 4,
+        "seconds": 7.09,
+        "costUsd": 0.0282021,
+        "firstTurnTokens": 5928,
+        "totalInputTokens": 30726,
+        "outputTokens": 176,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 4937,
+          "cacheRead": 25781
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; grep -i search github/README.md; github/search_repositories --help",
+          "cd <work>/mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3 --minima"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "compare",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nThe three most-starred repos in the modelcontextprotocol org are servers (92,162 stars, 17 open issues), python-sdk (24,933 stars, 431 open issues) and typescript-sdk (13,803 stars, 705 open issues). typescript-sdk has the most open issues of the three.\n\nGitHub's `open_issues_count` also includes open pull requests, so these counts are issues plus PRs.",
+        "turns": 4,
+        "seconds": 7.343,
+        "costUsd": 0.019192400000000002,
+        "firstTurnTokens": 3852,
+        "totalInputTokens": 19491,
+        "outputTokens": 248,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3379,
+          "cacheRead": 16104
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"github repositories\"}",
+          "mcp__tools__search {\"app\":\"github\"}",
+          "mcp__tools__run_code {\"code\":\"const r:any = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "lookup",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release tag of modelcontextprotocol/typescript-sdk is **v2.4.0**. It was published on 2026-10-23, and I got it from the GitHub `get_latest_release` tool.",
+        "turns": 4,
+        "seconds": 7.39,
+        "costUsd": 0.0167507,
+        "firstTurnTokens": 6473,
+        "totalInputTokens": 28106,
+        "outputTokens": 126,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2091,
+          "cacheRead": 26007
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ls github | grep -i -E \"release|tag\"; github/get-latest-release --help",
+          "cd <work>/mcp && github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk | head -c 600",
+          "cd <work>/mcp && github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk | jq '{tag_name,name,publishe"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "lookup",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release tag of modelcontextprotocol/typescript-sdk is **v2.4.0**. The release is named \"2.4.0\" and was published on 2026-10-23.\n\nIt is a full release, not a draft or prerelease. Release page: https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0",
+        "turns": 8,
+        "seconds": 18.567,
+        "costUsd": 0.047380000000000005,
+        "firstTurnTokens": 5916,
+        "totalInputTokens": 68945,
+        "outputTokens": 282,
+        "inputBreakdown": {
+          "fresh": 16,
+          "cacheWrite": 6709,
+          "cacheRead": 62220
+        },
+        "toolCalls": 7,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; grep -i release github/README.md; github/get_latest_release --help",
+          "<work>/mcp/github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk | head -c 1500",
+          "<work>/mcp/github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk --raw | jq '{tag_name,name,publishe",
+          "<work>/mcp/github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk --raw | jq 'del(.body)' | head -c 1",
+          "cd <work>/mcp; github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk --raw | jq -c 'del(.body,._meta",
+          "cd <work>/mcp; github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk --raw | jq -r '.content[0].text"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "lookup",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release tag of modelcontextprotocol/typescript-sdk is **v2.4.0**. It was published on 2026-10-23. I got this from GitHub's \"latest release\" endpoint (run 9ffb3e5f).",
+        "turns": 4,
+        "seconds": 5.844,
+        "costUsd": 0.0120953,
+        "firstTurnTokens": 3841,
+        "totalInputTokens": 16868,
+        "outputTokens": 180,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 1647,
+          "cacheRead": 15213
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"github release\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.get_latest_release({owner:\\\"modelcontextprotocol\\\",repo:\\\"typescript-sdk\\\"});\\nconsole.log(JSON.stringify(r).slice(0,500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.get_latest_release({owner:\\\"modelcontextprotocol\\\",repo:\\\"typescript-sdk\\\"});\\nconsole.log(r.tag_name, r.name, r.published_at, Object.keys(r));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "search",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org (run 391ae7ff, as of 2026-11-22) are:\n1. `modelcontextprotocol/servers`: about 92,162 stars\n2. `modelcontextprotocol/python-sdk`: about 24,933 stars\n3. `modelcontextprotocol/typescript-sdk`: about 13,803 stars\n\nI got these from a GitHub repository search of the org, sorted by stars.",
+        "turns": 3,
+        "seconds": 5.457,
+        "costUsd": 0.0206856,
+        "firstTurnTokens": 6469,
+        "totalInputTokens": 23012,
+        "outputTokens": 186,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3470,
+          "cacheRead": 19536
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp; ls github | head -50; github/search_repositories --help",
+          "cd <work>/mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3 --minima"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "search",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org, from a GitHub search sorted by stars:\n\n1. `modelcontextprotocol/servers` has 92,162 stars.\n2. `modelcontextprotocol/python-sdk` has 24,933 stars.\n3. `modelcontextprotocol/typescript-sdk` has 13,803 stars.",
+        "turns": 4,
+        "seconds": 7.532,
+        "costUsd": 0.0298399,
+        "firstTurnTokens": 5908,
+        "totalInputTokens": 31482,
+        "outputTokens": 171,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 5335,
+          "cacheRead": 26139
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; grep -i -E \"search|list\" github/README.md; github/search_repositories --help",
+          "cd <work>/mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3 --minima"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "search",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org (run c40c514e):\n1. **servers**: about 92,162 stars\n2. **python-sdk**: about 24,933 stars\n3. **typescript-sdk**: about 13,803 stars\n\nI got these from a GitHub repository search sorted by stars, so they're live counts as of 2026-11-22.",
+        "turns": 4,
+        "seconds": 10.567,
+        "costUsd": 0.0189022,
+        "firstTurnTokens": 3832,
+        "totalInputTokens": 19408,
+        "outputTokens": 209,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3358,
+          "cacheRead": 16042
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"github repositories\"}",
+          "mcp__tools__search {\"app\":\"github\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(typeof r===\\\"string\\\"?r.slice(0,3000):JSON.stringify(r).slice(0,30"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "chain",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in the modelcontextprotocol org is `modelcontextprotocol/servers`, with about 92k stars. Its DeepWiki has six top-level sections:\n1. Introduction to Model Context Protocol Servers\n2. Reference Servers Overview\n3. Development and Contribution\n4. Integration and Deployment\n5. MCP Ecosystem\n6. Glossary",
+        "turns": 4,
+        "seconds": 7.748,
+        "costUsd": 0.0299971,
+        "firstTurnTokens": 6484,
+        "totalInputTokens": 35885,
+        "outputTokens": 180,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 5106,
+          "cacheRead": 30771
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp; cat github/README.md | grep -i search; deepwiki/README.md 2>/dev/null; cat deepwiki/README.md",
+          "cd <work>/mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3 | head -",
+          "cd <work>/mcp; deepwiki/read_wiki_structure --repoName modelcontextprotocol/servers | head -c 3000"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "chain",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in the modelcontextprotocol org is `modelcontextprotocol/servers`, with about 92k stars. Its DeepWiki has six top-level sections:\n1. Introduction to Model Context Protocol Servers\n2. Reference Servers Overview\n3. Development and Contribution\n4. Integration and Deployment\n5. MCP Ecosystem\n6. Glossary",
+        "turns": 5,
+        "seconds": 9.004,
+        "costUsd": 0.0380629,
+        "firstTurnTokens": 5924,
+        "totalInputTokens": 44501,
+        "outputTokens": 196,
+        "inputBreakdown": {
+          "fresh": 10,
+          "cacheWrite": 6642,
+          "cacheRead": 37849
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; cat deepwiki/README.md; grep -i search github/README.md; github/search_repositories --help",
+          "cd <work>/mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3 | head -",
+          "cd <work>/mcp; deepwiki/read_wiki_structure --repoName modelcontextprotocol/servers | head -c 3000"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "chain",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in the modelcontextprotocol org is `modelcontextprotocol/servers`, with about 92k stars. Its DeepWiki has six top-level sections:\n1. Introduction to Model Context Protocol Servers\n2. Reference Servers Overview\n3. Development and Contribution\n4. Integration and Deployment\n5. MCP Ecosystem\n6. Glossary",
+        "turns": 8,
+        "seconds": 9.114,
+        "costUsd": 0.026234,
+        "firstTurnTokens": 3846,
+        "totalInputTokens": 32575,
+        "outputTokens": 267,
+        "inputBreakdown": {
+          "fresh": 12,
+          "cacheWrite": 4283,
+          "cacheRead": 28280
+        },
+        "toolCalls": 7,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"deepwiki\"}",
+          "mcp__tools__search {\"query\":\"github repositories organization\"}",
+          "mcp__tools__search {}",
+          "mcp__tools__search {\"app\":\"deepwiki\"}",
+          "mcp__tools__search {\"app\":\"github\"}",
+          "mcp__tools__run_code {\"code\":\"const r:any = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:3} as any);\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r:any = await tools.deepwiki.read_wiki_structure({repoName:\\\"modelcontextprotocol/servers\\\"});\\nconsole.log(r.result);\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "docs",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The Context7 library ID for Effect is **`/effect-ts/effect`**. This is the main GitHub repo. It has High source reputation and 11,407 code snippets, and it lists versions such as 3.22.4 and 4.1.0.\n\nContext7 also lists other Effect entries:\n- `/effect-ts/website`\n- `/websites/effect_website_v4`\n- `/websites/effect-ts_github_io_effect`\n\nIf you want the official docs site rather than the repo, `/effect-ts/website` has the highest benchmark score (72.71).",
+        "turns": 3,
+        "seconds": 5.463,
+        "costUsd": 0.019862499999999998,
+        "firstTurnTokens": 6469,
+        "totalInputTokens": 23450,
+        "outputTokens": 215,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3399,
+          "cacheRead": 20045
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && cat context7/README.md && context7/resolve-library-id --help",
+          "cd ../mcp && context7/resolve-library-id --query \"Effect TypeScript library\" --libraryName \"Effect\" | head -40"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "docs",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The main Context7 library ID for Effect is **`/effect-ts/effect`**. It's the official repo, with High source reputation and about 11.4k snippets. It also has versioned IDs, such as `/effect-ts/effect/effect_3.22.4`.\n\nOther Effect entries exist:\n- `/effect-ts/website` has the highest benchmark score, 72.71.\n- `/websites/effect_website_v4` has the most snippets, about 29.6k.\n- `/websites/effect-ts_github_io_effect` is the API docs site.",
+        "turns": 4,
+        "seconds": 10.274,
+        "costUsd": 0.0269644,
+        "firstTurnTokens": 5909,
+        "totalInputTokens": 30351,
+        "outputTokens": 229,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 4519,
+          "cacheRead": 25824
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; cat context7/README.md; context7/resolve-library-id --help",
+          "cd <work>/mcp; context7/resolve-library-id --libraryName Effect --query \"Effect TypeScript library\" | head -40"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "docs",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The main Context7 library ID for Effect is **`/effect-ts/effect`**. It's the official repo, with High source reputation and 11,407 snippets. Versions listed include v3 and 4.x.\n\nContext7 also lists other Effect docs entries:\n- `/effect-ts/website`\n- `/websites/effect_website_v4`\n- `/websites/effect-ts_github_io_effect`",
+        "turns": 3,
+        "seconds": 5.749,
+        "costUsd": 0.0111949,
+        "firstTurnTokens": 3832,
+        "totalInputTokens": 12638,
+        "outputTokens": 180,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1823,
+          "cacheRead": 10809
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"context7\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.context7.resolve_library_id({libraryName:\\\"effect\\\",query:\\\"Effect TypeScript library\\\"}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "compare",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\nAmong the top 3 repos by stars, its open issue count is highest at 705. The `open_issues_count` field also includes open PRs.\n- servers (92,162 stars): 18\n- python-sdk (24,933 stars): 431\n- typescript-sdk (13,803 stars): 705",
+        "turns": 4,
+        "seconds": 8.579,
+        "costUsd": 0.0191256,
+        "firstTurnTokens": 6486,
+        "totalInputTokens": 28371,
+        "outputTokens": 151,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2747,
+          "cacheRead": 25616
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp; github/search-repositories --help",
+          "cd <work>/mcp; ls github | grep -i search",
+          "cd <work>/mcp; github/search_repositories --query \"org:modelcontextprotocol\" --sort stars --order desc --perPage 5 | head -"
+        ]
+      }
+    },
+    {
+      "setup": "folder-read",
+      "task": "compare",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nOf the three most-starred repos in the modelcontextprotocol org, typescript-sdk has the most open issues, at 705. GitHub's `open_issues_count` includes open pull requests, so this is issues plus PRs.\n- servers: 92,162 stars, 18 open\n- python-sdk: 24,933 stars, 431 open\n- typescript-sdk: 13,803 stars, 705 open",
+        "turns": 4,
+        "seconds": 8.667,
+        "costUsd": 0.0283507,
+        "firstTurnTokens": 5930,
+        "totalInputTokens": 30734,
+        "outputTokens": 190,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 4939,
+          "cacheRead": 25787
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "read <work>/mcp/README.md",
+          "cd <work>/mcp; grep -i search github/README.md; github/search_repositories --help",
+          "cd <work>/mcp; github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3 --minima"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "compare",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nOf the three most-starred repos in the org, typescript-sdk has the most open issues, at 705. The other two are python-sdk with 431 and servers with 18.\n\nGitHub's `open_issues_count` field counts open pull requests as well as issues.",
+        "turns": 4,
+        "seconds": 8.533,
+        "costUsd": 0.016946700000000002,
+        "firstTurnTokens": 3852,
+        "totalInputTokens": 19065,
+        "outputTokens": 189,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2950,
+          "cacheRead": 16107
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"github repositories\"}",
+          "mcp__tools__search {\"app\":\"github\"}",
+          "mcp__tools__run_code {\"code\":\"const r:any = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:3} as any);\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ]
+      }
+    }
+  ]
+}

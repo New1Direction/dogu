@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.3.0] - 2026-11-22
+
+Faster and cheaper for agents. Measured with the new benchmark in `bench/`: with GitHub, Context7 and DeepWiki, both the folder and code mode cost about half as much per task as loading the servers directly, with every answer right.
+
+### Added
+
+- The folder's README lists every tool with its flags and the fields it returns, so an agent can run the right command straight away. Over 16 KB it lists tool names only.
+- `--json` prints a tool's result as one line of JSON, so `jq` always works.
+- A tool's `--help` shows the fields it returns.
+- `bench/`: a benchmark written with Effect that has Claude Code do the same tasks with the tools given four ways, and checks every answer.
+
+### Changed
+
+- Code mode's `search` lists every app and tool in its description, ranks tools by how many words match instead of needing all of them, and returns each match's TypeScript type, so one search is enough.
+- `dogu sync` suggests putting the tool list in your agent's standing instructions, which saves a step on every task.
+
+### Fixed
+
+- Searching code mode by a tool's exact name, such as `search_repositories`, found nothing.
+
 ## [0.2.1] - 2026-11-22
 
 ### Added
