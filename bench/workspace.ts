@@ -72,7 +72,10 @@ const seedMemory = () => {
   );
   // A cut-off year for heldout2's memory-years task: the projects started 2015 to 2026, one a year.
   const year = 2016 + (crypto.getRandomValues(new Uint8Array(1))[0] % 10);
-  return { text: lines.join("\n") + "\n", seeded: { word, entity: `Project ${names[pick]}`, year } };
+  return {
+    text: lines.join("\n") + "\n",
+    seeded: { word, entity: `Project ${names[pick]}`, year, startedThen: `Project ${names[year - 2015]}` },
+  };
 };
 
 /**

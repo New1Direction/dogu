@@ -13,10 +13,10 @@ export interface Ctx {
   readonly gh: (path: string) => Effect.Effect<any, CommandFailed>;
   readonly tool: (path: string, args: ReadonlyArray<string>) => Effect.Effect<string, CommandFailed>;
   /** A word hidden in the memory server's graph, and the entity that holds it. Random each run. */
-  readonly seeded: { readonly word: string; readonly entity: string; readonly year: number };
+  readonly seeded: { readonly word: string; readonly entity: string; readonly year: number; readonly startedThen: string };
 }
 
-export type Suite = "tuning" | "heldout" | "heldout2";
+export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3";
 
 /** The facts a right answer must contain. What "contain" means is up to each task's check. */
 export type Facts = ReadonlyArray<string>;
@@ -320,6 +320,87 @@ export const TASKS: ReadonlyArray<Task> = [
           ));
         return [dated.reduce((a, b) => (b.at > a.at ? b : a)).name];
       }),
+    check: (a, f) => has(firstLine(a), f[0]),
+  },
+
+  // --- held out, set 3: written and frozen before the work on calls made together (no Context7: quota) ---
+  {
+    id: "most-stars",
+    suite: "heldout3",
+    kind: "fan-out: 4 calls",
+    prompt:
+      "Of the GitHub repos denoland/deno, oven-sh/bun, nodejs/node and vercel/next.js, which has the most stars? Put just its owner/name on the first line.",
+    fetch: (ctx) =>
+      Effect.forEach(["denoland/deno", "oven-sh/bun", "nodejs/node", "vercel/next.js"], (r) =>
+        ctx.gh(`repos/${r}`).pipe(Effect.map((x) => ({ r, stars: Number(x.stargazers_count) })))).pipe(
+          Effect.map((xs) => [xs.reduce((a, b) => (b.stars > a.stars ? b : a)).r]),
+        ),
+    check: (a, f) => has(firstLine(a), f[0]),
+  },
+  {
+    id: "three-tags",
+    suite: "heldout3",
+    kind: "fan-out: 3 calls",
+    prompt: "What is the tag of the latest release of each of these GitHub repos: denoland/deno, oven-sh/bun and astral-sh/uv?",
+    fetch: (ctx) =>
+      Effect.forEach(["denoland/deno", "oven-sh/bun", "astral-sh/uv"], (r) =>
+        ctx.gh(`repos/${r}/releases/latest`).pipe(Effect.map((x) => String(x.tag_name)))),
+    check: (a, f) => hasAll(a, f),
+  },
+  {
+    id: "big-repos",
+    suite: "heldout3",
+    kind: "a count",
+    prompt: "How many repos in the modelcontextprotocol GitHub org have more than 1,000 stars?",
+    fetch: (ctx) =>
+      ctx.gh("search/repositories?q=org:modelcontextprotocol+stars:%3E1000&per_page=1").pipe(Effect.map((r) => [String(r.total_count)])),
+    check: (a, f) => hasNumber(a, f[0]),
+  },
+  {
+    id: "first-pr",
+    suite: "heldout3",
+    kind: "one call",
+    prompt: "What is the title of pull request #1 in the GitHub repo modelcontextprotocol/servers?",
+    fetch: (ctx) => ctx.gh("repos/modelcontextprotocol/servers/pulls/1").pipe(Effect.map((r) => [String(r.title)])),
+    check: (a, f) => lower(a).replace(/[^a-z0-9]/g, "").includes(lower(f[0]).replace(/[^a-z0-9]/g, "")),
+  },
+  {
+    id: "bun-section",
+    suite: "heldout3",
+    kind: "finding one section",
+    prompt: "In DeepWiki's documentation of the GitHub repo oven-sh/bun, which top-level section covers the package manager? Give its title.",
+    fetch: (ctx) => deepwikiSections(ctx, "oven-sh/bun").pipe(Effect.map((s) => s.filter((t) => /package/i.test(t)).slice(0, 1))),
+    check: (a, f) => has(a, keyWord(f[0])),
+  },
+  {
+    id: "started-in",
+    suite: "heldout3",
+    kind: "a lookup in a local server",
+    prompt: "In the knowledge graph, which project started in {year}?",
+    fetch: (ctx) => Effect.succeed([ctx.seeded.startedThen]),
+    check: (a, f) => has(a, f[0].replace("Project ", "")),
+  },
+  {
+    id: "newer-sdk",
+    suite: "heldout3",
+    kind: "fan-out: 2 calls, compare",
+    prompt:
+      "Which was published more recently: the latest release of modelcontextprotocol/python-sdk or the latest release of modelcontextprotocol/typescript-sdk? Put just the repo name on the first line.",
+    fetch: (ctx) =>
+      Effect.forEach(["python-sdk", "typescript-sdk"], (n) =>
+        ctx.gh(`repos/modelcontextprotocol/${n}/releases/latest`).pipe(Effect.map((x) => ({ n, at: String(x.published_at) })))).pipe(
+          Effect.map((xs) => [xs.reduce((a, b) => (b.at > a.at ? b : a)).n]),
+        ),
+    check: (a, f) => has(firstLine(a), f[0]) && !has(firstLine(a), f[0] === "python-sdk" ? "typescript-sdk" : "python-sdk"),
+  },
+  {
+    id: "most-issues",
+    suite: "heldout3",
+    kind: "fan-out after a search",
+    prompt:
+      "Of the 3 most-starred repos in the denoland GitHub org, which has the most open issues (as GitHub counts them, pull requests included)? Put just its name on the first line.",
+    fetch: (ctx) =>
+      topRepos(ctx, "denoland", 3).pipe(Effect.map((rs) => [rs.reduce((a, b) => (b.open_issues_count > a.open_issues_count ? b : a)).name])),
     check: (a, f) => has(firstLine(a), f[0]),
   },
 ];

@@ -176,6 +176,7 @@ Deno.test("every held-out task is in the held-out suite, and the suites do not s
   assertEquals(TASKS.filter((t) => t.suite === "heldout").length, 8);
   assertEquals(TASKS.filter((t) => t.suite === "tuning").length, 5);
   assertEquals(TASKS.filter((t) => t.suite === "heldout2").length, 8);
+  assertEquals(TASKS.filter((t) => t.suite === "heldout3").length, 8);
 });
 
 Deno.test("headline says more, not negative fewer, when a setup used more", () => {
@@ -218,6 +219,14 @@ const SAMPLE_FACTS: Record<string, ReadonlyArray<string>> = {
   "two-libraries": ["/facebook/react", "/websites/react_dev", "|", "/vuejs/core", "/websites/vuejs"],
   "memory-years": ["4"],
   "newest-release": ["typescript-sdk"],
+  "most-stars": ["vercel/next.js"],
+  "three-tags": ["v2.5.0", "bun-v1.3.0", "0.9.0"],
+  "big-repos": ["9"],
+  "first-pr": ["Add README"],
+  "bun-section": ["Package Manager"],
+  "started-in": ["Project Elm"],
+  "newer-sdk": ["python-sdk"],
+  "most-issues": ["deno"],
 };
 
 Deno.test("every task's check accepts its right answer and rejects a non-answer", () => {
