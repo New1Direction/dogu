@@ -243,10 +243,6 @@ Calls that do not depend on each other: start them together, so they run at the 
 `await` inside runs them one after another, which is much slower:\n\
   const [a, b] = await Promise.all([tools.app.one({ id: 1 }), tools.app.two({ id: 2 })]);\n\
   const items = await Promise.all(ids.map((id) => tools.app.get_item({ id })));\n\
-When some of the calls may fail (a thing that does not exist), use Promise.allSettled: they still run \
-together, and each result says whether it worked, so one failure does not stop the rest:\n\
-  const rs = await Promise.allSettled(ids.map((id) => tools.app.get_item({ id })));\n\
-  rs.forEach((r, i) => console.log(ids[i], r.status === \"fulfilled\" ? r.value : \"failed: \" + r.reason.message));\n\
 The tools, grouped by the arguments they require, `app (args): tools`:\n";
 
 const SEARCH_ABOUT: &str = "Read tools' full TypeScript types: every argument and the shape of the result. \
@@ -489,7 +485,6 @@ mod tests {
         assert!(!tight.contains("(query)"), "{tight}");
         assert!(run_code_description(&opts).len() <= DESCRIPTION_LIMIT);
         assert!(run_code_description(&opts).contains("await Promise.all(ids.map("), "shows how to make calls together");
-        assert!(run_code_description(&opts).contains("Promise.allSettled("), "shows how to make calls together when some may fail");
         assert!(run_code_description(&opts).contains("print the whole result"), "says to print whole results");
     }
 
