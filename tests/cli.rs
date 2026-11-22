@@ -381,3 +381,110 @@ fn json_flag_prints_the_structured_result() {
     assert_eq!(stdout(&json).trim(), r##"{"result":"# Title\n- one\n- two"}"##);
     assert!(stdout(&search).trim().starts_with(r#"{"query":"x","items":[{"name":"servers""#), "{}", stdout(&search));
 }
+
+// --- Forge: agents save multi-step programs as new tools ---
+
+const TWICE: &str = r#"// @description Count twice and report the total.
+// @param label string required A name for the result
+const a = await tools.fx.count({});
+const b = await tools.fx.count({});
+console.log(JSON.stringify({ label: args.label, last: b.count }));
+"#;
+
+/// A synced fixture folder with the forged tool `twice` saved in it. Returns (home, folder).
+fn forged_folder(name: &str) -> (PathBuf, PathBuf) {
+    let home = scratch(name);
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+    std::fs::write(home.join("twice.ts"), TWICE).unwrap();
+    let o = dogu(&home, &home, &["forge", "--root", out.to_str().unwrap(), "twice", home.join("twice.ts").to_str().unwrap()]);
+    assert!(o.status.success(), "forge failed: {}{}", stdout(&o), stderr(&o));
+    (home, out)
+}
+
+#[test]
+fn forge_saves_a_tool_with_its_own_help_and_readme_line() {
+    let (home, out) = forged_folder("forge-save");
+
+    let help = Command::new(out.join("forged/twice")).arg("--help").env("HOME", &home).output().unwrap();
+    let readme = std::fs::read_to_string(out.join("README.md")).unwrap();
+
+    assert!(stdout(&help).contains("Count twice and report the total."), "{}", stdout(&help));
+    assert!(stdout(&help).contains("--label <string>"), "{}", stdout(&help));
+    assert!(readme.contains("`forged/twice --label <string>`"), "{readme}");
+}
+
+#[test]
+fn a_forged_tool_runs_its_program_with_the_flags_as_args() {
+    let (home, out) = forged_folder("forge-run");
+
+    let o = dogu(&home, &home, &["call", "--root", out.to_str().unwrap(), "forged", "twice", "--label", "x"]);
+
+    // Both calls in one run share a connection, so the server's counter reaches 2.
+    assert_eq!(stdout(&o).trim(), r#"{"label":"x","last":2}"#, "stderr: {}", stderr(&o));
+}
+
+#[test]
+fn a_forged_tool_checks_its_flags_like_any_tool() {
+    let (home, out) = forged_folder("forge-flags");
+
+    let o = dogu(&home, &home, &["call", "--root", out.to_str().unwrap(), "forged", "twice"]);
+
+    assert_eq!(o.status.code(), Some(1));
+    assert!(stderr(&o).contains("missing --label"), "{}", stderr(&o));
+}
+
+#[test]
+fn a_forged_tool_may_only_call_the_tools_its_code_names() {
+    let home = scratch("forge-allow");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+    let sneaky = "// @description Calls a tool it does not name.\nconst t = \"count\";\nconsole.log(await tools.fx[t]({}));\n";
+    std::fs::write(home.join("sneaky.ts"), sneaky).unwrap();
+    dogu(&home, &home, &["forge", "--root", out.to_str().unwrap(), "sneaky", home.join("sneaky.ts").to_str().unwrap()]);
+
+    let o = dogu(&home, &home, &["call", "--root", out.to_str().unwrap(), "forged", "sneaky"]);
+
+    assert_eq!(o.status.code(), Some(1));
+    assert!(stderr(&o).contains("not allowed"), "{}{}", stdout(&o), stderr(&o));
+}
+
+#[test]
+fn sync_keeps_forged_tools() {
+    let (home, out) = forged_folder("forge-resync");
+    let config = home.join("fixture.json");
+
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+
+    assert!(out.join("forged/twice").is_file());
+    assert!(std::fs::read_to_string(out.join("README.md")).unwrap().contains("`forged/twice --label <string>`"));
+}
+
+#[test]
+fn code_mode_can_call_a_forged_tool() {
+    let (home, out) = forged_folder("forge-code");
+
+    let o = dogu(&home, &home, &["run", "--root", out.to_str().unwrap(), "-e", "const r = await tools.forged.twice({ label: 'y' }); console.log(r.label, r.last);"]);
+
+    assert_eq!(stdout(&o).trim(), "y 2", "stderr: {}", stderr(&o));
+}
+
+#[test]
+fn forge_rejects_bad_names_missing_descriptions_and_silent_replacing() {
+    let (home, out) = forged_folder("forge-reject");
+    let root = out.to_str().unwrap();
+    let file = home.join("twice.ts");
+    std::fs::write(home.join("plain.ts"), "console.log(1);\n").unwrap();
+
+    let bad_name = dogu(&home, &home, &["forge", "--root", root, "Bad Name", file.to_str().unwrap()]);
+    let no_description = dogu(&home, &home, &["forge", "--root", root, "plain", home.join("plain.ts").to_str().unwrap()]);
+    let again = dogu(&home, &home, &["forge", "--root", root, "twice", file.to_str().unwrap()]);
+    let forced = dogu(&home, &home, &["forge", "--root", root, "--force", "twice", file.to_str().unwrap()]);
+
+    assert!(stderr(&bad_name).contains("name"), "{}", stderr(&bad_name));
+    assert!(stderr(&no_description).contains("@description"), "{}", stderr(&no_description));
+    assert!(stderr(&again).contains("--force"), "{}", stderr(&again));
+    assert!(forced.status.success(), "{}", stderr(&forced));
+}

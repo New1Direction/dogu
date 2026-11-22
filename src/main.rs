@@ -10,6 +10,7 @@ mod call;
 mod client;
 mod config;
 mod conformance;
+mod forge;
 mod run;
 mod serve;
 mod sync;
@@ -38,7 +39,12 @@ dogu — your MCP tools as a folder of commands, and as a sandboxed code API
       --allow limits the tools: `--allow github` or `--allow 'files/read_*'`. Default: all.
 
   dogu serve [--root <folder>] [--allow <pattern>]...
-      Be an MCP server with two tools, search and run_code. Add this to an app that has no shell.
+      Be an MCP server with search, run_code and forge. Add this to an app that has no shell.
+
+  dogu forge [--root <folder>] [--force] <name> <program.ts | ->
+      Save a program as a new tool, forged/<name>. Start it with `// @description ...` and a
+      `// @param <name> <type> [required] <what it is>` line per input; inside, they are in `args`.
+      It may only call the tools its code names. --force replaces a tool of the same name.
 
 Environment:
   DOGU_CONFIG      path to the config file
@@ -213,6 +219,30 @@ fn run(args: &[String]) -> Result<i32, String> {
                 println!("\nNow run: dogu sync");
             }
             Ok(if failed { 1 } else { 0 })
+        }
+        "forge" => {
+            let (mut root, mut replace, mut rest) = (default_root, false, Vec::new());
+            let mut it = args[1..].iter();
+            while let Some(a) = it.next() {
+                match a.as_str() {
+                    "--root" => root = PathBuf::from(it.next().ok_or("--root needs a folder")?),
+                    "--force" => replace = true,
+                    other => rest.push(other.to_string()),
+                }
+            }
+            let [name, file] = rest.as_slice() else {
+                return Err(format!("forge needs a name and a program file (or - for stdin)\n\n{USAGE}"));
+            };
+            let source = match file.as_str() {
+                "-" => {
+                    let mut text = String::new();
+                    std::io::stdin().read_to_string(&mut text).map_err(|e| e.to_string())?;
+                    text
+                }
+                path => std::fs::read_to_string(path).map_err(|e| format!("cannot read {path}: {e}"))?,
+            };
+            println!("{}", forge::save(&root, name, &source, replace)?);
+            Ok(0)
         }
         "conformance" => conformance::run(args.get(1).ok_or("conformance needs the server URL")?),
         "--version" | "-V" => {

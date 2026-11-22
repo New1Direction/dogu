@@ -70,7 +70,8 @@ pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
     }
 
     let width = servers.keys().map(|n| n.len()).max().unwrap_or(0);
-    let mut index = Vec::new(); // entries for the top README
+    let mut titles = serde_json::Map::new(); // each app's name for the top README
+    let mut stale = Vec::new(); // servers that did not answer; their old folder, if any, is kept
     let mut failed = 0;
     let mut need_login = false;
     // Which protocol era each server speaks, so later calls can skip the detection step.
@@ -79,13 +80,13 @@ pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
     for (name, result) in results {
         match result {
             Ok(Fetched { info, tools, era, skipped }) => {
-                let lines = write_server(&root, &me, name, &info, &tools)?;
+                write_server(&root, &me, name, &info, &tools)?;
                 eras.insert(name.clone(), json!(era));
                 println!("  ok    {name:width$}  {} tools", tools.len());
                 for note in skipped {
                     println!("        left out {note}");
                 }
-                index.push(IndexEntry::Fresh { app: safe(name), title: title_of(&info), tools: lines });
+                titles.insert(name.clone(), json!(title_of(&info)));
             }
             Err(e) => {
                 failed += 1;
@@ -94,24 +95,19 @@ pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
                     need_login = true;
                 }
                 // Keep the old folder, if there is one, so one broken server does not hide its tools.
-                if root.join(safe(name)).is_dir() {
-                    index.push(IndexEntry::Stale { app: safe(name) });
-                }
+                stale.push(name.clone());
             }
         }
     }
 
-    let state = json!({ "config": config_path, "project": source.project, "servers": servers.keys().collect::<Vec<_>>(), "eras": eras });
+    let state = json!({
+        "config": config_path, "project": source.project, "servers": servers.keys().collect::<Vec<_>>(),
+        "eras": eras, "titles": titles, "stale": stale,
+    });
     write(&ours.join("state.json"), &serde_json::to_string_pretty(&state).unwrap())?;
-    write(&root.join("README.md"), &root_readme(&index))?;
-    let run = format!(
-        "#!/bin/sh\n# Made by dogu. Runs a TypeScript program in the sandbox: ./run program.ts\n\
-         M={}; [ -x \"$M\" ] || M=dogu\nexec \"$M\" run --root {} \"$@\"\n",
-        quote(&me.to_string_lossy()),
-        quote(&root.to_string_lossy()),
-    );
-    write(&root.join("run"), &run)?;
-    make_executable(&root.join("run"))?;
+    write_root_readme(&root)?;
+    write_stub(&root, &me, "run", "Runs a TypeScript program in the sandbox: ./run program.ts")?;
+    write_stub(&root, &me, "forge", "Saves a program as a new tool: ./forge <name> program.ts")?;
 
     let shown = config::tilde(&root);
     println!("\nYour tools are in {shown}");
@@ -187,8 +183,86 @@ enum Detail {
     Names,
 }
 
-/// Writes the app's folder and returns its tools' README lines.
-fn write_server(root: &Path, me: &Path, name: &str, info: &Value, tools: &[Value]) -> Result<Vec<ToolLine>, String> {
+/// A script in the folder's root that runs a dogu command there, like `./run` and `./forge`.
+fn write_stub(root: &Path, me: &Path, command: &str, about: &str) -> Result<(), String> {
+    let text = format!(
+        "#!/bin/sh\n# Made by dogu. {about}\nM={}; [ -x \"$M\" ] || M=dogu\nexec \"$M\" {command} --root {} \"$@\"\n",
+        quote(&me.to_string_lossy()),
+        quote(&root.to_string_lossy()),
+    );
+    write(&root.join(command), &text)?;
+    make_executable(&root.join(command))
+}
+
+/// The script for one tool: it hands the work to the dogu binary.
+pub fn tool_stub(me: &Path, root: &Path, server: &str, tool: &str) -> String {
+    format!(
+        "#!/bin/sh\n# Made by dogu. Run with --help to see the parameters.\n\
+         M={}; [ -x \"$M\" ] || M=dogu\n\
+         exec \"$M\" call --root {} {} {} \"$@\"\n",
+        quote(&me.to_string_lossy()),
+        quote(&root.to_string_lossy()),
+        quote(server),
+        quote(tool),
+    )
+}
+
+/// A tool's line in a README, from its schema.
+fn tool_line(tool: &Value) -> ToolLine {
+    let about = first_line(tool["description"].as_str().unwrap_or(""));
+    ToolLine {
+        file: safe(tool["name"].as_str().unwrap_or("")),
+        flags: crate::call::flags_of(tool),
+        about: first_sentence(&about),
+        returns: crate::call::returns_of(tool).map(|r| format!(" → {r}")).unwrap_or_default(),
+    }
+}
+
+/// The saved schemas of an app's tools, sorted by name.
+pub fn saved_schemas(root: &Path, server: &str) -> Vec<Value> {
+    let dir = root.join(".dogu/schemas").join(safe(server));
+    let mut list: Vec<Value> = fs::read_dir(dir)
+        .into_iter()
+        .flatten()
+        .flatten()
+        .filter_map(|e| fs::read_to_string(e.path()).ok())
+        .filter_map(|t| serde_json::from_str::<Value>(&t).ok())
+        .collect();
+    list.sort_by(|a, b| a["name"].as_str().cmp(&b["name"].as_str()));
+    list
+}
+
+/// The top README, made from what is on disk: the synced apps and the tools agents have forged.
+pub fn write_root_readme(root: &Path) -> Result<(), String> {
+    let state = saved_state(root).unwrap_or(Value::Null);
+    let names = |key: &str| -> Vec<String> {
+        state[key].as_array().map(|a| a.iter().filter_map(Value::as_str).map(String::from).collect()).unwrap_or_default()
+    };
+    let stale = names("stale");
+    let mut index = Vec::new();
+    for server in names("servers") {
+        if stale.contains(&server) {
+            if root.join(safe(&server)).is_dir() {
+                index.push(IndexEntry::Stale { app: safe(&server) });
+            }
+            continue;
+        }
+        let title = state["titles"][&server].as_str().unwrap_or("").to_string();
+        let tools = saved_schemas(root, &server).iter().map(tool_line).collect();
+        index.push(IndexEntry::Fresh { app: safe(&server), title, tools });
+    }
+    let forged: Vec<ToolLine> = saved_schemas(root, FORGED).iter().map(tool_line).collect();
+    if !forged.is_empty() {
+        index.push(IndexEntry::Fresh { app: FORGED.into(), title: " (made by your agents with ./forge)".into(), tools: forged });
+    }
+    write(&root.join("README.md"), &root_readme(&index))
+}
+
+/// The app that holds the tools agents make with `forge`.
+pub const FORGED: &str = "forged";
+
+/// Writes the app's folder: a script per tool, the saved schemas, the README and the types.
+fn write_server(root: &Path, me: &Path, name: &str, info: &Value, tools: &[Value]) -> Result<(), String> {
     let dir = root.join(safe(name));
     let schemas = root.join(".dogu/schemas").join(safe(name));
     let _ = fs::remove_dir_all(&dir);
@@ -202,24 +276,13 @@ fn write_server(root: &Path, me: &Path, name: &str, info: &Value, tools: &[Value
         readme.push_str("\n\n");
     }
     readme.push_str("Each line shows a tool and its flags. Run `./<tool> --help` for what the flags mean.\n\n");
-    let mut lines = Vec::new();
 
     for tool in tools {
         let Some(tool_name) = tool["name"].as_str() else { continue };
         let file = safe(tool_name);
 
-        // The stub: a two-line script that hands the work to the dogu binary.
-        let stub = format!(
-            "#!/bin/sh\n# Made by dogu. Run with --help to see the parameters.\n\
-             M={}; [ -x \"$M\" ] || M=dogu\n\
-             exec \"$M\" call --root {} {} {} \"$@\"\n",
-            quote(&me.to_string_lossy()),
-            quote(&root.to_string_lossy()),
-            quote(name),
-            quote(tool_name),
-        );
         let path = dir.join(&file);
-        write(&path, &stub)?;
+        write(&path, &tool_stub(me, root, name, tool_name))?;
         make_executable(&path)?;
 
         write(&schema_path(root, name, tool_name), &serde_json::to_string_pretty(tool).unwrap())?;
@@ -228,15 +291,13 @@ fn write_server(root: &Path, me: &Path, name: &str, info: &Value, tools: &[Value
         let about = first_line(tool["description"].as_str().unwrap_or(""));
         let returns = crate::call::returns_of(tool).map(|r| format!(" → {r}")).unwrap_or_default();
         readme.push_str(&format!("- `{file}{flags}` — {about}{returns}\n"));
-        lines.push(ToolLine { file, flags, about: first_sentence(&about), returns });
     }
     write(&dir.join("index.d.ts"), &types_file(name, tools))?;
-    write(&dir.join("README.md"), &readme)?;
-    Ok(lines)
+    write(&dir.join("README.md"), &readme)
 }
 
 /// The server's tools written as TypeScript types. An agent reads this before writing a program.
-fn types_file(server: &str, tools: &[Value]) -> String {
+pub fn types_file(server: &str, tools: &[Value]) -> String {
     let app = ident(server);
     let mut out = format!(
         "// The \"{server}\" tools, for code mode. `tools` is a global inside a program run with `run`.\n\
@@ -396,6 +457,13 @@ fn root_readme(index: &[IndexEntry]) -> String {
          - In code, write `-` and `.` in names as `_`: the tool `get-sum` is `tools.app.get_sum`.\n\
          - Types for an app's tools: `cat <app>/index.d.ts`\n\
          - Also: `./run program.ts`, and `./run --allow <app> ...` to limit which tools it may call.\n\n\
+         ## Make your own tool\n\n\
+         When you have written a program that you or another agent will need again, save it as a tool:\n\
+         `./forge <name> program.ts`. Start the program with a `// @description <what it does>` line and a\n\
+         `// @param <name> <type> [required] <what it is>` line for each input (types: string, number,\n\
+         integer, boolean, json). Inside, the inputs are in `args`. Print the result, as JSON if you can.\n\
+         It then works like any other tool: `forged/<name> --flag value`, `--help`, and\n\
+         `tools.forged.<name>({{...}})` in a program. It may only call the tools its code names.\n\n\
          ## Apps\n\n{}\n",
         app_index(index, INDEX_BUDGET)
     )

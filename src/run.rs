@@ -174,13 +174,25 @@ fn tool_call(
         Value::Object(_) => msg["args"].clone(),
         _ => return Err("pass the parameters as one object: tools.app.tool({ name: value })".into()),
     };
+    // A forged tool is another program: run it in its own sandbox, sharing our connections.
+    if msg["server"].as_str() == Some(crate::sync::FORGED) {
+        let tool = msg["tool"].as_str().unwrap_or("");
+        if !opts.allow.is_empty() && !opts.allow.iter().any(|p| allows(p, crate::sync::FORGED, tool)) {
+            return Err(format!("{}/{tool} is not allowed in this run (allowed: {})", crate::sync::FORGED, opts.allow.join(", ")));
+        }
+        let printed = crate::forge::run(&opts.root, tool, &args, pool)?;
+        let text = printed.trim_end();
+        return Ok(serde_json::from_str(text).unwrap_or(Value::String(text.to_string())));
+    }
     let (server, tool) = names.resolve(
         &opts.root,
         servers,
         msg["server"].as_str().unwrap_or(""),
         msg["tool"].as_str().unwrap_or(""),
     )?;
-    if !opts.allow.is_empty() && !opts.allow.iter().any(|p| allows(p, &server, &tool)) {
+    // A pattern may use the real names or the names as written in code (`get_sum` for `get-sum`).
+    let allowed = |p: &String| allows(p, &server, &tool) || allows(p, &ident(&server), &ident(&tool));
+    if !opts.allow.is_empty() && !opts.allow.iter().any(allowed) {
         return Err(format!("{server}/{tool} is not allowed in this run (allowed: {})", opts.allow.join(", ")));
     }
 

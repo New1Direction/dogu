@@ -14,10 +14,11 @@ const MODERN: &str = crate::client::MODERN;
 const VERSIONS: [&str; 4] = [MODERN, "2025-11-25", "2025-06-18", "2025-03-26"];
 
 const INSTRUCTIONS: &str = "\
-This server gives you many tools through two. The description of `search` lists every app and tool. \
+This server gives you many tools through a few. The description of `search` lists every app and tool. \
 Call `search` with the words of the tool you need to read its TypeScript type. Then call `run_code` with \
 one TypeScript program that calls it as `await tools.<app>.<tool>({...})`. Do several steps in one \
-program, and print only what you need to see.";
+program, and print only what you need to see. When a program is worth keeping, save it with `forge` and \
+call it next time as `tools.forged.<name>({...})`.";
 
 /// How many tools one search returns, each with its full type.
 const MAX_HITS: usize = 6;
@@ -77,6 +78,19 @@ pub fn run(opts: &Options) -> Result<(), String> {
                     } }
                 },
                 {
+                    "name": "forge",
+                    "description": "Save a program as a new tool you can call later as `tools.forged.<name>({...})`, \
+                                    in this session or another. Start the code with `// @description <what it does>` \
+                                    and a `// @param <name> <type> [required] <what it is>` line per input (types: \
+                                    string, number, integer, boolean, json); inside, the inputs are in `args`. Print \
+                                    the result, as JSON if you can. It may only call the tools its code names.",
+                    "inputSchema": { "type": "object", "required": ["name", "code"], "properties": {
+                        "name": { "type": "string", "description": "lowercase_with_underscores" },
+                        "code": { "type": "string", "description": "The program, header first" },
+                        "replace": { "type": "boolean", "description": "Replace a forged tool of the same name" }
+                    } }
+                },
+                {
                     "name": "run_code",
                     "description": "Run a TypeScript program in a sandbox. It cannot use files or the network. It can \
                                     call tools with `await tools.<app>.<tool>({...})` and print with console.log. \
@@ -91,6 +105,7 @@ pub fn run(opts: &Options) -> Result<(), String> {
                 let answer = match msg["params"]["name"].as_str() {
                     Some("search") => search(opts, args["app"].as_str(), args["query"].as_str()),
                     Some("run_code") => run_code(opts, &mut pool, args["code"].as_str().unwrap_or("")),
+                    Some("forge") => forge_tool(opts, args),
                     _ => Err("no such tool".to_string()),
                 };
                 let (text, failed) = match answer {
@@ -151,11 +166,23 @@ fn tools_of(opts: &Options, server: &str) -> Vec<(String, Value)> {
     list
 }
 
+/// The synced apps, then `forged` if agents have made any tools.
 fn servers_of(opts: &Options) -> Vec<String> {
-    crate::sync::saved_state(&opts.root)
+    let mut servers: Vec<String> = crate::sync::saved_state(&opts.root)
         .and_then(|state| state["servers"].as_array().cloned())
         .map(|a| a.iter().filter_map(Value::as_str).map(String::from).collect())
-        .unwrap_or_default()
+        .unwrap_or_default();
+    if !crate::sync::saved_schemas(&opts.root, crate::sync::FORGED).is_empty() {
+        servers.push(crate::sync::FORGED.to_string());
+    }
+    servers
+}
+
+/// The `forge` tool: save a program as `tools.forged.<name>`.
+fn forge_tool(opts: &Options, args: &Value) -> Result<String, String> {
+    let name = args["name"].as_str().ok_or("forge needs a `name`")?;
+    let code = args["code"].as_str().ok_or("forge needs the `code`")?;
+    crate::forge::save(&opts.root, name, code, args["replace"].as_bool() == Some(true))
 }
 
 /// Every app and its tool names, for `search`'s description, so the model knows what to ask for.
@@ -272,6 +299,18 @@ mod tests {
 
         let count_at = found.find("tools.fx.count").expect("count is listed");
         assert!(found.find("tools.fx.search_repositories").map_or(true, |at| at > count_at), "{found}");
+    }
+
+    #[test]
+    fn the_forge_tool_saves_a_tool_that_search_then_finds() {
+        let opts = folder("forge");
+        let code = "// @description Count up once.\nconsole.log(JSON.stringify(await tools.fx.count({})));\n";
+
+        let saved = forge_tool(&opts, &json!({ "name": "count_once", "code": code })).unwrap();
+
+        assert!(saved.contains("Saved forged/count_once"), "{saved}");
+        assert!(catalog(&opts).contains("forged: count_once"), "{}", catalog(&opts));
+        assert!(search(&opts, None, Some("count once")).unwrap().contains("tools.forged.count_once("));
     }
 
     #[test]

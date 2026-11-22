@@ -39,6 +39,23 @@ pub fn run(root: &Path, server: &str, tool: &str, args: &[String]) -> Result<i32
         }
     }
 
+    // A forged tool is a program, run in the sandbox.
+    if server == crate::sync::FORGED {
+        let started = std::time::Instant::now();
+        let result = crate::forge::run(root, tool, &Value::Object(arguments), &mut crate::run::Pool::new());
+        log_call(root, "call", server, tool, result.is_ok(), started);
+        return match result {
+            Ok(printed) => {
+                print!("{printed}");
+                Ok(0)
+            }
+            Err(e) => {
+                eprintln!("{e}");
+                Ok(1)
+            }
+        };
+    }
+
     // Find the server in the config and call it.
     let source = config::Source::from_state(&saved_state(root).unwrap_or(Value::Null))?;
     let servers = config::load(&source)?;
