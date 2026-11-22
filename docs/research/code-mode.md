@@ -33,6 +33,9 @@ From [2026-11-22-timeline](../../bench/results/2026-11-22-timeline.md), means of
 | 3 | List every tool with its required arguments in `run_code`'s description, grouped by arguments (1,976 characters for 51 tools); a failed call's error shows the tool's full type | Turns 3 → **2** (median), input tokens −29%, cost −11%, 16/16 right. The slow runs guessed what a tool returns, got it wrong, and ran a second program. | Yes |
 | 4 | Also list what each tool returns (3,984 characters) | No change: the same number of second programs, same time, same cost. A paper found return shapes matter most for weaker models. | No |
 | 5 | `dogu serve` connects to every server as it starts, as Claude Code does with its own servers | The memory server's tool time: 0.7 s → **0.02 s**. With experiments 2 and 3, code mode now matches loading directly per task (median 3.4 s against 3.3 s) and is fastest as a one-off run (3.64 s against 4.64 s), at 63% lower cost, 21/21 right. A first run looked much slower; it was the run order (see below). | Yes |
+| – | Reuse HTTP connections: read each event stream to its end (dogu stopped at its answer, so every call opened a new TLS connection), and open the connection during warm-up (with the newest protocol, "connecting" sent nothing) | GitHub calls on an open connection: 597 → **403 ms** (GitHub alone: 390-460 ms). A test server that streams like GitHub's: 5 calls used 8 connections before, 1 now. | Yes |
+| 6 | Show two short examples of `Promise.all` in `run_code`'s description, with placeholder names | Judged on set 3, frozen before it: tool time 1.48 → **0.99 s**, per task 5.32 → 4.64 s (median, with the connection fixes). | Yes |
+| 7 | Say to print a whole result when its shape is unknown, not a slice (dogu shortens long output itself) | Judged on set 4, frozen before it: see below. The extra turns came from looking at the first 500 characters of a result and running the call again. | Yes |
 | – | Codex: when npm's cache (`~/.npm`) cannot be written, give npm one in the temp folder | Without the setting, 0.5.0 failed first and Codex fixed it itself from dogu's hint (up to 3 commands); now it works the first time. | Yes |
 
 Where experiment 5 stands, from the fair-order run ([2026-11-22-exp5-warm-rotated](../../bench/results/2026-11-22-exp5-warm-rotated.md), 7 tasks × 3 runs, the Context7 task left out):
@@ -48,6 +51,23 @@ The mean is higher than the median because of a few runs where the agent chose a
 
 Results files: [exp1](../../bench/results/2026-11-22-exp1-signatures.md), [exp2](../../bench/results/2026-11-22-exp2-parallel.md), [exp3](../../bench/results/2026-11-22-exp3-required-args.md), [exp4](../../bench/results/2026-11-22-exp4-returns.md), [exp5](../../bench/results/2026-11-22-exp5-warm.md), [Codex npm](../../bench/results/2026-11-22-codex-no-npm-setting-new.md).
 
+## Where it stands after experiment 7
+
+Held-out set 4 ([2026-11-22-exp7-whole](../../bench/results/2026-11-22-exp7-whole.md)), frozen before experiment 7 and never looked at while tuning; 7 tasks × 3 runs:
+
+| | Per task, open session (median) | With start-up (median) | With start-up (mean) | Model turns | Cost | Right |
+|---|---|---|---|---|---|---|
+| Loading the servers directly | **3.50 s** | 4.70 s | 5.50 s | 2.29 | $0.025 | 21/21 |
+| dogu folder | 5.11 s | 5.30 s | 5.95 s | 2.10 | $0.012 | 21/21 |
+| dogu code mode 0.6.0 | 3.81 s | 4.03 s | 5.15 s | 2.33 | **$0.011** | 18/21 |
+| dogu code mode, next version | 3.58 s | **3.82 s** | **4.87 s** | 2.29 | **$0.011** | 19/21 |
+
+In an open session, code mode now ties loading the servers directly; counting start-up it is the fastest; it costs 54% less. The model turns are now the same. What is left is small: code mode's first turn is quicker (1.59 s against 1.83 s, it has less to read), its last turn a little slower (1.54 s against 1.44 s, it reads a whole result), and it writes about 20 more tokens.
+
+**The wrong answers are real, and they show a cost of the short tool list.** Asked for astral-sh/ruff's open issues with pull requests included (2,336), code mode used GitHub's `search_issues` tool and answered 1,752, which counts issues only. Loading the servers directly, with every tool's full description in view, the agent used the repository lookup instead. Code mode's list names the tools and their arguments but not what each one does, and a name can mislead. (We first took 1,752 for GitHub's own search count and began to accept it; checking GitHub showed both of its counts at 2,336, so the check was right and stays as it was.)
+
+**The other held-out sets on the same code:** set 1 re-run with 0.6.0 ([2026-11-22-heldout-v0.6.0](../../bench/results/2026-11-22-heldout-v0.6.0.md), 7 of 8 tasks, 84/84 right): with start-up, code mode 5.06 s median against 5.56 s loading directly; in an open session 4.86 s against 4.33 s. That was before experiments 6 and 7.
+
 ## Where the time goes now
 
 The model's own work is the biggest part of every task: 3.1 to 4.1 s per task on average, depending on the setup. What differs:
@@ -59,6 +79,7 @@ The model's own work is the biggest part of every task: 3.1 to 4.1 s per task on
 
 - **A check that rejected right answers:** "Eight entities" was marked wrong because the check wanted the digit. Fixed, and the saved answers re-scored with `bench/rescore.ts` (the results file records it).
 - **The order of runs:** in every A/B, the build under test ran last on each task, right after the others had used the same GitHub search endpoints. In the first run of experiment 5 that build had tool calls that stalled for 10 to 17 seconds, which we could not reproduce on their own; with the order rotating, the stalls were gone. GitHub rate limits landing on whoever went last are the likely cause, though not proven. The order rotates from now on.
+- **Tuning on what you test:** looking closely at a set's programs to find the next change makes that set a poor judge of the change. So set 3 was frozen before experiment 6 and set 4 before experiment 7, each committed and pushed before the change was made ([6cfe245](https://github.com/New1Direction/dogu/commit/6cfe245), [0f244ea](https://github.com/New1Direction/dogu/commit/0f244ea)).
 - **A quota:** Context7's free monthly quota ran out mid-run; every setup failed that task alike and said so. Runs after that leave the Context7 task out until there is a key.
 - **Start-up time:** see "Two facts" above.
 
@@ -88,3 +109,5 @@ The same pattern runs through all of them, and through ours: code mode saves a l
 - **UTCP code-mode** in the same bench. The setup is written (`utcp`, version 1.2.1 pinned) but not run: it would hand the GitHub token to a third-party package, which needs the owner's OK.
 - **A multi-step task set**, written and frozen before any tuning for it, reported next to the quick tasks, not instead of them.
 - **The folder's tool list** in the compact form from experiment 3 (about 2 KB instead of 18 KB).
+- **A warm folder:** each folder command is a new process that connects again; a background process that keeps connections open would cut the folder's tool time (1.7 s against 0.9 s loading directly), most of all for local servers started with npx (0.97 s against 0.02 s per call).
+- **Short descriptions in code mode's list,** within Claude Code's 4,096 characters, so a tool's name cannot mislead (the ruff miss above).
