@@ -5,7 +5,7 @@
 //!   run_code  run a TypeScript program in the sandbox
 
 use crate::run::{ident, run_program, Options, Pool};
-use crate::sync::safe;
+use crate::sync::{safe, tool_decl};
 use serde_json::{json, Value};
 use std::io::{BufRead, Write};
 
@@ -14,9 +14,15 @@ const MODERN: &str = crate::client::MODERN;
 const VERSIONS: [&str; 4] = [MODERN, "2025-11-25", "2025-06-18", "2025-03-26"];
 
 const INSTRUCTIONS: &str = "\
-This server gives you many tools through two. First call `search` to find tools and read their \
-TypeScript types. Then call `run_code` with one TypeScript program that calls them as \
-`await tools.<app>.<tool>({...})`. Do several steps in one program, and print only what you need to see.";
+This server gives you many tools through two. The description of `search` lists every app and tool. \
+Call `search` with the words of the tool you need to read its TypeScript type. Then call `run_code` with \
+one TypeScript program that calls it as `await tools.<app>.<tool>({...})`. Do several steps in one \
+program, and print only what you need to see.";
+
+/// How many tools one search returns, each with its full type.
+const MAX_HITS: usize = 6;
+/// The list of every app and tool in `search`'s description stays under this size; past it, apps only.
+const CATALOG_BUDGET: usize = 8_000;
 
 pub fn run(opts: &Options) -> Result<(), String> {
     if !opts.root.join(".dogu/state.json").is_file() {
@@ -61,8 +67,10 @@ pub fn run(opts: &Options) -> Result<(), String> {
             "tools/list" => Ok(json!({ "tools": [
                 {
                     "name": "search",
-                    "description": "Find tools. With no parameters: list the apps. With `app`: that app's tools as \
-                                    TypeScript types. With `query`: tools whose name or description has those words.",
+                    "description": format!("Find tools and read their TypeScript types. With `query`: the best \
+                                    matching tools with their types; put several tool names in one query to get \
+                                    all their types in one call. With `app`: all that app's types. With nothing: \
+                                    the apps.\n\n{}", catalog(opts)),
                     "inputSchema": { "type": "object", "properties": {
                         "app": { "type": "string", "description": "An app name from the list" },
                         "query": { "type": "string", "description": "Words to look for" }
@@ -128,61 +136,150 @@ fn run_code(opts: &Options, pool: &mut Pool, code: &str) -> Result<String, Strin
     }
 }
 
-fn search(opts: &Options, app: Option<&str>, query: Option<&str>) -> Result<String, String> {
-    let state: Value = std::fs::read_to_string(opts.root.join(".dogu/state.json"))
-        .ok()
-        .and_then(|t| serde_json::from_str(&t).ok())
-        .unwrap_or(Value::Null);
-    let servers: Vec<&str> = state["servers"].as_array().map(|a| a.iter().filter_map(Value::as_str).collect()).unwrap_or_default();
-    // Each app's tools, as (app, tool, first line of description).
-    let tools_of = |server: &str| -> Vec<(String, String)> {
-        let mut list = Vec::new();
-        let dir = opts.root.join(".dogu/schemas").join(safe(server));
-        for entry in std::fs::read_dir(dir).into_iter().flatten().flatten() {
-            let Some(schema) = std::fs::read_to_string(entry.path()).ok().and_then(|t| serde_json::from_str::<Value>(&t).ok())
-            else {
-                continue;
-            };
-            let about = schema["description"].as_str().unwrap_or("").trim().lines().next().unwrap_or("").chars().take(160).collect::<String>();
-            list.push((ident(schema["name"].as_str().unwrap_or("")), about));
-        }
-        list.sort();
-        list
-    };
+/// An app's tools as (name in code, schema), sorted by name.
+fn tools_of(opts: &Options, server: &str) -> Vec<(String, Value)> {
+    let dir = opts.root.join(".dogu/schemas").join(safe(server));
+    let mut list: Vec<(String, Value)> = std::fs::read_dir(dir)
+        .into_iter()
+        .flatten()
+        .flatten()
+        .filter_map(|entry| std::fs::read_to_string(entry.path()).ok())
+        .filter_map(|text| serde_json::from_str::<Value>(&text).ok())
+        .map(|schema| (ident(schema["name"].as_str().unwrap_or("")), schema))
+        .collect();
+    list.sort_by(|a, b| a.0.cmp(&b.0));
+    list
+}
 
+fn servers_of(opts: &Options) -> Vec<String> {
+    crate::sync::saved_state(&opts.root)
+        .and_then(|state| state["servers"].as_array().cloned())
+        .map(|a| a.iter().filter_map(Value::as_str).map(String::from).collect())
+        .unwrap_or_default()
+}
+
+/// Every app and its tool names, for `search`'s description, so the model knows what to ask for.
+fn catalog(opts: &Options) -> String {
+    let servers = servers_of(opts);
+    let named: Vec<String> = servers
+        .iter()
+        .map(|s| format!("{}: {}", ident(s), tools_of(opts, s).into_iter().map(|(n, _)| n).collect::<Vec<_>>().join(", ")))
+        .collect();
+    let full = format!("Apps and their tools:\n{}", named.join("\n"));
+    if full.len() <= CATALOG_BUDGET {
+        return full;
+    }
+    let counts: Vec<String> = servers.iter().map(|s| format!("{} ({} tools)", ident(s), tools_of(opts, s).len())).collect();
+    format!("Apps: {}", counts.join(", "))
+}
+
+fn search(opts: &Options, app: Option<&str>, query: Option<&str>) -> Result<String, String> {
+    let servers = servers_of(opts);
     if let Some(app) = app {
         let server = servers
             .iter()
-            .find(|s| **s == app || ident(s) == app)
+            .find(|s| *s == app || ident(s) == app)
             .ok_or_else(|| format!("no app \"{app}\". Apps: {}", servers.iter().map(|s| ident(s)).collect::<Vec<_>>().join(", ")))?;
         if query.is_none() {
             return std::fs::read_to_string(opts.root.join(safe(server)).join("index.d.ts")).map_err(|e| e.to_string());
         }
     }
-    match query {
-        None => Ok(servers
-            .iter()
-            .map(|s| format!("{} — {} tools", ident(s), tools_of(s).len()))
-            .collect::<Vec<_>>()
-            .join("\n")
-            + "\n\nCall search with `app` to see an app's tools."),
-        Some(query) => {
-            let words: Vec<String> = query.to_lowercase().split_whitespace().map(String::from).collect();
-            let mut hits = Vec::new();
-            for server in servers.iter().filter(|s| app.map_or(true, |a| **s == a || ident(s) == a)) {
-                for (tool, about) in tools_of(server) {
-                    let line = format!("tools.{}.{tool} — {about}", ident(server));
-                    let lower = line.to_lowercase();
-                    if words.iter().all(|w| lower.contains(w)) {
-                        hits.push(line);
-                    }
-                }
-            }
-            if hits.is_empty() {
-                Ok("No tools match. Try fewer words, or call search with no parameters to list the apps.".into())
-            } else {
-                Ok(hits.join("\n") + "\n\nCall search with `app` to see the full types.")
+    let Some(query) = query else {
+        return Ok(catalog(opts) + "\n\nCall search with words from a tool's name or job to read its type.");
+    };
+    // Rank by how many of the words a tool's app, name and description contain. All words are not needed.
+    let words: Vec<String> = query.to_lowercase().split_whitespace().map(String::from).collect();
+    let mut hits: Vec<(usize, String, Value)> = Vec::new();
+    for server in servers.iter().filter(|s| app.map_or(true, |a| *s == a || ident(s) == a)) {
+        for (tool, schema) in tools_of(opts, server) {
+            let about = schema["description"].as_str().unwrap_or("");
+            // The name both as written and with `_` as spaces, so `search_repositories` and `search repositories` both match.
+            let text = format!("{} {tool} {} {about}", ident(server), tool.replace('_', " ")).to_lowercase();
+            let score = words.iter().filter(|w| text.contains(w.as_str())).count();
+            if score > 0 {
+                hits.push((score, ident(server), schema));
             }
         }
+    }
+    if hits.is_empty() {
+        return Ok(format!("No tools match. {}", catalog(opts)));
+    }
+    hits.sort_by(|a, b| b.0.cmp(&a.0));
+    let shown: Vec<String> =
+        hits.iter().take(MAX_HITS).map(|(_, app, schema)| tool_decl(schema, "", &format!("tools.{app}."))).collect();
+    let more = match hits.len() > MAX_HITS {
+        true => format!("\n({} more matched. Add words to narrow it.)", hits.len() - MAX_HITS),
+        false => String::new(),
+    };
+    Ok(format!("{}{more}\nCall run_code with a program that uses them.", shown.join("")))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    /// A folder like `dogu sync` makes, with one app "fx" and two tools.
+    fn folder(name: &str) -> Options {
+        let root = std::env::temp_dir().join(format!("dogu-serve-test-{}-{name}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&root);
+        let schemas = root.join(".dogu/schemas/fx");
+        std::fs::create_dir_all(&schemas).unwrap();
+        std::fs::write(root.join(".dogu/state.json"), json!({ "servers": ["fx"] }).to_string()).unwrap();
+        let search = json!({ "name": "search_repositories", "description": "Search GitHub repositories by a query.",
+            "inputSchema": { "type": "object", "properties": { "query": { "type": "string" } }, "required": ["query"] } });
+        let count = json!({ "name": "count", "description": "Add one to a counter.", "inputSchema": { "type": "object" } });
+        std::fs::write(schemas.join("search_repositories.json"), search.to_string()).unwrap();
+        std::fs::write(schemas.join("count.json"), count.to_string()).unwrap();
+        Options::new(root)
+    }
+
+    #[test]
+    fn search_finds_a_tool_when_only_some_words_match() {
+        let opts = folder("some-words");
+
+        let found = search(&opts, None, Some("github repositories org")).unwrap();
+
+        assert!(found.contains("search_repositories"), "{found}");
+        assert!(!found.contains("No tools match"), "{found}");
+    }
+
+    #[test]
+    fn search_results_include_the_types_so_no_second_search_is_needed() {
+        let opts = folder("types");
+
+        let found = search(&opts, None, Some("repositories")).unwrap();
+
+        assert!(found.contains("tools.fx.search_repositories(args: {"), "{found}");
+        assert!(found.contains("query: string"), "{found}");
+    }
+
+    #[test]
+    fn search_finds_tools_by_their_exact_names() {
+        let opts = folder("exact-names");
+
+        let found = search(&opts, None, Some("search_repositories count")).unwrap();
+
+        assert!(found.contains("tools.fx.search_repositories(args: {"), "{found}");
+        assert!(found.contains("tools.fx.count("), "{found}");
+    }
+
+    #[test]
+    fn search_ranks_the_best_match_first() {
+        let opts = folder("rank");
+
+        let found = search(&opts, None, Some("counter add")).unwrap();
+
+        let count_at = found.find("tools.fx.count").expect("count is listed");
+        assert!(found.find("tools.fx.search_repositories").map_or(true, |at| at > count_at), "{found}");
+    }
+
+    #[test]
+    fn the_tool_list_names_every_app_and_tool() {
+        let opts = folder("catalog");
+
+        let text = catalog(&opts);
+
+        assert!(text.contains("fx: count, search_repositories"), "{text}");
     }
 }
