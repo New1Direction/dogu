@@ -1,6 +1,6 @@
 # Benchmark 2026-11-22
 
-dogu 0.3.0, Claude Code 2.1.330 (Claude Code), model `sonnet`, 2 runs of each task per setup, bench at commit fd6d37a (the Codex client is unchanged since cd0a190). Codex's default model on a ChatGPT plan. Codex's sandbox did not allow ~/.npm here, so the local memory server failed inside it; see 2026-11-22-codex-memory-npm for the same task with ~/.npm allowed (3/3). Servers: GitHub (official, hosted), Context7, DeepWiki, and the memory server (local).
+dogu 0.3.0, Claude Code 2.1.330 (Claude Code), model `sonnet`, 2 runs of each task per setup, bench at commit f3268c5 (the Codex client is unchanged since 084d9d1). Codex's default model on a ChatGPT plan. Codex's sandbox did not allow ~/.npm here, so the local memory server failed inside it; see 2026-11-22-codex-memory-npm for the same task with ~/.npm allowed (3/3). Servers: GitHub (official, hosted), Context7, DeepWiki, and the memory server (local).
 
 ## Held-out tasks (written before any run, never tuned against)
 

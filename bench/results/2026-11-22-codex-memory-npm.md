@@ -1,6 +1,6 @@
 # Benchmark 2026-11-22
 
-dogu 0.3.0, Claude Code 2.1.330 (Claude Code), model `sonnet`, 3 runs of each task per setup, bench at commit 78f799d. Servers: GitHub (official, hosted), Context7, DeepWiki, and the memory server (local).
+dogu 0.3.0, Claude Code 2.1.330 (Claude Code), model `sonnet`, 3 runs of each task per setup, bench at commit 134678e. Servers: GitHub (official, hosted), Context7, DeepWiki, and the memory server (local).
 
 ## Held-out tasks (written before any run, never tuned against)
 

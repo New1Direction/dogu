@@ -173,8 +173,13 @@ const program = Effect.gen(function* () {
     "",
   ].join("\n");
   const out = `${HERE}results/${env("BENCH_OUT", `${date}-forge`)}`;
-  yield* Effect.promise(() => Deno.writeTextFile(`${out}.md`, text));
-  yield* Effect.promise(() => Deno.writeTextFile(`${out}.json`, JSON.stringify({ date, dogu, model: MODEL, commit, truths: Object.fromEntries(truths), sessions: all }, null, 2)));
+  // Steps name each world's temp folder, whose path can hold your user name. Saved results say <work>.
+  const tmp = yield* Effect.promise(() => Deno.realPath(Deno.env.get("TMPDIR") ?? "/tmp"));
+  const scrub = (t: string) => t.replace(new RegExp(`(/private)?${tmp.replace(/^\/private/, "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/?dogu-bench-[A-Za-z0-9_]+`, "g"), "<work>");
+  yield* Effect.promise(() => Deno.writeTextFile(`${out}.md`, scrub(text)));
+  yield* Effect.promise(() =>
+    Deno.writeTextFile(`${out}.json`, scrub(JSON.stringify({ date, dogu, model: MODEL, commit, truths: Object.fromEntries(truths), sessions: all }, null, 2)))
+  );
   yield* Console.log(`\n${text}\nWrote ${out}.md and .json`);
 });
 

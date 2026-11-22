@@ -3,7 +3,7 @@
   "dogu": "dogu 0.3.0",
   "claude": "2.1.330 (Claude Code)",
   "model": "sonnet",
-  "commit": "78f799d",
+  "commit": "134678e",
   "dirty": false,
   "answers": {
     "memory-find": [

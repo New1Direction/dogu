@@ -1,6 +1,6 @@
 # Benchmark 2026-11-22
 
-dogu 0.3.0, Claude Code 2.1.330 (Claude Code), model `gpt-6.1-sol`, 2 runs of each task per setup, bench at commit 12a1b83 (the pi client is unchanged since fd6d37a; the installed dogu was built at 4f3d9fc). Model: openai/gpt-6.1-sol through pi, thinking off. Servers: GitHub (official, hosted), Context7, DeepWiki, and the memory server (local).
+dogu 0.3.0, Claude Code 2.1.330 (Claude Code), model `gpt-6.1-sol`, 2 runs of each task per setup, bench at commit 8295dde (the pi client is unchanged since f3268c5; the installed dogu was built at 5c081de). Model: openai/gpt-6.1-sol through pi, thinking off. Servers: GitHub (official, hosted), Context7, DeepWiki, and the memory server (local).
 
 ## Held-out tasks (written before any run, never tuned against)
 
