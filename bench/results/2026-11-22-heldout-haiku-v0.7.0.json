@@ -1,0 +1,4341 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.7.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "haiku",
+  "commit": "013ff13",
+  "dirty": false,
+  "answers": {
+    "created": [
+      "2021-05-30"
+    ],
+    "issue-title": [
+      "Progress notifications"
+    ],
+    "release-tags": [
+      "v2.5.0",
+      "v2.3.0",
+      "v2.4.0",
+      "2.16.0",
+      "2026-07-28"
+    ],
+    "deno-sections": [
+      "Deno Overview",
+      "CLI Architecture",
+      "Runtime Core",
+      "Language Server Protocol",
+      "HTTP, Fetch, and WebSocket",
+      "Web Standards APIs",
+      "Node.js Compatibility Layer",
+      "Foreign Function Interface",
+      "Testing and Benchmarking",
+      "Developer Tools and Productivity",
+      "Unstable and Experimental APIs",
+      "Glossary"
+    ],
+    "memory-find": [
+      "Project Ivy"
+    ],
+    "tokio-sections": [
+      "13"
+    ],
+    "axum-releases": [
+      "175"
+    ]
+  },
+  "records": [
+    {
+      "setup": "direct",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "2021-05-30\n\nThe repo tokio-rs/axum shows `created_at` as 2021-05-30T09:22:25Z, from the GitHub repository search tool.",
+        "turns": 2,
+        "seconds": 2.971,
+        "costUsd": 0.0019213300000000002,
+        "firstTurnTokens": 29776,
+        "totalInputTokens": 60211,
+        "outputTokens": 9,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 6144,
+          "cacheRead": 54063
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:tokio-rs/axum\",\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2462919169999986
+          },
+          {
+            "kind": "model",
+            "seconds": 1.419129167000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5177091249999992
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0171195000000006
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "2021-05-30\n\nThis comes from the `created_at` field of the tokio-rs/axum repository, returned by GitHub repository search.",
+        "turns": 3,
+        "seconds": 3.822,
+        "costUsd": 0.0019283399999999997,
+        "firstTurnTokens": 7842,
+        "totalInputTokens": 25540,
+        "outputTokens": 30,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 7610,
+          "cacheRead": 17924
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__search_repositories\",\"max_results\":1}",
+          "mcp__github__search_repositories {\"query\":\"repo:tokio-rs/axum\",\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2058075419999987
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3975206670000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.0052848749999991895
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7506882910000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5988571250000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.056148166999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**2021-05-30**\n\nThe GitHub search tool reports `created_at: 2021-05-30T09:22:25Z` for tokio-rs/axum.\n\nI'm not sure what \"Run c7537e26\" refers to, so I treated it as the lookup request.",
+        "turns": 2,
+        "seconds": 4.26,
+        "costUsd": 0.00262867,
+        "firstTurnTokens": 13470,
+        "totalInputTokens": 27503,
+        "outputTokens": 7,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 10962,
+          "cacheRead": 16537
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"repo:tokio-rs/axum\" --perPage 1 --json | jq '.items[] | {full_name, cr"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2676266660000001
+          },
+          {
+            "kind": "model",
+            "seconds": 2.1932296250000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.924828625
+          },
+          {
+            "kind": "model",
+            "seconds": 1.068622374999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "2021-05-30\n\nThe GitHub repo tokio-rs/axum was created on 2021-05-30, per its `created_at` field from the GitHub repository search.",
+        "turns": 2,
+        "seconds": 2.694,
+        "costUsd": 0.00104264,
+        "firstTurnTokens": 7566,
+        "totalInputTokens": 15629,
+        "outputTokens": 4,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4071,
+          "cacheRead": 11554
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({ query: \\\"repo:tokio-rs/axum\\\" });\\nconsole.log(JSON.stringify(r, null, 2));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24357862499999827
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3636354580000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5658440420000004
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7457539159999982
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #1 in modelcontextprotocol/inspector is titled **\"Progress notifications\"**. It is closed (completed), opened 2024-10-08 by jspahrsummers.",
+        "turns": 3,
+        "seconds": 3.667,
+        "costUsd": 0.0013774899999999999,
+        "firstTurnTokens": 7843,
+        "totalInputTokens": 25496,
+        "outputTokens": 36,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5021,
+          "cacheRead": 20469
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__issue_read\",\"max_results\":1}",
+          "mcp__github__issue_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\",\"issue_number\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.283007458
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8782156250000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.005635666999998623
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8843503330000022
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.1539687090000008
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7227340829999989
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The title of issue #1 in modelcontextprotocol/inspector is **\"Progress notifications\"**. It is closed (completed), opened by jspahrsummers on 2024-10-08.\n\nMy first jq filter returned null because the title sits under `.issue`, not at the top level. The raw output confirmed the value.",
+        "turns": 3,
+        "seconds": 7.187,
+        "costUsd": 0.00113472,
+        "firstTurnTokens": 13470,
+        "totalInputTokens": 41896,
+        "outputTokens": 30,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2088,
+          "cacheRead": 39802
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./github/issue_read --issue_number 1 --method get --owner modelcontextprotocol --repo inspector --json | j",
+          "cd <work>/mcp && ./github/issue_read --issue_number 1 --method get --owner modelcontextprotocol --repo inspector --json | h"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22631999999999972
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2631054589999986
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.4360271660000037
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4667864589999988
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.810291458
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1678852919999985
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #1 in modelcontextprotocol/inspector is titled \"Progress notifications.\" It is closed (completed) and was opened by jspahrsummers.",
+        "turns": 2,
+        "seconds": 3.179,
+        "costUsd": 0.0005889900000000001,
+        "firstTurnTokens": 7565,
+        "totalInputTokens": 15676,
+        "outputTokens": 10,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1573,
+          "cacheRead": 14099
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.issue_read({ method: \\\"get\\\", owner: \\\"modelcontextprotocol\\\", repo: \\\"inspector\\\", issue_number: 1 });\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2447644999999975
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3486172500000029
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.1486774579999983
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6615017079999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #1 in modelcontextprotocol/inspector is titled \"Progress notifications.\" It is closed (completed).",
+        "turns": 2,
+        "seconds": 2.55,
+        "costUsd": 0.00137864,
+        "firstTurnTokens": 29772,
+        "totalInputTokens": 60074,
+        "outputTokens": 10,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3466,
+          "cacheRead": 56604
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__issue_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\",\"issue_number\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1419892080000027
+          },
+          {
+            "kind": "model",
+            "seconds": 1.18227175
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7132461249999977
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6310915420000018
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The 5 most-starred repos in the modelcontextprotocol org, with their latest release tags:\n\n- modelcontextprotocol/servers: v2.5.0\n- modelcontextprotocol/python-sdk: v2.3.0\n- modelcontextprotocol/typescript-sdk: v2.4.0\n- modelcontextprotocol/inspector: 2.16.0\n- modelcontextprotocol/modelcontextprotocol: 2026-07-28\n\nI read \"Run c2bb3737\" as an ID with no instructions attached, so I just ran the query.",
+        "turns": 3,
+        "seconds": 9.829,
+        "costUsd": 0.0013759800000000002,
+        "firstTurnTokens": 13491,
+        "totalInputTokens": 42794,
+        "outputTokens": 20,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2400,
+          "cacheRead": 40388
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:modelcontextprotocol\" --sort stars --order desc --perPage 10 --min",
+          "cd <work>/mcp && for r in servers python-sdk typescript-sdk inspector modelcontextprotocol; do echo -n \"$r: \"; github/get_l"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2239634589999987
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8225220000000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8819115830000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6036937919999983
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.7946281249999982
+          },
+          {
+            "kind": "model",
+            "seconds": 1.686671375000003
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 by stars in the modelcontextprotocol org, with latest release tag:\n\n- servers: v2.5.0\n- python-sdk: v2.3.0\n- typescript-sdk: v2.4.0\n- inspector: 2.16.0\n- modelcontextprotocol: 2026-07-28",
+        "turns": 3,
+        "seconds": 5.625,
+        "costUsd": 0.0012661600000000001,
+        "firstTurnTokens": 7586,
+        "totalInputTokens": 27126,
+        "outputTokens": 16,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3444,
+          "cacheRead": 23676
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({ query: \\\"org:modelcontextprotocol\\\", sort: \\\"stars\\\", order: \\\"desc\\\", perPage: 10 });\\nconsole.log(JSON.stringify(r).slice(0, 4000));\"}",
+          "mcp__tools__run_code {\"code\":\"const repos = [\\\"servers\\\",\\\"python-sdk\\\",\\\"typescript-sdk\\\",\\\"inspector\\\",\\\"modelcontextprotocol\\\"];\\nconst res = await Promise.all(repos.map(async (repo) => {\\n try {\\n const r = await tools.github.get_latest"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24446595800000068
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3981945419999975
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8400729580000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.475059959000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9922874159999995
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9021599999999994
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 by stars in modelcontextprotocol, with the latest release tag from GitHub's latest-release endpoint:\n\n1. servers: `v2.5.0`\n2. python-sdk: `v2.3.0`\n3. typescript-sdk: `v2.4.0`\n4. inspector: `2.16.0`\n5. modelcontextprotocol: `2026-07-28`",
+        "turns": 7,
+        "seconds": 6.226,
+        "costUsd": 0.00500633,
+        "firstTurnTokens": 29794,
+        "totalInputTokens": 105799,
+        "outputTokens": 15,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 18020,
+          "cacheRead": 87773
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"modelcontextprotocol\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.219269124999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3304076669999993
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6965190829999992
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6797075420000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.14542608300000204
+          },
+          {
+            "kind": "model",
+            "seconds": 0.04013820800000012
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6372040000000014
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6802758339999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 by stars, with latest release tags:\n\n1. modelcontextprotocol/servers: v2.5.0\n2. modelcontextprotocol/python-sdk: v2.3.0\n3. modelcontextprotocol/typescript-sdk: v2.4.0\n4. modelcontextprotocol/inspector: 2.16.0\n5. modelcontextprotocol/modelcontextprotocol: 2026-07-28",
+        "turns": 8,
+        "seconds": 6.48,
+        "costUsd": 0.00485631,
+        "firstTurnTokens": 7864,
+        "totalInputTokens": 51524,
+        "outputTokens": 43,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 20065,
+          "cacheRead": 31451
+        },
+        "toolCalls": 7,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__search_repositories,mcp__github__get_latest_release,mcp__github__list_releases,mcp__github__get_me\",\"max_results\":4}",
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"modelcontextprotocol\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2205660420000022
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9842764580000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.006025499999996242
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8969857499999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6609322499999979
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6577472920000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.07827029200000091
+          },
+          {
+            "kind": "model",
+            "seconds": 0.1029651660000015
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6537612500000032
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4226074169999992
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "I couldn't match \"b61da848\" to anything I can access, so I ran the DeepWiki lookup directly. DeepWiki lists 12 top-level sections for denoland/deno:\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 3.196,
+        "costUsd": 0.0009229100000000001,
+        "firstTurnTokens": 7567,
+        "totalInputTokens": 16755,
+        "outputTokens": 10,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2650,
+          "cacheRead": 14101
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({ repoName: \\\"denoland/deno\\\" });\\nconsole.log(JSON.stringify(r, null, 2));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2571796669999967
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4933874580000048
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.23841637500000057
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4448373329999957
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 2.25,
+        "costUsd": 0.0016170199999999998,
+        "firstTurnTokens": 29780,
+        "totalInputTokens": 61066,
+        "outputTokens": 7,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4450,
+          "cacheRead": 56612
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1921673750000046
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9583066249999972
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.18083249999999707
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0941267500000031
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 3,
+        "seconds": 2.883,
+        "costUsd": 0.00149197,
+        "firstTurnTokens": 7846,
+        "totalInputTokens": 25557,
+        "outputTokens": 60,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5544,
+          "cacheRead": 20007
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__deepwiki__read_wiki_structure\",\"max_results\":1}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.256067375000006
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8210403329999973
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.005826291999997846
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6675422500000057
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.16836504099999727
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1951659169999989
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary\n\nI wasn't sure what \"bd4c7755\" refers to, so I took it as a label and ran the DeepWiki structure lookup.",
+        "turns": 2,
+        "seconds": 4.238,
+        "costUsd": 0.0012416200000000001,
+        "firstTurnTokens": 13474,
+        "totalInputTokens": 28865,
+        "outputTokens": 16,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2869,
+          "cacheRead": 25992
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./deepwiki/read_wiki_structure --repoName denoland/deno --json | jq -r '.result' | head -c 4000"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21063762500000302
+          },
+          {
+            "kind": "model",
+            "seconds": 2.419268624999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2787049580000023
+          },
+          {
+            "kind": "model",
+            "seconds": 1.499032916999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ivy is the entity. Its observation \"Its build uses the rikasorbel toolchain\" mentions the word.",
+        "turns": 2,
+        "seconds": 1.494,
+        "costUsd": 0.0012371300000000001,
+        "firstTurnTokens": 29781,
+        "totalInputTokens": 59715,
+        "outputTokens": 34,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3098,
+          "cacheRead": 56613
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"rikasorbel\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.257606292000004
+          },
+          {
+            "kind": "model",
+            "seconds": 0.754049791999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.012874457999998423
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7010264580000003
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Ivy** is the only entity whose observation mentions \"rikasorbel.\" Its observation reads: \"Its build uses the rikasorbel toolchain.\"",
+        "turns": 3,
+        "seconds": 2.421,
+        "costUsd": 0.00118983,
+        "firstTurnTokens": 7848,
+        "totalInputTokens": 24367,
+        "outputTokens": 35,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4298,
+          "cacheRead": 20063
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__memory__search_nodes\",\"max_results\":1}",
+          "mcp__memory__search_nodes {\"query\":\"rikasorbel\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.236984292000001
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9421580000000034
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.007893875000001493
+          },
+          {
+            "kind": "model",
+            "seconds": 0.686537999999993
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.008318708000006225
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7549921249999971
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ivy. Its observation \"Its build uses the rikasorbel toolchain\" is the only match from the `search_nodes` query for \"rikasorbel\".",
+        "turns": 2,
+        "seconds": 2.403,
+        "costUsd": 0.0006555500000000001,
+        "firstTurnTokens": 13477,
+        "totalInputTokens": 27335,
+        "outputTokens": 24,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1336,
+          "cacheRead": 25995
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./memory/search_nodes --query rikasorbel --json | jq '.entities[] | {name, observations}'"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24270149999999557
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2431542919999994
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3264140830000033
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7806847500000005
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ivy. Its observation \"Its build uses the rikasorbel toolchain\" mentions the word.\n\nI wasn't sure what \"Run cd0024cb\" meant, so I ran the knowledge-graph search for \"rikasorbel\" and reported the match.",
+        "turns": 2,
+        "seconds": 2.232,
+        "costUsd": 0.00056786,
+        "firstTurnTokens": 7572,
+        "totalInputTokens": 15482,
+        "outputTokens": 15,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1372,
+          "cacheRead": 14106
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.memory.search_nodes({ query: \\\"rikasorbel\\\" });\\nconsole.log(JSON.stringify(r, null, 2));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3465660829999979
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3171257079999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01620133399999757
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8847038749999991
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in tokio-rs is **tokio-rs/tokio** (33,767 stars). Its DeepWiki structure has **13 top-level sections** (numbered 1 through 13, from \"Tokio Overview\" to \"Glossary\").",
+        "turns": 4,
+        "seconds": 4.679,
+        "costUsd": 0.0019373600000000002,
+        "firstTurnTokens": 7855,
+        "totalInputTokens": 37338,
+        "outputTokens": 67,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 6804,
+          "cacheRead": 30526
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__search_repositories,mcp__deepwiki__read_wiki_structure\",\"max_results\":2}",
+          "mcp__github__search_repositories {\"query\":\"org:tokio-rs\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5,\"minimal_output\":true}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"tokio-rs/tokio\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.178601834000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2513627080000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.017414875000002272
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9802740829999967
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6935069169999992
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6818315830000063
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.13550554199999887
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9042372079999987
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in tokio-rs is **tokio** (33,767 stars). Its DeepWiki documentation has **13 top-level sections** (1 Tokio Overview through 13 Glossary), with subsections under many of them.",
+        "turns": 3,
+        "seconds": 4.656,
+        "costUsd": 0.00124537,
+        "firstTurnTokens": 13484,
+        "totalInputTokens": 42828,
+        "outputTokens": 26,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2695,
+          "cacheRead": 40127
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./github/search_repositories --query \"org:tokio-rs\" --sort stars --order desc --perPage 5 --json | jq '.it",
+          "cd <work>/mcp && ./deepwiki/read_wiki_structure --repoName tokio-rs/tokio --json | jq -r '.result' | head -c 4000"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22074041700000088
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6756303750000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7071854160000004
+          },
+          {
+            "kind": "model",
+            "seconds": 1.110004541999995
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.25102795799999855
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8686168340000009
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in tokio-rs is **tokio-rs/tokio** (33,767 stars). Its DeepWiki documentation has **13** top-level sections (1 Tokio Overview through 13 Glossary).",
+        "turns": 3,
+        "seconds": 3.915,
+        "costUsd": 0.00115403,
+        "firstTurnTokens": 7580,
+        "totalInputTokens": 26855,
+        "outputTokens": 41,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3576,
+          "cacheRead": 23273
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({ query: \\\"org:tokio-rs\\\", sort: \\\"stars\\\", order: \\\"desc\\\", perPage: 5 });\\nconsole.log(JSON.stringify(r, null, 2));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({ repoName: \\\"tokio-rs/tokio\\\" });\\nconsole.log(JSON.stringify(r, null, 2));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24099454100000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2698064169999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7023182080000043
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8768454589999961
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.15711000000000075
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8904070409999982
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in tokio-rs is **tokio-rs/tokio** (33,767 stars). Its DeepWiki index has **13** top-level sections (numbered 1 through 13, from \"Tokio Overview\" to \"Glossary\"). I treated \"ec744c73\" as a run label, since it didn't map to any action.",
+        "turns": 3,
+        "seconds": 5.043,
+        "costUsd": 0.00221779,
+        "firstTurnTokens": 29786,
+        "totalInputTokens": 92961,
+        "outputTokens": 41,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5206,
+          "cacheRead": 87749
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:tokio-rs\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"tokio-rs/tokio\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2048408750000017
+          },
+          {
+            "kind": "model",
+            "seconds": 1.645299082999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6384158329999989
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7746949590000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1451349160000026
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8214942919999961
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "tokio-rs/axum has published **175** releases in total.\n\nI counted them with `github/list_releases` across two pages of 100. I didn't recognize \"f515d261\" as a tool or command, so I ran only the release count.",
+        "turns": 3,
+        "seconds": 6.716,
+        "costUsd": 0.00126684,
+        "firstTurnTokens": 13460,
+        "totalInputTokens": 42721,
+        "outputTokens": 12,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2311,
+          "cacheRead": 40404
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ls && ./github/list_releases --help 2>&1 | head -30",
+          "cd <work>/mcp && total=0; page=1; while true; do n=$(./github/list_releases --owner tokio-rs --repo axum --fields id --perP"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2667899170000019
+          },
+          {
+            "kind": "model",
+            "seconds": 2.2423110830000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.36487883300000234
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4014666250000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.5145504169999988
+          },
+          {
+            "kind": "model",
+            "seconds": 1.137230125000002
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "tokio-rs/axum has 175 releases in total, counted by paging through the GitHub `list_releases` results (100 per page, 2 pages).\n\n\"Run a4d4be99\" didn't match anything: there is no forged tool named a4d4be99, so I treated it as a request for the count.",
+        "turns": 3,
+        "seconds": 8.055,
+        "costUsd": 0.0038870800000000002,
+        "firstTurnTokens": 7557,
+        "totalInputTokens": 50678,
+        "outputTokens": 17,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 15254,
+          "cacheRead": 35418
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const results = await Promise.allSettled([\\n tools.forged.a4d4be99({}),\\n tools.github.list_releases({ owner: \\\"tokio-rs\\\", repo: \\\"axum\\\", perPage: 100, page: 1 }),\\n]);\\nconsole.log(JSON.stringify(results, nu",
+          "mcp__tools__run_code {\"code\":\"let total = 0, page = 1, pages = 0;\\nwhile (true) {\\n const r = await tools.github.list_releases({ owner: \\\"tokio-rs\\\", repo: \\\"axum\\\", perPage: 100, page });\\n const n = Array.isArray(r) ? r.length : -1;\\n if "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2733667080000014
+          },
+          {
+            "kind": "model",
+            "seconds": 2.139865166999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.1250405830000019
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0373633340000015
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.3369859579999979
+          },
+          {
+            "kind": "model",
+            "seconds": 1.400732083000002
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The tokio-rs/axum repo has **175 releases** in total. Page 1 returned 100 and page 2 returned 75, which is less than a full page, so that was the last one.\n\nThe \"Run a04b7673\" label didn't map to anything I could identify, so I ignored it and just answered the release question.",
+        "turns": 3,
+        "seconds": 12.842,
+        "costUsd": 0.00428691,
+        "firstTurnTokens": 29765,
+        "totalInputTokens": 97561,
+        "outputTokens": 18,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 8704,
+          "cacheRead": 88851
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"perPage\":100,\"page\":1,\"fields\":[\"tag_name\"]}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"perPage\":100,\"page\":2,\"fields\":[\"tag_name\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1624820830000027
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9415998330000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9038832499999989
+          },
+          {
+            "kind": "model",
+            "seconds": 4.867529958999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7629064159999981
+          },
+          {
+            "kind": "model",
+            "seconds": 4.353293625000006
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "tokio-rs/axum has **175 releases** in total. I paged through `list_releases` with 100 per page: page 1 returned 100, page 2 returned 75, and page 3 was empty. This counts only what the GitHub API returned to this token, so draft releases visible only to maintainers may not be included.",
+        "turns": 5,
+        "seconds": 11.605,
+        "costUsd": 0.00272863,
+        "firstTurnTokens": 7833,
+        "totalInputTokens": 46532,
+        "outputTokens": 52,
+        "inputBreakdown": {
+          "fresh": 10,
+          "cacheWrite": 6439,
+          "cacheRead": 40083
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__list_releases\",\"max_results\":1}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"fields\":[\"id\"],\"perPage\":100,\"page\":1}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"fields\":[\"id\"],\"perPage\":100,\"page\":2}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"fields\":[\"id\"],\"perPage\":100,\"page\":3}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2031208340000012
+          },
+          {
+            "kind": "model",
+            "seconds": 1.443461875000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.005606374999995722
+          },
+          {
+            "kind": "model",
+            "seconds": 1.016063541000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8609193339999983
+          },
+          {
+            "kind": "model",
+            "seconds": 0.981516416000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8704502090000021
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9712147909999915
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4215849589999996
+          },
+          {
+            "kind": "model",
+            "seconds": 5.014699666
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "2021-05-30\n\nSource: GitHub repo search for `tokio-rs/axum`, which returned `created_at: 2021-05-30T09:22:25Z`.",
+        "turns": 2,
+        "seconds": 2.636,
+        "costUsd": 0.0005807000000000001,
+        "firstTurnTokens": 7566,
+        "totalInputTokens": 15658,
+        "outputTokens": 8,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1554,
+          "cacheRead": 14100
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({ query: \\\"repo:tokio-rs/axum\\\" });\\nconsole.log(JSON.stringify(r, null, 2));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24849679099999775
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2965679589999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5197754160000043
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7985641669999968
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "2021-05-30\n\nThe GitHub repository tokio-rs/axum shows `created_at` of 2021-05-30T09:22:25Z, from a repository search via the GitHub MCP tool.",
+        "turns": 2,
+        "seconds": 2.757,
+        "costUsd": 0.0014392700000000003,
+        "firstTurnTokens": 29775,
+        "totalInputTokens": 60205,
+        "outputTokens": 15,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3594,
+          "cacheRead": 56607
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:tokio-rs/axum\",\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.306259208000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3691264169999922
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6292707080000111
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7380497079999917
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**2021-05-30**: the GitHub API reports `created_at` as 2021-05-30T09:22:25Z for tokio-rs/axum.\n\nI didn't act on \"Run fa2f0e61\" because I don't know what it refers to. If it's a task or run ID you meant me to look up, tell me what it should do.",
+        "turns": 3,
+        "seconds": 3.919,
+        "costUsd": 0.0014731100000000001,
+        "firstTurnTokens": 7844,
+        "totalInputTokens": 25561,
+        "outputTokens": 32,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5084,
+          "cacheRead": 20471
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__search_repositories\",\"max_results\":1}",
+          "mcp__github__search_repositories {\"query\":\"repo:tokio-rs/axum\",\"minimal_output\":false,\"perPage\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2591231660000048
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3580742919999904
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.018184292000005264
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8524371249999967
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4858523750000021
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1805623330000095
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "2021-05-30\n\nThe GitHub search tool returned `created_at: 2021-05-30T09:22:25Z` for tokio-rs/axum.",
+        "turns": 2,
+        "seconds": 3.117,
+        "costUsd": 0.0007108100000000001,
+        "firstTurnTokens": 13473,
+        "totalInputTokens": 27400,
+        "outputTokens": 4,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1405,
+          "cacheRead": 25991
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"repo:tokio-rs/axum\" --json | jq '.items[] | {full_name, created_at}'"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2330917080000072
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7500495419999933
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6126971250000062
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7104119999999967
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #1 in modelcontextprotocol/inspector is titled \"Progress notifications.\" It is closed (completed), opened by jspahrsummers on 2024-10-08.",
+        "turns": 2,
+        "seconds": 2.318,
+        "costUsd": 0.00134285,
+        "firstTurnTokens": 29773,
+        "totalInputTokens": 60011,
+        "outputTokens": 33,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3402,
+          "cacheRead": 56605
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__issue_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\",\"issue_number\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2444513750000041
+          },
+          {
+            "kind": "model",
+            "seconds": 0.913423708000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7224399579999883
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6608907089999994
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #1 in modelcontextprotocol/inspector is titled **\"Progress notifications\"**. It is closed (completed), opened by jspahrsummers on 2024-10-08.\n\nI'm not sure what \"Run d35c1558\" refers to, so I took it as a label and didn't act on it.",
+        "turns": 3,
+        "seconds": 3.961,
+        "costUsd": 0.00148985,
+        "firstTurnTokens": 7840,
+        "totalInputTokens": 25711,
+        "outputTokens": 33,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5130,
+          "cacheRead": 20575
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__issue_read\",\"max_results\":1}",
+          "mcp__github__issue_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\",\"issue_number\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.298635958999992
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2890935000000028
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.005503500000005879
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8398738750000048
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7310963329999938
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0761612500000046
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The title of issue #1 in modelcontextprotocol/inspector is **\"Progress notifications\"**. The issue is closed (completed) and was opened by jspahrsummers.",
+        "turns": 3,
+        "seconds": 5.885,
+        "costUsd": 0.00107331,
+        "firstTurnTokens": 13471,
+        "totalInputTokens": 41793,
+        "outputTokens": 36,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1986,
+          "cacheRead": 39801
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/issue_read --issue_number 1 --method get --owner modelcontextprotocol --repo inspector --json | jq ",
+          "cd <work>/mcp && github/issue_read --issue_number 1 --method get --owner modelcontextprotocol --repo inspector --json | hea"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2244114580000023
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4544371249999968
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.047289499999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.338378375
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.162349500000011
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8440740829999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #1 in modelcontextprotocol/inspector is titled **\"Progress notifications\"** (closed, completed).\n\nI couldn't find anything named a4887553: there is no forged tool by that name, so I didn't run anything for that part. If it's a different tool or program, tell me its name.",
+        "turns": 2,
+        "seconds": 3.969,
+        "costUsd": 0.00078636,
+        "firstTurnTokens": 7562,
+        "totalInputTokens": 15980,
+        "outputTokens": 5,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1880,
+          "cacheRead": 14096
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const [issue, forged] = await Promise.all([\\n tools.github.issue_read({ method: \\\"get\\\", owner: \\\"modelcontextprotocol\\\", repo: \\\"inspector\\\", issue_number: 1 }).catch(e => ({ error: String(e) })),\\n tools.forg"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24621433299999626
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8583745000000054
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8240234999999956
+          },
+          {
+            "kind": "model",
+            "seconds": 1.267003542000006
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "1. modelcontextprotocol/servers: v2.5.0\n2. modelcontextprotocol/python-sdk: v2.3.0\n3. modelcontextprotocol/typescript-sdk: v2.4.0\n4. modelcontextprotocol/inspector: 2.16.0\n5. modelcontextprotocol/modelcontextprotocol: 2026-07-28",
+        "turns": 8,
+        "seconds": 6.724,
+        "costUsd": 0.00492663,
+        "firstTurnTokens": 7864,
+        "totalInputTokens": 52041,
+        "outputTokens": 45,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 20250,
+          "cacheRead": 31783
+        },
+        "toolCalls": 7,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__search_repositories,mcp__github__get_latest_release,mcp__github__list_releases,mcp__github__list_tags\",\"max_results\":4}",
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"modelcontextprotocol\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2420473330000095
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1062715829999943
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.012792000000001469
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9342451250000012
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.729055208999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.565966124999992
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.05503191600000701
+          },
+          {
+            "kind": "model",
+            "seconds": 0.35341300000000064
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5110367089999928
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4434041660000076
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The top 5 repos by stars in the modelcontextprotocol org, with their latest release tags:\n\n- servers: v2.5.0\n- python-sdk: v2.3.0\n- typescript-sdk: v2.4.0\n- inspector: 2.16.0\n- modelcontextprotocol: 2026-07-28\n\nI'm not sure what \"ba32e140\" refers to, so I treated it as a label and ran the query above.",
+        "turns": 3,
+        "seconds": 8.496,
+        "costUsd": 0.00125884,
+        "firstTurnTokens": 13490,
+        "totalInputTokens": 42480,
+        "outputTokens": 28,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2200,
+          "cacheRead": 40274
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./github/search_repositories --query \"org:modelcontextprotocol\" --sort stars --order desc --perPage 5 --js",
+          "cd <work>/mcp && for r in servers python-sdk typescript-sdk inspector modelcontextprotocol; do echo -n \"$r: \"; ./github/get"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21828287500000443
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8123371659999976
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7879748340000079
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2173726659999953
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.4643070420000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1726309579999947
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 by stars in the modelcontextprotocol org, with latest release tag:\n\n1. servers: v2.5.0\n2. python-sdk: v2.3.0\n3. typescript-sdk: v2.4.0\n4. inspector: 2.16.0\n5. modelcontextprotocol: 2026-07-28",
+        "turns": 3,
+        "seconds": 5.43,
+        "costUsd": 0.0012536,
+        "firstTurnTokens": 7586,
+        "totalInputTokens": 27069,
+        "outputTokens": 13,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3423,
+          "cacheRead": 23640
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({ query: \\\"org:modelcontextprotocol\\\", sort: \\\"stars\\\", order: \\\"desc\\\", perPage: 10 });\\nconsole.log(JSON.stringify(r).slice(0, 4000));\"}",
+          "mcp__tools__run_code {\"code\":\"const repos = [\\\"servers\\\",\\\"python-sdk\\\",\\\"typescript-sdk\\\",\\\"inspector\\\",\\\"modelcontextprotocol\\\"];\\nconst res = await Promise.all(repos.map(async (repo) => {\\n try {\\n const r = await tools.github.get_latest"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22734549999999581
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3643725410000043
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7749607919999981
+          },
+          {
+            "kind": "model",
+            "seconds": 1.561125332999989
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8551173340000098
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8579923330000021
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Run 22f74666, top 5 modelcontextprotocol repos by stars:\n\n1. servers (92,165 stars): v2.5.0\n2. python-sdk (24,938 stars): v2.3.0\n3. typescript-sdk (13,806 stars): v2.4.0\n4. inspector (11,345 stars): 2.16.0\n5. modelcontextprotocol (9,750 stars): 2026-07-28",
+        "turns": 7,
+        "seconds": 5.886,
+        "costUsd": 0.004968370000000001,
+        "firstTurnTokens": 29794,
+        "totalInputTokens": 105823,
+        "outputTokens": 16,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 18040,
+          "cacheRead": 87777
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"modelcontextprotocol\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1932941659999925
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3483471669999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6467617500000054
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7583703749999988
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.06571262499999975
+          },
+          {
+            "kind": "model",
+            "seconds": 0.1523071249999921
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7496135830000128
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1504758339999972
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 2.814,
+        "costUsd": 0.0009871300000000001,
+        "firstTurnTokens": 13475,
+        "totalInputTokens": 28541,
+        "outputTokens": 19,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2544,
+          "cacheRead": 25993
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && deepwiki/read_wiki_structure --repoName denoland/deno"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23283670800000256
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1781989999999931
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2431722500000033
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3463064169999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Per DeepWiki's `read_wiki_structure` for denoland/deno, the top-level sections are (12 total):\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 2.675,
+        "costUsd": 0.00081912,
+        "firstTurnTokens": 7568,
+        "totalInputTokens": 16617,
+        "outputTokens": 26,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2511,
+          "cacheRead": 14102
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({ repoName: \\\"denoland/deno\\\" });\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23927241700000013
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9922093750000057
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.16701920799999792
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4961387499999985
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Run 3e8c4d85. DeepWiki lists 12 top-level sections for denoland/deno:\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 2.202,
+        "costUsd": 0.0015984200000000001,
+        "firstTurnTokens": 29780,
+        "totalInputTokens": 61013,
+        "outputTokens": 36,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4397,
+          "cacheRead": 56612
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1741403329999884
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7787867919999989
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.14398891600000208
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2650575840000093
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Run ecf12731: DeepWiki's structure for denoland/deno has 12 top-level sections:\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 3,
+        "seconds": 3.645,
+        "costUsd": 0.00161152,
+        "firstTurnTokens": 7845,
+        "totalInputTokens": 25828,
+        "outputTokens": 37,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5680,
+          "cacheRead": 20142
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__deepwiki__read_wiki_structure\",\"max_results\":1}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2584504580000067
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4170944579999922
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.006178708999999838
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7148250830000031
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.18327262499999808
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2983198750000007
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Ivy** has the observation \"Its build uses the rikasorbel toolchain.\"\n\nThere is no forged tool named `fec0e2c8`, so I could not run it. The answer above comes from reading the knowledge graph directly.",
+        "turns": 2,
+        "seconds": 3.599,
+        "costUsd": 0.00078527,
+        "firstTurnTokens": 7573,
+        "totalInputTokens": 15750,
+        "outputTokens": 12,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1639,
+          "cacheRead": 14107
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const [g, f] = await Promise.all([\\n tools.memory.read_graph({}),\\n tools.forged.fec0e2c8({}).catch(e => \\\"ERR: \\\" + String(e)),\\n]);\\nconsole.log(JSON.stringify(f));\\nconst ents = g.entities ?? [];\\nfor (const"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.270833209000004
+          },
+          {
+            "kind": "model",
+            "seconds": 2.5162090829999944
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.017577332999993533
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0374400840000018
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ivy. Its observation \"Its build uses the rikasorbel toolchain\" mentions the word.",
+        "turns": 2,
+        "seconds": 1.54,
+        "costUsd": 0.0012353400000000001,
+        "firstTurnTokens": 29782,
+        "totalInputTokens": 59717,
+        "outputTokens": 33,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3099,
+          "cacheRead": 56614
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"rikasorbel\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.0875345830000005
+          },
+          {
+            "kind": "model",
+            "seconds": 0.847238750000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01946691699999792
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6616640000000045
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Ivy**: its observation \"Its build uses the rikasorbel toolchain\" contains the word.",
+        "turns": 3,
+        "seconds": 2.828,
+        "costUsd": 0.0012501600000000002,
+        "firstTurnTokens": 7848,
+        "totalInputTokens": 24613,
+        "outputTokens": 32,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4421,
+          "cacheRead": 20186
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__memory__search_nodes,mcp__memory__read_graph\",\"max_results\":2}",
+          "mcp__memory__search_nodes {\"query\":\"rikasorbel\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1920177910000056
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2169269589999894
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.005101290999999009
+          },
+          {
+            "kind": "model",
+            "seconds": 0.715489167000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.00961900000000604
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8663661249999866
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ivy. Its observation \"Its build uses the rikasorbel toolchain\" mentions the word.",
+        "turns": 2,
+        "seconds": 2.156,
+        "costUsd": 0.0006470500000000001,
+        "firstTurnTokens": 13477,
+        "totalInputTokens": 27335,
+        "outputTokens": 23,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1336,
+          "cacheRead": 25995
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./memory/search_nodes --query rikasorbel --json | jq '.entities[] | {name, observations}'"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2371174580000079
+          },
+          {
+            "kind": "model",
+            "seconds": 1.321097916999992
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.09148933300000484
+          },
+          {
+            "kind": "model",
+            "seconds": 0.691442332999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**13** top-level sections. The most-starred tokio-rs repo is `tokio-rs/tokio` (33,767 stars), and its DeepWiki index lists sections 1 through 13, from \"Tokio Overview\" to \"Glossary.\"",
+        "turns": 3,
+        "seconds": 4.1,
+        "costUsd": 0.00217306,
+        "firstTurnTokens": 29786,
+        "totalInputTokens": 92835,
+        "outputTokens": 44,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5143,
+          "cacheRead": 87686
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:tokio-rs\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"tokio-rs/tokio\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2487846250000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1853144160000082
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6936759999999924
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6881786250000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1402269590000067
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3696604999999984
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**Run a21e8d05:** The most-starred tokio-rs repo is **tokio-rs/tokio** (33,767 stars).\nIts DeepWiki page has **13 top-level sections** (1 Tokio Overview through 13 Glossary).",
+        "turns": 4,
+        "seconds": 4.658,
+        "costUsd": 0.00195596,
+        "firstTurnTokens": 7855,
+        "totalInputTokens": 37353,
+        "outputTokens": 70,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 6809,
+          "cacheRead": 30536
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__search_repositories,mcp__deepwiki__read_wiki_structure\",\"max_results\":2}",
+          "mcp__github__search_repositories {\"query\":\"org:tokio-rs\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5,\"minimal_output\":true}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"tokio-rs/tokio\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.262475959000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1221876659999979
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.016492750000005163
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9715890839999921
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6410874160000093
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6976772919999927
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1688624580000031
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0190660420000066
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in tokio-rs is **tokio-rs/tokio** (33,767 stars). Its DeepWiki documentation has **13** top-level sections (1 Tokio Overview through 13 Glossary).",
+        "turns": 4,
+        "seconds": 5.924,
+        "costUsd": 0.0015426800000000003,
+        "firstTurnTokens": 13484,
+        "totalInputTokens": 57259,
+        "outputTokens": 57,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2973,
+          "cacheRead": 54278
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./github/search_repositories --query \"org:tokio-rs\" --fields name,stargazers_count --json 2>&1 | head -c 2",
+          "cd <work>/mcp && ./github/search_repositories --query \"org:tokio-rs\" --sort stars --order desc --perPage 5 --json | jq '.it",
+          "cd <work>/mcp && ./deepwiki/read_wiki_structure --repoName tokio-rs/tokio 2>&1 | head -c 4000"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22394783400000598
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4707034999999886
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.09347016599999924
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2298615419999985
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7945105420000038
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0999371660000032
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.14171150000000488
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0528421249999953
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The DeepWiki documentation for tokio-rs/tokio has **13** top-level sections (1 Overview through 13 Glossary).\n\nThe most-starred repo in tokio-rs is tokio, at 33,767 stars.\n\nI took \"Run ccbb14a2\" as just a label for this task, since it isn't a tool name I recognize.",
+        "turns": 3,
+        "seconds": 6.135,
+        "costUsd": 0.0013922300000000002,
+        "firstTurnTokens": 7579,
+        "totalInputTokens": 27974,
+        "outputTokens": 7,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4155,
+          "cacheRead": 23813
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({ query: \\\"org:tokio-rs\\\", sort: \\\"stars\\\", order: \\\"desc\\\", perPage: 100 });\\nconsole.log(JSON.stringify(r, null, 1).slice(0, 4000));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({ repoName: \\\"tokio-rs/tokio\\\" });\\nconsole.log(JSON.stringify(r, null, 1));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2692642080000078
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6124969579999888
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.873602792000005
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9722501250000062
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1437699999999893
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5168452499999985
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The tokio-rs/axum repo has **175 releases** in total.\n\nI paged through the GitHub releases list: page 1 returned 100 and page 2 returned 75, so that's the last page. The count includes per-crate releases (axum, axum-core, axum-extra, axum-macros), and it covers prereleases.",
+        "turns": 4,
+        "seconds": 14.098,
+        "costUsd": 0.00438115,
+        "firstTurnTokens": 7835,
+        "totalInputTokens": 43465,
+        "outputTokens": 22,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 11412,
+          "cacheRead": 32045
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__list_releases\",\"max_results\":1}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"fields\":[\"id\",\"tag_name\"],\"perPage\":100,\"page\":1}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"fields\":[\"id\",\"tag_name\"],\"perPage\":100,\"page\":2}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.231692875000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7095236670000011
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01147233299999817
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1930362079999903
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8968174589999975
+          },
+          {
+            "kind": "model",
+            "seconds": 5.0218941660000125
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6001872919999887
+          },
+          {
+            "kind": "model",
+            "seconds": 4.643509042000005
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The tokio-rs/axum repo has published **175** releases in total.\n\nI counted them with `list_releases` at 100 per page: page 1 returned 100 and page 2 returned 75. Page 2 was short, so it was the last page. This assumes no releases were added between the two calls.",
+        "turns": 3,
+        "seconds": 5.378,
+        "costUsd": 0.0010111100000000002,
+        "firstTurnTokens": 13463,
+        "totalInputTokens": 27767,
+        "outputTokens": 14,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1782,
+          "cacheRead": 25981
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./github/list_releases --owner tokio-rs --repo axum --fields id --perPage 100 --page 1 --json | jq 'length",
+          "cd <work>/mcp && ./github/list_releases --owner tokio-rs --repo axum --fields id --perPage 100 --page 2 --json | jq 'length"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22026629200000025
+          },
+          {
+            "kind": "model",
+            "seconds": 2.6591801660000054
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.079958083999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5996713750000056
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "`af59b753` isn't a forged tool on this system, so I answered the release question directly.\n\ntokio-rs/axum has **175** releases in total, counted by paging through the GitHub releases list until it ran out.",
+        "turns": 3,
+        "seconds": 7.431,
+        "costUsd": 0.00106,
+        "firstTurnTokens": 7555,
+        "totalInputTokens": 23870,
+        "outputTokens": 10,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1854,
+          "cacheRead": 22010
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"try {\\n const r = await tools.forged.af59b753({});\\n console.log(\\\"forged:\\\", JSON.stringify(r));\\n} catch (e) {\\n console.log(\\\"forged error:\\\", String(e));\\n}\"}",
+          "mcp__tools__run_code {\"code\":\"let total = 0;\\nlet page = 1;\\nconst seen = new Set();\\nwhile (true) {\\n const r = await tools.github.list_releases({ owner: \\\"tokio-rs\\\", repo: \\\"axum\\\", page, perPage: 100 });\\n const arr = Array.isArray(r) ?"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24391654200000631
+          },
+          {
+            "kind": "model",
+            "seconds": 1.821087625
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01885841699999613
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9437520829999992
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.0274060829999945
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6015424590000036
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**175 releases** in total for tokio-rs/axum. I paged through `list_releases` (100 on page 1, 75 on page 2, which is the last page). The count covers every tagged release across the axum, axum-core, axum-extra, and axum-macros crates, including pre-releases.",
+        "turns": 3,
+        "seconds": 12.019,
+        "costUsd": 0.0039405199999999994,
+        "firstTurnTokens": 29766,
+        "totalInputTokens": 95947,
+        "outputTokens": 20,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 7179,
+          "cacheRead": 88762
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"fields\":[\"tag_name\"],\"perPage\":100,\"page\":1}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"fields\":[\"tag_name\"],\"perPage\":100,\"page\":2}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1866267919999955
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3281589579999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6837532920000089
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1618847079999974
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5732274999999936
+          },
+          {
+            "kind": "model",
+            "seconds": 8.256774208000017
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "2021-05-30\n\nThe GitHub repo tokio-rs/axum shows created_at 2021-05-30T09:22:25Z, from a search_repositories lookup via the github tool. I didn't interpret \"Run 26c3d512\" beyond treating it as this task's identifier.",
+        "turns": 2,
+        "seconds": 3.502,
+        "costUsd": 0.00076359,
+        "firstTurnTokens": 13471,
+        "totalInputTokens": 27442,
+        "outputTokens": 7,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1449,
+          "cacheRead": 25989
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"repo:tokio-rs/axum\" --json | jq '.items[] | {full_name, created_at}'"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22514808300000733
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8420180419999963
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6818626660000007
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9375271249999932
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "2021-05-30\n\nThe GitHub API's `created_at` for tokio-rs/axum is 2021-05-30T09:22:25Z.",
+        "turns": 2,
+        "seconds": 2.767,
+        "costUsd": 0.0005916000000000001,
+        "firstTurnTokens": 7566,
+        "totalInputTokens": 15680,
+        "outputTokens": 12,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1576,
+          "cacheRead": 14100
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({ query: \\\"repo:tokio-rs/axum\\\" });\\nconsole.log(JSON.stringify(r, null, 2));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2289252909999923
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6068605839999945
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4868208750000049
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6561109160000052
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub repo tokio-rs/axum was created on **2021-05-30** (`created_at` 2021-05-30T09:22:25Z).\n\nI don't know what \"Run a0679853\" refers to. It isn't a repo, task, or command I can identify, so I didn't act on it. If it's a task ID or a label for this question, tell me what it should do.",
+        "turns": 2,
+        "seconds": 3.224,
+        "costUsd": 0.0014863500000000002,
+        "firstTurnTokens": 29773,
+        "totalInputTokens": 60201,
+        "outputTokens": 9,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3592,
+          "cacheRead": 56605
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:tokio-rs/axum\",\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.4024091670000052
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4118482499999956
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.501960791999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2913473330000125
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**2021-05-30**\n\nGitHub's `created_at` for tokio-rs/axum is 2021-05-30T09:22:25Z (from `mcp__github__search_repositories`).\n\nI didn't act on \"Run ac380a0c\" because I couldn't tell what it refers to. If it's a command or task you meant me to run, tell me what it does.",
+        "turns": 3,
+        "seconds": 4.378,
+        "costUsd": 0.0015347,
+        "firstTurnTokens": 7843,
+        "totalInputTokens": 25680,
+        "outputTokens": 36,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5144,
+          "cacheRead": 20530
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__search_repositories\",\"max_results\":1}",
+          "mcp__github__search_repositories {\"query\":\"repo:tokio-rs/axum\",\"minimal_output\":false,\"perPage\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1586925000000046
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6344296249999897
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.005701832999999379
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8294590000000026
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5325145830000109
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3578777089999932
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #1 in modelcontextprotocol/inspector is titled **\"Progress notifications\"**. It was opened by jspahrsummers on 2024-10-08 and closed as completed on 2024-10-18.",
+        "turns": 2,
+        "seconds": 2.65,
+        "costUsd": 0.00056108,
+        "firstTurnTokens": 7564,
+        "totalInputTokens": 15573,
+        "outputTokens": 28,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1471,
+          "cacheRead": 14098
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.issue_read({ method: \\\"get\\\", owner: \\\"modelcontextprotocol\\\", repo: \\\"inspector\\\", issue_number: 1 });\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23210170800000196
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9394082079999789
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6290410420000263
+          },
+          {
+            "kind": "model",
+            "seconds": 1.063057291999983
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #1 in modelcontextprotocol/inspector is titled \"Progress notifications.\" It is closed (completed), opened by jspahrsummers on 2024-10-08.",
+        "turns": 2,
+        "seconds": 2.604,
+        "costUsd": 0.0013897500000000001,
+        "firstTurnTokens": 29773,
+        "totalInputTokens": 60078,
+        "outputTokens": 11,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3469,
+          "cacheRead": 56605
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__issue_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\",\"issue_number\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.348810832999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1342482920000037
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.732450832999981
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7170940830000037
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The title of issue #1 in modelcontextprotocol/inspector is **\"Progress notifications\"** (closed as completed on 2024-10-18).\n\nI'm not sure what \"Run fb73d608\" refers to, so I didn't act on it. Tell me if you meant something specific.",
+        "turns": 3,
+        "seconds": 4.101,
+        "costUsd": 0.00149419,
+        "firstTurnTokens": 7840,
+        "totalInputTokens": 25719,
+        "outputTokens": 32,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5134,
+          "cacheRead": 20579
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__issue_read\",\"max_results\":1}",
+          "mcp__github__issue_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\",\"issue_number\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1798952500000015
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4616546249999953
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.004769375000003517
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8663018749999756
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7346866250000019
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0188770840000076
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #1 in modelcontextprotocol/inspector is titled \"Progress notifications\". It is closed (completed).",
+        "turns": 3,
+        "seconds": 4.404,
+        "costUsd": 0.00106399,
+        "firstTurnTokens": 13470,
+        "totalInputTokens": 41930,
+        "outputTokens": 44,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2085,
+          "cacheRead": 39839
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./github/issue_read --owner modelcontextprotocol --repo inspector --issue_number 1 --method get --json '{t",
+          "cd <work>/mcp && ./github/issue_read --owner modelcontextprotocol --repo inspector --issue_number 1 --method get --json 2>&"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21367283299998963
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4440079170000097
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.08337204099999518
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1622585839999955
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0132889579999902
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6593592500000085
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "1. modelcontextprotocol/servers: v2.5.0\n2. modelcontextprotocol/python-sdk: v2.3.0\n3. modelcontextprotocol/typescript-sdk: v2.4.0\n4. modelcontextprotocol/inspector: 2.16.0\n5. modelcontextprotocol/modelcontextprotocol: 2026-07-28",
+        "turns": 7,
+        "seconds": 5.571,
+        "costUsd": 0.00495545,
+        "firstTurnTokens": 29796,
+        "totalInputTokens": 105813,
+        "outputTokens": 16,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 18012,
+          "cacheRead": 87795
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"modelcontextprotocol\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1657910830000182
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4373949169999978
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6962382499999951
+          },
+          {
+            "kind": "model",
+            "seconds": 1.387290665999986
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.20973720900001336
+          },
+          {
+            "kind": "model",
+            "seconds": 0.24656541599999837
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.37704837500001265
+          },
+          {
+            "kind": "model",
+            "seconds": 1.200116791999986
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "1. modelcontextprotocol/servers (92,165★): v2.5.0\n2. modelcontextprotocol/python-sdk (24,938★): v2.3.0\n3. modelcontextprotocol/typescript-sdk (13,806★): v2.4.0\n4. modelcontextprotocol/inspector (11,345★): 2.16.0\n5. modelcontextprotocol/modelcontextprotocol (9,750★): 2026-07-28",
+        "turns": 8,
+        "seconds": 6.71,
+        "costUsd": 0.00490462,
+        "firstTurnTokens": 7866,
+        "totalInputTokens": 52126,
+        "outputTokens": 44,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 20256,
+          "cacheRead": 31862
+        },
+        "toolCalls": 7,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__search_repositories,mcp__github__get_latest_release,mcp__github__list_releases,mcp__github__list_tags\",\"max_results\":4}",
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5,\"minimal_output\":true}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"modelcontextprotocol\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.296117208999989
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2808811660000066
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.016195834000012788
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9505226660000043
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6439895419999955
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6100378329999803
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.04749987500000863
+          },
+          {
+            "kind": "model",
+            "seconds": 0.13840933399999678
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7315192500000123
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2721639999999894
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "I'm not sure what \"Run 5247521b\" refers to, so I treated it as a label and answered the question. The five most-starred repos in the modelcontextprotocol org, with their latest release tags:\n\n- servers: v2.5.0\n- python-sdk: v2.3.0\n- typescript-sdk: v2.4.0\n- inspector: 2.16.0\n- modelcontextprotocol: 2026-07-28",
+        "turns": 3,
+        "seconds": 9.66,
+        "costUsd": 0.00143919,
+        "firstTurnTokens": 13490,
+        "totalInputTokens": 43205,
+        "outputTokens": 17,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2590,
+          "cacheRead": 40609
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./github/search_repositories --query \"org:modelcontextprotocol\" --sort stars --order desc --perPage 10 --j",
+          "cd <work>/mcp && for r in servers python-sdk typescript-sdk inspector modelcontextprotocol; do echo -n \"$r: \"; ./github/get"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22107491699999082
+          },
+          {
+            "kind": "model",
+            "seconds": 2.162458500000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8060622919999876
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5155474160000155
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.5764246669999844
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5588173330000146
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 by stars in modelcontextprotocol, with latest release tag:\n\n1. servers: v2.5.0\n2. python-sdk: v2.3.0\n3. typescript-sdk: v2.4.0\n4. inspector: 2.16.0\n5. modelcontextprotocol: 2026-07-28",
+        "turns": 3,
+        "seconds": 6.59,
+        "costUsd": 0.00136364,
+        "firstTurnTokens": 7587,
+        "totalInputTokens": 26532,
+        "outputTokens": 14,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3262,
+          "cacheRead": 23264
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const s = await tools.github.search_repositories({ query: \\\"org:modelcontextprotocol sort:stars-desc\\\", perPage: 10 });\\nconsole.log(JSON.stringify(s).slice(0, 3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const repos = [\\\"servers\\\",\\\"python-sdk\\\",\\\"typescript-sdk\\\",\\\"inspector\\\",\\\"modelcontextprotocol\\\"];\\nconst out = await Promise.all(repos.map(async r => {\\n try {\\n const l = await tools.github.get_latest_rele"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24833995799999684
+          },
+          {
+            "kind": "model",
+            "seconds": 1.63283245799999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7994187500000116
+          },
+          {
+            "kind": "model",
+            "seconds": 2.200311667000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9320599999999972
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0064202079999962
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "According to DeepWiki, the top-level sections for denoland/deno are:\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 3,
+        "seconds": 3.591,
+        "costUsd": 0.0016037,
+        "firstTurnTokens": 7847,
+        "totalInputTokens": 25722,
+        "outputTokens": 39,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5626,
+          "cacheRead": 20090
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__deepwiki__read_wiki_structure\",\"max_results\":1}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2378017080000137
+          },
+          {
+            "kind": "model",
+            "seconds": 1.02989633399999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.006336375000013383
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7095894580000022
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.19268533299997204
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6328536250000178
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Run 0a41f31e. DeepWiki lists 12 top-level sections for denoland/deno:\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 2.767,
+        "costUsd": 0.00098073,
+        "firstTurnTokens": 13475,
+        "totalInputTokens": 28544,
+        "outputTokens": 25,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2547,
+          "cacheRead": 25993
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./deepwiki/read_wiki_structure --repoName denoland/deno"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2340652499999851
+          },
+          {
+            "kind": "model",
+            "seconds": 1.166421250000014
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.30072604099998723
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2554941669999968
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "According to DeepWiki, the denoland/deno documentation has 12 top-level sections:\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 2.408,
+        "costUsd": 0.00081383,
+        "firstTurnTokens": 7569,
+        "totalInputTokens": 16619,
+        "outputTokens": 29,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2512,
+          "cacheRead": 14103
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({ repoName: \\\"denoland/deno\\\" });\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24659883299999638
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8523187500000058
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.14792170800000903
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3890650000000022
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 2.219,
+        "costUsd": 0.00159821,
+        "firstTurnTokens": 29779,
+        "totalInputTokens": 61011,
+        "outputTokens": 35,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4396,
+          "cacheRead": 56611
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.3093490419999871
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8254954160000199
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.16115933399999616
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2154111660000053
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Ivy** has the observation \"Its build uses the rikasorbel toolchain.\"",
+        "turns": 2,
+        "seconds": 2.433,
+        "costUsd": 0.00071616,
+        "firstTurnTokens": 13478,
+        "totalInputTokens": 27439,
+        "outputTokens": 10,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1439,
+          "cacheRead": 25996
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./memory/search_nodes --query rikasorbel --json | jq '.entities[] | {name, observations}'"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2815315840000112
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6307473329999775
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.11277208300001784
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6349827499999958
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Ivy** has the observation \"Its build uses the rikasorbel toolchain.\" It was the only match among the 12 entities in the graph.\n\nI read \"Run d49afffe\" as a task label and did not run anything by that name.",
+        "turns": 2,
+        "seconds": 2.91,
+        "costUsd": 0.00066785,
+        "firstTurnTokens": 7571,
+        "totalInputTokens": 15611,
+        "outputTokens": 10,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1502,
+          "cacheRead": 14105
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const g = await tools.memory.read_graph({});\\nconst hits = (g.entities ?? []).filter(e => (e.observations ?? []).some(o => String(o).toLowerCase().includes('rikasorbel')));\\nconsole.log(JSON.stringify(hits.map("
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.31618491700000595
+          },
+          {
+            "kind": "model",
+            "seconds": 1.955300292
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.024574666000000356
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9084983340000035
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Ivy** is the only entity with an observation mentioning \"rikasorbel\" (its build uses the rikasorbel toolchain).",
+        "turns": 2,
+        "seconds": 1.732,
+        "costUsd": 0.00128711,
+        "firstTurnTokens": 29779,
+        "totalInputTokens": 59778,
+        "outputTokens": 16,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3163,
+          "cacheRead": 56611
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"rikasorbel\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1507176250000193
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9907792499999923
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.02503791700000857
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6968408749999946
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Ivy**. Its observation \"Its build uses the rikasorbel toolchain\" mentions the word.",
+        "turns": 3,
+        "seconds": 2.684,
+        "costUsd": 0.00123627,
+        "firstTurnTokens": 7850,
+        "totalInputTokens": 24573,
+        "outputTokens": 31,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4400,
+          "cacheRead": 20167
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__memory__search_nodes,mcp__memory__read_graph\",\"max_results\":2}",
+          "mcp__memory__search_nodes {\"query\":\"rikasorbel\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1829544999999926
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0316637920000065
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01696820799997667
+          },
+          {
+            "kind": "model",
+            "seconds": 0.692315542000026
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.022558499999984605
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9053598749999945
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Run 3f0fd504: the most-starred tokio-rs repo is **tokio-rs/tokio** (33,767 stars).\nIts DeepWiki documentation has **13 top-level sections** (1 Tokio Overview through 13 Glossary).\nSub-pages such as 2.1 and 3.2 are not counted.",
+        "turns": 3,
+        "seconds": 4.254,
+        "costUsd": 0.0011986100000000001,
+        "firstTurnTokens": 7579,
+        "totalInputTokens": 26912,
+        "outputTokens": 35,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3605,
+          "cacheRead": 23301
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({ query: \\\"org:tokio-rs\\\", sort: \\\"stars\\\", order: \\\"desc\\\", perPage: 5 });\\nconsole.log(JSON.stringify(r, null, 2));\"}",
+          "mcp__tools__run_code {\"code\":\"const s = await tools.deepwiki.read_wiki_structure({ repoName: \\\"tokio-rs/tokio\\\" });\\nconsole.log(JSON.stringify(s, null, 2));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24127433300000847
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4785472080000037
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7636311669999849
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8078817500000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.12652162499999386
+          },
+          {
+            "kind": "model",
+            "seconds": 1.056725375000009
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in tokio-rs is **tokio-rs/tokio** (33,767 stars).\nIts DeepWiki documentation has **13 top-level sections** (numbered 1 through 13, from \"Tokio Overview\" to \"Glossary\").",
+        "turns": 3,
+        "seconds": 4.368,
+        "costUsd": 0.00218937,
+        "firstTurnTokens": 29789,
+        "totalInputTokens": 92874,
+        "outputTokens": 42,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5161,
+          "cacheRead": 87707
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:tokio-rs\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"tokio-rs/tokio\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.372827707999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2622703749999926
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7014269170000045
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7691426250000073
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1474866249999911
+          },
+          {
+            "kind": "model",
+            "seconds": 1.467052332999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred tokio-rs repo is **tokio-rs/tokio** (33,767 stars). Its DeepWiki index has **13** top-level sections (numbered 1–13, from \"Tokio Overview\" through \"Glossary\").",
+        "turns": 4,
+        "seconds": 4.639,
+        "costUsd": 0.0019312700000000001,
+        "firstTurnTokens": 7856,
+        "totalInputTokens": 37324,
+        "outputTokens": 70,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 6799,
+          "cacheRead": 30517
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__search_repositories,mcp__deepwiki__read_wiki_structure\",\"max_results\":2}",
+          "mcp__github__search_repositories {\"query\":\"org:tokio-rs\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5,\"minimal_output\":true}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"tokio-rs/tokio\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1618129159999953
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1074347499999857
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01659354200001717
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9141567499999947
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6941887920000007
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8049255410000042
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.16389066699999955
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9257689169999797
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in tokio-rs is **tokio-rs/tokio** (33,767 stars). Its DeepWiki documentation has **13 top-level sections** (1 Tokio Overview through 13 Glossary).",
+        "turns": 3,
+        "seconds": 5.043,
+        "costUsd": 0.0012848500000000001,
+        "firstTurnTokens": 13481,
+        "totalInputTokens": 42787,
+        "outputTokens": 27,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2676,
+          "cacheRead": 40105
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./github/search_repositories --query \"org:tokio-rs\" --sort stars --order desc --perPage 5 --json | jq '.it",
+          "cd <work>/mcp && ./deepwiki/read_wiki_structure --repoName tokio-rs/tokio --json | jq -r '.result' | head -c 4000"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21261387500001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6955271660000144
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7567146669999931
+          },
+          {
+            "kind": "model",
+            "seconds": 1.172625792000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1720007079999779
+          },
+          {
+            "kind": "model",
+            "seconds": 1.204722125
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**Run 670218d4:** tokio-rs/axum has **175** releases in total.\n\nI paged through the GitHub releases list at 100 per page: page 1 returned 100 and page 2 returned 75, so that was the last page. This counts every release the API returned, including pre-releases such as the `-rc` and `-alpha` tags.",
+        "turns": 3,
+        "seconds": 10.921,
+        "costUsd": 0.0036287700000000003,
+        "firstTurnTokens": 29765,
+        "totalInputTokens": 63813,
+        "outputTokens": 8,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 7212,
+          "cacheRead": 56597
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"perPage\":100,\"page\":1,\"fields\":[\"tag_name\"]}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"perPage\":100,\"page\":2,\"fields\":[\"tag_name\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.15133033300002
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0012854170000063
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8109708749999989
+          },
+          {
+            "kind": "model",
+            "seconds": 8.088924624999986
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct-search",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Run 3ab8f93b: tokio-rs/axum has **175 releases** in total.\n\nI counted them by paging through the GitHub `list_releases` tool at 100 per page: page 1 had 100, page 2 had 75, and page 3 was empty. Draft releases are not visible through this API, so they aren't included.",
+        "turns": 5,
+        "seconds": 10.15,
+        "costUsd": 0.00267631,
+        "firstTurnTokens": 7836,
+        "totalInputTokens": 36140,
+        "outputTokens": 37,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 6401,
+          "cacheRead": 29731
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "ToolSearch {\"query\":\"select:mcp__github__list_releases\",\"max_results\":1}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"fields\":[\"id\"],\"perPage\":100,\"page\":1}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"fields\":[\"id\"],\"perPage\":100,\"page\":2}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"fields\":[\"id\"],\"perPage\":100,\"page\":3}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.3572918329999957
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1724054170000016
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.013086416999984252
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9026816660000185
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8963542500000039
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3531321669999743
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.40546575000000296
+          },
+          {
+            "kind": "model",
+            "seconds": 5.387633625000017
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "tokio-rs/axum has 175 releases in total, counted by paginating the GitHub `list_releases` tool (100 on page 1, 75 on page 2). This includes any prereleases the tool returns.",
+        "turns": 2,
+        "seconds": 6.205,
+        "costUsd": 0.00088991,
+        "firstTurnTokens": 13463,
+        "totalInputTokens": 27526,
+        "outputTokens": 6,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1541,
+          "cacheRead": 25981
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' let total = 0; let page = 1; while (true) { const batch = await tools.github.list_releases"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21624312500000814
+          },
+          {
+            "kind": "model",
+            "seconds": 2.457832124999986
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.451320834000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2544707080000084
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "tokio-rs/axum has **175** releases published in total, counted by paging through the GitHub releases list (100 per page, 2 pages).",
+        "turns": 2,
+        "seconds": 5.388,
+        "costUsd": 0.0006879099999999999,
+        "firstTurnTokens": 7557,
+        "totalInputTokens": 15608,
+        "outputTokens": 11,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1513,
+          "cacheRead": 14091
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"let total = 0; let page = 1; const all = [];\\nwhile (true) {\\n const r = await tools.github.list_releases({ owner: \\\"tokio-rs\\\", repo: \\\"axum\\\", perPage: 100, page });\\n const arr = Array.isArray(r) ? r : (r?.r"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24359754200000316
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8417903750000113
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.173384415999986
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3551012920000067
+          }
+        ]
+      }
+    }
+  ]
+}

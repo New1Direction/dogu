@@ -1,0 +1,2324 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.7.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "013ff13",
+  "dirty": false,
+  "answers": {
+    "deno-tags": [
+      "v2.9.8",
+      "v0.6.3",
+      "v152.2.0",
+      "release-2026.09.24",
+      "0.84.1"
+    ],
+    "astral-issues": [
+      "6763"
+    ],
+    "mcp-last-push": [
+      "modelcontextprotocol",
+      "servers",
+      "python-sdk",
+      "typescript-sdk",
+      "inspector"
+    ],
+    "most-sections": [
+      "astral-sh/uv"
+    ],
+    "odd-years": [
+      "Alder",
+      "Cedar",
+      "Elm",
+      "Ginkgo",
+      "Ivy",
+      "Larch"
+    ]
+  },
+  "records": [
+    {
+      "setup": "direct",
+      "task": "deno-tags",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 denoland repos by stars, with the tag of each latest release:\n\n- denoland/deno (109,052★): `v2.9.8`\n- denoland/celld (6,352★): `v0.6.3`\n- denoland/rusty_v8 (4,043★): `v152.2.0`\n- denoland/std (3,558★): `release-2026.09.24`\n- denoland/deno_lint (1,585★): `0.84.1`\n\nAll five have a release, so none are missing one.",
+        "turns": 7,
+        "seconds": 9.92,
+        "costUsd": 0.0457327,
+        "firstTurnTokens": 28973,
+        "totalInputTokens": 92654,
+        "outputTokens": 206,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 7581,
+          "cacheRead": 85067
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:denoland\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"celld\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"rusty_v8\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"std\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno_lint\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2791292919999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6201426250000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7370192080000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7657364170000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.32983408299999795
+          },
+          {
+            "kind": "model",
+            "seconds": 0.2384192089999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7018116250000022
+          },
+          {
+            "kind": "model",
+            "seconds": 4.509302666
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "deno-tags",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 most-starred `denoland` repos and their latest release tags:\n- `deno`: v2.9.8\n- `celld`: v0.6.3\n- `rusty_v8`: v152.2.0\n- `std`: release-2026.09.24\n- `deno_lint`: 0.84.1\n\nAll five have a release, so none are without one. I took the ranking from a GitHub star-sorted search and didn't check it separately. `celld` is a surprising entry for the top 5.",
+        "turns": 2,
+        "seconds": 10.033,
+        "costUsd": 0.0136089,
+        "firstTurnTokens": 12670,
+        "totalInputTokens": 25836,
+        "outputTokens": 20,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1443,
+          "cacheRead": 24389
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r:any = await tools.github.search_repositories({query:\"org:denoland\", sort:\"stars\", "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2916238749999993
+          },
+          {
+            "kind": "model",
+            "seconds": 3.238491
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.392612708
+          },
+          {
+            "kind": "model",
+            "seconds": 2.338087707999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deno-tags",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The five most-starred repos in the denoland org, with the tag of each one's latest release:\n- **denoland/deno** (about 109k stars): `v2.9.8`\n- **denoland/celld**: `v0.6.3`\n- **denoland/rusty_v8**: `v152.2.0`\n- **denoland/std**: `release-2026.09.24`\n- **denoland/deno_lint**: `0.84.1`\n\nAll five have a release, so none are missing one.",
+        "turns": 4,
+        "seconds": 13.071,
+        "costUsd": 0.0209552,
+        "firstTurnTokens": 6762,
+        "totalInputTokens": 31884,
+        "outputTokens": 238,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3044,
+          "cacheRead": 28832
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:denoland\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"deno\\\",\\\"celld\\\",\\\"rusty_v8\\\",\\\"std\\\",\\\"deno_lint\\\"]) {\\ntry{const r=await tools.github.get_latest_release({owner:\\\"denoland\\\",repo:n});console.log(n,JSON.stringify(r).slice(0,200));}catch(e)",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"deno\\\",\\\"celld\\\",\\\"rusty_v8\\\",\\\"std\\\",\\\"deno_lint\\\"]) {\\nconst r=await tools.github.get_latest_release({owner:\\\"denoland\\\",repo:n});console.log(n,r.tag_name,r.published_at,r.prerelease);}\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3316622920000009
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2812212920000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6543537500000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4327627079999985
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.5046199999999987
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3585970420000013
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.273015291
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5324093340000005
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "astral-issues",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The four most-starred astral-sh repos have **6,763 open issues** in total. That count includes pull requests, which is how GitHub's `open_issues_count` works.\n\n| Repo | Stars | Open issues |\n|---|---|---|\n| uv | 92,619 | 3,092 |\n| ruff | 51,447 | 2,336 |\n| ty | 20,136 | 1,002 |\n| rye | 14,113 | 333 |\n\nI got these from a repository search scoped to the org and sorted by stars.",
+        "turns": 2,
+        "seconds": 5.111,
+        "costUsd": 0.0125791,
+        "firstTurnTokens": 12672,
+        "totalInputTokens": 26003,
+        "outputTokens": 184,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1608,
+          "cacheRead": 24391
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:astral-sh\" --sort stars --order desc --perPage 6 --json | jq '.ite"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.26025558399999865
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0796854160000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0591746249999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.932723084000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "astral-issues",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 4 by stars: uv (3092), ruff (2336), ty (1002), rye (333, archived but still among the top 4).\n\nTotal: 3092 + 2336 + 1002 + 333 = **6,763 open issues**. GitHub's `open_issues_count` includes pull requests.",
+        "turns": 2,
+        "seconds": 3.658,
+        "costUsd": 0.012823500000000002,
+        "firstTurnTokens": 6762,
+        "totalInputTokens": 14843,
+        "outputTokens": 126,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2344,
+          "cacheRead": 12495
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:astral-sh\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:6});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.30474112500000045
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5730021669999987
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6570722080000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.404837833999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "astral-issues",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Total open issues, counting PRs as GitHub does, across the four most-starred astral-sh repos: **6,763**.\n\n- uv (92,619 stars): 3,092\n- ruff (51,447 stars): 2,336\n- ty (20,136 stars): 1,002\n- rye (14,113 stars): 333. It is archived but still ranks fourth by stars, so I included it.\n\nThese come from each repo's `open_issues_count`, which includes open pull requests.",
+        "turns": 2,
+        "seconds": 3.762,
+        "costUsd": 0.027104200000000002,
+        "firstTurnTokens": 28971,
+        "totalInputTokens": 59640,
+        "outputTokens": 176,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4634,
+          "cacheRead": 55002
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:astral-sh\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":4,\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.4012356249999975
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4203298749999995
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.604800500000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7245064579999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "mcp-last-push",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol\n\nIts latest commit on `main` was at 2026-11-22T00:31:13Z. The other four were older:\n- typescript-sdk: 2026-11-18\n- servers: 2026-11-18\n- inspector: 2026-11-18\n- python-sdk: 2026-11-05\n\nThe five most-starred repos are servers, python-sdk, typescript-sdk, inspector and modelcontextprotocol.",
+        "turns": 3,
+        "seconds": 6.146,
+        "costUsd": 0.0177659,
+        "firstTurnTokens": 6765,
+        "totalInputTokens": 23229,
+        "outputTokens": 196,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2744,
+          "cacheRead": 20479
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const n=[\\\"servers\\\",\\\"python-sdk\\\",\\\"typescript-sdk\\\",\\\"inspector\\\",\\\"modelcontextprotocol\\\"];\\nconst rs=await Promise.all(n.map(async r=>{const c=await tools.github.list_commits({owner:\\\"modelcontextprotocol\\"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2501513750000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4793043340000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6511293750000005
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5209303749999963
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0611459580000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4138934999999977
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "mcp-last-push",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol\n\nIts latest default-branch (`main`) commit was on 2026-11-22T00:31Z, a docs change (#3574). The next most recent were typescript-sdk and servers, both on 2026-11-18.",
+        "turns": 7,
+        "seconds": 8.089,
+        "costUsd": 0.0423242,
+        "firstTurnTokens": 28974,
+        "totalInputTokens": 91351,
+        "outputTokens": 147,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 6143,
+          "cacheRead": 85202
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"modelcontextprotocol\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.247954041000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.338532500000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7176430419999962
+          },
+          {
+            "kind": "model",
+            "seconds": 2.1128191250000015
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2215024170000035
+          },
+          {
+            "kind": "model",
+            "seconds": 0.3875777499999966
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.16921125000000092
+          },
+          {
+            "kind": "model",
+            "seconds": 0.388472708000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3768543330000025
+          },
+          {
+            "kind": "model",
+            "seconds": 0.12433204199999448
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8304945000000012
+          },
+          {
+            "kind": "model",
+            "seconds": 1.394806208000002
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "mcp-last-push",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol\n\nIts latest commit on `main` is from 2026-11-22T00:31Z. That's the newest of the five most-starred repos in the org: servers, python-sdk, typescript-sdk, inspector and modelcontextprotocol. The next most recent is typescript-sdk, at 2026-11-18T17:31Z.",
+        "turns": 3,
+        "seconds": 11.158,
+        "costUsd": 0.0178037,
+        "firstTurnTokens": 12674,
+        "totalInputTokens": 39670,
+        "outputTokens": 140,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2027,
+          "cacheRead": 37637
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:modelcontextprotocol\" --sort stars --order desc --perPage 5 --mini",
+          "cd <work>/mcp && for r in servers python-sdk typescript-sdk inspector modelcontextprotocol; do echo $r; github/list_commits"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23816849999999976
+          },
+          {
+            "kind": "model",
+            "seconds": 2.1215866249999964
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7603622500000058
+          },
+          {
+            "kind": "model",
+            "seconds": 2.3215674579999974
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.336212082999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5767990419999993
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\nIt has 13 top-level sections in its DeepWiki structure. astral-sh/uv has 15 and denoland/deno has 12.\n\nCorrection: uv has 15, so it has the most, not bun.\n\nastral-sh/uv\n\nCounts are 15 for uv, 13 for bun and 12 for deno.",
+        "turns": 4,
+        "seconds": 3.56,
+        "costUsd": 0.0372819,
+        "firstTurnTokens": 28988,
+        "totalInputTokens": 62176,
+        "outputTokens": 143,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 7153,
+          "cacheRead": 55019
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"astral-sh/uv\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2335938749999986
+          },
+          {
+            "kind": "model",
+            "seconds": 1.534732624999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1275992499999994
+          },
+          {
+            "kind": "model",
+            "seconds": 0.04062437499999927
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.27772516700000427
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5574025829999951
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "astral-sh/uv\n\nAccording to DeepWiki's structure, uv has 15 top-level sections. Bun has 13 and Deno has 12.",
+        "turns": 3,
+        "seconds": 6.232,
+        "costUsd": 0.0301366,
+        "firstTurnTokens": 12687,
+        "totalInputTokens": 46235,
+        "outputTokens": 76,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5303,
+          "cacheRead": 40926
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && for r in denoland/deno oven-sh/bun astral-sh/uv; do echo \"== $r\"; deepwiki/read_wiki_structure --repoName ",
+          "cd <work>/mcp && deepwiki/read_wiki_structure --repoName oven-sh/bun --json | jq -r .result | grep -E '^- [0-9]+ '"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21404858300000343
+          },
+          {
+            "kind": "model",
+            "seconds": 2.1778976669999977
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4940444579999963
+          },
+          {
+            "kind": "model",
+            "seconds": 2.262513625
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2113420000000037
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0460521670000018
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\nTop-level sections: bun 13, uv 15, deno 12.\n\nCorrection: uv has the most, with 15 top-level sections, so the answer is:\n\nastral-sh/uv\n\n(bun has 13 and deno has 12, counting the Glossary in each.)",
+        "turns": 2,
+        "seconds": 3.107,
+        "costUsd": 0.0243894,
+        "firstTurnTokens": 6781,
+        "totalInputTokens": 17633,
+        "outputTokens": 123,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 5115,
+          "cacheRead": 12514
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"];\\nconst r=await Promise.all(repos.map(repoName=>tools.deepwiki.read_wiki_structure({repoName})));\\nr.forEach((x,i)=>console.log(repos[i],typeof x"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2506235420000012
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4104426660000027
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.43769954199999495
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2389989580000038
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Six projects in the knowledge graph started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 3.352,
+        "costUsd": 0.0116142,
+        "firstTurnTokens": 12643,
+        "totalInputTokens": 26066,
+        "outputTokens": 112,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1700,
+          "cacheRead": 24362
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && memory/read_graph --json"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2269109160000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.653798917
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3161440000000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3403506669999987
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 2.605,
+        "costUsd": 0.009412799999999999,
+        "firstTurnTokens": 6735,
+        "totalInputTokens": 14094,
+        "outputTokens": 112,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1622,
+          "cacheRead": 12468
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.memory.read_graph({})))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25540674999999463
+          },
+          {
+            "kind": "model",
+            "seconds": 1.352251750000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.015941624999999515
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2195512499999968
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 2.372,
+        "costUsd": 0.020677599999999997,
+        "firstTurnTokens": 28945,
+        "totalInputTokens": 58468,
+        "outputTokens": 112,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3488,
+          "cacheRead": 54976
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__read_graph {}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2912428339999968
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1164280000000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01579591600000274
+          },
+          {
+            "kind": "model",
+            "seconds": 1.217660708999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deno-tags",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The five most-starred repos in the denoland org, with the tag of each one's latest release:\n- **deno** (109,052 stars): `v2.9.8`\n- **celld** (6,352 stars): `v0.6.3`\n- **rusty_v8** (4,043 stars): `v152.2.0`\n- **std** (3,558 stars): `release-2026.09.24`\n- **deno_lint** (1,585 stars): `0.84.1`\n\nAll five have a release, so none are missing one.\n\nI took \"Run dffbda23\" to be a label for this request, so I didn't run anything by that name.",
+        "turns": 4,
+        "seconds": 10.171,
+        "costUsd": 0.023362,
+        "firstTurnTokens": 6762,
+        "totalInputTokens": 32512,
+        "outputTokens": 277,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3404,
+          "cacheRead": 29100
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:denoland\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const names=[\\\"deno\\\",\\\"celld\\\",\\\"rusty_v8\\\",\\\"std\\\",\\\"deno_lint\\\"];\\nconst rs=await Promise.all(names.map(async n=>{try{const r=await tools.github.get_latest_release({owner:\\\"denoland\\\",repo:n});return n+\\\": \\",
+          "mcp__tools__run_code {\"code\":\"const names=[\\\"deno\\\",\\\"celld\\\",\\\"rusty_v8\\\",\\\"std\\\",\\\"deno_lint\\\"];\\nconst rs=await Promise.all(names.map(async n=>{const r=await tools.github.get_latest_release({owner:\\\"denoland\\\",repo:n});return n+\\\": \\\"+r."
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2783234589999993
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2648851250000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6363552080000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4453859579999992
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9999273339999997
+          },
+          {
+            "kind": "model",
+            "seconds": 2.8739703329999973
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9760585419999988
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9525891249999994
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "deno-tags",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 denoland repos by stars, with the tag of each one's latest release:\n- **denoland/deno** (109,052 stars): `v2.9.8`\n- **denoland/celld** (6,352 stars): `v0.6.3`\n- **denoland/rusty_v8** (4,043 stars): `v152.2.0`\n- **denoland/std** (3,558 stars): `release-2026.09.24`\n- **denoland/deno_lint** (1,585 stars): `0.84.1`\n\nAll five have a release, so none are missing one.",
+        "turns": 7,
+        "seconds": 7.139,
+        "costUsd": 0.0459385,
+        "firstTurnTokens": 28972,
+        "totalInputTokens": 92651,
+        "outputTokens": 227,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 7580,
+          "cacheRead": 85065
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:denoland\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"celld\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"rusty_v8\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"std\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno_lint\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.185895292000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3720928330000026
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6961717920000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9404602079999966
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.036075583999998884
+          },
+          {
+            "kind": "model",
+            "seconds": 0.534823625000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7554069160000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7910916669999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "deno-tags",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The 5 most-starred denoland repos, each with its latest release tag:\n- **deno** (109,052 stars): v2.9.8\n- **celld** (6,352 stars): v0.6.3\n- **rusty_v8** (4,043 stars): v152.2.0\n- **std** (3,558 stars): release-2026.09.24\n- **deno_lint** (1,585 stars): 0.84.1\n\nAll five have a release, so none are missing one.",
+        "turns": 3,
+        "seconds": 11.706,
+        "costUsd": 0.019335500000000002,
+        "firstTurnTokens": 12673,
+        "totalInputTokens": 39511,
+        "outputTokens": 165,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1970,
+          "cacheRead": 37535
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r:any = await tools.github.search_repositories({query:\"org:denoland\", sort:\"stars\", ",
+          "cd <work>/mcp && ./github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 8 --json | jq -c '"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.20792054199999985
+          },
+          {
+            "kind": "model",
+            "seconds": 2.638027083000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.3108002919999997
+          },
+          {
+            "kind": "model",
+            "seconds": 2.962880499999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9151107080000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8380900419999957
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "astral-issues",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The 4 most-starred astral-sh repos have **6,763 open issues** in total, counting pull requests the way GitHub's `open_issues_count` does:\n\n- uv: 3,092\n- ruff: 2,336\n- ty: 1,002\n- rye: 333 (archived, but it's still one of the top 4 by stars)\n\nThese counts came from a repository search sorted by stars, run on 2026-11-22.",
+        "turns": 2,
+        "seconds": 4.277,
+        "costUsd": 0.026930100000000002,
+        "firstTurnTokens": 28970,
+        "totalInputTokens": 59638,
+        "outputTokens": 159,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4633,
+          "cacheRead": 55001
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:astral-sh\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":4,\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.3629043749999983
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7592117500000024
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6721332919999985
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8299102080000007
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "astral-issues",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Total open issues across the top 4 astral-sh repos by stars is **6,763**. GitHub's `open_issues_count` includes open pull requests.\n\n- uv: 3,092\n- ruff: 2,336\n- ty: 1,002\n- rye: 333\n\nI got these from a GitHub repository search of the org sorted by stars, so they are the counts as of that query.",
+        "turns": 2,
+        "seconds": 4.94,
+        "costUsd": 0.012095000000000002,
+        "firstTurnTokens": 12671,
+        "totalInputTokens": 26001,
+        "outputTokens": 136,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1607,
+          "cacheRead": 24390
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:astral-sh\" --sort stars --order desc --perPage 6 --json | jq '.ite"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23278970900000423
+          },
+          {
+            "kind": "model",
+            "seconds": 2.285373040999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8520281249999968
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7600339590000007
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "astral-issues",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The 4 most-starred repos in astral-sh are uv, ruff, ty and rye. rye is archived but still counts. Their open issue counts, with PRs included as GitHub counts them, are:\n\n- uv: 3092\n- ruff: 2336\n- ty: 1002\n- rye: 333\n\n**Total: 6,763 open issues.**",
+        "turns": 2,
+        "seconds": 3.764,
+        "costUsd": 0.0129817,
+        "firstTurnTokens": 6764,
+        "totalInputTokens": 14847,
+        "outputTokens": 140,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2346,
+          "cacheRead": 12497
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:astral-sh\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:6});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25300724999999513
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5851150410000046
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7083798339999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4497115000000047
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "mcp-last-push",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol\nIts latest default-branch commit was 2026-11-22T00:31:13Z. The other four are older: typescript-sdk on 11-18, servers on 11-18, inspector on 11-18, and python-sdk on 11-05.",
+        "turns": 2,
+        "seconds": 8.755,
+        "costUsd": 0.012553400000000001,
+        "firstTurnTokens": 12675,
+        "totalInputTokens": 25902,
+        "outputTokens": 103,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1504,
+          "cacheRead": 24394
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:modelcontextprotocol\", sort:\""
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24052783400000044
+          },
+          {
+            "kind": "model",
+            "seconds": 2.6173736250000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.689278208000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4067787499999973
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "mcp-last-push",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol\n\nIts latest commit on `main` was on 2026-11-22 at 00:31 UTC. The other four were last committed to on these dates:\n- typescript-sdk: 2026-11-18\n- servers: 2026-11-18\n- inspector: 2026-11-18\n- python-sdk: 2026-11-05\n\nThe top 5 repos by stars are servers, python-sdk, typescript-sdk, inspector and modelcontextprotocol.",
+        "turns": 3,
+        "seconds": 6.677,
+        "costUsd": 0.017773900000000002,
+        "firstTurnTokens": 6765,
+        "totalInputTokens": 23216,
+        "outputTokens": 211,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2731,
+          "cacheRead": 20479
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const n=[\\\"servers\\\",\\\"python-sdk\\\",\\\"typescript-sdk\\\",\\\"inspector\\\",\\\"modelcontextprotocol\\\"];\\nconst rs=await Promise.all(n.map(r=>tools.github.list_commits({owner:\\\"modelcontextprotocol\\\",repo:r,sha:\\\"main\\\""
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24707241699999577
+          },
+          {
+            "kind": "model",
+            "seconds": 1.389923542000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6342244999999969
+          },
+          {
+            "kind": "model",
+            "seconds": 1.710690875
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.2423307080000088
+          },
+          {
+            "kind": "model",
+            "seconds": 1.680121625
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "mcp-last-push",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol\n\nIts latest default-branch (`main`) commit was on 2026-11-22T00:31Z, \"docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)\".\n\nThe other four top-5 repos had later-ending-earlier latest commits:\n- typescript-sdk: 2026-11-18\n- servers: 2026-11-18\n- inspector: 2026-11-18\n- python-sdk: 2026-11-05",
+        "turns": 7,
+        "seconds": 8.303,
+        "costUsd": 0.0428702,
+        "firstTurnTokens": 28974,
+        "totalInputTokens": 91335,
+        "outputTokens": 205,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 6127,
+          "cacheRead": 85202
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"modelcontextprotocol\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2909007500000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4061650420000078
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6183907079999917
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9986685419999994
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.23406425000001008
+          },
+          {
+            "kind": "model",
+            "seconds": 0.3674221249999974
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.445699250000005
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6222145829999937
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8541965840000048
+          },
+          {
+            "kind": "model",
+            "seconds": 1.738385582999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\nTop-level sections: bun has 13, uv has 15, and deno has 12.\n\nCorrection: uv has the most, so the answer is astral-sh/uv.\n\nastral-sh/uv\n\nIt has 15 top-level sections (1–15, with Glossary last). Bun has 13 and deno has 12.",
+        "turns": 2,
+        "seconds": 3.939,
+        "costUsd": 0.024607200000000003,
+        "firstTurnTokens": 6779,
+        "totalInputTokens": 17638,
+        "outputTokens": 136,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 5122,
+          "cacheRead": 12512
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"];\\nconst r=await Promise.all(repos.map(repoName=>tools.deepwiki.read_wiki_structure({repoName})));\\nr.forEach((x,i)=>{console.log(repos[i]);consol"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2470142909999995
+          },
+          {
+            "kind": "model",
+            "seconds": 1.821878792000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5059780420000024
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5920724999999951
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\nIt has 13 top-level sections, against 12 for denoland/deno and 15 for astral-sh/uv.\n\nCorrection: astral-sh/uv has the most, with 15 top-level sections.\n\nastral-sh/uv",
+        "turns": 4,
+        "seconds": 3.612,
+        "costUsd": 0.0370019,
+        "firstTurnTokens": 28988,
+        "totalInputTokens": 62176,
+        "outputTokens": 115,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 7153,
+          "cacheRead": 55019
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"astral-sh/uv\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.212301542000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.496354124999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.09763937499999908
+          },
+          {
+            "kind": "model",
+            "seconds": 0.06579183299999558
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.27661687500000687
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6573814589999967
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "astral-sh/uv\n\nIt has 15 top-level sections in DeepWiki. oven-sh/bun has 13 and denoland/deno has 12. I counted the numbered top-level entries from each repo's wiki structure.",
+        "turns": 2,
+        "seconds": 4.028,
+        "costUsd": 0.024962699999999997,
+        "firstTurnTokens": 12688,
+        "totalInputTokens": 29342,
+        "outputTokens": 91,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4931,
+          "cacheRead": 24407
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && for r in denoland/deno oven-sh/bun astral-sh/uv; do echo \"== $r\"; deepwiki/read_wiki_structure --repoName "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23386429099999076
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0542232090000034
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5608320830000011
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3676664579999924
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 2.255,
+        "costUsd": 0.020669399999999997,
+        "firstTurnTokens": 28943,
+        "totalInputTokens": 58464,
+        "outputTokens": 112,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3486,
+          "cacheRead": 54974
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__read_graph {}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2813495410000033
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0705761670000065
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.014533499999990429
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1448280000000088
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects in the knowledge graph that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 3.51,
+        "costUsd": 0.011618300000000002,
+        "firstTurnTokens": 12644,
+        "totalInputTokens": 26068,
+        "outputTokens": 112,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1701,
+          "cacheRead": 24363
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && memory/read_graph --json"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3235417079999897
+          },
+          {
+            "kind": "model",
+            "seconds": 2.059541834000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.10184729099999812
+          },
+          {
+            "kind": "model",
+            "seconds": 1.292265917000012
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 3.356,
+        "costUsd": 0.0094688,
+        "firstTurnTokens": 6735,
+        "totalInputTokens": 14098,
+        "outputTokens": 116,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1626,
+          "cacheRead": 12468
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const g = await tools.memory.read_graph(); console.log(JSON.stringify(g));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2452729169999948
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0921801249999987
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.012068041000005802
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2332721669999884
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "deno-tags",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 denoland repos by stars, with the tag of each latest release:\n- deno: v2.9.8\n- celld: v0.6.3\n- rusty_v8: v152.2.0\n- std: release-2026.09.24\n- deno_lint: 0.84.1\n\nAll five have a release. I didn't check the star counts directly. The order comes from GitHub's star-sorted search. `celld` is a surprising entry for the top 5, so it may be worth a quick check.",
+        "turns": 2,
+        "seconds": 10.437,
+        "costUsd": 0.013295,
+        "firstTurnTokens": 12671,
+        "totalInputTokens": 25811,
+        "outputTokens": 19,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1417,
+          "cacheRead": 24390
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r:any = await tools.github.search_repositories({query:\"org:denoland\", sort:\"stars\", "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2289014169999864
+          },
+          {
+            "kind": "model",
+            "seconds": 2.6528946250000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.5780055
+          },
+          {
+            "kind": "model",
+            "seconds": 3.159876833000002
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deno-tags",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 denoland repos by stars, with the tag of each latest release:\n- **deno** (109,052 stars): `v2.9.8`\n- **celld** (6,352 stars): `v0.6.3`\n- **rusty_v8** (4,043 stars): `v152.2.0`\n- **std** (3,558 stars): `release-2026.09.24`\n- **deno_lint** (1,585 stars): `0.84.1`\n\nAll five have a release, so none are missing one.",
+        "turns": 4,
+        "seconds": 13.711,
+        "costUsd": 0.0211535,
+        "firstTurnTokens": 6763,
+        "totalInputTokens": 31939,
+        "outputTokens": 247,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3096,
+          "cacheRead": 28835
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:denoland\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"deno\\\",\\\"celld\\\",\\\"rusty_v8\\\",\\\"std\\\",\\\"deno_lint\\\"]) {\\ntry{const r=await tools.github.get_latest_release({owner:\\\"denoland\\\",repo:n});console.log(n,JSON.stringify(r).slice(0,200));}catch(e)",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"deno\\\",\\\"celld\\\",\\\"rusty_v8\\\",\\\"std\\\",\\\"deno_lint\\\"]) {\\nconst r:any=await tools.github.get_latest_release({owner:\\\"denoland\\\",repo:n});console.log(n,r.tag_name,r.html_url);}\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24243079100000614
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2876490839999897
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7350045000000103
+          },
+          {
+            "kind": "model",
+            "seconds": 1.438066915999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.632304667000004
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2678052499999897
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.6079287080000064
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7237084999999936
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "deno-tags",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tag for each of the 5 most-starred denoland repos:\n- **denoland/deno** (109,052★): `v2.9.8`\n- **denoland/celld** (6,352★): `v0.6.3`\n- **denoland/rusty_v8** (4,043★): `v152.2.0`\n- **denoland/std** (3,558★): `release-2026.09.24`\n- **denoland/deno_lint** (1,585★): `0.84.1`\n\nAll five have a release, so none are without one.",
+        "turns": 7,
+        "seconds": 6.405,
+        "costUsd": 0.0457943,
+        "firstTurnTokens": 28971,
+        "totalInputTokens": 92648,
+        "outputTokens": 217,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 7579,
+          "cacheRead": 85063
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:denoland\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"celld\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"rusty_v8\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"std\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno_lint\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.272864041000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1785864589999981
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6706174159999936
+          },
+          {
+            "kind": "model",
+            "seconds": 1.783949542000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1431259169999981
+          },
+          {
+            "kind": "model",
+            "seconds": 0.26711054100000187
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.009051166999997307
+          },
+          {
+            "kind": "model",
+            "seconds": 0.15235754200001228
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7130958329999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4688311249999968
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "astral-issues",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 4 by stars: uv (3092), ruff (2336), ty (1002), rye (333).\n\nTotal open issues, as GitHub counts them (PRs included): **6,763**.\n\nRye is archived but still ranks fourth by stars, so I included it.",
+        "turns": 2,
+        "seconds": 3.689,
+        "costUsd": 0.0127117,
+        "firstTurnTokens": 6764,
+        "totalInputTokens": 14847,
+        "outputTokens": 114,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2346,
+          "cacheRead": 12497
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:astral-sh\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:6});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2577208750000136
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2202928329999994
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7295406249999941
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7214173750000046
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "astral-issues",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Total open issues (GitHub's `open_issues_count`, which includes PRs) across the 4 most-starred astral-sh repos: **6,763**.\n\n- uv: 3,092 (92,619 stars)\n- ruff: 2,336 (51,447 stars)\n- ty: 1,002 (20,136 stars)\n- rye: 333 (14,113 stars). It's archived, but it's still one of the top 4 by stars.",
+        "turns": 2,
+        "seconds": 5.451,
+        "costUsd": 0.027018300000000002,
+        "firstTurnTokens": 28972,
+        "totalInputTokens": 59642,
+        "outputTokens": 167,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4635,
+          "cacheRead": 55003
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:astral-sh\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":4,\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.223100707999998
+          },
+          {
+            "kind": "model",
+            "seconds": 2.3142158750000092
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6366691250000001
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4815622920000022
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "astral-issues",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Sum: 3092 + 2336 + 1002 + 333 = 6763\n\nThe 4 most-starred astral-sh repos, with GitHub's `open_issues_count` (pull requests included):\n- uv: 3,092\n- ruff: 2,336\n- ty: 1,002\n- rye: 333\n\n**Total: 6,763 open issues.**",
+        "turns": 2,
+        "seconds": 6.357,
+        "costUsd": 0.0117409,
+        "firstTurnTokens": 12670,
+        "totalInputTokens": 25934,
+        "outputTokens": 132,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1541,
+          "cacheRead": 24389
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:astral-sh\" --sort stars --order desc --perPage 6 --json | jq '.ite"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22664145799999824
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0884406670000026
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8277795829999959
+          },
+          {
+            "kind": "model",
+            "seconds": 3.400240707999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "mcp-last-push",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol\n\nOf the five most-starred repos, `modelcontextprotocol/modelcontextprotocol` had the most recent commit on its default branch (`main`), on 2026-11-22 at 00:31 UTC. The others were `typescript-sdk` (2026-11-18), `servers` (2026-11-18), `inspector` (2026-11-18) and `python-sdk` (2026-11-05).",
+        "turns": 7,
+        "seconds": 8.712,
+        "costUsd": 0.042716000000000004,
+        "firstTurnTokens": 28973,
+        "totalInputTokens": 91332,
+        "outputTokens": 190,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 6126,
+          "cacheRead": 85200
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}",
+          "mcp__github__list_commits {\"owner\":\"modelcontextprotocol\",\"repo\":\"modelcontextprotocol\",\"perPage\":1,\"fields\":[\"sha\",\"commit\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.213421749999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3699504579999924
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7361667920000032
+          },
+          {
+            "kind": "model",
+            "seconds": 2.874917333000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2893439170000054
+          },
+          {
+            "kind": "model",
+            "seconds": 0.3116469579999981
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.22762904200000023
+          },
+          {
+            "kind": "model",
+            "seconds": 0.33532274999999245
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.48879258300000217
+          },
+          {
+            "kind": "model",
+            "seconds": 0.015078166999999532
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.44274287499999687
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6008948329999981
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "mcp-last-push",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol\n\nIts latest commit on the default branch (main) was 2026-11-22T00:31:13Z. The other four top-5 repos by stars were last committed to earlier:\n- typescript-sdk: 2026-11-18\n- servers: 2026-11-18\n- inspector: 2026-11-18\n- python-sdk: 2026-11-05",
+        "turns": 2,
+        "seconds": 10.271,
+        "costUsd": 0.013415100000000001,
+        "firstTurnTokens": 12672,
+        "totalInputTokens": 25947,
+        "outputTokens": 137,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1552,
+          "cacheRead": 24391
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r:any = await tools.github.search_repositories({query:\"org:modelcontextprotocol\", so"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21655766599999332
+          },
+          {
+            "kind": "model",
+            "seconds": 4.07186112500001
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.503070458999995
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6562575410000004
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "mcp-last-push",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol\n\nIts latest commit on the default branch (`main`) was on 2026-11-22 at 00:31 UTC. The other four top-5 repos were last committed to on 2026-11-18 (typescript-sdk, servers, inspector) and 2026-11-05 (python-sdk). I ranked the top 5 by stars: servers, python-sdk, typescript-sdk, inspector, modelcontextprotocol.",
+        "turns": 3,
+        "seconds": 6.019,
+        "costUsd": 0.0180878,
+        "firstTurnTokens": 6765,
+        "totalInputTokens": 23263,
+        "outputTokens": 202,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2759,
+          "cacheRead": 20498
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(typeof r===\\\"string\\\"?r.slice(0,3000):JSON.stringify(r).slice(0,30",
+          "mcp__tools__run_code {\"code\":\"const n=[\\\"servers\\\",\\\"python-sdk\\\",\\\"typescript-sdk\\\",\\\"inspector\\\",\\\"modelcontextprotocol\\\"];\\nconst rs=await Promise.all(n.map(r=>tools.github.list_commits({owner:\\\"modelcontextprotocol\\\",repo:r,perPage:1}))"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2404492500000051
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3326977499999921
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6581847080000005
+          },
+          {
+            "kind": "model",
+            "seconds": 1.634888250000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.017283708999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3553815000000027
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "astral-sh/uv\nIt has 15 top-level sections in DeepWiki, against 13 for oven-sh/bun and 12 for denoland/deno. I counted the numbered top-level entries in each repo's wiki structure and ignored the sub-pages.",
+        "turns": 2,
+        "seconds": 4.065,
+        "costUsd": 0.0250868,
+        "firstTurnTokens": 12689,
+        "totalInputTokens": 29344,
+        "outputTokens": 103,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4932,
+          "cacheRead": 24408
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && for r in denoland/deno oven-sh/bun astral-sh/uv; do echo \"== $r\"; deepwiki/read_wiki_structure --repoName "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22422812499999417
+          },
+          {
+            "kind": "model",
+            "seconds": 2.1914506249999977
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5323947090000005
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2998464159999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\nTop-level section counts in DeepWiki: bun has 13, uv has 15, and deno has 12. I counted the numbered top-level entries, not the sub-pages.\n\nCorrection: uv has the most, so the answer is:\n\nastral-sh/uv",
+        "turns": 2,
+        "seconds": 3.796,
+        "costUsd": 0.0243635,
+        "firstTurnTokens": 6782,
+        "totalInputTokens": 17635,
+        "outputTokens": 120,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 5116,
+          "cacheRead": 12515
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"];\\nconst r=await Promise.all(repos.map(x=>tools.deepwiki.read_wiki_structure({repoName:x})));\\nr.forEach((v,i)=>console.log(repos[i],typeof v==='s"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24898920799999905
+          },
+          {
+            "kind": "model",
+            "seconds": 1.656740292000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6028410830000068
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5176224169999912
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\n\nTop-level sections: bun has 13, deno has 12, and uv has 15. So uv has the most, and I put the wrong repo on the first line. The correct first line is:\n\n**astral-sh/uv**\n\nCounts of top-level sections:\n- astral-sh/uv: 15\n- oven-sh/bun: 13\n- denoland/deno: 12",
+        "turns": 4,
+        "seconds": 3.603,
+        "costUsd": 0.0374201,
+        "firstTurnTokens": 28990,
+        "totalInputTokens": 62180,
+        "outputTokens": 156,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 7155,
+          "cacheRead": 55021
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"astral-sh/uv\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2590835839999928
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6011307499999967
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4153917500000097
+          },
+          {
+            "kind": "model",
+            "seconds": 1.57302399999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 2.805,
+        "costUsd": 0.009406999999999999,
+        "firstTurnTokens": 6737,
+        "totalInputTokens": 14097,
+        "outputTokens": 116,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1623,
+          "cacheRead": 12470
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.memory.read_graph()))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23986012500000653
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5783924999999872
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.020023833000013758
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1950753329999861
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year (run de8a43e5):\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 2.394,
+        "costUsd": 0.0207576,
+        "firstTurnTokens": 28945,
+        "totalInputTokens": 58468,
+        "outputTokens": 120,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3488,
+          "cacheRead": 54976
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__read_graph {}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2549013750000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0768911249999944
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.017527750000008613
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2796820000000007
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects in the knowledge graph that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 3.297,
+        "costUsd": 0.0116463,
+        "firstTurnTokens": 12644,
+        "totalInputTokens": 26070,
+        "outputTokens": 112,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1703,
+          "cacheRead": 24363
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./memory/read_graph --json"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22231620800000382
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8454466249999968
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.09944695900000822
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3074972500000004
+          }
+        ]
+      }
+    }
+  ]
+}

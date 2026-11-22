@@ -42,7 +42,7 @@ Measured, not estimated, on [tasks written before any run](bench/): GitHub's off
 
 ![Cost per task with Claude Code and dogu 0.7.0: loading the servers directly $0.036, with Claude Code's tool search $0.038, dogu folder $0.013, dogu code mode $0.011](docs/bench/cost.svg)
 
-dogu's code mode costs 68% less than loading the servers directly and is also faster; the folder costs 63% less, and is about 1.4 s slower per task once a session is open (counting start-up, which Claude Code's own time leaves out, they tie). Tool search reads fewer tokens than loading everything, but costs more, because it brings tool definitions in mid-session, and those are cached at the higher write price. Times are medians. On Haiku (dogu 0.5.0) the order of cost was the same: 56 to 60% less.
+dogu's code mode costs 68% less than loading the servers directly and is also faster; the folder costs 63% less, and is about 1.4 s slower per task once a session is open (counting start-up, which Claude Code's own time leaves out, they tie). Tool search reads fewer tokens than loading everything, but costs more, because it brings tool definitions in mid-session, and those are cached at the higher write price. Times are medians. On Haiku the order of cost is the same: code mode 57% less than loading directly, the folder 53% less. On tasks that fan out to many calls dogu halves the cost too, and code mode is faster when the agent starts the calls together; see [the benchmarks](BENCHMARKS.md#tasks-with-many-calls).
 
 ### Other agents
 

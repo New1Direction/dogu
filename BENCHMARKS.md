@@ -70,18 +70,31 @@ The bench records when each step of a task happens. One thing it showed: Claude 
 
 That picture is from the 0.6.0 work, on another set of tasks. With 0.7.0 on the tasks above, the model worked 3.3 s on average with code mode against 4.3 s loading directly, and tools ran 1.1 s against 0.7 s. How each version got here, including the experiments that lost, is in [docs/research/code-mode.md](docs/research/code-mode.md).
 
+### Tasks with many calls
+
+Most tasks above need one or two tool calls. A separate set of 5 tasks fans out to several (the latest release of each of 5 repos, which of 5 repos had a commit last, and so on), saved before any run with it ([results](bench/results/2026-11-22-multistep-v0.7.0.md)):
+
+| 5 tasks × 3 runs, dogu 0.7.0 | Cost per task | Per task (median) | Per task (mean) | With start-up (median) | Answers right |
+|---|---|---|---|---|---|
+| Loading the servers directly | $0.035 | 4.3 s | **5.3 s** | 5.6 s | 12 of 15 |
+| dogu folder | **$0.016** | 6.2 s | 6.9 s | 6.4 s | **15 of 15** |
+| dogu code mode | $0.017 | **3.8 s** | 5.8 s | **4.0 s** | 12 of 15 |
+
+dogu halves the cost here too. Code mode wins on the typical task, but not on average: when the agent starts the calls together it is clearly faster (which repo had a commit last: 6.1 s against 8.3 s, median), and when it loops through them one at a time it is slower (the latest release of 5 repos: 10 to 14 s against 6 to 10 s). On that task, some repos have no release, and the agent seems to loop so it can handle each failure. The wrong answers, the same task each time, are not dogu's: the agent put the wrong repo on the first line, then corrected itself in the next sentence.
+
 ## 3. Other agents
 
-The same tasks, with three agents (for pi with gpt-6.2, a newer set of 8). Claude Code with Sonnet is dogu 0.7.0; the other rows are from earlier versions, as marked. Each bar compares dogu with that agent's usual way, and, where the agent has one, with its own fix for the same problem: dogu's folder, and for pi with gpt-6.2 dogu's code mode. Left of zero means dogu was cheaper; right means it cost more.
+The same tasks, with three agents (for pi with gpt-6.2, a newer set of 8). Claude Code is dogu 0.7.0; the other rows are from earlier versions, as marked. With Haiku, loading the tools directly was faster per task in an open session (3.0 s against 3.6 s for code mode, median); counting start-up, code mode was faster (3.8 s against 4.2 s). ([Haiku results](bench/results/2026-11-22-heldout-haiku-v0.7.0.md)) Each bar compares dogu with that agent's usual way, and, where the agent has one, with its own fix for the same problem: dogu's folder, and for pi with gpt-6.2 dogu's code mode. Left of zero means dogu was cheaper; right means it cost more.
 
-![Change in cost per task with dogu: Claude Code Sonnet -63% vs loading directly and -65% vs tool search (0.7.0); Haiku -56% and -52% (0.5.0); pi with gpt-6.2-sol, dogu code mode -73% vs loading directly and -31% vs pi's own code mode; pi with gpt-6.1-sol, dogu folder -35% vs loading directly and +24% vs pi's code mode; Codex, dogu folder -30% in tokens vs loading directly and -26% vs Codex's own code mode](docs/bench/agents.svg)
+![Change in cost per task with dogu: Claude Code Sonnet -63% vs loading directly and -65% vs tool search; Haiku -53% and -50% (both 0.7.0); pi with gpt-6.2-sol, dogu code mode -73% vs loading directly and -31% vs pi's own code mode; pi with gpt-6.1-sol, dogu folder -35% vs loading directly and +24% vs pi's code mode; Codex, dogu folder -30% in tokens vs loading directly and -26% vs Codex's own code mode](docs/bench/agents.svg)
 
 | Agent and model | Compared with | Change in cost with dogu |
 |---|---|---|
 | Claude Code, Sonnet, dogu folder (0.7.0) | Loading directly | **63% less** |
 | Claude Code, Sonnet, dogu folder (0.7.0) | Its tool search | **65% less** |
-| Claude Code, Haiku, dogu folder (0.5.0) | Loading directly | **56% less** |
-| Claude Code, Haiku, dogu folder (0.5.0) | Its tool search | **52% less** |
+| Claude Code, Haiku, dogu folder (0.7.0) | Loading directly | **53% less** |
+| Claude Code, Haiku, dogu folder (0.7.0) | Its tool search | **50% less** |
+| Claude Code, Haiku, dogu code mode (0.7.0) | Loading directly | **57% less** |
 | pi, gpt-6.2-sol, dogu code mode | Loading directly | **73% less** |
 | pi, gpt-6.2-sol, dogu code mode | Its own code mode | **31% less** |
 | pi, gpt-6.1-sol, dogu folder | Loading directly | **35% less** |
