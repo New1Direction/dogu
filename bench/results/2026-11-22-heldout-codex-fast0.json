@@ -1,0 +1,916 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.4.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "1bcc43c",
+  "dirty": true,
+  "answers": {
+    "created": [
+      "2021-05-30"
+    ],
+    "issue-title": [
+      "Progress notifications"
+    ],
+    "release-tags": [
+      "v2.5.0",
+      "v2.3.0",
+      "v2.4.0",
+      "2.16.0",
+      "2026-07-28"
+    ],
+    "docs-id": [
+      "/vercel/next.js",
+      "/websites/nextjs",
+      "/vercel/next-learn",
+      "/websites/deepwiki_vercel_next_js",
+      "/websites/nextjs_app_getting-started_project-structure"
+    ],
+    "deno-sections": [
+      "Deno Overview",
+      "CLI Architecture",
+      "Runtime Core",
+      "Language Server Protocol",
+      "HTTP, Fetch, and WebSocket",
+      "Web Standards APIs",
+      "Node.js Compatibility Layer",
+      "Foreign Function Interface",
+      "Testing and Benchmarking",
+      "Developer Tools and Productivity",
+      "Unstable and Experimental APIs",
+      "Glossary"
+    ],
+    "memory-find": [
+      "Project Larch"
+    ],
+    "tokio-sections": [
+      "13"
+    ],
+    "axum-releases": [
+      "175"
+    ]
+  },
+  "records": [
+    {
+      "setup": "codex-direct",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "2021-05-30 ([GitHub API](https://api.github.com/repos/tokio-rs/axum))",
+        "turns": 3,
+        "seconds": 15.209150334,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 79564,
+        "outputTokens": 206,
+        "inputBreakdown": {
+          "fresh": 17612,
+          "cacheWrite": 0,
+          "cacheRead": 61952
+        },
+        "toolCalls": 2,
+        "bypassedTools": true,
+        "steps": [
+          "mcp__codex_apps__github.search_repositories {\"query\":\"repo:tokio-rs/axum\",\"per_page\":1}",
+          "/bin/zsh -lc \"curl -fsSL https://api.github.com/repos/tokio-rs/axum | rg '\\\"created_at\\\"'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "[tokio-rs/axum](https://github.com/tokio-rs/axum) was created on **2021-05-30**.",
+        "turns": 2,
+        "seconds": 7.851713084000001,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 47990,
+        "outputTokens": 117,
+        "inputBreakdown": {
+          "fresh": 10358,
+          "cacheWrite": 0,
+          "cacheRead": 37632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/search_repositories --query 'repo:tokio-rs/axum' --minimal_output false --json | jq '.items[] | {full_name,created_at}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #1 is titled [Progress notifications](https://github.com/modelcontextprotocol/inspector/issues/1).",
+        "turns": 2,
+        "seconds": 13.646817958000002,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 59137,
+        "outputTokens": 169,
+        "inputBreakdown": {
+          "fresh": 6529,
+          "cacheWrite": 0,
+          "cacheRead": 52608
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__issue_read {\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\",\"issue_number\":1,\"method\":\"get\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "[Issue #1](https://github.com/modelcontextprotocol/inspector/issues/1) is titled **“Progress notifications.”**",
+        "turns": 3,
+        "seconds": 13.618627125000003,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 72169,
+        "outputTokens": 168,
+        "inputBreakdown": {
+          "fresh": 10601,
+          "cacheWrite": 0,
+          "cacheRead": 61568
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/issue_read --owner modelcontextprotocol --repo inspector --issue_number 1 --method get --json | jq '{title,html_url}'\"",
+          "/bin/zsh -lc \"../mcp/github/issue_read --owner modelcontextprotocol --repo inspector --issue_number 1 --method get --json | jq '[.. | objects | select(has(\\\"title\\\")) | {title,html_url}]'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "- servers — [v2.5.0](https://github.com/modelcontextprotocol/servers/releases/tag/v2.5.0)\n- python-sdk — [v2.3.0](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0)\n- typescript-sdk — [v2.4.0](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0)\n- inspector — [2.16.0](https://github.com/modelcontextprotocol/inspector/releases/tag/2.16.0)\n- modelcontextprotocol — [2026-07-28](https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2026-07-28)",
+        "turns": 8,
+        "seconds": 18.719622708,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 89375,
+        "outputTokens": 398,
+        "inputBreakdown": {
+          "fresh": 25375,
+          "cacheWrite": 0,
+          "cacheRead": 64000
+        },
+        "toolCalls": 7,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_me {}",
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"modelcontextprotocol\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "- servers — [v2.5.0](https://github.com/modelcontextprotocol/servers/releases/tag/v2.5.0)\n- python-sdk — [v2.3.0](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0)\n- typescript-sdk — [v2.4.0](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0)\n- inspector — [2.16.0](https://github.com/modelcontextprotocol/inspector/releases/tag/2.16.0)\n- modelcontextprotocol — [2026-07-28](https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2026-07-28)",
+        "turns": 3,
+        "seconds": 19.457708750000002,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 73742,
+        "outputTokens": 363,
+        "inputBreakdown": {
+          "fresh": 11406,
+          "cacheWrite": 0,
+          "cacheRead": 62336
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"cd ../mcp && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:5,minimal_output:true}); console.log(r); EOF\"",
+          "/bin/zsh -lc \"cd ../mcp && ./run - <<'EOF' const repos = [\\\"servers\\\",\\\"python-sdk\\\",\\\"typescript-sdk\\\",\\\"inspector\\\",\\\"modelcontextprotocol\\\"]; const results = await Promise.allSettled(repos.map(repo => tools.github.get_latest_release({own"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "docs-id",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Use `/vercel/next.js` in Context7. It indexes Vercel’s official Next.js repository and supports version-specific lookups.",
+        "turns": 2,
+        "seconds": 10.711202000000005,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 65876,
+        "outputTokens": 132,
+        "inputBreakdown": {
+          "fresh": 15828,
+          "cacheWrite": 0,
+          "cacheRead": 50048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__context7__resolve-library-id {\"libraryName\":\"Next.js\",\"query\":\"Which library ID should I use for up-to-date documentation for the Next.js framework?\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "docs-id",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Use `/vercel/next.js` as the `--libraryId` for Context7’s `query-docs` tool.",
+        "turns": 2,
+        "seconds": 10.966099708000002,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 52107,
+        "outputTokens": 103,
+        "inputBreakdown": {
+          "fresh": 24203,
+          "cacheWrite": 0,
+          "cacheRead": 27904
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/context7/resolve-library-id --libraryName 'Next.js' --query 'Official up-to-date documentation for the Next.js framework' | head -45\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "1. Deno Overview · 2. CLI Architecture · 3. Runtime Core\n4. Language Server Protocol · 5. HTTP, Fetch, and WebSocket · 6. Web Standards APIs\n7. Node.js Compatibility Layer · 8. Foreign Function Interface · 9. Testing and Benchmarking\n10. Developer Tools and Productivity · 11. Unstable and Experimental APIs · 12. Glossary\n[DeepWiki’s denoland/deno documentation](https://deepwiki.com/denoland/deno)",
+        "turns": 2,
+        "seconds": 18.166364959,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 128615,
+        "outputTokens": 311,
+        "inputBreakdown": {
+          "fresh": 18919,
+          "cacheWrite": 0,
+          "cacheRead": 109696
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "[DeepWiki’s `denoland/deno` documentation](https://deepwiki.com/denoland/deno) has 12 top-level sections:  \n1. Deno Overview · 2. CLI Architecture · 3. Runtime Core  \n4. Language Server Protocol · 5. HTTP, Fetch, and WebSocket · 6. Web Standards APIs  \n7. Node.js Compatibility Layer · 8. Foreign Function Interface · 9. Testing and Benchmarking  \n10. Developer Tools and Productivity · 11. Unstable and Experimental APIs · 12. Glossary",
+        "turns": 2,
+        "seconds": 9.893052415999998,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48737,
+        "outputTokens": 189,
+        "inputBreakdown": {
+          "fresh": 20833,
+          "cacheWrite": 0,
+          "cacheRead": 27904
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc '../mcp/deepwiki/read_wiki_structure --repoName denoland/deno'"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Larch",
+        "turns": 2,
+        "seconds": 9.027620583000003,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 65521,
+        "outputTokens": 128,
+        "inputBreakdown": {
+          "fresh": 17009,
+          "cacheWrite": 0,
+          "cacheRead": 48512
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"zoquiquiqui\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Larch",
+        "turns": 2,
+        "seconds": 7.370857124999995,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 47969,
+        "outputTokens": 88,
+        "inputBreakdown": {
+          "fresh": 20065,
+          "cacheWrite": 0,
+          "cacheRead": 27904
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/memory/search_nodes --query zoquiquiqui --json | jq -r '.entities[] | select(any(.observations[]; contains(\\\"zoquiquiqui\\\"))) | .name'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repository in the `tokio-rs` organization is [tokio-rs/tokio](https://github.com/tokio-rs/tokio). Its [DeepWiki documentation](https://deepwiki.com/tokio-rs/tokio) has **13 top-level sections**.",
+        "turns": 3,
+        "seconds": 27.727140042,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 144713,
+        "outputTokens": 365,
+        "inputBreakdown": {
+          "fresh": 27465,
+          "cacheWrite": 0,
+          "cacheRead": 117248
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:tokio-rs sort:stars-desc\",\"per_page\":1}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"tokio-rs/tokio\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repository in the `tokio-rs` organization is [tokio-rs/tokio](https://github.com/tokio-rs/tokio), with 33,767 stars. Its [DeepWiki documentation](https://deepwiki.com/tokio-rs/tokio) has **13 top-level sections**.",
+        "turns": 3,
+        "seconds": 11.730654542000003,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 78329,
+        "outputTokens": 226,
+        "inputBreakdown": {
+          "fresh": 1401,
+          "cacheWrite": 0,
+          "cacheRead": 76928
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/run - <<'EOF' const r = await tools.github.search_repositories({query:\\\"org:tokio-rs\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:1}); console.log(JSON.stringify(r).slice(0,3500)); EOF\"",
+          "/bin/zsh -lc '../mcp/deepwiki/read_wiki_structure --repoName tokio-rs/tokio | head -100'"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "`tokio-rs/axum` has published **175 releases** on GitHub. [GitHub Releases](https://github.com/tokio-rs/axum/releases)",
+        "turns": 4,
+        "seconds": 13.875275792,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 73993,
+        "outputTokens": 273,
+        "inputBreakdown": {
+          "fresh": 32137,
+          "cacheWrite": 0,
+          "cacheRead": 41856
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"page\":2,\"perPage\":100,\"fields\":[\"id\",\"draft\"]}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"page\":1,\"perPage\":100,\"fields\":[\"id\",\"draft\"]}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"page\":3,\"perPage\":100,\"fields\":[\"id\",\"draft\"]}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The [tokio-rs/axum repository](https://github.com/tokio-rs/axum/releases) has published **175 releases** in total.",
+        "turns": 2,
+        "seconds": 11.94883245799999,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 51629,
+        "outputTokens": 221,
+        "inputBreakdown": {
+          "fresh": 23725,
+          "cacheWrite": 0,
+          "cacheRead": 27904
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"cd ../mcp && ./run - <<'EOF' let total = 0; for (let page = 1; ; page++) { const releases = await tools.github.list_releases({owner:\\\"tokio-rs\\\",repo:\\\"axum\\\",page,perPage:100,fields:[\\\"id\\\",\\\"draft\\\",\\\"published_at\\\"]}); if ("
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "`tokio-rs/axum` was created on **2021-05-30** (UTC). [GitHub repository metadata](https://api.github.com/repos/tokio-rs/axum)",
+        "turns": 2,
+        "seconds": 10.877582624999995,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 62927,
+        "outputTokens": 181,
+        "inputBreakdown": {
+          "fresh": 14415,
+          "cacheWrite": 0,
+          "cacheRead": 48512
+        },
+        "toolCalls": 1,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc 'curl -fsSL https://api.github.com/repos/tokio-rs/axum | jq -r .created_at'"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[tokio-rs/axum](https://github.com/tokio-rs/axum) was created on **2021-05-30** (UTC).",
+        "turns": 2,
+        "seconds": 8.131827917000003,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48018,
+        "outputTokens": 124,
+        "inputBreakdown": {
+          "fresh": 10386,
+          "cacheWrite": 0,
+          "cacheRead": 37632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/search_repositories --query 'repo:tokio-rs/axum' --perPage 1 --json | jq '.items[] | {full_name,created_at,html_url}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[Progress notifications](https://github.com/modelcontextprotocol/inspector/issues/1)",
+        "turns": 2,
+        "seconds": 9.835467874999988,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 64211,
+        "outputTokens": 107,
+        "inputBreakdown": {
+          "fresh": 14931,
+          "cacheWrite": 0,
+          "cacheRead": 49280
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__issue_read {\"owner\":\"modelcontextprotocol\",\"repo\":\"inspector\",\"issue_number\":1,\"method\":\"get\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #1 is titled [Progress notifications](https://github.com/modelcontextprotocol/inspector/issues/1).",
+        "turns": 3,
+        "seconds": 12.438945334000003,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 72174,
+        "outputTokens": 165,
+        "inputBreakdown": {
+          "fresh": 20334,
+          "cacheWrite": 0,
+          "cacheRead": 51840
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/issue_read --owner modelcontextprotocol --repo inspector --issue_number 1 --method get --json | jq '{title,html_url}'\"",
+          "/bin/zsh -lc \"../mcp/github/issue_read --owner modelcontextprotocol --repo inspector --issue_number 1 --method get --json | jq '[.. | objects | select(has(\\\"title\\\")) | {title,html_url}]'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "- servers — [`v2.5.0`](https://github.com/modelcontextprotocol/servers/releases/tag/v2.5.0)\n- python-sdk — [`v2.3.0`](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0)\n- typescript-sdk — [`v2.4.0`](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0)\n- inspector — [`2.16.0`](https://github.com/modelcontextprotocol/inspector/releases/tag/2.16.0)\n- modelcontextprotocol — [`2026-07-28`](https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2026-07-28)",
+        "turns": 7,
+        "seconds": 22.02027804100001,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 110956,
+        "outputTokens": 461,
+        "inputBreakdown": {
+          "fresh": 16108,
+          "cacheWrite": 0,
+          "cacheRead": 94848
+        },
+        "toolCalls": 6,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc \"curl -fsSL 'https://api.github.com/search/repositories?q=org%3Amodelcontextprotocol&sort=stars&order=desc&per_page=5' | jq -r '.items[] | [.name,.stargazers_count] | @tsv'\"",
+          "/bin/zsh -lc \"curl -sSL -w '\\\\n%{http_code}\\\\n' 'https://api.github.com/repos/modelcontextprotocol/modelcontextprotocol/releases/latest' | jq -r 'if type == \\\"object\\\" then (.tag_name // .message) else . end'\"",
+          "/bin/zsh -lc \"curl -sSL -w '\\\\n%{http_code}\\\\n' 'https://api.github.com/repos/modelcontextprotocol/inspector/releases/latest' | jq -r 'if type == \\\"object\\\" then (.tag_name // .message) else . end'\"",
+          "/bin/zsh -lc \"curl -sSL -w '\\\\n%{http_code}\\\\n' 'https://api.github.com/repos/modelcontextprotocol/typescript-sdk/releases/latest' | jq -r 'if type == \\\"object\\\" then (.tag_name // .message) else . end'\"",
+          "/bin/zsh -lc \"curl -sSL -w '\\\\n%{http_code}\\\\n' 'https://api.github.com/repos/modelcontextprotocol/python-sdk/releases/latest' | jq -r 'if type == \\\"object\\\" then (.tag_name // .message) else . end'\"",
+          "/bin/zsh -lc \"curl -sSL -w '\\\\n%{http_code}\\\\n' 'https://api.github.com/repos/modelcontextprotocol/servers/releases/latest' | jq -r 'if type == \\\"object\\\" then (.tag_name // .message) else . end'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "- servers — [v2.5.0](https://github.com/modelcontextprotocol/servers/releases/tag/v2.5.0)\n- python-sdk — [v2.3.0](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0)\n- typescript-sdk — [v2.4.0](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0)\n- inspector — [2.16.0](https://github.com/modelcontextprotocol/inspector/releases/tag/2.16.0)\n- modelcontextprotocol — [2026-07-28](https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2026-07-28)",
+        "turns": 7,
+        "seconds": 14.229423125,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 72808,
+        "outputTokens": 322,
+        "inputBreakdown": {
+          "fresh": 11240,
+          "cacheWrite": 0,
+          "cacheRead": 61568
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 5 --json | jq '.items[] | {name,stargazers_count}'\"",
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner modelcontextprotocol --repo inspector --json | jq '{tag_name,html_url}'\"",
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk --json | jq '{tag_name,html_url}'\"",
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner modelcontextprotocol --repo modelcontextprotocol --json | jq '{tag_name,html_url}'\"",
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner modelcontextprotocol --repo python-sdk --json | jq '{tag_name,html_url}'\"",
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner modelcontextprotocol --repo servers --json | jq '{tag_name,html_url}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "docs-id",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Use `/vercel/next.js` in Context7. It’s the top match and indexes documentation from Vercel’s official Next.js repository.",
+        "turns": 2,
+        "seconds": 12.44274645800001,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 59270,
+        "outputTokens": 122,
+        "inputBreakdown": {
+          "fresh": 17414,
+          "cacheWrite": 0,
+          "cacheRead": 41856
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__context7__resolve-library-id {\"libraryName\":\"Next.js\",\"query\":\"Official up-to-date documentation for the Next.js framework\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "docs-id",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Use `/websites/nextjs` in Context7 to look up the official Next.js documentation. For a specific release, Context7 also lists versioned entries under `/vercel/next.js`.",
+        "turns": 2,
+        "seconds": 11.077166041000003,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48550,
+        "outputTokens": 114,
+        "inputBreakdown": {
+          "fresh": 10918,
+          "cacheWrite": 0,
+          "cacheRead": 37632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/context7/resolve-library-id --libraryName Next.js --query 'Up-to-date documentation for the Next.js framework' | head -45\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[DeepWiki’s `denoland/deno` index](https://deepwiki.com/denoland/deno) lists 12 top-level sections:\n\n1–4. Deno Overview · CLI Architecture · Runtime Core · Language Server Protocol  \n5–8. HTTP, Fetch, and WebSocket · Web Standards APIs · Node.js Compatibility Layer · Foreign Function Interface  \n9–12. Testing and Benchmarking · Developer Tools and Productivity · Unstable and Experimental APIs · Glossary",
+        "turns": 2,
+        "seconds": 21.830673124999986,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 156803,
+        "outputTokens": 374,
+        "inputBreakdown": {
+          "fresh": 17283,
+          "cacheWrite": 0,
+          "cacheRead": 139520
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "1. Deno Overview · 2. CLI Architecture · 3. Runtime Core  \n4. Language Server Protocol · 5. HTTP, Fetch, and WebSocket · 6. Web Standards APIs  \n7. Node.js Compatibility Layer · 8. Foreign Function Interface · 9. Testing and Benchmarking  \n10. Developer Tools and Productivity · 11. Unstable and Experimental APIs · 12. Glossary  \n[DeepWiki’s denoland/deno documentation](https://deepwiki.com/denoland/deno)",
+        "turns": 2,
+        "seconds": 9.044548750000002,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 52316,
+        "outputTokens": 187,
+        "inputBreakdown": {
+          "fresh": 12892,
+          "cacheWrite": 0,
+          "cacheRead": 39424
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/deepwiki/read_wiki_structure --repoName denoland/deno --json | jq -r '.result' | head -80\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Larch",
+        "turns": 2,
+        "seconds": 8.77215229099999,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 65536,
+        "outputTokens": 131,
+        "inputBreakdown": {
+          "fresh": 17024,
+          "cacheWrite": 0,
+          "cacheRead": 48512
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"zoquiquiqui\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Larch",
+        "turns": 2,
+        "seconds": 7.891348541000014,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 51531,
+        "outputTokens": 87,
+        "inputBreakdown": {
+          "fresh": 12107,
+          "cacheWrite": 0,
+          "cacheRead": 39424
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/memory/search_nodes --query zoquiquiqui --json | jq -r '.entities[] | select(any(.observations[]; contains(\\\"zoquiquiqui\\\"))) | .name'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repository in the `tokio-rs` GitHub organization is [tokio-rs/tokio](https://github.com/orgs/tokio-rs/repositories?sort=stargazers). Its [DeepWiki documentation](https://deepwiki.com/tokio-rs/tokio) has **13 top-level sections**.",
+        "turns": 4,
+        "seconds": 26.360159290999988,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 158991,
+        "outputTokens": 502,
+        "inputBreakdown": {
+          "fresh": 12431,
+          "cacheWrite": 0,
+          "cacheRead": 146560
+        },
+        "toolCalls": 3,
+        "bypassedTools": true,
+        "steps": [
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:tokio-rs sort:stars-desc\",\"per_page\":1}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"tokio-rs/tokio\"}",
+          "/bin/zsh -lc \"curl -Ls https://deepwiki.com/tokio-rs/tokio | rg -o '.{0,95}Tokio Overview.{0,65}' | cut -c1-175 | head -15\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[tokio-rs/tokio](https://github.com/tokio-rs/tokio) is the most-starred repo in the org, with 33,767 stars. Its [DeepWiki documentation](https://deepwiki.com/tokio-rs/tokio) has **13 top-level sections**.",
+        "turns": 3,
+        "seconds": 13.613133833,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 78075,
+        "outputTokens": 225,
+        "inputBreakdown": {
+          "fresh": 24699,
+          "cacheWrite": 0,
+          "cacheRead": 53376
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"cd ../mcp && ./github/search_repositories --query 'org:tokio-rs' --sort stars --order desc --perPage 1 --json | jq '.items[] | {full_name,stargazers_count,html_url}'\"",
+          "/bin/zsh -lc \"cd ../mcp && ./deepwiki/read_wiki_structure --repoName tokio-rs/tokio --json | jq -r '.result' | head -100\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "`tokio-rs/axum` has published **175 releases** in total. [GitHub Releases](https://github.com/tokio-rs/axum/releases)",
+        "turns": 4,
+        "seconds": 13.671984666000004,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 74269,
+        "outputTokens": 251,
+        "inputBreakdown": {
+          "fresh": 13213,
+          "cacheWrite": 0,
+          "cacheRead": 61056
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"page\":1,\"perPage\":100,\"fields\":[\"id\",\"draft\"]}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"page\":2,\"perPage\":100,\"fields\":[\"id\",\"draft\"]}",
+          "mcp__github__list_releases {\"owner\":\"tokio-rs\",\"repo\":\"axum\",\"page\":3,\"perPage\":100,\"fields\":[\"id\",\"draft\"]}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[tokio-rs/axum](https://github.com/tokio-rs/axum/releases) has published **175 releases** on GitHub, including prereleases.",
+        "turns": 2,
+        "seconds": 11.389601374999998,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48016,
+        "outputTokens": 190,
+        "inputBreakdown": {
+          "fresh": 10384,
+          "cacheWrite": 0,
+          "cacheRead": 37632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"cd ../mcp && ./run - <<'EOF' for(let page=1,total=0;;page++){ const releases=await tools.github.list_releases({owner:\\\"tokio-rs\\\",repo:\\\"axum\\\",page,perPage:100,fields:[\\\"id\\\",\\\"draft\\\"]}); if(\"'!Array.isArray(releases)){conso"
+        ]
+      }
+    }
+  ]
+}

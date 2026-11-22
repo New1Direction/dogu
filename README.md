@@ -48,7 +48,7 @@ On Haiku the order is the same: dogu costs 56 to 60% less than both. Loading the
 
 The gap depends on the agent:
 
-- **Codex** (its default model): the dogu folder in `AGENTS.md` read 6% fewer tokens at the same speed as Codex with the servers loaded directly. Codex's own instructions are large, so tool definitions are a smaller share. With the servers loaded directly, Codex went around them with `curl` in 6 of 16 runs; with the folder, never.
+- **Codex** (its default model): the dogu folder in `AGENTS.md` read 30% fewer tokens and was faster than Codex with the servers loaded directly, 11.2 s against 13.8 s, and in Codex's fast mode 9.2 s against 10.0 s. That is with `~/.npm` writable (below); without it, a local server cannot start and the saving was 6%. With the servers loaded directly, Codex often skipped them and fetched pages with `curl` itself (11 of 32 runs); with the folder, 1 of 32.
 - **pi** (gpt-6.1-sol): the dogu folder was 35% cheaper and 15% faster than pi with the tools declared directly. pi has its own code mode, built for the same problem, and it was cheaper still: the folder cost 24% more, and was 21% faster.
 
 **[The benchmarks in plain words, with charts](BENCHMARKS.md).** All results, and how to run them yourself: [`bench/`](bench/).
@@ -309,7 +309,7 @@ Transports: stdio and Streamable HTTP.
 
 ## Status
 
-This is version 0.4.0 and it is new. Here is what has not been done yet:
+This is version 0.5.0 and it is new. Here is what has not been done yet:
 
 - It has been built and run on **Linux and macOS**. Windows does not work: the tools are `sh` scripts.
 - Of the **hosted servers**, GitHub, Linear, Context7 and DeepWiki have been tried. Notion and others have not. Real services have quirks. If one breaks, please open an issue with the output of `DOGU_DEBUG=1 dogu sync`.

@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.5.0] - 2026-11-22
 
 ### Changed
 
@@ -8,6 +8,8 @@
 
 ### Added
 
+- [BENCHMARKS.md](BENCHMARKS.md): the results in plain words, with charts drawn from the result files.
+- The benchmark covers Codex in its fast mode, and checks each task's answer check before any run.
 - The README and `--help` show what each tool may change, as its server says: `[read-only]`, `[changes things]` or `[may delete or overwrite]`.
 - `dogu sync --read-only` keeps only the tools servers mark read-only, and remembers it; `--all-tools` undoes it. Left-out tools cannot be called.
 

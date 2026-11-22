@@ -9,7 +9,8 @@ dogu gives the agent the same tools in a lighter way. We tested whether that is 
 - With Claude Code, tasks cost **about 60% less** with dogu, and the answers were just as right.
 - dogu was also cheaper than Claude Code's own fix for this problem, "tool search", by about 65%.
 - Loading the tools the usual way is still **about a second faster** on quick, one-step tasks.
-- With other agents the gap is smaller, and one agent's own feature (pi's "code mode") beat dogu on cost.
+- With Codex, dogu read 30% less and was faster, in normal and in fast mode.
+- One agent's own feature (pi's "code mode") beat dogu on cost.
 
 Every number below comes from the files in [`bench/results/`](bench/results/), and you can [run the tests yourself](#run-it-yourself).
 
@@ -57,7 +58,7 @@ Here dogu does **not** win. With every tool already described, the agent can act
 
 The same 8 tasks, with three agents. Each bar compares dogu's folder with that agent's usual way, and, where the agent has one, with its own fix for the same problem. Left of zero means dogu was cheaper; right means it cost more.
 
-![Change in cost per task with the dogu folder: Claude Code Sonnet -62% vs loading directly and -65% vs tool search; Haiku -56% and -52%; pi -35% vs loading directly and +24% vs its own code mode; Codex -6% in tokens](docs/bench/agents.svg)
+![Change in cost per task with the dogu folder: Claude Code Sonnet -62% vs loading directly and -65% vs tool search; Haiku -56% and -52%; pi -35% vs loading directly and +24% vs its own code mode; Codex -30% in tokens](docs/bench/agents.svg)
 
 | Agent and model | Compared with | Change in cost with dogu |
 |---|---|---|
@@ -67,13 +68,26 @@ The same 8 tasks, with three agents. Each bar compares dogu's folder with that a
 | Claude Code, Haiku | Its tool search | **52% less** |
 | pi, gpt-6.1-sol | Loading directly | **35% less** |
 | pi, gpt-6.1-sol | Its own code mode | **24% more** |
-| Codex, its default model | Loading directly | 6% fewer tokens* |
+| Codex, its default model | Loading directly | 30% fewer tokens* |
 
-\* Codex runs on a ChatGPT plan and does not report a price, so this one compares tokens. Codex also did something worth knowing: with the tools loaded directly, it skipped them and fetched web pages itself in 6 of 16 runs. With dogu it never did.
+\* Codex runs on a ChatGPT plan and does not report a price, so this one compares tokens. It uses the setting dogu's README asks Codex users to add (letting Codex's sandbox write `~/.npm`). An earlier run without that setting saved only 6%, because one of the tools could not start. Codex also did something worth knowing: with the tools loaded directly, it often skipped them and fetched web pages itself, in 4 of 16 runs. With dogu it did that once in 32.
 
 pi's own code mode was built for exactly this problem, and in pi it is the cheaper choice. The dogu folder was the fastest of pi's three options.
 
-## 4. Saving a job as a new tool
+## 4. Fast mode
+
+Codex has a **fast mode**: OpenAI answers faster, and it uses more of your plan. We ran the same 8 tasks with it on and off.
+
+![Time per task with Codex: loaded directly 13.8 s at normal speed and 10.0 s in fast mode; dogu folder 11.2 s and 9.2 s](docs/bench/fast.svg)
+
+| Codex | Normal speed | Fast mode | Answers right |
+|---|---|---|---|
+| Loading the servers directly | 13.8 s | 10.0 s | 32 of 32 |
+| **dogu folder** | **11.2 s** | **9.2 s** | 32 of 32 |
+
+Fast mode made tasks about a fifth to a quarter quicker, with the same answers, and dogu stayed the faster of the two in both modes. Whether that is worth the extra use of your plan is your call; Codex does not say how much more it uses, so we cannot put a number on it.
+
+## 5. Saving a job as a new tool
 
 When an agent works out a job that takes several steps, dogu lets it save the steps as a new tool, which we call **forging**. The next time, the job is one step.
 
@@ -90,11 +104,11 @@ Saving the tool costs a little once. It pays for itself after **3 more jobs** in
 
 We also tried letting a strong model (Sonnet) save the tool and a cheap model (Haiku) use it. Haiku used it every time and was faster, but Haiku was already cheap and could do the job alone, so the savings took 42 to 102 jobs to repay. It is not a good deal for easy jobs.
 
-## 5. Where dogu does not win
+## 6. Where dogu does not win
 
-- On quick one-step tasks, **loading the tools directly is about a second faster**.
+- With Claude Code, on quick one-step tasks, **loading the tools directly is about a second faster**.
 - In **pi**, pi's own code mode is cheaper than dogu's folder.
-- With **Codex**, the saving is small: about 6% fewer tokens.
+- With **Codex**, without the `~/.npm` setting the saving was small (6%), because a local tool could not start.
 - An agent told only "read the README first", instead of having the tool list in its standing instructions, **costs more** than loading the tools directly, because it reads the long list in the middle of every task.
 
 ## How we kept it fair
