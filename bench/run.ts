@@ -97,7 +97,7 @@ const section = (title: string, records: ReadonlyArray<RunRecord>, tasks: Readon
 
 const program = Effect.scoped(
   Effect.gen(function* () {
-    const ws = yield* makeWorkspace({ memory: TASKS_RUN.some((t) => ["memory-find", "memory-years", "started-in"].includes(t.id)) });
+    const ws = yield* makeWorkspace({ memory: TASKS_RUN.some((t) => ["memory-find", "memory-years", "started-in", "entity-year"].includes(t.id)) });
     const facts = yield* fetchFacts(ws);
     yield* Console.log(`Answers: ${JSON.stringify(Object.fromEntries(facts))}`);
     if (env("BENCH_DRY", "") === "1") {
@@ -128,6 +128,7 @@ const program = Effect.scoped(
       ...section("Held-out tasks (written before any run, never tuned against)", records.filter((r) => r.suite === "heldout"), tasksOf("heldout")),
       ...section("Held-out tasks, set 2 (frozen before the code-mode speed work)", records.filter((r) => r.suite === "heldout2"), tasksOf("heldout2")),
       ...section("Held-out tasks, set 3 (frozen before the work on calls made together)", records.filter((r) => r.suite === "heldout3"), tasksOf("heldout3")),
+      ...section("Held-out tasks, set 4 (frozen before the change about printing whole results)", records.filter((r) => r.suite === "heldout4"), tasksOf("heldout4")),
       ...section("Tuning tasks (dogu was tuned while watching these)", records.filter((r) => r.suite === "tuning"), tasksOf("tuning")),
     ].join("\n");
     const out = `${HERE}results/${env("BENCH_OUT", date)}`;

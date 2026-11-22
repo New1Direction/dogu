@@ -74,7 +74,7 @@ const seedMemory = () => {
   const year = 2016 + (crypto.getRandomValues(new Uint8Array(1))[0] % 10);
   return {
     text: lines.join("\n") + "\n",
-    seeded: { word, entity: `Project ${names[pick]}`, year, startedThen: `Project ${names[year - 2015]}` },
+    seeded: { word, entity: `Project ${names[pick]}`, year, startedThen: `Project ${names[year - 2015]}`, entityYear: 2015 + pick },
   };
 };
 

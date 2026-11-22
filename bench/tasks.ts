@@ -13,10 +13,10 @@ export interface Ctx {
   readonly gh: (path: string) => Effect.Effect<any, CommandFailed>;
   readonly tool: (path: string, args: ReadonlyArray<string>) => Effect.Effect<string, CommandFailed>;
   /** A word hidden in the memory server's graph, and the entity that holds it. Random each run. */
-  readonly seeded: { readonly word: string; readonly entity: string; readonly year: number; readonly startedThen: string };
+  readonly seeded: { readonly word: string; readonly entity: string; readonly year: number; readonly startedThen: string; readonly entityYear: number };
 }
 
-export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3";
+export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3" | "heldout4";
 
 /** The facts a right answer must contain. What "contain" means is up to each task's check. */
 export type Facts = ReadonlyArray<string>;
@@ -403,6 +403,77 @@ export const TASKS: ReadonlyArray<Task> = [
       topRepos(ctx, "denoland", 3).pipe(Effect.map((rs) => [rs.reduce((a, b) => (b.open_issues_count > a.open_issues_count ? b : a)).name])),
     check: (a, f) => has(firstLine(a), f[0]),
   },
+
+  // --- held out, set 4: written and frozen before the change about printing whole results (no Context7) ---
+  {
+    id: "ruff-issues",
+    suite: "heldout4",
+    kind: "a live count",
+    prompt: "How many open issues does the GitHub repo astral-sh/ruff have right now, as GitHub counts them (pull requests included)?",
+    fetch: (ctx) => ctx.gh("repos/astral-sh/ruff").pipe(Effect.map((r) => [String(r.open_issues_count)])),
+    check: (a, f) => near(a, Number(f[0]), 0.01),
+  },
+  {
+    id: "last-commit",
+    suite: "heldout4",
+    kind: "a nested field",
+    prompt:
+      "What is the first line of the message of the latest commit on the default branch of the GitHub repo modelcontextprotocol/modelcontextprotocol?",
+    fetch: (ctx) =>
+      ctx.gh("repos/modelcontextprotocol/modelcontextprotocol/commits?per_page=1").pipe(
+        Effect.map((r) => [String(r[0].commit.message).split("\n")[0]]),
+      ),
+    check: (a, f) => lower(a).replace(/[^a-z0-9]/g, "").includes(lower(f[0]).replace(/[^a-z0-9]/g, "").slice(0, 60)),
+  },
+  {
+    id: "pr-opener",
+    suite: "heldout4",
+    kind: "one call",
+    prompt: "Who opened pull request #7 in the GitHub repo modelcontextprotocol/python-sdk? Give their login.",
+    fetch: (ctx) => ctx.gh("repos/modelcontextprotocol/python-sdk/pulls/7").pipe(Effect.map((r) => [String(r.user.login)])),
+    check: (a, f) => has(a, f[0]),
+  },
+  {
+    id: "most-forks",
+    suite: "heldout4",
+    kind: "fan-out: 3 calls",
+    prompt: "Which has the most forks: astral-sh/ruff, astral-sh/uv or pallets/flask? Put just its owner/name on the first line.",
+    fetch: (ctx) =>
+      Effect.forEach(["astral-sh/ruff", "astral-sh/uv", "pallets/flask"], (r) =>
+        ctx.gh(`repos/${r}`).pipe(Effect.map((x) => ({ r, n: Number(x.forks_count) })))).pipe(
+          Effect.map((xs) => [xs.reduce((a, b) => (b.n > a.n ? b : a)).r]),
+        ),
+    check: (a, f) => has(firstLine(a), f[0]),
+  },
+  {
+    id: "pushed-last",
+    suite: "heldout4",
+    kind: "fan-out: 3 calls, compare",
+    prompt:
+      "Of the GitHub repos oven-sh/bun, denoland/deno and astral-sh/uv, which had a commit pushed to its default branch most recently? Put just its owner/name on the first line.",
+    fetch: (ctx) =>
+      Effect.forEach(["oven-sh/bun", "denoland/deno", "astral-sh/uv"], (r) =>
+        ctx.gh(`repos/${r}/commits?per_page=1`).pipe(Effect.map((x) => ({ r, at: String(x[0].commit.committer.date) })))).pipe(
+          Effect.map((xs) => [xs.reduce((a, b) => (b.at > a.at ? b : a)).r]),
+        ),
+    check: (a, f) => has(firstLine(a), f[0]),
+  },
+  {
+    id: "ruff-section",
+    suite: "heldout4",
+    kind: "finding one section",
+    prompt: "In DeepWiki's documentation of the GitHub repo astral-sh/ruff, which top-level section covers the formatter? Give its title.",
+    fetch: (ctx) => deepwikiSections(ctx, "astral-sh/ruff").pipe(Effect.map((s) => s.filter((t) => /format/i.test(t)).slice(0, 1))),
+    check: (a, f) => has(a, keyWord(f[0])),
+  },
+  {
+    id: "entity-year",
+    suite: "heldout4",
+    kind: "a lookup in a local server",
+    prompt: "In the knowledge graph, in what year did {entity} start?",
+    fetch: (ctx) => Effect.succeed([String(ctx.seeded.entityYear)]),
+    check: (a, f) => hasNumber(a, f[0]),
+  },
 ];
 
 /** An answer no check should accept. */
@@ -420,4 +491,4 @@ export const checkTheCheck = (task: Task, facts: Facts): string | null => {
 
 /** The prompt with this run's seeded facts filled in. */
 export const promptOf = (task: Task, seeded: Ctx["seeded"]) =>
-  task.prompt.replaceAll("{word}", seeded.word).replaceAll("{year}", String(seeded.year));
+  task.prompt.replaceAll("{word}", seeded.word).replaceAll("{year}", String(seeded.year)).replaceAll("{entity}", seeded.entity);

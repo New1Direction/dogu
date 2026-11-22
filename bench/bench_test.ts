@@ -177,6 +177,7 @@ Deno.test("every held-out task is in the held-out suite, and the suites do not s
   assertEquals(TASKS.filter((t) => t.suite === "tuning").length, 5);
   assertEquals(TASKS.filter((t) => t.suite === "heldout2").length, 8);
   assertEquals(TASKS.filter((t) => t.suite === "heldout3").length, 8);
+  assertEquals(TASKS.filter((t) => t.suite === "heldout4").length, 7);
 });
 
 Deno.test("headline says more, not negative fewer, when a setup used more", () => {
@@ -227,6 +228,13 @@ const SAMPLE_FACTS: Record<string, ReadonlyArray<string>> = {
   "started-in": ["Project Elm"],
   "newer-sdk": ["python-sdk"],
   "most-issues": ["deno"],
+  "ruff-issues": ["1800"],
+  "last-commit": ["Fix typo in the spec"],
+  "pr-opener": ["octocat"],
+  "most-forks": ["pallets/flask"],
+  "pushed-last": ["oven-sh/bun"],
+  "ruff-section": ["Formatter"],
+  "entity-year": ["2019"],
 };
 
 Deno.test("every task's check accepts its right answer and rejects a non-answer", () => {
