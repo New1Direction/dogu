@@ -37,7 +37,7 @@ export const summaryTable = (records: ReadonlyArray<RunRecord>, setups: Readonly
     const done = all.flatMap((r) => (r.metrics ? [r.metrics] : []));
     return `| ${SETUP_LABELS[setup] ?? setup} | ${all.filter((r) => r.correct).length}/${all.length} | ${
       k(median(done.map((m) => m.firstTurnTokens)))
-    } | ${k(median(done.map((m) => m.totalInputTokens)))} | $${mean(done.map((m) => m.costUsd)).toFixed(3)} | ${
+    } | ${k(median(done.map((m) => m.totalInputTokens)))} | $${mean(done.map((m) => m.costUsd)).toFixed(4)} | ${
       median(done.map((m) => m.seconds)).toFixed(1)
     }s | ${median(done.map((m) => m.turns))} | ${done.filter((m) => m.bypassedTools).length} |`;
   });
