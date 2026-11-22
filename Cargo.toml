@@ -1,6 +1,6 @@
 [package]
 name = "dogu"
-version = "0.7.0"
+version = "0.7.1"
 edition = "2021"
 description = "Your MCP tools as a folder of commands, and as a sandboxed code API"
 license = "MIT"
