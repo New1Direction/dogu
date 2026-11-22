@@ -179,6 +179,7 @@ Deno.test("every held-out task is in the held-out suite, and the suites do not s
   assertEquals(TASKS.filter((t) => t.suite === "heldout3").length, 8);
   assertEquals(TASKS.filter((t) => t.suite === "heldout4").length, 7);
   assertEquals(TASKS.filter((t) => t.suite === "heldout5").length, 7);
+  assertEquals(TASKS.filter((t) => t.suite === "heldout6").length, 7);
 });
 
 Deno.test("headline says more, not negative fewer, when a setup used more", () => {
@@ -243,6 +244,13 @@ const SAMPLE_FACTS: Record<string, ReadonlyArray<string>> = {
   "flask-release-date": ["2026-05-01"],
   "click-newest-issue": ["Shell completion breaks with nested groups"],
   "click-testing-section": ["Testing Utilities"],
+  "httpx-open-both": ["150"],
+  "requests-open-both": ["250"],
+  "httpx-open-prs": ["90"],
+  "requests-open-issues": ["170"],
+  "httpx-newest-issue": ["Timeout is not applied to proxies"],
+  "requests-newest-pr": ["Fix typo in docs"],
+  "httpx-stars": ["14000"],
 };
 
 Deno.test("every task's check accepts its right answer and rejects a non-answer", () => {

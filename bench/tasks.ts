@@ -16,7 +16,7 @@ export interface Ctx {
   readonly seeded: { readonly word: string; readonly entity: string; readonly year: number; readonly startedThen: string; readonly entityYear: number };
 }
 
-export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3" | "heldout4" | "heldout5";
+export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3" | "heldout4" | "heldout5" | "heldout6";
 
 /** The facts a right answer must contain. What "contain" means is up to each task's check. */
 export type Facts = ReadonlyArray<string>;
@@ -537,6 +537,69 @@ export const TASKS: ReadonlyArray<Task> = [
     prompt: "In DeepWiki's documentation of the GitHub repo pallets/click, which top-level section covers testing? Give its title.",
     fetch: (ctx) => deepwikiSections(ctx, "pallets/click").pipe(Effect.map((s) => s.filter((t) => /test/i.test(t)).slice(0, 1))),
     check: (a, f) => has(a, keyWord(f[0])),
+  },
+
+  // --- held out, set 6: frozen before experiment 9 (limits first in what each tool does). Like set 5, on
+  // repos not used before: the right count among issues, pull requests and both; the newest of each. ---
+  {
+    id: "httpx-open-both",
+    suite: "heldout6",
+    kind: "a count of issues and pull requests",
+    prompt: "How many open issues does the GitHub repo encode/httpx have, as GitHub counts them with pull requests included?",
+    fetch: (ctx) => ctx.gh("repos/encode/httpx").pipe(Effect.map((r) => [String(r.open_issues_count)])),
+    check: (a, f) => numbersIn(a).some((x) => Math.abs(x - Number(f[0])) <= 2),
+  },
+  {
+    id: "requests-open-both",
+    suite: "heldout6",
+    kind: "a count of issues and pull requests",
+    prompt: "How many open issues does the GitHub repo psf/requests have, as GitHub counts them with pull requests included?",
+    fetch: (ctx) => ctx.gh("repos/psf/requests").pipe(Effect.map((r) => [String(r.open_issues_count)])),
+    check: (a, f) => numbersIn(a).some((x) => Math.abs(x - Number(f[0])) <= 2),
+  },
+  {
+    id: "httpx-open-prs",
+    suite: "heldout6",
+    kind: "a count of pull requests",
+    prompt: "How many open pull requests does the GitHub repo encode/httpx have right now?",
+    fetch: (ctx) => ctx.gh("search/issues?q=repo:encode/httpx+is:pr+is:open&per_page=1").pipe(Effect.map((r) => [String(r.total_count)])),
+    check: (a, f) => numbersIn(a).some((x) => Math.abs(x - Number(f[0])) <= 2),
+  },
+  {
+    id: "requests-open-issues",
+    suite: "heldout6",
+    kind: "a count of issues only",
+    prompt: "How many open issues, not counting pull requests, does the GitHub repo psf/requests have right now?",
+    fetch: (ctx) => ctx.gh("search/issues?q=repo:psf/requests+is:issue+is:open&per_page=1").pipe(Effect.map((r) => [String(r.total_count)])),
+    check: (a, f) => numbersIn(a).some((x) => Math.abs(x - Number(f[0])) <= 2),
+  },
+  {
+    id: "httpx-newest-issue",
+    suite: "heldout6",
+    kind: "sorting issues only",
+    prompt: "What is the title of the most recently opened issue (not a pull request) in the GitHub repo encode/httpx?",
+    fetch: (ctx) =>
+      ctx.gh("search/issues?q=repo:encode/httpx+is:issue&sort=created&order=desc&per_page=1").pipe(Effect.map((r) => [String(r.items[0].title)])),
+    check: (a, f) =>
+      lower(a).replace(/[^a-z0-9]/g, "").includes(lower(f[0].replace(/^\[[^\]]*\]\s*/, "")).replace(/[^a-z0-9]/g, "").slice(0, 50)),
+  },
+  {
+    id: "requests-newest-pr",
+    suite: "heldout6",
+    kind: "sorting pull requests only",
+    prompt: "What is the title of the most recently opened pull request that is still open in the GitHub repo psf/requests?",
+    fetch: (ctx) =>
+      ctx.gh("search/issues?q=repo:psf/requests+is:pr+is:open&sort=created&order=desc&per_page=1").pipe(Effect.map((r) => [String(r.items[0].title)])),
+    check: (a, f) =>
+      lower(a).replace(/[^a-z0-9]/g, "").includes(lower(f[0].replace(/^\[[^\]]*\]\s*/, "")).replace(/[^a-z0-9]/g, "").slice(0, 50)),
+  },
+  {
+    id: "httpx-stars",
+    suite: "heldout6",
+    kind: "a repo's numbers (a control)",
+    prompt: "How many stars does the GitHub repo encode/httpx have?",
+    fetch: (ctx) => ctx.gh("repos/encode/httpx").pipe(Effect.map((r) => [String(r.stargazers_count)])),
+    check: (a, f) => near(a, Number(f[0]), 0.01),
   },
 ];
 
