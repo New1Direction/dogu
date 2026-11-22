@@ -132,6 +132,7 @@ const program = Effect.scoped(
       ...section("Held-out tasks, set 5 (frozen before the accuracy fix)", records.filter((r) => r.suite === "heldout5"), tasksOf("heldout5")),
       ...section("Held-out tasks, set 6 (frozen before experiment 9)", records.filter((r) => r.suite === "heldout6"), tasksOf("heldout6")),
       ...section("Multi-step tasks (frozen before any run with them)", records.filter((r) => r.suite === "multistep"), tasksOf("multistep")),
+      ...section("Held-out tasks, set 8 (frozen before the Promise.allSettled change)", records.filter((r) => r.suite === "heldout8"), tasksOf("heldout8")),
       ...section("Tuning tasks (dogu was tuned while watching these)", records.filter((r) => r.suite === "tuning"), tasksOf("tuning")),
     ].join("\n");
     const out = `${HERE}results/${env("BENCH_OUT", date)}`;

@@ -181,6 +181,7 @@ Deno.test("every held-out task is in the held-out suite, and the suites do not s
   assertEquals(TASKS.filter((t) => t.suite === "heldout5").length, 7);
   assertEquals(TASKS.filter((t) => t.suite === "heldout6").length, 7);
   assertEquals(TASKS.filter((t) => t.suite === "multistep").length, 5);
+  assertEquals(TASKS.filter((t) => t.suite === "heldout8").length, 5);
 });
 
 Deno.test("headline says more, not negative fewer, when a setup used more", () => {
@@ -257,6 +258,11 @@ const SAMPLE_FACTS: Record<string, ReadonlyArray<string>> = {
   "mcp-last-push": ["modelcontextprotocol", "servers", "python-sdk"],
   "most-sections": ["oven-sh/bun"],
   "odd-years": ["Alder", "Cedar", "Elm", "Ginkgo", "Ivy", "Larch"],
+  "oven-tags": ["bun-v1.4.5", "v2.2.0", "|", "awesome-bun", "homebrew-bun"],
+  "encode-tags": ["3.18.3", "0.28.1", "|", "apistar"],
+  "vite-tags": ["v8.3.8", "v0.8.3", "|", "awesome-vite"],
+  "encode-newest": ["django-rest-framework"],
+  "mixed-tags": ["bun-v1.4.5", "v8.3.8", "|", "apistar"],
 };
 
 Deno.test("every task's check accepts its right answer and rejects a non-answer", () => {
@@ -276,6 +282,9 @@ Deno.test("heldout2 checks are strict where they must be and tolerant where coun
   assert(!check("two-libraries", "React: /facebook/react only", ["/facebook/react", "|", "/vuejs/core"]));
   assert(check("memory-years", "4 entities started before 2019.", ["4"]));
   assert(check("click-newest-issue", "It is: Choice fails with unhashable choices", ["[tag] Choice fails with unhashable choices"]));
+  // Each repo's tag, and the ones with none must be named.
+  assert(check("encode-tags", "httpx 0.28.1, drf 3.18.3; apistar has no release", ["3.18.3", "0.28.1", "|", "apistar"]));
+  assert(!check("encode-tags", "httpx 0.28.1, drf 3.18.3", ["3.18.3", "0.28.1", "|", "apistar"]));
   // A repo named after its org: "modelcontextprotocol/servers" must not pass for "modelcontextprotocol".
   assert(check("mcp-last-push", "modelcontextprotocol/modelcontextprotocol", ["modelcontextprotocol", "servers"]));
   assert(check("mcp-last-push", "**modelcontextprotocol**", ["modelcontextprotocol", "servers"]));

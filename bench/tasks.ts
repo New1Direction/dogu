@@ -16,7 +16,7 @@ export interface Ctx {
   readonly seeded: { readonly word: string; readonly entity: string; readonly year: number; readonly startedThen: string; readonly entityYear: number };
 }
 
-export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3" | "heldout4" | "heldout5" | "heldout6" | "multistep";
+export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3" | "heldout4" | "heldout5" | "heldout6" | "multistep" | "heldout8";
 
 /** The facts a right answer must contain. What "contain" means is up to each task's check. */
 export type Facts = ReadonlyArray<string>;
@@ -64,6 +64,25 @@ const topRepos = (ctx: Ctx, org: string, n: number) =>
   ctx.gh(`search/repositories?q=org:${org}&sort=stars&per_page=${n}`).pipe(
     Effect.map((r) => (r.items as Array<{ name: string; full_name: string; open_issues_count: number }>)),
   );
+
+/** The latest release's tag of each repo, or "" for a repo with none (GitHub answers 404). */
+const tagsOf = (ctx: Ctx, repos: ReadonlyArray<string>) =>
+  Effect.forEach(repos, (r) =>
+    ctx.gh(`repos/${r}/releases/latest`).pipe(
+      Effect.map((rel) => ({ repo: r, tag: String(rel.tag_name), at: String(rel.published_at) })),
+      Effect.orElseSucceed(() => ({ repo: r, tag: "", at: "" })),
+    ));
+
+/** Facts for "each repo's tag, and say which have none": the tags, a separator, then the repos without one. */
+const tagsAndNones = (xs: ReadonlyArray<{ repo: string; tag: string }>) => [
+  ...xs.filter((x) => x.tag !== "").map((x) => x.tag),
+  "|",
+  ...xs.filter((x) => x.tag === "").map((x) => x.repo.split("/")[1]),
+];
+const tagsAndNonesCheck = (a: string, f: Facts) => {
+  const cut = f.indexOf("|");
+  return hasAll(a, f.slice(0, cut)) && f.slice(cut + 1).every((n) => has(a, n));
+};
 
 const deepwikiSections = (ctx: Ctx, repo: string) =>
   ctx.tool("deepwiki/read_wiki_structure", ["--repoName", repo]).pipe(Effect.map(sectionsOf));
@@ -673,6 +692,55 @@ export const TASKS: ReadonlyArray<Task> = [
     // The projects started 2015 to 2026, one a year, in this order.
     fetch: () => Effect.succeed(["Alder", "Cedar", "Elm", "Ginkgo", "Ivy", "Larch"]),
     check: (a, f) => hasAll(a, f) && !hasAny(a, ["Birch", "Dogwood", "Fir", "Hazel", "Juniper", "Maple"]),
+  },
+
+  // --- held out, set 8: frozen before the Promise.allSettled change. Each task fans out to several calls
+  // and some of them fail (a repo with no release), which is when agents fell back to calling one at a time. ---
+  {
+    id: "oven-tags",
+    suite: "heldout8",
+    kind: "fan-out where some calls fail",
+    prompt: "For each of the 5 most-starred repos in the oven-sh GitHub org, what is the tag of its latest release? List each repo with its tag, and say which have no release.",
+    fetch: (ctx) => topRepos(ctx, "oven-sh", 5).pipe(Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))), Effect.map(tagsAndNones)),
+    check: tagsAndNonesCheck,
+  },
+  {
+    id: "encode-tags",
+    suite: "heldout8",
+    kind: "fan-out where some calls fail",
+    prompt: "For each of the 5 most-starred repos in the encode GitHub org, what is the tag of its latest release? List each repo with its tag, and say which have no release.",
+    fetch: (ctx) => topRepos(ctx, "encode", 5).pipe(Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))), Effect.map(tagsAndNones)),
+    check: tagsAndNonesCheck,
+  },
+  {
+    id: "vite-tags",
+    suite: "heldout8",
+    kind: "fan-out where some calls fail",
+    prompt: "For each of the 5 most-starred repos in the vitejs GitHub org, what is the tag of its latest release? List each repo with its tag, and say which have no release.",
+    fetch: (ctx) => topRepos(ctx, "vitejs", 5).pipe(Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))), Effect.map(tagsAndNones)),
+    check: tagsAndNonesCheck,
+  },
+  {
+    id: "encode-newest",
+    suite: "heldout8",
+    kind: "fan-out where some calls fail, compare",
+    prompt:
+      "Of the 5 most-starred repos in the encode GitHub org, which published its latest release most recently? Put just its name on the first line.",
+    fetch: (ctx) =>
+      topRepos(ctx, "encode", 5).pipe(
+        Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))),
+        Effect.map((xs) => [xs.filter((x) => x.at !== "").reduce((a, b) => (b.at > a.at ? b : a)).repo.split("/")[1]]),
+      ),
+    check: (a, f) => has(firstLine(a), f[0]),
+  },
+  {
+    id: "mixed-tags",
+    suite: "heldout8",
+    kind: "5 calls, one fails",
+    prompt:
+      "What is the tag of the latest release of each of these GitHub repos: oven-sh/bun, vitejs/vite, astral-sh/ruff, tokio-rs/axum and encode/apistar? Say which have no release.",
+    fetch: (ctx) => tagsOf(ctx, ["oven-sh/bun", "vitejs/vite", "astral-sh/ruff", "tokio-rs/axum", "encode/apistar"]).pipe(Effect.map(tagsAndNones)),
+    check: tagsAndNonesCheck,
   },
 ];
 
