@@ -18,6 +18,7 @@ This server gives you many tools through a few. The description of `run_code` li
 required arguments. When that is enough, call `run_code` straight away with one TypeScript program that \
 calls them as `await tools.<app>.<tool>({...})`; if a call fails, its error shows the tool's full type. \
 Start calls that do not depend on each other together with Promise.all: they run at the same time. \
+To look at a result you do not know, print all of it rather than a slice; dogu shortens long output. \
 Call `search` first only when you need optional arguments or the shape of a result. Do several steps in \
 one program, and print only what you need to see. When a program is worth keeping, save it with `forge` \
 and call it next time as `tools.forged.<name>({...})`.";
@@ -238,6 +239,9 @@ fn catalog(opts: &Options) -> String {
 
 const RUN_CODE_ABOUT: &str = "Run a TypeScript program in a sandbox (no files, no network). Call tools with \
 `await tools.<app>.<tool>({...})` and print with console.log. Returns what the program printed.\n\
+When you do not know what a tool returns, print the whole result (`console.log(r)`), not a slice of it: \
+dogu shortens long output itself, keeping the start and the end, so one look is \
+usually enough to answer.\n\
 Calls that do not depend on each other: start them together, so they run at the same time. A loop with \
 `await` inside runs them one after another, which is much slower:\n\
   const [a, b] = await Promise.all([tools.app.one({ id: 1 }), tools.app.two({ id: 2 })]);\n\
@@ -420,6 +424,7 @@ mod tests {
         assert!(!tight.contains("(query)"), "{tight}");
         assert!(run_code_description(&opts).len() <= DESCRIPTION_LIMIT);
         assert!(run_code_description(&opts).contains("await Promise.all(ids.map("), "shows how to make calls together");
+        assert!(run_code_description(&opts).contains("print the whole result"), "says to print whole results");
     }
 
     #[test]
