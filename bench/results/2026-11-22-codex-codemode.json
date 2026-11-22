@@ -1,0 +1,1723 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.7.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "6bcffd1",
+  "dirty": false,
+  "answers": {
+    "most-stars": [
+      "vercel/next.js"
+    ],
+    "three-tags": [
+      "v2.9.8",
+      "bun-v1.4.5",
+      "0.13.9"
+    ],
+    "big-repos": [
+      "17"
+    ],
+    "first-pr": [
+      "Port over Slack server"
+    ],
+    "bun-section": [
+      "Package Manager"
+    ],
+    "started-in": [
+      "Project Ginkgo"
+    ],
+    "newer-sdk": [
+      "typescript-sdk"
+    ],
+    "most-issues": [
+      "deno"
+    ]
+  },
+  "records": [
+    {
+      "setup": "codex-direct",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js",
+        "turns": 2,
+        "seconds": 9.650321666999998,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 38271,
+        "outputTokens": 149,
+        "inputBreakdown": {
+          "fresh": 10367,
+          "cacheWrite": 0,
+          "cacheRead": 27904
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"python3 - <<'PY' from concurrent.futures import ThreadPoolExecutor import urllib.request,json repos=['denoland/deno','oven-sh/bun','nodejs/node','vercel/next.js'] def count(repo): with urllib.request.urlopen('https://api.githu"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\n143,606 stars. [GitHub repository](https://github.com/vercel/next.js)",
+        "turns": 2,
+        "seconds": 9.918603667,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48164,
+        "outputTokens": 186,
+        "inputBreakdown": {
+          "fresh": 20260,
+          "cacheWrite": 0,
+          "cacheRead": 27904
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"cd ../mcp ./run --allow github - <<'EOF' const repos = [\\\"denoland/deno\\\", \\\"oven-sh/bun\\\", \\\"nodejs/node\\\", \\\"vercel/next.js\\\"]; const results = await Promise.allSettled(repos.map(repo => tools.github.search_repositories({que"
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\n[143.6k stars on GitHub](https://github.com/vercel/next.js)",
+        "turns": 1,
+        "seconds": 12.060083833999999,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 71008,
+        "outputTokens": 184,
+        "inputBreakdown": {
+          "fresh": 29152,
+          "cacheWrite": 0,
+          "cacheRead": 41856
+        },
+        "toolCalls": 0,
+        "bypassedTools": false,
+        "steps": []
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\nIt leads with about 143,600 stars. [GitHub](https://github.com/vercel/next.js)",
+        "turns": 1,
+        "seconds": 20.933814875,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 122204,
+        "outputTokens": 398,
+        "inputBreakdown": {
+          "fresh": 23516,
+          "cacheWrite": 0,
+          "cacheRead": 98688
+        },
+        "toolCalls": 0,
+        "bypassedTools": false,
+        "steps": []
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "- denoland/deno — [v2.9.8](https://github.com/denoland/deno/releases/tag/v2.9.8)\n- oven-sh/bun — [bun-v1.4.5](https://github.com/oven-sh/bun/releases/tag/bun-v1.4.5)\n- astral-sh/uv — [0.13.9](https://github.com/astral-sh/uv/releases/tag/0.13.9)",
+        "turns": 4,
+        "seconds": 10.987646209,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48256,
+        "outputTokens": 205,
+        "inputBreakdown": {
+          "fresh": 10624,
+          "cacheWrite": 0,
+          "cacheRead": 37632
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner oven-sh --repo bun --json | jq '{tag_name,html_url}'\"",
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner astral-sh --repo uv --json | jq '{tag_name,html_url}'\"",
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner denoland --repo deno --json | jq '{tag_name,html_url}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "- denoland/deno — [`v2.9.8`](https://github.com/denoland/deno/releases/tag/v2.9.8)\n- oven-sh/bun — [`bun-v1.4.5`](https://github.com/oven-sh/bun/releases/tag/bun-v1.4.5)\n- astral-sh/uv — [`0.13.9`](https://github.com/astral-sh/uv/releases/tag/0.13.9)",
+        "turns": 4,
+        "seconds": 14.090814791999998,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 63777,
+        "outputTokens": 253,
+        "inputBreakdown": {
+          "fresh": 8097,
+          "cacheWrite": 0,
+          "cacheRead": 55680
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"uv\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno` — [v2.9.8](https://github.com/denoland/deno/releases/tag/v2.9.8)\n- `oven-sh/bun` — [bun-v1.4.5](https://github.com/oven-sh/bun/releases/tag/bun-v1.4.5)\n- `astral-sh/uv` — [0.13.9](https://github.com/astral-sh/uv/releases/tag/0.13.9)",
+        "turns": 1,
+        "seconds": 10.710315291999999,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 68589,
+        "outputTokens": 213,
+        "inputBreakdown": {
+          "fresh": 13421,
+          "cacheWrite": 0,
+          "cacheRead": 55168
+        },
+        "toolCalls": 0,
+        "bypassedTools": false,
+        "steps": []
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno` — [v2.9.8](https://github.com/denoland/deno/releases/tag/v2.9.8)\n- `oven-sh/bun` — [bun-v1.4.5](https://github.com/oven-sh/bun/releases/tag/bun-v1.4.5)\n- `astral-sh/uv` — [0.13.9](https://github.com/astral-sh/uv/releases/tag/0.13.9)",
+        "turns": 4,
+        "seconds": 16.014363958,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 63784,
+        "outputTokens": 255,
+        "inputBreakdown": {
+          "fresh": 8104,
+          "cacheWrite": 0,
+          "cacheRead": 55680
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"uv\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**17 repositories** in the `modelcontextprotocol` GitHub organization have more than 1,000 stars. [GitHub search results](https://github.com/search?q=org%3Amodelcontextprotocol+stars%3A%3E1000&type=repositories)",
+        "turns": 3,
+        "seconds": 13.624150208,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 86965,
+        "outputTokens": 231,
+        "inputBreakdown": {
+          "fresh": 16821,
+          "cacheWrite": 0,
+          "cacheRead": 70144
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"per_page\":1}",
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"per_page\":100}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**17 repositories** in the `modelcontextprotocol` GitHub organization have more than 1,000 stars. [GitHub search results](https://github.com/search?q=org%3Amodelcontextprotocol+stars%3A%3E1000&type=repositories)",
+        "turns": 3,
+        "seconds": 14.473409166999998,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 84743,
+        "outputTokens": 229,
+        "inputBreakdown": {
+          "fresh": 7943,
+          "cacheWrite": 0,
+          "cacheRead": 76800
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"per_page\":1}",
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"per_page\":100}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**17 repositories** in the `modelcontextprotocol` GitHub organization have more than 1,000 stars. [GitHub search results](https://github.com/search?q=org%3Amodelcontextprotocol+stars%3A%3E1000&type=repositories)",
+        "turns": 3,
+        "seconds": 14.416685083000004,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 87440,
+        "outputTokens": 240,
+        "inputBreakdown": {
+          "fresh": 9104,
+          "cacheWrite": 0,
+          "cacheRead": 78336
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"per_page\":50}",
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"per_page\":50}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The `modelcontextprotocol` GitHub organization has **17 repositories** with more than 1,000 stars. [GitHub search](https://github.com/search?q=org%3Amodelcontextprotocol+stars%3A%3E1000&type=repositories)",
+        "turns": 2,
+        "seconds": 9.681221500000007,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48502,
+        "outputTokens": 148,
+        "inputBreakdown": {
+          "fresh": 26230,
+          "cacheWrite": 0,
+          "cacheRead": 22272
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/search_repositories --query 'org:modelcontextprotocol stars:>1000' --perPage 100 --json | jq '{total_count,incomplete_results, items: [.items[] | {name,stargazers_count}]}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "[Pull request #1](https://github.com/modelcontextprotocol/servers/pull/1) is titled **“Port over Slack server”**.",
+        "turns": 2,
+        "seconds": 14.905035916000001,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 106591,
+        "outputTokens": 209,
+        "inputBreakdown": {
+          "fresh": 8415,
+          "cacheWrite": 0,
+          "cacheRead": 98176
+        },
+        "toolCalls": 1,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc 'curl -fsSL https://api.github.com/repos/modelcontextprotocol/servers/pulls/1 | jq -r .title'"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "[Port over Slack server](https://github.com/modelcontextprotocol/servers/pull/1)",
+        "turns": 2,
+        "seconds": 10.054926707999998,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 59880,
+        "outputTokens": 123,
+        "inputBreakdown": {
+          "fresh": 13160,
+          "cacheWrite": 0,
+          "cacheRead": 46720
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__pull_request_read {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"pullNumber\":1,\"method\":\"get\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "[Port over Slack server](https://github.com/modelcontextprotocol/servers/pull/1)",
+        "turns": 2,
+        "seconds": 7.534661832999991,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 51610,
+        "outputTokens": 98,
+        "inputBreakdown": {
+          "fresh": 12186,
+          "cacheWrite": 0,
+          "cacheRead": 39424
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/pull_request_read --method get --owner modelcontextprotocol --repo servers --pullNumber 1 --json | jq '{title,html_url}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "[Port over Slack server](https://github.com/modelcontextprotocol/servers/pull/1)",
+        "turns": 2,
+        "seconds": 10.39839916700001,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 65332,
+        "outputTokens": 122,
+        "inputBreakdown": {
+          "fresh": 16820,
+          "cacheWrite": 0,
+          "cacheRead": 48512
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__pull_request_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"pullNumber\":1}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 2,
+        "seconds": 12.797516250000001,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 70454,
+        "outputTokens": 86,
+        "inputBreakdown": {
+          "fresh": 12214,
+          "cacheWrite": 0,
+          "cacheRead": 58240
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 2,
+        "seconds": 6.335812166999997,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48739,
+        "outputTokens": 67,
+        "inputBreakdown": {
+          "fresh": 11107,
+          "cacheWrite": 0,
+          "cacheRead": 37632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc '../mcp/deepwiki/read_wiki_structure --repoName oven-sh/bun | head -70'"
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**Package Manager** (section 4)",
+        "turns": 2,
+        "seconds": 8.660752957999998,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 65131,
+        "outputTokens": 107,
+        "inputBreakdown": {
+          "fresh": 10475,
+          "cacheWrite": 0,
+          "cacheRead": 54656
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "[Package Manager](https://deepwiki.com/oven-sh/bun)",
+        "turns": 1,
+        "seconds": 7.469920417000001,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 45661,
+        "outputTokens": 103,
+        "inputBreakdown": {
+          "fresh": 11101,
+          "cacheWrite": 0,
+          "cacheRead": 34560
+        },
+        "toolCalls": 0,
+        "bypassedTools": false,
+        "steps": []
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ginkgo started in 2021.",
+        "turns": 2,
+        "seconds": 6.323341542000009,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 47997,
+        "outputTokens": 65,
+        "inputBreakdown": {
+          "fresh": 10365,
+          "cacheWrite": 0,
+          "cacheRead": 37632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc '../mcp/memory/search_nodes --query 2021 --json'"
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ginkgo started in 2021.",
+        "turns": 2,
+        "seconds": 8.162267250000005,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 65614,
+        "outputTokens": 95,
+        "inputBreakdown": {
+          "fresh": 8910,
+          "cacheWrite": 0,
+          "cacheRead": 56704
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2021\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Ginkgo** started in 2021.",
+        "turns": 2,
+        "seconds": 13.127147624999997,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 112310,
+        "outputTokens": 141,
+        "inputBreakdown": {
+          "fresh": 17078,
+          "cacheWrite": 0,
+          "cacheRead": 95232
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.memory.search_nodes({query:'2021'}));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ginkgo started in 2021.",
+        "turns": 2,
+        "seconds": 9.684377624999994,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 65581,
+        "outputTokens": 98,
+        "inputBreakdown": {
+          "fresh": 2221,
+          "cacheWrite": 0,
+          "cacheRead": 63360
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2021\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\n- TypeScript SDK v2.4.0 was published on October 23, 2026. [GitHub release](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0)\n- Python SDK v2.3.0 was published on October 2, 2026. [GitHub release](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0)",
+        "turns": 3,
+        "seconds": 13.783237959000006,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 64231,
+        "outputTokens": 253,
+        "inputBreakdown": {
+          "fresh": 8551,
+          "cacheWrite": 0,
+          "cacheRead": 55680
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\n- TypeScript SDK v2.4.0 was published October 23, 2026 at 18:32 UTC. [Release](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0)\n- Python SDK v2.3.0 was published October 2, 2026 at 22:02 UTC. [Release](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0)",
+        "turns": 3,
+        "seconds": 9.495481334000011,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 41856,
+        "outputTokens": 190,
+        "inputBreakdown": {
+          "fresh": 7296,
+          "cacheWrite": 0,
+          "cacheRead": 34560
+        },
+        "toolCalls": 2,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc \"curl -fsSL https://api.github.com/repos/modelcontextprotocol/typescript-sdk/releases/latest | jq '{tag_name,published_at,html_url}'\"",
+          "/bin/zsh -lc \"curl -fsSL https://api.github.com/repos/modelcontextprotocol/python-sdk/releases/latest | jq '{tag_name,published_at,html_url}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\n[TypeScript SDK v2.4.0](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0) was published October 23, 2026.  \n[Python SDK v2.3.0](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0) was published October 2, 2026.",
+        "turns": 3,
+        "seconds": 12.072966541999994,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 66062,
+        "outputTokens": 250,
+        "inputBreakdown": {
+          "fresh": 9102,
+          "cacheWrite": 0,
+          "cacheRead": 56960
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\n[TypeScript SDK v2.4.0](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0) was published October 23, 2026.  \n[Python SDK v2.3.0](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0) was published October 2, 2026.",
+        "turns": 3,
+        "seconds": 9.227661624999993,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48202,
+        "outputTokens": 171,
+        "inputBreakdown": {
+          "fresh": 10314,
+          "cacheWrite": 0,
+          "cacheRead": 37888
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk --json | jq '{tag_name,published_at,html_url}'\"",
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner modelcontextprotocol --repo python-sdk --json | jq '{tag_name,published_at,html_url}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub’s open counts, including pull requests, were 1,755 for deno, 103 for celld, and 68 for rusty_v8. [GitHub API results](https://api.github.com/search/repositories?q=org%3Adenoland&sort=stars&order=desc&per_page=3)",
+        "turns": 3,
+        "seconds": 14.877243042000016,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 94301,
+        "outputTokens": 293,
+        "inputBreakdown": {
+          "fresh": 18013,
+          "cacheWrite": 0,
+          "cacheRead": 76288
+        },
+        "toolCalls": 2,
+        "bypassedTools": true,
+        "steps": [
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:denoland sort:stars-desc\",\"per_page\":3}",
+          "/bin/zsh -lc \"curl -fsS 'https://api.github.com/search/repositories?q=org%3Adenoland&sort=stars&order=desc&per_page=3' | python3 -c 'import json,sys; print([(r[\\\"name\\\"],r[\\\"stargazers_count\\\"],r[\\\"open_issues_count\\\"]) for r in json.load(s"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub’s open counts, including pull requests, were 1,755 for `deno`, 103 for `celld`, and 68 for `rusty_v8`. [GitHub API results](https://api.github.com/search/repositories?q=org%3Adenoland&sort=stars&order=desc&per_page=3)",
+        "turns": 2,
+        "seconds": 11.270631207999992,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 41954,
+        "outputTokens": 186,
+        "inputBreakdown": {
+          "fresh": 14050,
+          "cacheWrite": 0,
+          "cacheRead": 27904
+        },
+        "toolCalls": 1,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc \"curl -fsSL 'https://api.github.com/search/repositories?q=org%3Adenoland&sort=stars&order=desc&per_page=3' | jq '.items[] | {name,stargazers_count,open_issues_count,html_url}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub’s open counts, including pull requests, were 1,755 for [deno](https://github.com/denoland/deno), 103 for [celld](https://github.com/denoland/celld), and 68 for [rusty_v8](https://github.com/denoland/rusty_v8).",
+        "turns": 2,
+        "seconds": 9.426302458000006,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48203,
+        "outputTokens": 189,
+        "inputBreakdown": {
+          "fresh": 587,
+          "cacheWrite": 0,
+          "cacheRead": 47616
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/search_repositories --query 'org:denoland' --sort stars --order desc --perPage 3 --minimal_output false --json | jq '{items: [.items[] | {name, stargazers_count, open_issues_count, html_url}]}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub’s open counts, including pull requests, were 1,755 for deno, 103 for celld, and 68 for rusty_v8. [GitHub API results](https://api.github.com/search/repositories?q=org%3Adenoland&sort=stars&order=desc&per_page=3)",
+        "turns": 2,
+        "seconds": 11.27802675000002,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 64636,
+        "outputTokens": 231,
+        "inputBreakdown": {
+          "fresh": 8444,
+          "cacheWrite": 0,
+          "cacheRead": 56192
+        },
+        "toolCalls": 1,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc \"curl -fsSL 'https://api.github.com/search/repositories?q=org%3Adenoland&sort=stars&order=desc&per_page=3' | python3 -c 'import json,sys; print([(r[\\\"name\\\"],r[\\\"stargazers_count\\\"],r[\\\"open_issues_count\\\"],r[\\\"html_url\\\"]) for"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\n143,606 stars, the most of the four. [GitHub](https://github.com/vercel/next.js)",
+        "turns": 6,
+        "seconds": 13.902161624999978,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 88878,
+        "outputTokens": 247,
+        "inputBreakdown": {
+          "fresh": 9774,
+          "cacheWrite": 0,
+          "cacheRead": 79104
+        },
+        "toolCalls": 5,
+        "bypassedTools": true,
+        "steps": [
+          "mcp__codex_apps__github.search_repositories {\"query\":\"repo:denoland/deno\",\"per_page\":1}",
+          "mcp__codex_apps__github.search_repositories {\"query\":\"repo:nodejs/node\",\"per_page\":1}",
+          "mcp__codex_apps__github.search_repositories {\"query\":\"repo:oven-sh/bun\",\"per_page\":1}",
+          "mcp__codex_apps__github.search_repositories {\"query\":\"repo:vercel/next.js\",\"per_page\":1}",
+          "/bin/zsh -lc 'for repo in denoland/deno oven-sh/bun nodejs/node vercel/next.js do curl -fsS --max-time 8 \"https://api.github.com/repos/$repo\" | jq -r '\"'[.full_name,.stargazers_count] | @tsv' & done wait\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js",
+        "turns": 2,
+        "seconds": 8.643758000000002,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 51705,
+        "outputTokens": 124,
+        "inputBreakdown": {
+          "fresh": 12025,
+          "cacheWrite": 0,
+          "cacheRead": 39680
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/run - <<'EOF' const result = await tools.github.search_repositories({query:\\\"repo:denoland/deno repo:oven-sh/bun repo:nodejs/node repo:vercel/next.js\\\",sort:\\\"stars\\\",order:\\\"desc\\\"}); console.log(JSON.stringify(result."
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\nIt leads with 143.6k stars. [GitHub repository](https://github.com/vercel/next.js)",
+        "turns": 1,
+        "seconds": 16.772159165999998,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 96594,
+        "outputTokens": 291,
+        "inputBreakdown": {
+          "fresh": 12370,
+          "cacheWrite": 0,
+          "cacheRead": 84224
+        },
+        "toolCalls": 0,
+        "bypassedTools": false,
+        "steps": []
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js",
+        "turns": 2,
+        "seconds": 9.420974625000003,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 57650,
+        "outputTokens": 146,
+        "inputBreakdown": {
+          "fresh": 10674,
+          "cacheWrite": 0,
+          "cacheRead": 46976
+        },
+        "toolCalls": 1,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc 'for repo in denoland/deno oven-sh/bun nodejs/node vercel/next.js; do curl -fsSL \"https://api.github.com/repos/$repo\" | jq -r '\"'[.full_name,.stargazers_count] | @tsv' & done wait\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "- denoland/deno — [`v2.9.8`](https://github.com/denoland/deno/releases/tag/v2.9.8)\n- oven-sh/bun — [`bun-v1.4.5`](https://github.com/oven-sh/bun/releases/tag/bun-v1.4.5)\n- astral-sh/uv — [`0.13.9`](https://github.com/astral-sh/uv/releases/tag/0.13.9)",
+        "turns": 4,
+        "seconds": 9.563583291999995,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48237,
+        "outputTokens": 208,
+        "inputBreakdown": {
+          "fresh": 10605,
+          "cacheWrite": 0,
+          "cacheRead": 37632
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner oven-sh --repo bun --json | jq '{tag_name,html_url}'\"",
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner astral-sh --repo uv --json | jq '{tag_name,html_url}'\"",
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner denoland --repo deno --json | jq '{tag_name,html_url}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno` — [`v2.9.8`](https://github.com/denoland/deno/releases/tag/v2.9.8)\n- `oven-sh/bun` — [`bun-v1.4.5`](https://github.com/oven-sh/bun/releases/tag/bun-v1.4.5)\n- `astral-sh/uv` — [`0.13.9`](https://github.com/astral-sh/uv/releases/tag/0.13.9)",
+        "turns": 4,
+        "seconds": 12.751181125000002,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 58354,
+        "outputTokens": 259,
+        "inputBreakdown": {
+          "fresh": 6258,
+          "cacheWrite": 0,
+          "cacheRead": 52096
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"uv\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "- denoland/deno — [v2.9.8](https://github.com/denoland/deno/releases/tag/v2.9.8)\n- oven-sh/bun — [bun-v1.4.5](https://github.com/oven-sh/bun/releases/tag/bun-v1.4.5)\n- astral-sh/uv — [0.13.9](https://github.com/astral-sh/uv/releases/tag/0.13.9)",
+        "turns": 4,
+        "seconds": 9.800969083000004,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 38266,
+        "outputTokens": 210,
+        "inputBreakdown": {
+          "fresh": 5498,
+          "cacheWrite": 0,
+          "cacheRead": 32768
+        },
+        "toolCalls": 3,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc \"curl -fsSL https://api.github.com/repos/astral-sh/uv/releases/latest | jq -r '[.tag_name,.html_url] | @tsv'\"",
+          "/bin/zsh -lc \"curl -fsSL https://api.github.com/repos/oven-sh/bun/releases/latest | jq -r '[.tag_name,.html_url] | @tsv'\"",
+          "/bin/zsh -lc \"curl -fsSL https://api.github.com/repos/denoland/deno/releases/latest | jq -r '[.tag_name,.html_url] | @tsv'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "- denoland/deno — [`v2.9.8`](https://github.com/denoland/deno/releases/tag/v2.9.8)\n- oven-sh/bun — [`bun-v1.4.5`](https://github.com/oven-sh/bun/releases/tag/bun-v1.4.5)\n- astral-sh/uv — [`0.13.9`](https://github.com/astral-sh/uv/releases/tag/0.13.9)",
+        "turns": 4,
+        "seconds": 13.637716375000018,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 63889,
+        "outputTokens": 285,
+        "inputBreakdown": {
+          "fresh": 14865,
+          "cacheWrite": 0,
+          "cacheRead": 49024
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"uv\"}",
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**17 repositories** in the `modelcontextprotocol` GitHub organization have more than 1,000 stars. [GitHub search results](https://github.com/search?q=org%3Amodelcontextprotocol+stars%3A%3E1000&type=repositories)",
+        "turns": 3,
+        "seconds": 15.731984041999997,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 92122,
+        "outputTokens": 239,
+        "inputBreakdown": {
+          "fresh": 21978,
+          "cacheWrite": 0,
+          "cacheRead": 70144
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__codex_apps__github.search_repositories {\"org\":\"modelcontextprotocol\",\"query\":\"org:modelcontextprotocol stars:>1000\",\"per_page\":30}",
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"per_page\":50}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**17 repositories** in the `modelcontextprotocol` GitHub organization have more than 1,000 stars. [GitHub search results](https://github.com/search?q=org%3Amodelcontextprotocol+stars%3A%3E1000&type=repositories)",
+        "turns": 3,
+        "seconds": 16.434986999999992,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 91094,
+        "outputTokens": 234,
+        "inputBreakdown": {
+          "fresh": 19158,
+          "cacheWrite": 0,
+          "cacheRead": 71936
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"per_page\":50}",
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"per_page\":50}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**17 repositories** in the `modelcontextprotocol` GitHub organization have more than 1,000 stars. [GitHub search results](https://github.com/search?q=org%3Amodelcontextprotocol+stars%3A%3E1000&type=repositories)",
+        "turns": 3,
+        "seconds": 15.412168166999995,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 88495,
+        "outputTokens": 241,
+        "inputBreakdown": {
+          "fresh": 9647,
+          "cacheWrite": 0,
+          "cacheRead": 78848
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"per_page\":30}",
+          "mcp__codex_apps__github.search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"per_page\":50}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**17 repositories** in the `modelcontextprotocol` GitHub organization have more than 1,000 stars.",
+        "turns": 2,
+        "seconds": 8.775358624999994,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48509,
+        "outputTokens": 124,
+        "inputBreakdown": {
+          "fresh": 10877,
+          "cacheWrite": 0,
+          "cacheRead": 37632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/search_repositories --query 'org:modelcontextprotocol stars:>1000' --perPage 100 --json | jq '{total_count,incomplete_results,items:[.items[]|{name,stargazers_count}]}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[Port over Slack server](https://github.com/modelcontextprotocol/servers/pull/1)",
+        "turns": 2,
+        "seconds": 12.050062166999997,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 98581,
+        "outputTokens": 165,
+        "inputBreakdown": {
+          "fresh": 24341,
+          "cacheWrite": 0,
+          "cacheRead": 74240
+        },
+        "toolCalls": 1,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc 'curl -fsSL https://api.github.com/repos/modelcontextprotocol/servers/pulls/1 | jq -r .title'"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[Port over Slack server](https://github.com/modelcontextprotocol/servers/pull/1)",
+        "turns": 2,
+        "seconds": 11.773256250000006,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 65015,
+        "outputTokens": 145,
+        "inputBreakdown": {
+          "fresh": 16503,
+          "cacheWrite": 0,
+          "cacheRead": 48512
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__pull_request_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"pullNumber\":1}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[Port over Slack server](https://github.com/modelcontextprotocol/servers/pull/1)",
+        "turns": 2,
+        "seconds": 8.225300917000014,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48024,
+        "outputTokens": 97,
+        "inputBreakdown": {
+          "fresh": 10392,
+          "cacheWrite": 0,
+          "cacheRead": 37632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/pull_request_read --method get --owner modelcontextprotocol --repo servers --pullNumber 1 --json | jq '{title, html_url}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[Port over Slack server](https://github.com/modelcontextprotocol/servers/pull/1)",
+        "turns": 2,
+        "seconds": 9.942679000000004,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 65340,
+        "outputTokens": 125,
+        "inputBreakdown": {
+          "fresh": 16828,
+          "cacheWrite": 0,
+          "cacheRead": 48512
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__pull_request_read {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"pullNumber\":1,\"method\":\"get\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 2,
+        "seconds": 10.228502249999991,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 70381,
+        "outputTokens": 99,
+        "inputBreakdown": {
+          "fresh": 28525,
+          "cacheWrite": 0,
+          "cacheRead": 41856
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 2,
+        "seconds": 7.784650374999997,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 52061,
+        "outputTokens": 68,
+        "inputBreakdown": {
+          "fresh": 12637,
+          "cacheWrite": 0,
+          "cacheRead": 39424
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc '../mcp/deepwiki/read_wiki_structure --repoName oven-sh/bun | head -45'"
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager (Section 4)",
+        "turns": 2,
+        "seconds": 8.584171833000001,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 70511,
+        "outputTokens": 100,
+        "inputBreakdown": {
+          "fresh": 18927,
+          "cacheWrite": 0,
+          "cacheRead": 51584
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[Package Manager](https://deepwiki.com/oven-sh/bun)",
+        "turns": 1,
+        "seconds": 7.503835292000003,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 45660,
+        "outputTokens": 104,
+        "inputBreakdown": {
+          "fresh": 17756,
+          "cacheWrite": 0,
+          "cacheRead": 27904
+        },
+        "toolCalls": 0,
+        "bypassedTools": false,
+        "steps": []
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ginkgo started in 2021.",
+        "turns": 2,
+        "seconds": 8.614162875000009,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 47995,
+        "outputTokens": 66,
+        "inputBreakdown": {
+          "fresh": 20091,
+          "cacheWrite": 0,
+          "cacheRead": 27904
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc '../mcp/memory/search_nodes --query 2021 --json'"
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ginkgo started in 2021.",
+        "turns": 2,
+        "seconds": 10.13878233299998,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 69000,
+        "outputTokens": 102,
+        "inputBreakdown": {
+          "fresh": 20488,
+          "cacheWrite": 0,
+          "cacheRead": 48512
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2021\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ginkgo started in 2021.",
+        "turns": 2,
+        "seconds": 8.106117790999997,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 71091,
+        "outputTokens": 103,
+        "inputBreakdown": {
+          "fresh": 4915,
+          "cacheWrite": 0,
+          "cacheRead": 66176
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.memory.search_nodes({query:\\\"2021\\\"}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Ginkgo** started in 2021.",
+        "turns": 2,
+        "seconds": 9.742075625000027,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 63596,
+        "outputTokens": 148,
+        "inputBreakdown": {
+          "fresh": 8684,
+          "cacheWrite": 0,
+          "cacheRead": 54912
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2021\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\n[TypeScript SDK v2.4.0](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0) was published on October 23, 2026, after [Python SDK v2.3.0](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0) on October 2, 2026.",
+        "turns": 3,
+        "seconds": 12.39572649999999,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 60638,
+        "outputTokens": 227,
+        "inputBreakdown": {
+          "fresh": 13918,
+          "cacheWrite": 0,
+          "cacheRead": 46720
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\n[TypeScript SDK v2.4.0](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0) was published October 23, 2026. [Python SDK v2.3.0](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0) was published October 2, 2026.",
+        "turns": 3,
+        "seconds": 8.854873291999974,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 41854,
+        "outputTokens": 174,
+        "inputBreakdown": {
+          "fresh": 7294,
+          "cacheWrite": 0,
+          "cacheRead": 34560
+        },
+        "toolCalls": 2,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc \"curl -fsSL https://api.github.com/repos/modelcontextprotocol/typescript-sdk/releases/latest | jq '{tag_name,published_at,html_url}'\"",
+          "/bin/zsh -lc \"curl -fsSL https://api.github.com/repos/modelcontextprotocol/python-sdk/releases/latest | jq '{tag_name,published_at,html_url}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\n- October 23, 2026 — [TypeScript SDK v2.4.0](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0)\n- October 2, 2026 — [Python SDK v2.3.0](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0)",
+        "turns": 3,
+        "seconds": 11.581455792000023,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 64135,
+        "outputTokens": 227,
+        "inputBreakdown": {
+          "fresh": 8455,
+          "cacheWrite": 0,
+          "cacheRead": 55680
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\n[TypeScript SDK v2.4.0](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0) was published on October 23, 2026. [Python SDK v2.3.0](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0) was published on October 2, 2026.",
+        "turns": 3,
+        "seconds": 10.482048666999995,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 51821,
+        "outputTokens": 189,
+        "inputBreakdown": {
+          "fresh": 12141,
+          "cacheWrite": 0,
+          "cacheRead": 39680
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner modelcontextprotocol --repo python-sdk --json | jq '{tag_name,published_at,html_url}'\"",
+          "/bin/zsh -lc \"../mcp/github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk --json | jq '{tag_name,published_at,html_url}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-dogu",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub’s open-issue counts, including pull requests, were 1,755 for deno, 103 for celld, and 68 for rusty_v8. [GitHub API results](https://api.github.com/search/repositories?q=org%3Adenoland&sort=stars&order=desc&per_page=3)",
+        "turns": 2,
+        "seconds": 9.951415291000012,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 44015,
+        "outputTokens": 222,
+        "inputBreakdown": {
+          "fresh": 9455,
+          "cacheWrite": 0,
+          "cacheRead": 34560
+        },
+        "toolCalls": 1,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc \"curl -fsSL 'https://api.github.com/search/repositories?q=org%3Adenoland&sort=stars&order=desc&per_page=3' | python3 -c 'import json,sys; print([(i[\\\"name\\\"], i[\\\"stargazers_count\\\"], i[\\\"open_issues_count\\\"]) for i in json.loa"
+        ]
+      }
+    },
+    {
+      "setup": "codex-direct",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub counted 1,755 open issues including pull requests, compared with 103 for `celld` and 68 for `rusty_v8`. [GitHub API results](https://api.github.com/search/repositories?q=org%3Adenoland&sort=stars&order=desc&per_page=3)",
+        "turns": 2,
+        "seconds": 18.055989624999988,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 64541,
+        "outputTokens": 225,
+        "inputBreakdown": {
+          "fresh": 1693,
+          "cacheWrite": 0,
+          "cacheRead": 62848
+        },
+        "toolCalls": 1,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc \"curl -fsSL 'https://api.github.com/search/repositories?q=org%3Adenoland&sort=stars&order=desc&per_page=3' | python3 -c 'import json,sys; print([(i[\\\"name\\\"], i[\\\"stargazers_count\\\"], i[\\\"open_issues_count\\\"]) for i in json.loa"
+        ]
+      }
+    },
+    {
+      "setup": "codex-folder",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub counts 1,755 open issues and pull requests for [deno](https://github.com/denoland/deno), compared with 103 for [celld](https://github.com/denoland/celld) and 68 for [rusty_v8](https://github.com/denoland/rusty_v8).",
+        "turns": 2,
+        "seconds": 12.119194665999995,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 48162,
+        "outputTokens": 171,
+        "inputBreakdown": {
+          "fresh": 10274,
+          "cacheWrite": 0,
+          "cacheRead": 37888
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "/bin/zsh -lc \"../mcp/github/search_repositories --query 'org:denoland' --sort stars --order desc --perPage 3 --json | jq '.items[] | {name,stargazers_count,open_issues_count}'\""
+        ]
+      }
+    },
+    {
+      "setup": "codex-codemode",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub’s open issue counts, including pull requests: [deno](https://api.github.com/repos/denoland/deno) 1,755, [celld](https://api.github.com/repos/denoland/celld) 103, and [rusty_v8](https://api.github.com/repos/denoland/rusty_v8) 68.",
+        "turns": 2,
+        "seconds": 13.054790999999998,
+        "costUsd": null,
+        "firstTurnTokens": null,
+        "totalInputTokens": 59265,
+        "outputTokens": 246,
+        "inputBreakdown": {
+          "fresh": 3073,
+          "cacheWrite": 0,
+          "cacheRead": 56192
+        },
+        "toolCalls": 1,
+        "bypassedTools": true,
+        "steps": [
+          "/bin/zsh -lc \"curl -fsSL 'https://api.github.com/search/repositories?q=org%3Adenoland&sort=stars&order=desc&per_page=3' | python3 -c 'import json,sys; print([(x[\\\"name\\\"],x[\\\"stargazers_count\\\"],x[\\\"open_issues_count\\\"],x[\\\"url\\\"]) for x in"
+        ]
+      }
+    }
+  ]
+}

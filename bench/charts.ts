@@ -89,6 +89,7 @@ const terra = load("2026-11-22-heldout-codex-terra-fast0");
 const terraFast = load("2026-11-22-heldout-codex-terra-fast1");
 const forge = load("2026-11-22-forge");
 const pi62 = load("2026-11-22-pi-gpt62");
+const codexCodemode = load("2026-11-22-codex-codemode");
 
 const claudeSetups: ReadonlyArray<[string, string, string]> = [
   ["direct", "Loading the servers directly", "other"],
@@ -123,7 +124,8 @@ const charts: Record<string, string> = {
       ["pi 6.2, code mode: vs pi's code mode", change(cost(pi62, "pi-dogu"), cost(pi62, "pi-codemode"))],
       ["pi 6.1, folder: vs loading directly", change(cost(pi, "pi-folder"), cost(pi, "pi-direct"))],
       ["pi 6.1, folder: vs pi's code mode", change(cost(pi, "pi-folder"), cost(pi, "pi-codemode"))],
-      ["Codex: vs loading directly (tokens)", change(tokens(codex, "codex-folder"), tokens(codex, "codex-direct"))],
+      ["Codex, folder: vs loading directly (tokens)", change(tokens(codex, "codex-folder"), tokens(codex, "codex-direct"))],
+      ["Codex, folder: vs Codex's code mode (tokens)", change(tokens(codexCodemode, "codex-folder"), tokens(codexCodemode, "codex-codemode"))],
     ].map(([label, v]) => ({
       label: label as string,
       value: v as number,

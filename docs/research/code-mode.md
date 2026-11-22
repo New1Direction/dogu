@@ -86,6 +86,19 @@ pi ships a code mode built for this problem: a very short list of tools, a `sear
 
 dogu's code mode is 31% and 35% cheaper than pi's, and 36% and 28% faster. pi's code mode reads less on the first turn (1.1k tokens against 2.4k), but its program must first search for the tool it needs, which costs a turn; dogu's list names each tool with its arguments and what it does, so the first program usually does the job. Neither set was used to tune anything in pi. ([set 3](../../bench/results/2026-11-22-pi-gpt62.md), [set 4](../../bench/results/2026-11-22-pi-gpt62-set4.md))
 
+## Against Codex's own code mode
+
+Codex 0.171 has a code mode of its own, still marked "under development" (`code_mode`, `code_mode_only`). Run on set 3 with Codex's default model, 2 runs each, every server's tools approved in every setup (Codex otherwise asks before calling a tool that is not marked read-only, and in a headless run the call is refused), all 64 answers right ([results](../../bench/results/2026-11-22-codex-codemode.md)):
+
+| Codex | Tokens read (median) | Time (median) | Went around the tools |
+|---|---|---|---|
+| Loading the servers directly | 64.8k | 11.9 s | 3 of 16 |
+| Codex's own code mode | 65.3k | 12.2 s | 2 of 16 |
+| dogu folder, in AGENTS.md | **48.2k** | **9.0 s** | **0 of 16** |
+| dogu code mode (`dogu serve`) | 69.8k | 10.3 s | 8 of 16 |
+
+Codex's code mode read as much as loading directly and was no faster. The dogu folder beat it by 26% on tokens and on time. `dogu serve` in Codex is the weak spot: Codex went around it with `curl` in half the runs, so for Codex the folder is the way to use dogu; in pi and Claude Code, code mode is.
+
 ## Where the time goes now
 
 The model's own work is the biggest part of every task: 3.1 to 4.1 s per task on average, depending on the setup. What differs:
