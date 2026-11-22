@@ -164,6 +164,8 @@ github/search_repos --query rust | jq '.items[].name' | head
 
 This is everything above. It works with any agent that can run shell commands, and it needs nothing else installed.
 
+The first command starts one background dogu for the folder, which keeps its servers running and connected, so later commands do not start a server or connect again: a local server started with npx answers in about 0.01 s instead of 0.7 s, and a GitHub call takes about 0.5 s instead of 1. It listens on a socket only you can use, steps aside if the folder is synced again or a setting such as a token changes, and leaves after 10 minutes without a call, closing the servers it started. `DOGU_WARM=0` turns it off. (Not on Windows.)
+
 ### 2. A sandbox for programs
 
 When a job needs many calls, a loop, or filtering of big results, the agent writes one TypeScript program:
@@ -364,6 +366,8 @@ The usual `mcp.json`:
 | `DOGU_CLIENT_ID_URL` | URL of your hosted client metadata document |
 | `DOGU_NO_BROWSER` | Print the login link and do not open a browser |
 | `DOGU_DEBUG` | Show what local servers print, and more detail on failures |
+| `DOGU_WARM` | `0`: no background dogu for the folder; every command connects on its own |
+| `DOGU_WARM_IDLE` | Seconds the folder's background dogu waits for a call before it leaves. Default 600 |
 
 ## How it is built
 

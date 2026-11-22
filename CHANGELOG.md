@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- A warm folder: the first folder command starts one background dogu for the folder, which keeps its servers running and connected, so later commands skip starting a server and connecting. Local npx server: 0.69 -> 0.01 s per call; GitHub: 1.00 -> 0.46 s. It uses a socket only you can use, steps aside on a new sync or changed settings, and leaves after `DOGU_WARM_IDLE` seconds (600). `DOGU_WARM=0` turns it off.
+
 ## [0.6.1] - 2026-11-22
 
 ### Fixed
