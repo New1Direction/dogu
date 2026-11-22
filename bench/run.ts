@@ -10,6 +10,7 @@
 import { Console, Data, Effect, Result } from "npm:effect@4.1.5";
 import { runAgent, runCommand } from "./claude.ts";
 import { ALL_SETUPS, ANSWER_RULE, argsFor, envFor, makeWorkspace, RUN_TIMEOUT, type Setup, warmUp, workDir, type Workspace } from "./workspace.ts";
+import { planOf } from "./plan.ts";
 import { headline, type RunRecord, summaryTable, taskTable, timeTable } from "./report.ts";
 import { checkTheCheck, type Ctx, type Facts, promptOf, type Task, TASKS } from "./tasks.ts";
 
@@ -103,10 +104,8 @@ const program = Effect.scoped(
       const size = (yield* Effect.promise(() => Deno.readTextFile(`${ws.root}/README.md`))).length;
       return yield* Console.log(`Dry run: ${TASKS_RUN.length} tasks, README ${size} bytes. No agents run.`);
     }
-    // Interleave setups so a slow minute on a server hits all of them alike.
-    const plan = Array.from({ length: REPS }, (_, i) => i + 1).flatMap((rep) =>
-      TASKS_RUN.flatMap((task) => SETUPS.map((setup) => ({ setup, task, rep })))
-    );
+    // Interleave setups so a slow minute on a server hits all of them alike, and rotate who goes first.
+    const plan = planOf(REPS, TASKS_RUN, SETUPS);
     yield* Effect.forEach(SETUPS, (setup) => warmUp(ws, setup, MODEL), { concurrency: SETUPS.length });
     yield* Console.log(`Running ${plan.length} runs, ${CONCURRENCY} at a time, model ${MODEL}`);
     const records = yield* Effect.forEach(plan, (p) => runOne(ws, facts, p.setup, p.task, p.rep), {

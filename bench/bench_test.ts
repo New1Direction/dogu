@@ -3,6 +3,7 @@
 import { Effect, Result } from "npm:effect@4.1.5";
 import { assert, assertEquals } from "jsr:@std/assert@1";
 import { codexMetricsOf, metricsOf, piMetricsOf, timelineOf } from "./claude.ts";
+import { planOf } from "./plan.ts";
 import { headline, type RunRecord } from "./report.ts";
 import { checkTheCheck, TASKS } from "./tasks.ts";
 
@@ -275,4 +276,13 @@ Deno.test("a run's timeline splits start-up, model and tool time by when events 
     { kind: "tools", seconds: 0.25 },
     { kind: "model", seconds: 0.75 },
   ]);
+});
+
+Deno.test("each setup goes first, second and last equally often", () => {
+  const plan = planOf(2, ["a", "b", "c"], ["x", "y", "z"]);
+
+  const blocks = Array.from({ length: plan.length / 3 }, (_, i) => plan.slice(i * 3, i * 3 + 3).map((p) => p.setup).join(""));
+
+  assertEquals(blocks, ["xyz", "yzx", "zxy", "xyz", "yzx", "zxy"]);
+  assertEquals(plan.length, 18);
 });

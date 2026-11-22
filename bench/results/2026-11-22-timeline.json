@@ -1,0 +1,3037 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.5.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "f5c0ee4",
+  "dirty": true,
+  "answers": {
+    "open-prs": [
+      "112"
+    ],
+    "oldest-issue": [
+      "Specific transports could be Python package extras"
+    ],
+    "release-author": [
+      "felixweinberger"
+    ],
+    "stars-sum": [
+      "124589"
+    ],
+    "deepwiki-node": [
+      "Node.js Compatibility Layer"
+    ],
+    "two-libraries": [
+      "/reactjs/react.dev",
+      "/react/react",
+      "/websites/react_dev_reference",
+      "/websites/react_dev_reference_react",
+      "/llmstxt/react_dev_llms_txt",
+      "|",
+      "/websites/vuejs",
+      "/vuejs/vue",
+      "/vuejs/vue-cli",
+      "/vuejs/vue-router",
+      "/intlify/vue-i18n"
+    ],
+    "memory-years": [
+      "1"
+    ],
+    "newest-release": [
+      "servers"
+    ]
+  },
+  "records": [
+    {
+      "setup": "direct",
+      "task": "open-prs",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "`modelcontextprotocol/python-sdk` has **112 open pull requests** right now. I got that from a GitHub search for open PRs in the repo (run 94baf73e).",
+        "turns": 2,
+        "seconds": 3.859,
+        "costUsd": 0.027010199999999998,
+        "firstTurnTokens": 28955,
+        "totalInputTokens": 58108,
+        "outputTokens": 85,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4862,
+          "cacheRead": 53242
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_pull_requests {\"query\":\"is:open\",\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\",\"perPage\":1,\"fields\":[\"number\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2587219170000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.730207957999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9586471249999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.15323675
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "open-prs",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "`modelcontextprotocol/python-sdk` has **112** open pull requests right now (run 3d4f98c7).\n\nI got this from the GitHub search tool, using `is:open` scoped to that repo. The figure is the search's `total_count`.",
+        "turns": 2,
+        "seconds": 5.035,
+        "costUsd": 0.0438063,
+        "firstTurnTokens": 12656,
+        "totalInputTokens": 25611,
+        "outputTokens": 98,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 9884,
+          "cacheRead": 15723
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_pull_requests --query \"is:open\" --owner modelcontextprotocol --repo python-sdk --perPage 1 -"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2468797080000004
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9490393750000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.6292960839999977
+          },
+          {
+            "kind": "model",
+            "seconds": 1.405642625000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "open-prs",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub repo modelcontextprotocol/python-sdk has **112 open pull requests** right now (2026-11-22). I got that from a GitHub search for open PRs in the repo. The search reported the count as complete.",
+        "turns": 3,
+        "seconds": 4.465,
+        "costUsd": 0.022614,
+        "firstTurnTokens": 4612,
+        "totalInputTokens": 17666,
+        "outputTokens": 122,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4640,
+          "cacheRead": 13020
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_pull_requests list_pull_requests\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"is:open\\\", owner:\\\"modelcontextprotocol\\\", repo:\\\"python-sdk\\\", perPage:1, fields:[\\\"number\\\"]});\\nconsole.log(r.total_count, r.incomplete_results);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2775786659999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1170969590000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.016168207999999185
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1611869580000018
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0814474589999992
+          },
+          {
+            "kind": "model",
+            "seconds": 1.063016874999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "open-prs",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The repo modelcontextprotocol/python-sdk has **112 open pull requests** right now. I got that by paging through the GitHub open-PR list at 100 per page (100 on page 1, 12 on page 2).",
+        "turns": 3,
+        "seconds": 10.058,
+        "costUsd": 0.017168000000000003,
+        "firstTurnTokens": 5002,
+        "totalInputTokens": 15481,
+        "outputTokens": 141,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3015,
+          "cacheRead": 12460
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_pull_requests({owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",state:\\\"open\\\",perPage:100});\\nconsole.log(Array.isArray(r)?r.length:JSON.stringify(r).slice(0,500));\"}",
+          "mcp__tools__run_code {\"code\":\"let total=0;for(let p=1;p<20;p++){const r=await tools.github.list_pull_requests({owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",state:\\\"open\\\",perPage:100,page:p});total+=r.length;if(r.length<100)break;}\\nc"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23548925000000237
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2810006250000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.301180999999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3482590420000018
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.013204207999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0954705830000009
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "oldest-issue",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The oldest open issue in modelcontextprotocol/python-sdk is #3, **\"Specific transports could be Python package extras\"**. It was created on 2024-09-25.\n\nI got this by listing open issues sorted by creation date, oldest first. The repo has 319 open issues in total.",
+        "turns": 2,
+        "seconds": 3.79,
+        "costUsd": 0.022104899999999997,
+        "firstTurnTokens": 28958,
+        "totalInputTokens": 58355,
+        "outputTokens": 118,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3362,
+          "cacheRead": 54989
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_issues {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\",\"state\":\"OPEN\",\"orderBy\":\"CREATED_AT\",\"direction\":\"ASC\",\"perPage\":1,\"fields\":[\"number\",\"title\",\"created_at\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.247252708
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8327636669999992
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5617790829999976
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3887445830000034
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "oldest-issue",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The oldest open issue in modelcontextprotocol/python-sdk is #3, \"Specific transports could be Python package extras\". It was created on 2024-09-25. I sorted the repo's open issues by creation date, oldest first, and took the first result.",
+        "turns": 2,
+        "seconds": 4.987,
+        "costUsd": 0.0111115,
+        "firstTurnTokens": 12656,
+        "totalInputTokens": 25828,
+        "outputTokens": 98,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1449,
+          "cacheRead": 24375
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/list_issues --owner modelcontextprotocol --repo python-sdk --state OPEN --orderBy CREATED_AT --dire"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.26590479199999756
+          },
+          {
+            "kind": "model",
+            "seconds": 2.1921537080000015
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.5088134170000012
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2317652079999974
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "oldest-issue",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The oldest open issue in modelcontextprotocol/python-sdk is #3, \"Specific transports could be Python package extras\". It was created on 2024-09-25.",
+        "turns": 3,
+        "seconds": 4.572,
+        "costUsd": 0.0120888,
+        "firstTurnTokens": 4612,
+        "totalInputTokens": 15818,
+        "outputTokens": 103,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2004,
+          "cacheRead": 13808
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"list_issues\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.list_issues({owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",state:\\\"OPEN\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"ASC\\\",perPage:1,fields:[\\\"number\\\",\\\"title\\\",\\\"created_at\\\"]});consol"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25026895799999693
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3735976670000016
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.013248374999999202
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4162720420000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7264492080000018
+          },
+          {
+            "kind": "model",
+            "seconds": 1.018927874999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "oldest-issue",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The oldest open issue in modelcontextprotocol/python-sdk is #3, **\"Specific transports could be Python package extras\"**.\n\nIt was opened on 2024-09-25 by dsp-ant. I got this by listing open issues sorted by creation date, oldest first.",
+        "turns": 2,
+        "seconds": 4.178,
+        "costUsd": 0.0091022,
+        "firstTurnTokens": 5005,
+        "totalInputTokens": 10513,
+        "outputTokens": 118,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1447,
+          "cacheRead": 9062
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",state:\\\"OPEN\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"ASC\\\",perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24417408299999807
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6404325830000015
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.1745029169999979
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3425660420000027
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "release-author",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release of modelcontextprotocol/typescript-sdk is v2.4.0, published on 2026-10-23. It was published by the GitHub user **felixweinberger**.",
+        "turns": 2,
+        "seconds": 3.377,
+        "costUsd": 0.0239106,
+        "firstTurnTokens": 28955,
+        "totalInputTokens": 59206,
+        "outputTokens": 85,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4216,
+          "cacheRead": 54986
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.5581342499999955
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4006260420000036
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7320322499999965
+          },
+          {
+            "kind": "model",
+            "seconds": 1.222536375000003
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "release-author",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release of modelcontextprotocol/typescript-sdk is v2.4.0, published on 2026-10-23. The GitHub user who published it is **felixweinberger**.",
+        "turns": 2,
+        "seconds": 6.102,
+        "costUsd": 0.0116515,
+        "firstTurnTokens": 12656,
+        "totalInputTokens": 25923,
+        "outputTokens": 77,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1544,
+          "cacheRead": 24375
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk --json | jq '{tag_name, autho"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21461629099999846
+          },
+          {
+            "kind": "model",
+            "seconds": 2.3698682500000032
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.497380249999995
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1915366670000003
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "release-author",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release of modelcontextprotocol/typescript-sdk (2.4.0) was published by **felixweinberger**.",
+        "turns": 2,
+        "seconds": 2.882,
+        "costUsd": 0.009479500000000002,
+        "firstTurnTokens": 4615,
+        "totalInputTokens": 10074,
+        "outputTokens": 67,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1755,
+          "cacheRead": 8315
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.get_latest_release({owner:\\\"modelcontextprotocol\\\",repo:\\\"typescript-sdk\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.27191558400000215
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1249611660000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8817504169999959
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8503215000000055
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "release-author",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release of modelcontextprotocol/typescript-sdk was published by **felixweinberger**. The release is version 2.4.0, according to its notes.",
+        "turns": 2,
+        "seconds": 2.99,
+        "costUsd": 0.0097739,
+        "firstTurnTokens": 5002,
+        "totalInputTokens": 10848,
+        "outputTokens": 81,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1785,
+          "cacheRead": 9059
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.get_latest_release({owner:\\\"modelcontextprotocol\\\",repo:\\\"typescript-sdk\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.28430362500000045
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1340902080000015
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9574830000000003
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8711064580000021
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "stars-sum",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The 5 most-starred repos in the denoland org have 124,589 stars combined (run 0e1ee35f):\n\n- denoland/deno: 109,052\n- denoland/celld: 6,352\n- denoland/rusty_v8: 4,043\n- denoland/std: 3,557\n- denoland/deno_lint: 1,585\n\nI got these from a GitHub search of the org sorted by stars, so the counts are as of today (2026-11-22).",
+        "turns": 2,
+        "seconds": 4.247,
+        "costUsd": 0.028740800000000004,
+        "firstTurnTokens": 28957,
+        "totalInputTokens": 59908,
+        "outputTokens": 33,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4916,
+          "cacheRead": 54988
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:denoland\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5,\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2566829999999973
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3709548750000031
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8659809580000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9883048330000022
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "stars-sum",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The top 5 denoland repos have **124,589 stars** in total:\n\n- denoland/deno: 109,052\n- denoland/celld: 6,352\n- denoland/rusty_v8: 4,043\n- denoland/std: 3,557\n- denoland/deno_lint: 1,585\n\nI got these from a GitHub repository search for `org:denoland`, sorted by stars. I didn't check the results beyond that search.",
+        "turns": 2,
+        "seconds": 5.143,
+        "costUsd": 0.0118654,
+        "firstTurnTokens": 12655,
+        "totalInputTokens": 25763,
+        "outputTokens": 19,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1385,
+          "cacheRead": 24374
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 5 --json | jq '.item"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2293978750000024
+          },
+          {
+            "kind": "model",
+            "seconds": 1.826236499999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.212919000000002
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0638514169999977
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "stars-sum",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The 5 most-starred repos in the denoland org have **124,589 stars** combined.\n\n- denoland/deno: 109,052\n- denoland/celld: 6,352\n- denoland/rusty_v8: 4,043\n- denoland/std: 3,557\n- denoland/deno_lint: 1,585\n\nI got these from a GitHub repository search of `org:denoland`, sorted by stars. The counts are as of today, 2026-11-22.",
+        "turns": 3,
+        "seconds": 5.319,
+        "costUsd": 0.012711199999999999,
+        "firstTurnTokens": 4612,
+        "totalInputTokens": 15613,
+        "outputTokens": 194,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1915,
+          "cacheRead": 13692
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:denoland\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:5});\\nconst i=r.items!.map(x=>[x.full_name,x.stargazers_count]);console.log(JSON.stringify(i),i.reduc"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24353745800000615
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2610980829999971
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.024637000000002462
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4768137920000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9634920829999976
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5689052919999953
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "stars-sum",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The 5 most-starred repos in the denoland org have 124,589 stars combined (run c71a2bb1):\n\n- denoland/deno: 109,052\n- denoland/celld: 6,352\n- denoland/rusty_v8: 4,043\n- denoland/std: 3,557\n- denoland/deno_lint: 1,585\n\nI got these from a GitHub repository search for `org:denoland`, sorted by stars.",
+        "turns": 2,
+        "seconds": 4.331,
+        "costUsd": 0.0092939,
+        "firstTurnTokens": 5002,
+        "totalInputTokens": 10258,
+        "outputTokens": 33,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1195,
+          "cacheRead": 9059
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r:any = await tools.github.search_repositories({query:\\\"org:denoland\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconst items = r.items ?? (typeof r==='string'?JSON.parse(r).items:r);\\nconsole.log(JSO"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25234249999999886
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8885239579999982
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9673702499999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.458393042000003
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The Node.js compatibility section is **7 Node.js Compatibility Layer**. I got this from DeepWiki's page list for denoland/deno.\n\nIts subsections run from 7.1 \"deno_node Extension Architecture\" to 7.9 \"Child Process and IPC\".",
+        "turns": 2,
+        "seconds": 2.953,
+        "costUsd": 0.024579999999999998,
+        "firstTurnTokens": 28969,
+        "totalInputTokens": 59367,
+        "outputTokens": 125,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4363,
+          "cacheRead": 55000
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2459197920000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3625364160000026
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.19710720900000167
+          },
+          {
+            "kind": "model",
+            "seconds": 1.372358457999995
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section is **\"7 Node.js Compatibility Layer\"**. It comes from DeepWiki's page list for denoland/deno.\n\nIts subsections cover the `deno_node` extension architecture, Buffer and core APIs, zlib and brotli, file system, network and HTTP, worker threads, process/TTY/OS, crypto, and child process/IPC.",
+        "turns": 2,
+        "seconds": 3.728,
+        "costUsd": 0.0151406,
+        "firstTurnTokens": 12667,
+        "totalInputTokens": 26866,
+        "outputTokens": 139,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2476,
+          "cacheRead": 24386
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && deepwiki/read_wiki_structure --repoName denoland/deno"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24664024999999673
+          },
+          {
+            "kind": "model",
+            "seconds": 1.783087375000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4069082500000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4969077919999982
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section is **7. \"Node.js Compatibility Layer\"** in DeepWiki's documentation of denoland/deno.\n\nIts subsections run from 7.1 (deno_node Extension Architecture) to 7.9 (Child Process and IPC).",
+        "turns": 2,
+        "seconds": 3.183,
+        "costUsd": 0.012430400000000001,
+        "firstTurnTokens": 4624,
+        "totalInputTokens": 10723,
+        "outputTokens": 114,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2395,
+          "cacheRead": 8324
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"denoland/deno\\\"}); console.log(typeof r==='string'?r:JSON.stringify(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23260133299999872
+          },
+          {
+            "kind": "model",
+            "seconds": 1.593655458000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.25563025000000184
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3165779169999952
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section is **7. \"Node.js Compatibility Layer\"** in DeepWiki's documentation of denoland/deno.\n\nIts subsections run from 7.1 (deno_node Extension Architecture) to 7.9 (Child Process and IPC).",
+        "turns": 2,
+        "seconds": 3.424,
+        "costUsd": 0.0126289,
+        "firstTurnTokens": 5012,
+        "totalInputTokens": 11499,
+        "outputTokens": 115,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2426,
+          "cacheRead": 9069
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"denoland/deno\\\"});\\nconsole.log(typeof r==='string'?r:JSON.stringify(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2430951669999995
+          },
+          {
+            "kind": "model",
+            "seconds": 1.316202416
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.22884466700000483
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8562258329999968
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "two-libraries",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "- **React:** `/reactjs/react.dev`. It's the official React docs, with High reputation and 5029 snippets.\n- **Vue:** `/websites/vuejs`. It's the main Vue.js docs, with High reputation and 3545 snippets. `/vuejs/vue` is the other candidate, but it covers Vue 2 and has fewer snippets.\n\nI got both IDs from `resolve-library-id` and haven't queried the docs themselves.",
+        "turns": 3,
+        "seconds": 4.901,
+        "costUsd": 0.0270149,
+        "firstTurnTokens": 28958,
+        "totalInputTokens": 59470,
+        "outputTokens": 158,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4477,
+          "cacheRead": 54989
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__context7__resolve-library-id {\"libraryName\":\"React\",\"query\":\"React documentation\"}",
+          "mcp__context7__resolve-library-id {\"libraryName\":\"Vue\",\"query\":\"Vue documentation\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.3280834160000012
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6329999590000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.7816944579999978
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4657371669999995
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "two-libraries",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": false,
+      "metrics": {
+        "answer": "I couldn't resolve either ID. The Context7 resolver returned \"Monthly quota exceeded\" for both calls, so these are unverified guesses from how Context7 usually names libraries:\n- **React:** `/facebook/react`\n- **Vue:** `/vuejs/core`\n\nOnce the quota resets or an API key is set up, `context7/resolve-library-id` can confirm them.",
+        "turns": 2,
+        "seconds": 4.585,
+        "costUsd": 0.0119555,
+        "firstTurnTokens": 12656,
+        "totalInputTokens": 25754,
+        "outputTokens": 145,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1375,
+          "cacheRead": 24375
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && context7/resolve-library-id --libraryName react --query \"React documentation\" & cd /private/tmp/claude-501"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23728125
+          },
+          {
+            "kind": "model",
+            "seconds": 2.332437374999994
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.38609945900000486
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8258870830000014
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "two-libraries",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": false,
+      "metrics": {
+        "answer": "I couldn't confirm these through Context7. The lookup failed with \"Monthly quota exceeded\", so the IDs below come from memory and I haven't verified them:\n\n- **React:** `/facebook/react`\n- **Vue:** `/vuejs/core`\n\nTo get a verified answer, add a free Context7 API key from context7.com/dashboard. I can then run `resolve_library_id` again.",
+        "turns": 2,
+        "seconds": 3.835,
+        "costUsd": 0.0091054,
+        "firstTurnTokens": 4614,
+        "totalInputTokens": 9517,
+        "outputTokens": 133,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1199,
+          "cacheRead": 8314
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.context7.resolve_library_id({libraryName:\\\"react\\\", query:\\\"React documentation\\\"});\\nconst v = await tools.context7.resolve_library_id({libraryName:\\\"vue\\\", query:\\\"Vue documentation\\\"});"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23644974999999976
+          },
+          {
+            "kind": "model",
+            "seconds": 1.901440125000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.302732208000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6105147080000028
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "two-libraries",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": false,
+      "metrics": {
+        "answer": "The Context7 lookup failed with \"Monthly quota exceeded\", so I couldn't confirm these IDs. They come from my own knowledge of Context7's `/org/project` format:\n\n- **React:** `/facebook/react`\n- **Vue:** `/vuejs/core`\n\nBoth could be wrong. Vue's docs may be indexed under `/vuejs/docs` instead.",
+        "turns": 2,
+        "seconds": 3.988,
+        "costUsd": 0.012966000000000002,
+        "firstTurnTokens": 5003,
+        "totalInputTokens": 11257,
+        "outputTokens": 132,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2193,
+          "cacheRead": 9060
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const [r,v]=await Promise.all([tools.context7.resolve_library_id({query:\\\"React docs\\\",libraryName:\\\"react\\\"}),tools.context7.resolve_library_id({query:\\\"Vue docs\\\",libraryName:\\\"vue\\\"})]);console.log(JSON.stri"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.5508017089999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9483010409999988
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4391529169999995
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5652172080000013
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "One entity started before 2016: **Project Alder** (started in 2015). The graph has 12 entities, and the next earliest, Project Birch, started in 2016.",
+        "turns": 2,
+        "seconds": 2.469,
+        "costUsd": 0.0203741,
+        "firstTurnTokens": 28950,
+        "totalInputTokens": 58482,
+        "outputTokens": 78,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3497,
+          "cacheRead": 54981
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__read_graph {}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.253636000000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1548909579999962
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01470420800000305
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2759677919999954
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**1** entity started before 2016: Project Alder, which started in 2015. The graph has 12 entities. The other 11 started in 2016 or later.",
+        "turns": 2,
+        "seconds": 4.415,
+        "costUsd": 0.011200700000000001,
+        "firstTurnTokens": 12648,
+        "totalInputTokens": 26010,
+        "outputTokens": 66,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1639,
+          "cacheRead": 24367
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && memory/read_graph --json | jq -c '.entities[] | {name, o: .observations}' | head -c 6000"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23400545799999964
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9461246250000037
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0389417499999984
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3832980840000015
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Exactly **1** entity started before 2016: Project Alder, which has the observation \"Started in 2015\".\n\nThe other 11 entities started in 2016 or later. Project Birch is the earliest of those, at 2016.",
+        "turns": 2,
+        "seconds": 3.446,
+        "costUsd": 0.0086406,
+        "firstTurnTokens": 4606,
+        "totalInputTokens": 9853,
+        "outputTokens": 95,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1543,
+          "cacheRead": 8306
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const g = await tools.memory.read_graph({});\\nconsole.log(JSON.stringify(g).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2693577079999959
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3143063340000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6685098330000037
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4413234999999984
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Only one entity has an observation saying it started before 2016: **Project Alder** (\"Started in 2015\").\n\nThe graph has 12 entities, and Project Birch (2016) is the next earliest.",
+        "turns": 2,
+        "seconds": 7.059,
+        "costUsd": 0.0087732,
+        "firstTurnTokens": 4995,
+        "totalInputTokens": 10631,
+        "outputTokens": 92,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1575,
+          "cacheRead": 9052
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const g = await tools.memory.read_graph({});\\nconsole.log(JSON.stringify(g).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24920995799999945
+          },
+          {
+            "kind": "model",
+            "seconds": 4.818421750000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7026900000000031
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5174064579999973
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "newest-release",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "servers\nIt's the most-starred repo, with 92,163 stars. Its latest release, v2.5.0, was published 2026-11-18.\nThe other two are older. python-sdk v2.3.0 was published 2026-10-02, and typescript-sdk v2.4.0 on 2026-10-23.",
+        "turns": 5,
+        "seconds": 6.195,
+        "costUsd": 0.0737305,
+        "firstTurnTokens": 28972,
+        "totalInputTokens": 99834,
+        "outputTokens": 148,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 15063,
+          "cacheRead": 84765
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":3}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.226689790999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.369791459
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5764543750000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8249814159999946
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.39304662500000287
+          },
+          {
+            "kind": "model",
+            "seconds": 2.012616209
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "newest-release",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "servers\n\nOf the three most-starred repos in the org, `servers` (92,163 stars) has the most recent latest release. That release is v2.5.0, published 2026-11-18.\n\nThe other two are older:\n- `python-sdk` (24,933 stars): v2.3.0, published 2026-10-02.\n- `typescript-sdk` (13,803 stars): v2.4.0, published 2026-10-23.",
+        "turns": 3,
+        "seconds": 9.204,
+        "costUsd": 0.016264,
+        "firstTurnTokens": 12670,
+        "totalInputTokens": 39245,
+        "outputTokens": 166,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1779,
+          "cacheRead": 37460
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:modelcontextprotocol\" --sort stars --order desc --perPage 3 --mini",
+          "cd <work>/mcp && for r in servers python-sdk typescript-sdk; do echo $r; github/get_latest_release --owner modelcontextprot"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2175759160000016
+          },
+          {
+            "kind": "model",
+            "seconds": 2.096060624999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9544848340000027
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7886610409999992
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.6018019999999966
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7229710420000046
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "newest-release",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "servers\nThe three most-starred repos in the modelcontextprotocol org are servers (92,163 stars), python-sdk (24,933) and typescript-sdk (13,803).\n- servers: v2.5.0, published 2026-11-18\n- typescript-sdk: v2.4.0, published 2026-10-23\n- python-sdk: v2.3.0, published 2026-10-02",
+        "turns": 3,
+        "seconds": 7.767,
+        "costUsd": 0.0145257,
+        "firstTurnTokens": 4628,
+        "totalInputTokens": 16311,
+        "outputTokens": 171,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2288,
+          "cacheRead": 14017
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let l:any=null;try{l=await tools.github.get_latest_release"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2641765000000014
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1105334999999905
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.012428500000009057
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5895626249999915
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.899498749999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1361043340000032
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "newest-release",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "servers\nOf the three most-starred repos in the modelcontextprotocol org, `servers` (about 92k stars) has the most recent latest release: v2.5.0, published 2026-11-18.\n`typescript-sdk` (about 13.8k stars) is next, at v2.4.0 on 2026-10-23.\n`python-sdk` (about 24.9k stars) is last, at v2.3.0 on 2026-10-02.",
+        "turns": 2,
+        "seconds": 9.147,
+        "costUsd": 0.0110894,
+        "firstTurnTokens": 5017,
+        "totalInputTokens": 10469,
+        "outputTokens": 171,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1391,
+          "cacheRead": 9074
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r:any = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:3});\\nconst items = (typeof r==='string'?JSON.parse(r):r).items ?? (typeof r==='"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24221212500000547
+          },
+          {
+            "kind": "model",
+            "seconds": 2.8524714999999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.576299041999999
+          },
+          {
+            "kind": "model",
+            "seconds": 2.6978959580000073
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "open-prs",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/python-sdk has **112 open pull requests** right now. I got that from a GitHub search for open PRs in the repo, which returned a `total_count` of 112.",
+        "turns": 2,
+        "seconds": 3.36,
+        "costUsd": 0.020234500000000002,
+        "firstTurnTokens": 28954,
+        "totalInputTokens": 58106,
+        "outputTokens": 95,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3117,
+          "cacheRead": 54985
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_pull_requests {\"query\":\"is:open\",\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\",\"perPage\":1,\"fields\":[\"number\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1605222090000025
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5974780410000093
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5614203749999871
+          },
+          {
+            "kind": "model",
+            "seconds": 1.186795584000007
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "open-prs",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "`modelcontextprotocol/python-sdk` has **112 open pull requests** right now. I got that from the GitHub search tool's `total_count` for the query `repo:modelcontextprotocol/python-sdk is:open`, which is scoped to pull requests.",
+        "turns": 2,
+        "seconds": 4.324,
+        "costUsd": 0.0100873,
+        "firstTurnTokens": 12654,
+        "totalInputTokens": 25605,
+        "outputTokens": 104,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1228,
+          "cacheRead": 24373
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_pull_requests --query \"repo:modelcontextprotocol/python-sdk is:open\" --perPage 1 --json | jq"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24268070799999986
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9555826249999955
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9090540420000033
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4178140409999904
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "open-prs",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "`modelcontextprotocol/python-sdk` has **112 open pull requests**. I got that from a GitHub search for `is:open` PRs in the repo on 2026-11-22. GitHub marked the result as complete.",
+        "turns": 3,
+        "seconds": 6.144,
+        "costUsd": 0.019102499999999998,
+        "firstTurnTokens": 4611,
+        "totalInputTokens": 19267,
+        "outputTokens": 122,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3696,
+          "cacheRead": 15565
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"github search_pull_requests list_pull_requests\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"is:open\\\", owner:\\\"modelcontextprotocol\\\", repo:\\\"python-sdk\\\", perPage:1, fields:[\\\"number\\\"]});\\nconsole.log(r.total_count, r.incomplete_results);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24167195800000627
+          },
+          {
+            "kind": "model",
+            "seconds": 2.657246749999991
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01592395900000687
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4250930829999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8648787500000035
+          },
+          {
+            "kind": "model",
+            "seconds": 1.161176832999991
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "open-prs",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub search shows **112 open pull requests** in modelcontextprotocol/python-sdk as of 2026-11-22. I used the query `repo:modelcontextprotocol/python-sdk is:pr is:open` and read its `total_count`.",
+        "turns": 3,
+        "seconds": 5.003,
+        "costUsd": 0.010282000000000001,
+        "firstTurnTokens": 4999,
+        "totalInputTokens": 15774,
+        "outputTokens": 138,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1388,
+          "cacheRead": 14380
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"repo:modelcontextprotocol/python-sdk is:pr is:open\\\", perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"repo:modelcontextprotocol/python-sdk is:pr is:open\\\", perPage:1});\\nconsole.log(r.total_count);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23296212499999092
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3103539160000073
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8055485000000047
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0381031669999938
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7648338329999964
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0639238750000084
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "oldest-issue",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The oldest open issue in modelcontextprotocol/python-sdk is #3, \"Specific transports could be Python package extras\". It was created on 2024-09-25.",
+        "turns": 2,
+        "seconds": 3.738,
+        "costUsd": 0.021719000000000002,
+        "firstTurnTokens": 28959,
+        "totalInputTokens": 58357,
+        "outputTokens": 79,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3363,
+          "cacheRead": 54990
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_issues {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\",\"state\":\"OPEN\",\"orderBy\":\"CREATED_AT\",\"direction\":\"ASC\",\"perPage\":1,\"fields\":[\"number\",\"title\",\"created_at\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2026012080000072
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7587194579999925
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8904493340000044
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0728289999999983
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "oldest-issue",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The oldest open issue in modelcontextprotocol/python-sdk is #3, \"Specific transports could be Python package extras\". It was created on 2024-09-25. I sorted the open issues by creation date, oldest first, and took the first result.",
+        "turns": 2,
+        "seconds": 4.282,
+        "costUsd": 0.0110815,
+        "firstTurnTokens": 12656,
+        "totalInputTokens": 25828,
+        "outputTokens": 95,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1449,
+          "cacheRead": 24375
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/list_issues --owner modelcontextprotocol --repo python-sdk --state OPEN --orderBy CREATED_AT --dire"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25756595799999193
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9941598340000057
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0756973750000034
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1677526660000002
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "oldest-issue",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The oldest open issue in modelcontextprotocol/python-sdk is #3, **\"Specific transports could be Python package extras\"**. It was created on 2024-09-25.\n\nI couldn't tell what \"fcedff91\" refers to, so I ignored it and ran the query directly. I sorted the open issues by creation date, oldest first.",
+        "turns": 3,
+        "seconds": 4.85,
+        "costUsd": 0.013338099999999999,
+        "firstTurnTokens": 4614,
+        "totalInputTokens": 15922,
+        "outputTokens": 142,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2055,
+          "cacheRead": 13861
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"list_issues\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.list_issues({owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",state:\\\"OPEN\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"ASC\\\",perPage:1,fields:[\\\"number\\\",\\\"title\\\",\\\"created_at\\\"]});consol"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24663362500000222
+          },
+          {
+            "kind": "model",
+            "seconds": 1.219867207999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.013222374999997566
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2996604170000063
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.057983374999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2392711669999987
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "oldest-issue",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The oldest open issue in modelcontextprotocol/python-sdk is #3, **\"Specific transports could be Python package extras\"**.\n\nIt was opened on 2024-09-25 by dsp-ant.",
+        "turns": 2,
+        "seconds": 8.505,
+        "costUsd": 0.008874,
+        "firstTurnTokens": 5003,
+        "totalInputTokens": 10509,
+        "outputTokens": 96,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1445,
+          "cacheRead": 9060
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",state:\\\"OPEN\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"ASC\\\",perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2497548749999987
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6192458329999937
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.3073654999999997
+          },
+          {
+            "kind": "model",
+            "seconds": 5.559066791999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "release-author",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release of modelcontextprotocol/typescript-sdk is v2.4.0, published on 2026-10-23. It was published by the GitHub user **felixweinberger**.",
+        "turns": 2,
+        "seconds": 3.08,
+        "costUsd": 0.0239147,
+        "firstTurnTokens": 28956,
+        "totalInputTokens": 59208,
+        "outputTokens": 85,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4217,
+          "cacheRead": 54987
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1872100840000057
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3753859579999987
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3478745419999907
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3391601660000019
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "release-author",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release of modelcontextprotocol/typescript-sdk was published by **felixweinberger**.\n\nIt is v2.4.0, published 2026-10-23: https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0",
+        "turns": 2,
+        "seconds": 4.283,
+        "costUsd": 0.0107774,
+        "firstTurnTokens": 12655,
+        "totalInputTokens": 25771,
+        "outputTokens": 107,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1393,
+          "cacheRead": 24374
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/get_latest_release --owner modelcontextprotocol --repo typescript-sdk --json | jq '{tag_name, html_"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24307920900000318
+          },
+          {
+            "kind": "model",
+            "seconds": 2.002375415999995
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.049641166999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1898046250000043
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "release-author",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release of modelcontextprotocol/typescript-sdk is v2.4.0, published 2026-10-23. The GitHub user who published it is **felixweinberger**.",
+        "turns": 3,
+        "seconds": 4.647,
+        "costUsd": 0.009466800000000001,
+        "firstTurnTokens": 4614,
+        "totalInputTokens": 14723,
+        "outputTokens": 104,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1429,
+          "cacheRead": 13288
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.get_latest_release({owner:\\\"modelcontextprotocol\\\",repo:\\\"typescript-sdk\\\"});\\nconsole.log(r?.tag_name, r?.published_at, r?.author?.login);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23676437499999883
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0303290830000043
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01979866699999544
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0877931670000105
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9796667079999901
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5102955000000073
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "release-author",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release of modelcontextprotocol/typescript-sdk was published by **felixweinberger**.\n\nThis comes from the `author` field of the latest-release response, which shows version 2.4.0.",
+        "turns": 2,
+        "seconds": 3.291,
+        "costUsd": 0.0098939,
+        "firstTurnTokens": 5002,
+        "totalInputTokens": 10848,
+        "outputTokens": 93,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1785,
+          "cacheRead": 9059
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.get_latest_release({owner:\\\"modelcontextprotocol\\\",repo:\\\"typescript-sdk\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2323345420000114
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4788832909999912
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5602750420000084
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2347808749999967
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "stars-sum",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The 5 most-starred repos in the denoland org have 124,589 stars combined. I got the star counts from a GitHub search of `org:denoland` sorted by stars.\n\n- denoland/deno: 109,052\n- denoland/celld: 6,352\n- denoland/rusty_v8: 4,043\n- denoland/std: 3,557\n- denoland/deno_lint: 1,585",
+        "turns": 2,
+        "seconds": 4.001,
+        "costUsd": 0.0286567,
+        "firstTurnTokens": 28956,
+        "totalInputTokens": 59906,
+        "outputTokens": 32,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4915,
+          "cacheRead": 54987
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:denoland\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5,\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2294975410000042
+          },
+          {
+            "kind": "model",
+            "seconds": 1.482147874999995
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.711362917000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7857887919999924
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "stars-sum",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The top 5 repos in the denoland org add up to **124,589 stars**.\n\n| Repo | Stars |\n|---|---|\n| denoland/deno | 109,052 |\n| denoland/celld | 6,352 |\n| denoland/rusty_v8 | 4,043 |\n| denoland/std | 3,557 |\n| denoland/deno_lint | 1,585 |\n\nI got these from GitHub repository search sorted by stars. I didn't run a task called \"cc128685\". I took it as a label for your question, so tell me if it meant something else.\n\nTwo things in the results looked odd. `celld` ranks second, and `denoland/fresh` didn't appear at all. A second query, filtered to repos over 3,000 stars, returned the same ranking. I didn't look into why, so the total depends on what search returns.",
+        "turns": 3,
+        "seconds": 10.251,
+        "costUsd": 0.0198614,
+        "firstTurnTokens": 12652,
+        "totalInputTokens": 39403,
+        "outputTokens": 24,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1923,
+          "cacheRead": 37474
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 5 --json | jq '.item",
+          "cd <work>/mcp && github/search_repositories --query \"user:denoland stars:>3000\" --sort stars --order desc --perPage 10 --js"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2534721250000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9222376250000088
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9612194170000001
+          },
+          {
+            "kind": "model",
+            "seconds": 3.245758415999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.938579834000004
+          },
+          {
+            "kind": "model",
+            "seconds": 3.132131124999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "stars-sum",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The 5 most-starred repos in the denoland org have 124,589 stars in total.\n\n- denoland/deno: 109,052\n- denoland/celld: 6,352\n- denoland/rusty_v8: 4,043\n- denoland/std: 3,557\n- denoland/deno_lint: 1,585\n\nI got these from a GitHub repository search of `org:denoland`, sorted by stars.",
+        "turns": 3,
+        "seconds": 4.453,
+        "costUsd": 0.0124796,
+        "firstTurnTokens": 4614,
+        "totalInputTokens": 15614,
+        "outputTokens": 173,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1912,
+          "cacheRead": 13696
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:denoland\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:5});\\nconst i=r.items.map(x=>[x.full_name,x.stargazers_count]);console.log(JSON.stringify(i),i.reduce"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23761141599999974
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0713793749999894
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.014452250000002165
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2582758750000067
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9183697919999978
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1696366249999994
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "stars-sum",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The 5 most-starred repos in the denoland org have 124,589 stars combined. I got this from one GitHub repository search of `org:denoland`, sorted by stars.\n\n| Repo | Stars |\n|---|---|\n| denoland/deno | 109,052 |\n| denoland/celld | 6,352 |\n| denoland/rusty_v8 | 4,043 |\n| denoland/std | 3,557 |\n| denoland/deno_lint | 1,585 |",
+        "turns": 2,
+        "seconds": 4.86,
+        "costUsd": 0.0130257,
+        "firstTurnTokens": 5000,
+        "totalInputTokens": 11104,
+        "outputTokens": 27,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2043,
+          "cacheRead": 9057
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:denoland\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(typeof r===\\\"string\\\"?r.slice(0,3000):JSON.stringify(r).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2580852500000037
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5857792079999926
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0477645420000046
+          },
+          {
+            "kind": "model",
+            "seconds": 2.2073906669999994
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section covering Node.js compatibility is **\"7 Node.js Compatibility Layer\"** in DeepWiki's documentation of denoland/deno.\n\nIts subsections include 7.1 deno_node Extension Architecture, 7.2 Buffer and Core APIs, and 7.6 Worker Threads.",
+        "turns": 2,
+        "seconds": 7.465,
+        "costUsd": 0.024738200000000002,
+        "firstTurnTokens": 28971,
+        "totalInputTokens": 59371,
+        "outputTokens": 140,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4365,
+          "cacheRead": 55002
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1777880420000002
+          },
+          {
+            "kind": "model",
+            "seconds": 5.66404795800001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.13952662499999846
+          },
+          {
+            "kind": "model",
+            "seconds": 1.643752041999993
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section is **\"7 Node.js Compatibility Layer\"**. DeepWiki's structure for denoland/deno lists it with subsections 7.1–7.9, starting with \"deno_node Extension Architecture\".",
+        "turns": 2,
+        "seconds": 3.597,
+        "costUsd": 0.0146606,
+        "firstTurnTokens": 12667,
+        "totalInputTokens": 26866,
+        "outputTokens": 91,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2476,
+          "cacheRead": 24386
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && deepwiki/read_wiki_structure --repoName denoland/deno"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.226720834000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8683537499999945
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.41885487500000496
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2686321249999888
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section is **7 \"Node.js Compatibility Layer\"** in DeepWiki's documentation of denoland/deno.\n\nIts subsections are 7.1 through 7.9. They include \"deno_node Extension Architecture\", \"Buffer and Core APIs\" and \"Worker Threads\".",
+        "turns": 2,
+        "seconds": 3.143,
+        "costUsd": 0.0125545,
+        "firstTurnTokens": 4625,
+        "totalInputTokens": 10725,
+        "outputTokens": 126,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2396,
+          "cacheRead": 8325
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"denoland/deno\\\"});\\nconsole.log(typeof r===\\\"string\\\"?r:JSON.stringify(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23748029200000748
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4873042920000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.23533666600000291
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4016267919999954
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section is **7 \"Node.js Compatibility Layer\"** in DeepWiki's documentation of denoland/deno.\n\nIts subsections run from 7.1 (deno_node Extension Architecture) to 7.9 (Child Process and IPC).",
+        "turns": 2,
+        "seconds": 2.936,
+        "costUsd": 0.0126371,
+        "firstTurnTokens": 5014,
+        "totalInputTokens": 11503,
+        "outputTokens": 111,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2428,
+          "cacheRead": 9071
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"denoland/deno\\\"});\\nconsole.log(typeof r===\\\"string\\\"?r:JSON.stringify(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2475397079999966
+          },
+          {
+            "kind": "model",
+            "seconds": 1.341124959000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.28968587499999554
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2850847080000092
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "two-libraries",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": false,
+      "metrics": {
+        "answer": "I couldn't verify these IDs. Both Context7 lookups failed with \"Monthly quota exceeded\". The IDs below come from my memory of Context7's `/org/project` format, so treat them as unconfirmed:\n\n- **React:** `/facebook/react`\n- **Vue:** `/vuejs/core`\n\nIf you add a Context7 API key, I can run the lookups again and confirm them.",
+        "turns": 3,
+        "seconds": 3.051,
+        "costUsd": 0.0214728,
+        "firstTurnTokens": 28957,
+        "totalInputTokens": 58231,
+        "outputTokens": 162,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3239,
+          "cacheRead": 54988
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__context7__resolve-library-id {\"libraryName\":\"React\",\"query\":\"React documentation\"}",
+          "mcp__context7__resolve-library-id {\"libraryName\":\"Vue\",\"query\":\"Vue documentation\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.250445499999987
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1281080420000074
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.11587475000000236
+          },
+          {
+            "kind": "model",
+            "seconds": 0.11314891599999122
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.10980987500000605
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5671101249999921
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "two-libraries",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": false,
+      "metrics": {
+        "answer": "I couldn't verify these IDs. Both `resolve-library-id` calls failed with \"Monthly quota exceeded\". The IDs below are my best guesses from how Context7 usually names libraries:\n\n- **React:** `/websites/react_dev`. The other common option is `/facebook/react`.\n- **Vue:** `/vuejs/docs`. The other common option is `/vuejs/core`.\n\nTry them with `query-docs` once the quota resets or you add an API key.",
+        "turns": 2,
+        "seconds": 4.939,
+        "costUsd": 0.0123993,
+        "firstTurnTokens": 12654,
+        "totalInputTokens": 25763,
+        "outputTokens": 172,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1386,
+          "cacheRead": 24373
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./context7/resolve-library-id --libraryName react --query \"React documentation\" | head -30 & cd /private/t"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22586733399999503
+          },
+          {
+            "kind": "model",
+            "seconds": 2.5010227500000033
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4036560000000029
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9872538329999951
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "two-libraries",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": false,
+      "metrics": {
+        "answer": "The Context7 lookup failed with \"Monthly quota exceeded\", so I couldn't confirm these IDs. They come from my memory of Context7's naming convention:\n\n- **React:** `/facebook/react`\n- **Vue:** `/vuejs/core`\n\nRun `resolve_library_id` again once the quota is restored to check them.",
+        "turns": 2,
+        "seconds": 3.195,
+        "costUsd": 0.0082253,
+        "firstTurnTokens": 4613,
+        "totalInputTokens": 9466,
+        "outputTokens": 137,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1149,
+          "cacheRead": 8313
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.context7.resolve_library_id({query:\\\"documentation\\\", libraryName:\\\"react\\\"});\\nconst v = await tools.context7.resolve_library_id({query:\\\"documentation\\\", libraryName:\\\"vue\\\"});\\nconsole."
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2239991660000087
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5090367499999993
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.26426866699999674
+          },
+          {
+            "kind": "model",
+            "seconds": 1.402432916999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "two-libraries",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": false,
+      "metrics": {
+        "answer": "I couldn't confirm these with Context7. `resolve_library_id` failed with \"Monthly quota exceeded\", so both IDs below come from memory and are unverified.\n\n- **React:** `/facebook/react`\n- **Vue:** `/vuejs/docs` (the Vue docs repo). `/vuejs/core` is the alternative if you want the source repo.\n\nI also don't know what \"Run bcc20953\" refers to. I treated it as a label and answered the question.",
+        "turns": 2,
+        "seconds": 4.374,
+        "costUsd": 0.0138339,
+        "firstTurnTokens": 5002,
+        "totalInputTokens": 11298,
+        "outputTokens": 157,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2235,
+          "cacheRead": 9059
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const [r,v]=await Promise.all([tools.context7.resolve_library_id({query:\\\"React documentation\\\",libraryName:\\\"react\\\"}),tools.context7.resolve_library_id({query:\\\"Vue documentation\\\",libraryName:\\\"vue\\\"})]);con"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24261716699998942
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0005556660000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.559262167000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.79501112499999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Only one entity started before 2016: **Project Alder** (started in 2015).\n\nProject Birch started in 2016, so it doesn't count. The graph has 12 entities in total.",
+        "turns": 2,
+        "seconds": 2.28,
+        "costUsd": 0.02042,
+        "firstTurnTokens": 28949,
+        "totalInputTokens": 58480,
+        "outputTokens": 83,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3496,
+          "cacheRead": 54980
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__read_graph {}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.197976834000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1047522909999972
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.018110000000000515
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1385374169999993
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**1** entity started before 2016: Project Alder, which started in 2015. The graph has 12 entities. Project Birch started in 2016, so it doesn't count, and none of the others started earlier.",
+        "turns": 2,
+        "seconds": 4.575,
+        "costUsd": 0.011308700000000001,
+        "firstTurnTokens": 12648,
+        "totalInputTokens": 26007,
+        "outputTokens": 81,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1636,
+          "cacheRead": 24367
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && memory/read_graph --json | jq -c '.entities[] | {name, o: .observations}' | head -100"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21566591699999116
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8844255419999971
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.865185625000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7743824579999927
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Only one entity has an observation saying it started before 2016: **Project Alder** (\"Started in 2015\").\n\nI read the full graph, which has 12 entities. Project Birch started in 2016, and every other project started in 2017 or later.",
+        "turns": 2,
+        "seconds": 3.38,
+        "costUsd": 0.0086947,
+        "firstTurnTokens": 4607,
+        "totalInputTokens": 9855,
+        "outputTokens": 100,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1544,
+          "cacheRead": 8307
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const g = await tools.memory.read_graph({});\\nconsole.log(JSON.stringify(g).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24875958299999185
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2841026249999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7194387920000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3567147909999915
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Only one entity started before 2016: **Project Alder**, which started in 2015.\n\nProject Birch started in 2016, so it doesn't count. The graph has 12 entities, and the other 10 all started in 2017 or later.",
+        "turns": 2,
+        "seconds": 3.478,
+        "costUsd": 0.008863300000000001,
+        "firstTurnTokens": 4996,
+        "totalInputTokens": 10632,
+        "outputTokens": 102,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1575,
+          "cacheRead": 9053
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const g=await tools.memory.read_graph({});console.log(JSON.stringify(g).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2349190830000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2404110000000073
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7168779169999906
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5029838330000205
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "newest-release",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "servers\n\nOf the three most-starred repos in the modelcontextprotocol org, `servers` (92,163 stars) has the most recent latest release. Its release v2.5.0 was published on 2026-11-18.\n\n- `typescript-sdk` (13,803 stars): v2.4.0, published 2026-10-23\n- `python-sdk` (24,933 stars): v2.3.0, published 2026-10-02\n\nI didn't find anything in the tools about \"cb882974\", so I treated it as a run label and ignored it.",
+        "turns": 5,
+        "seconds": 6.755,
+        "costUsd": 0.07441790000000001,
+        "firstTurnTokens": 28969,
+        "totalInputTokens": 99825,
+        "outputTokens": 218,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 15060,
+          "cacheRead": 84759
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":3}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.276083958000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.486656582999989
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6969662499999978
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9744369170000136
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.205345874999999
+          },
+          {
+            "kind": "model",
+            "seconds": 0.08324195799999856
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3869704170000041
+          },
+          {
+            "kind": "model",
+            "seconds": 1.904937458
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "newest-release",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "servers\n\nThe three most-starred repos in the org are servers (about 92k stars), python-sdk (about 25k) and typescript-sdk (about 14k).\n- servers: v2.5.0, published 2026-11-18\n- typescript-sdk: v2.4.0, published 2026-10-23\n- python-sdk: v2.3.0, published 2026-10-02",
+        "turns": 3,
+        "seconds": 8.933,
+        "costUsd": 0.016353600000000003,
+        "firstTurnTokens": 12670,
+        "totalInputTokens": 39357,
+        "outputTokens": 152,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1835,
+          "cacheRead": 37516
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:modelcontextprotocol\" --sort stars --order desc --perPage 3 --mini",
+          "cd <work>/mcp && for r in servers python-sdk typescript-sdk; do echo $r; github/get_latest_release --owner modelcontextprot"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2460295000000042
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9226720830000121
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9768387089999742
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7528486250000133
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.6366199579999963
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5939830829999986
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "newest-release",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "servers\n\nThe three most-starred repos in the modelcontextprotocol org are servers (92,163 stars), python-sdk (24,933) and typescript-sdk (13,803).\n- servers: v2.5.0, published 2026-11-18\n- typescript-sdk: v2.4.0, published 2026-10-23\n- python-sdk: v2.3.0, published 2026-10-02",
+        "turns": 3,
+        "seconds": 6.835,
+        "costUsd": 0.014317900000000001,
+        "firstTurnTokens": 4629,
+        "totalInputTokens": 16301,
+        "outputTokens": 175,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2276,
+          "cacheRead": 14019
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items){const l=await tools.github.get_latest_release({owner:\\\"mode"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2622691670000204
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1164823329999927
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.02131087499999551
+          },
+          {
+            "kind": "model",
+            "seconds": 1.455269916999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.0509439580000177
+          },
+          {
+            "kind": "model",
+            "seconds": 1.169604333999974
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "newest-release",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "servers\n\nOf the three most-starred repos, `servers` (92,163 stars) has the most recent latest release. Its latest release is v2.5.0, published 2026-11-18.\n- `typescript-sdk` (13,803 stars): v2.4.0, published 2026-10-23.\n- `python-sdk` (24,933 stars): v2.3.0, published 2026-10-02.",
+        "turns": 3,
+        "seconds": 7.909,
+        "costUsd": 0.013975800000000002,
+        "firstTurnTokens": 5017,
+        "totalInputTokens": 16883,
+        "outputTokens": 179,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1999,
+          "cacheRead": 14878
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r:any = await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:3});\\nconst items = (typeof r===\\\"string\\\"?JSON.parse(r):r);\\nconsole.log(JSON.s",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"servers\\\",\\\"python-sdk\\\",\\\"typescript-sdk\\\"]) {\\nconst r:any = await tools.github.get_latest_release({owner:\\\"modelcontextprotocol\\\",repo:n});\\nconst o = typeof r===\\\"string\\\"?JSON.parse(r):r"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2436788340000203
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5263057909999918
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8306204999999898
+          },
+          {
+            "kind": "model",
+            "seconds": 1.500425125000009
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.6857244169999905
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3363027500000024
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -2,41 +2,10 @@
 //
 //   deno run --allow-read --allow-write bench/charts.ts
 //
-// Colors follow a validated palette: blue for dogu, orange for without dogu (both pass the
-// colorblind and contrast checks in light and dark), and blue/red for cheaper/costs more.
+// Colors and helpers are shared with the pictures, in svg.ts.
 // Every chart also has its numbers in a table next to it in BENCHMARKS.md.
 
-const HERE = new URL(".", import.meta.url).pathname;
-const OUT = `${HERE}../docs/bench`;
-
-interface Metrics {
-  readonly costUsd: number | null;
-  readonly seconds: number;
-  readonly totalInputTokens: number;
-}
-interface Rec {
-  readonly setup: string;
-  readonly suite?: string;
-  readonly metrics?: Metrics;
-  readonly session?: number;
-  readonly condition?: string;
-}
-
-const load = (name: string): Rec[] => {
-  const json = JSON.parse(Deno.readTextFileSync(`${HERE}results/${name}.json`));
-  return (json.records ?? json.sessions) as Rec[];
-};
-const ofSetup = (rs: Rec[], setup: string) => rs.filter((r) => r.setup === setup && r.metrics).map((r) => r.metrics!);
-const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
-const median = (xs: number[]) => {
-  const s = [...xs].sort((a, b) => a - b);
-  const m = Math.floor(s.length / 2);
-  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
-};
-const cost = (rs: Rec[], setup: string) => mean(ofSetup(rs, setup).map((m) => m.costUsd ?? 0));
-const time = (rs: Rec[], setup: string) => median(ofSetup(rs, setup).map((m) => m.seconds));
-const tokens = (rs: Rec[], setup: string) => median(ofSetup(rs, setup).map((m) => m.totalInputTokens));
-const change = (ours: number, theirs: number) => Math.round((ours / theirs - 1) * 100);
+import { change, cost, esc, load, mean, type Rec, svg as frame, time, tokens, write } from "./svg.ts";
 
 // --- Drawing ---
 
@@ -47,20 +16,6 @@ const PLOT_R = W - 70; // room for value labels
 const ROW = 34;
 const BAR = 18;
 const TOP = 44; // room for the legend
-
-const STYLE = `
-  text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 13px; fill: #0b0b0b; }
-  .muted { fill: #52514e; font-size: 12px; }
-  .grid { stroke: #e1e0d9; stroke-width: 1; }
-  .axis { stroke: #c3c2b7; stroke-width: 1; }
-  .dogu { fill: #2a78d6; } .other { fill: #eb6834; } .more { fill: #e34948; }
-  @media (prefers-color-scheme: dark) {
-    text { fill: #f0efec; } .muted { fill: #c3c2b7; }
-    .grid { stroke: #2c2c2a; } .axis { stroke: #383835; }
-    .dogu { fill: #3987e5; } .other { fill: #d95926; } .more { fill: #e66767; }
-  }`;
-
-const esc = (s: string) => s.replaceAll("&", "&amp;").replaceAll("<", "&lt;");
 
 /** A bar with a 4px rounded data end and a square end on the baseline. */
 const bar = (x0: number, x1: number, y: number, cls: string) => {
@@ -117,9 +72,7 @@ const diverging = (title: string, rows: ReadonlyArray<Row>, min: number, max: nu
   return svg(title, h, `${legend([["dogu", "Cheaper with dogu"], ["more", "Costs more with dogu"]])}${grid}${body}`);
 };
 
-const svg = (title: string, h: number, body: string) =>
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${h}" width="${W}" height="${h}" role="img" aria-labelledby="t">` +
-  `<title id="t">${esc(title)}</title><style>${STYLE}</style>${body}</svg>\n`;
+const svg = (title: string, h: number, body: string) => frame(title, W, h, body);
 
 // --- The charts ---
 
@@ -203,8 +156,4 @@ const charts: Record<string, string> = {
   })(),
 };
 
-Deno.mkdirSync(OUT, { recursive: true });
-for (const [name, text] of Object.entries(charts)) {
-  Deno.writeTextFileSync(`${OUT}/${name}`, text);
-  console.log(`wrote docs/bench/${name}`);
-}
+write(charts);
