@@ -1,0 +1,100 @@
+// deno test bench/bench_test.ts
+
+import { Effect, Result } from "npm:effect@4.1.5";
+import { assert, assertEquals } from "jsr:@std/assert@1";
+import { metricsOf } from "./claude.ts";
+import { headline, type RunRecord } from "./report.ts";
+import { TASKS, type Truth } from "./tasks.ts";
+
+const line = (v: unknown) => JSON.stringify(v);
+const usage = (input: number, created: number, read: number, output: number) => ({
+  input_tokens: input,
+  cache_creation_input_tokens: created,
+  cache_read_input_tokens: read,
+  output_tokens: output,
+});
+const assistant = (id: string, u: ReturnType<typeof usage>, content: unknown[]) =>
+  line({ type: "assistant", message: { id, usage: u, content } });
+const result = (text: string) =>
+  line({ type: "result", is_error: false, result: text, num_turns: 2, duration_ms: 12_500, total_cost_usd: 0.05 });
+
+const run = <A, E>(e: Effect.Effect<A, E>) => Effect.runSync(Effect.result(e));
+
+Deno.test("counts each model message once, even when it spans several events", () => {
+  const stream = [
+    line({ type: "system", subtype: "init" }),
+    assistant("m1", usage(2, 1000, 0, 10), [{ type: "text", text: "looking" }]),
+    assistant("m1", usage(2, 1000, 0, 10), [{ type: "tool_use", name: "Bash", input: { command: "ls" } }]),
+    assistant("m2", usage(3, 50, 1000, 20), [{ type: "text", text: "done" }]),
+    result("the answer"),
+  ].join("\n");
+
+  const out = run(metricsOf(stream));
+
+  assert(Result.isSuccess(out));
+  assertEquals(out.success.firstTurnTokens, 1002);
+  assertEquals(out.success.totalInputTokens, 1002 + 1053);
+  assertEquals(out.success.outputTokens, 30);
+  assertEquals(out.success.toolCalls, 1);
+  assertEquals(out.success.seconds, 12.5);
+  assertEquals(out.success.answer, "the answer");
+  assertEquals(out.success.bypassedTools, false);
+});
+
+Deno.test("flags an agent that goes around its tools with curl", () => {
+  const stream = [
+    assistant("m1", usage(1, 1, 0, 1), [
+      { type: "tool_use", name: "Bash", input: { command: "curl -s https://api.github.com/orgs/x/repos" } },
+    ]),
+    result("x"),
+  ].join("\n");
+
+  const out = run(metricsOf(stream));
+
+  assert(Result.isSuccess(out) && out.success.bypassedTools);
+});
+
+Deno.test("a stream with no result, or an error result, is a NoResult", () => {
+  const none = run(metricsOf(assistant("m1", usage(1, 1, 0, 1), [])));
+  const failed = run(metricsOf(line({ type: "result", is_error: true, result: "boom", num_turns: 1, duration_ms: 1, total_cost_usd: 0 })));
+
+  assert(Result.isFailure(none) && none.failure._tag === "NoResult");
+  assert(Result.isFailure(failed) && failed.failure._tag === "NoResult");
+});
+
+const truth: Truth = {
+  latestTag: "v2.4.0",
+  top3: ["servers", "python-sdk", "typescript-sdk"],
+  sections: ["Introduction to Model Context Protocol Servers", "Reference Servers Overview", "Development and Contribution", "Glossary"],
+  context7Ids: ["/effect-ts/effect", "/effect-ts/website"],
+  mostIssues: ["typescript-sdk"],
+};
+const check = (id: string, answer: string) => TASKS.find((t) => t.id === id)!.check(answer, truth);
+
+Deno.test("task checks accept right answers and reject wrong ones", () => {
+  assert(check("lookup", "The latest release is 2.4.0."));
+  assert(!check("lookup", "The latest release is 2.3.9."));
+  assert(check("search", "1. servers 2. python-sdk 3. typescript-sdk"));
+  assert(!check("search", "servers, python-sdk, inspector"));
+  assert(check("chain", "Introduction, Reference servers, Contribution guide, Glossary"));
+  assert(!check("chain", "Overview and Glossary"));
+  assert(check("docs", "The ID is /effect-ts/effect."));
+  assert(!check("docs", "The ID is /effect/core."));
+  assert(check("compare", "typescript-sdk\nIt has 705 open issues."));
+  assert(!check("compare", "python-sdk\ntypescript-sdk has fewer."));
+});
+
+Deno.test("headline says more, not negative fewer, when a setup used more", () => {
+  const rec = (setup: string, tokens: number, cost: number): RunRecord => ({
+    setup,
+    task: "t",
+    rep: 1,
+    correct: true,
+    metrics: { answer: "", turns: 1, seconds: 1, costUsd: cost, firstTurnTokens: tokens, totalInputTokens: tokens, outputTokens: 1, toolCalls: 0, bypassedTools: false },
+  });
+
+  const text = headline([rec("direct", 100, 1), rec("folder", 50, 0.5), rec("codemode", 120, 1.2)], ["direct", "folder", "codemode"]);
+
+  assert(text.includes("50% fewer input tokens and 50% lower cost"), text);
+  assert(text.includes("20% more input tokens and 20% higher cost"), text);
+});

@@ -41,6 +41,8 @@ jobs:
         run: cargo build --release --locked
       - name: Sandbox escape test
         run: sh tests/escape.sh
+      - name: Benchmark harness tests
+        run: deno test bench/bench_test.ts
 
   conformance:
     name: MCP conformance suite
