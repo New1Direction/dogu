@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.4.0] - 2026-11-22
+
+### Added
+
+- Forge: `./forge <name> program.ts`, or the `forge` tool in code mode, saves a program as a new tool, `forged/<name>`. It has its own flags and `--help`, appears in the README and in search, runs in the sandbox, and may only call the tools its code names. Measured: once forged, a repeated job costs 28 to 31% less and is faster.
+- The folder is an Agent Skill: `dogu sync` writes `SKILL.md`, and `--link-skill` links the folder into `~/.claude/skills` and `~/.agents/skills`.
+- The benchmark covers Claude Code (with and without its tool search), Codex and pi, on 8 held-out tasks written before any run.
+
+### Changed
+
+- The README's tool list drops detail in steps, descriptions first and names last, within a 32 KB budget.
+- `run_code` in `dogu serve` cuts outputs over 30,000 characters in the middle, with a note.
+
+### Fixed
+
+- A local server that dies says why: dogu shows its last lines, with a hint when npm cannot write `~/.npm`, as inside Codex's sandbox. Before, agents saw only "broken pipe".
+
 ## [0.3.0] - 2026-11-22
 
 Faster and cheaper for agents. Measured with the new benchmark in `bench/`: with GitHub, Context7 and DeepWiki, both the folder and code mode cost about half as much per task as loading the servers directly, with every answer right.

@@ -31,15 +31,25 @@ Connect an agent to MCP servers and every tool's full definition is loaded into 
 
 dogu keeps the tools on disk instead. The agent gets one line per tool, with its flags, and looks up the details only for the tool it uses.
 
-Measured, not estimated. Claude Code (Sonnet) did 5 tasks against GitHub's official server, Context7 and DeepWiki, 3 times each, with the tools given three ways. Every answer was checked, and all 45 were right.
+Measured, not estimated, on [8 tasks written before any run and never tuned against](bench/): GitHub's official server, Context7, DeepWiki and a local memory server, 3 runs each, every answer checked. Claude Code on Sonnet, 120 runs, all right:
 
 | | Read before starting | Read in total | Cost per task | Time |
 |---|---|---|---|---|
-| The servers loaded directly (51 tool definitions) | 27.2k tokens | 55.8k | $0.025 | 3.8s |
-| dogu folder, tool list in the agent's instructions | 11.7k | 23.9k | **$0.013** | 4.4s |
-| dogu code mode (`dogu serve`) | **4.3k** | **14.5k** | **$0.013** | 4.9s |
+| The servers loaded directly | 29.0k tokens | 59.1k | $0.034 | **4.2s** |
+| The same, with Claude Code's tool search on | 7.0k | 23.6k | $0.037 | 5.6s |
+| dogu folder, tool list in the agent's instructions | 12.1k | 25.1k | **$0.013** | 5.1s |
+| dogu code mode (`dogu serve`) | **4.3k** | **15.0k** | **$0.013** | 5.5s |
 
-The more servers you connect, the bigger the gap: the direct way reads every tool's full definition on every turn, used or not. On these short tasks loading the servers directly is a little faster, because it needs no step to find a tool. [How it was measured, and how to run it yourself](bench/).
+On Haiku the order is the same: dogu costs 56 to 60% less than both. Loading the servers directly is about a second faster on these short tasks, because it needs no step to find a tool. Tool search reads fewer tokens than loading everything, but costs more, because it brings tool definitions in mid-session, and those are cached at the higher write price.
+
+### Other agents
+
+The gap depends on the agent:
+
+- **Codex** (its default model): the dogu folder in `AGENTS.md` read 6% fewer tokens at the same speed as Codex with the servers loaded directly. Codex's own instructions are large, so tool definitions are a smaller share. With the servers loaded directly, Codex went around them with `curl` in 6 of 16 runs; with the folder, never.
+- **pi** (gpt-6.1-sol): the dogu folder was 35% cheaper and 15% faster than pi with the tools declared directly. pi has its own code mode, built for the same problem, and it was cheaper still: the folder cost 24% more, and was 21% faster.
+
+All results, and how to run them yourself: [`bench/`](bench/).
 
 ## What you get
 
@@ -91,6 +101,15 @@ Then tell your agent where the tools are. The fastest and cheapest way is to put
 For any other agent, one line in `AGENTS.md` or a system prompt works too, at the cost of one extra step per task:
 
 > Your tools are in ~/mcp. Read ~/mcp/README.md first.
+
+Or let agents find it on their own: the folder is also an [Agent Skill](https://agentskills.io). `dogu sync --link-skill` links it into `~/.claude/skills` and `~/.agents/skills`, where Claude Code, Codex, pi and others look.
+
+**Codex users:** Codex's sandbox blocks `~/.npm`, so local servers that start with `npx` cannot run inside it. Allow it in `~/.codex/config.toml`:
+
+```toml
+[sandbox_workspace_write]
+writable_roots = ["/Users/you/.npm"]
+```
 
 Run `dogu sync` again when your servers change. It reads the same config as the first time. To switch, pass `--config`.
 
@@ -170,9 +189,9 @@ This needs [Deno](https://deno.com) (`brew install deno`). Deno is the sandbox.
 | Memory | 256 MB | `DOGU_MEMORY_MB` |
 | Printed output | 1 MB | `DOGU_MAX_OUTPUT` |
 
-### 3. One MCP server with two tools
+### 3. One MCP server with three tools
 
-Some apps have no shell, such as Claude Desktop. For those, `dogu serve` is an MCP server with two tools: `search` finds tools and returns their types, and `run_code` runs a program in the sandbox. All your other servers sit behind those two.
+Some apps have no shell, such as Claude Desktop. For those, `dogu serve` is an MCP server with three tools: `search` finds tools and returns their types, `run_code` runs a program in the sandbox, and `forge` saves a program as a new tool. All your other servers sit behind those three.
 
 1. Move your real servers into `~/.config/dogu/mcp.json`.
 2. Run `dogu sync --config ~/.config/dogu/mcp.json`.
@@ -181,6 +200,29 @@ Some apps have no shell, such as Claude Desktop. For those, `dogu serve` is an M
 ```json
 { "mcpServers": { "tools": { "command": "dogu", "args": ["serve"] } } }
 ```
+
+## Make your own tools
+
+When an agent has worked out a job that takes several calls, it can save its program as a new tool, and the next session does the job in one call:
+
+```sh
+~/mcp/forge latest_releases program.ts     # or the `forge` tool in code mode
+~/mcp/forged/latest_releases --org tokio-rs
+```
+
+The program starts with a short header:
+
+```ts
+// @description Latest release of each of an org's 3 most-starred repos.
+// @param org string required The GitHub org
+const top = await tools.github.search_repositories({ query: `org:${args.org}`, sort: "stars", perPage: 3 });
+// ...
+console.log(JSON.stringify(result));
+```
+
+A forged tool works like any other: `--help`, a line in the README, `tools.forged.<name>()` in a program. It runs in the sandbox and may only call the tools its code names. It survives `dogu sync`.
+
+Measured over a job repeated for five GitHub orgs, on Sonnet: once the tool exists, each job costs 28 to 31% less, is faster, and in the folder takes 2 turns instead of 3. Forging pays for itself after 3 more jobs in code mode and 9 in the folder (the session after forging refreshes the prompt cache once). Agents used their forged tool in every later session, 24 of 24.
 
 ## Logging in to remote servers
 
@@ -239,16 +281,17 @@ Transports: stdio and Streamable HTTP.
 - **The sandbox escape test**, `tests/escape.ts`.
 - **Real servers**: the official filesystem, memory and everything servers, a server built with the v2 TypeScript SDK, the SDK's OAuth demo server, and these hosted ones: GitHub's official server (with a token), Linear (with `dogu login`, including token refresh), Context7 and DeepWiki.
 - **A real agent**: Claude Code, told only "Your tools are in ~/mcp. Read ~/mcp/README.md first.", used the folder for a three-step job with no errors, and did the same through `dogu serve` with no shell.
-- **A benchmark** (`bench/`): the same tasks with the servers loaded directly, through the folder, and through code mode, with every answer checked. Results are in `bench/results/`.
+- **A benchmark** (`bench/`, written with [Effect](https://effect.website)): Claude Code, Codex and pi, each with the servers loaded directly and through dogu, on tasks written before any run, with every answer checked. Over 400 runs. Results are in `bench/results/`.
 
 ## Status
 
-This is version 0.2.1 and it is new. Here is what has not been done yet:
+This is version 0.4.0 and it is new. Here is what has not been done yet:
 
 - It has been built and run on **Linux and macOS**. Windows does not work: the tools are `sh` scripts.
 - Of the **hosted servers**, GitHub, Linear, Context7 and DeepWiki have been tried. Notion and others have not. Real services have quirks. If one breaks, please open an issue with the output of `DOGU_DEBUG=1 dogu sync`.
 - **Tools that ask the user a question mid-call** (elicitation, sampling) are not supported. The call fails with a clear message.
 - **Resources and prompts** are not exposed. Tools only.
+- **Inside Codex's sandbox, local `npx` servers need `~/.npm` writable** (see above). When a local server dies at start, dogu shows what it said.
 - **Each command starts its server, runs the tool and stops it.** A server started with `npx` takes a second or more per call. `dogu serve`, and a program run with `dogu run`, keep connections open.
 - **Types are stripped, not checked**, before a program runs. A wrong parameter shows up as an error from the tool.
 - **The old SSE transport** from 2024 is not supported.
@@ -319,6 +362,7 @@ About 3,400 lines of Rust and JavaScript, with five dependencies and no async ru
 2. Resources as plain read-only files in each app's folder.
 3. A Homebrew formula.
 4. Windows.
+5. Exploring: run programs without installing Deno, with an embedded JavaScript engine.
 
 Issues and pull requests are welcome. The most useful report right now is "I ran it against server X and this happened".
 
