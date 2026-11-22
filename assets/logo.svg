@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 10 340 132" width="340" height="132" role="img" aria-label="The dogu mark: a wrench that is also a long dog"><g transform="translate(0 0) scale(1)">
+<mask id="dogu-cut-2" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="150">
+<rect width="400" height="150" fill="#fff"/>
+<rect x="318" y="62" width="70" height="30" rx="5" transform="rotate(-16 322 77)" fill="#000"/>
+<circle cx="303" cy="50" r="5.2" fill="#000"/>
+<polygon points="97.5,52.0 90.8,63.7 77.2,63.7 70.5,52.0 77.2,40.3 90.8,40.3" fill="#000"/>
+</mask>
+<g mask="url(#dogu-cut-2)" fill="#17264D">
+<circle cx="84" cy="52" r="29"/>
+<rect x="92" y="62" width="214" height="32" rx="7"/>
+<circle cx="322" cy="77" r="43"/>
+<rect x="129" y="90" width="15" height="34"/><rect x="120" y="121" width="33" height="10" rx="3"/>
+<rect x="257" y="90" width="15" height="34"/><rect x="248" y="121" width="33" height="10" rx="3"/>
+</g>
+<path d="M291 36 C273 37 262 58 266 82 C269 97 285 97 289 84 C293 70 300 51 291 36 Z" fill="#BA8A28"/>
+</g></svg>
