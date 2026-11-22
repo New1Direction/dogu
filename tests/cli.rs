@@ -314,3 +314,15 @@ fn help_after_a_tool_name_is_the_tools_own_help() {
     assert!(stdout(&o).starts_with("some_tool"), "stdout: {}", stdout(&o));
     assert!(!stdout(&o).contains("dogu login"), "printed dogu's usage: {}", stdout(&o));
 }
+
+#[test]
+fn sync_shows_paths_under_home_with_a_tilde() {
+    let home = scratch("tilde");
+    write_json(&home.join(".claude.json"), &json!({ "mcpServers": { "mine": broken_server() } }));
+
+    let o = dogu(&home, &home, &["sync", "--out", home.join("mcp").to_str().unwrap()]);
+
+    assert!(stdout(&o).contains("Reading ~/.claude.json"), "stdout: {}", stdout(&o));
+    assert!(stdout(&o).contains("Your tools are in ~/mcp. Read ~/mcp/README.md first."), "stdout: {}", stdout(&o));
+    assert!(!stdout(&o).contains(home.to_str().unwrap()), "stdout: {}", stdout(&o));
+}

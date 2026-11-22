@@ -294,13 +294,16 @@ fn example_value(p: &Value) -> Value {
     if let Some(first) = p["enum"].as_array().and_then(|o| o.first()) {
         return first.clone();
     }
+    if let Some(first) = ["anyOf", "oneOf"].iter().find_map(|k| p[*k].as_array().and_then(|o| o.first())) {
+        return example_value(first);
+    }
     match kind_of(p).as_str() {
-        "string" => json!("..."),
         "integer" | "number" => json!(1),
         "boolean" => json!(true),
         "array" => json!([]),
         "object" => json!({}),
-        _ => Value::Null,
+        // A string, or a parameter whose type the schema does not say.
+        _ => json!("..."),
     }
 }
 
@@ -376,6 +379,22 @@ mod tests {
         let text = help("t", &s);
 
         assert!(text.contains(r#"'{"a": [], "b": true, "c": {}, "d": "x"}'"#), "{text}");
+    }
+
+    #[test]
+    fn help_json_example_uses_the_first_choice_of_a_parameter_with_several_types() {
+        let s = schema(json!({
+            "type": "object",
+            "properties": {
+                "repoName": { "anyOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+                "anything": {}
+            },
+            "required": ["repoName", "anything"]
+        }));
+
+        let text = help("ask", &s);
+
+        assert!(text.contains(r#"'{"repoName": "...", "anything": "..."}'"#), "{text}");
     }
 
     #[test]

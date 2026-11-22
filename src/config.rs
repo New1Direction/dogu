@@ -17,6 +17,18 @@ pub fn home() -> PathBuf {
     PathBuf::from(std::env::var("HOME").unwrap_or_else(|_| ".".into()))
 }
 
+/// A path to show a person: `~/mcp` rather than `/Users/me/mcp`.
+pub fn tilde(path: &Path) -> String {
+    let h = home();
+    let homes = [std::fs::canonicalize(&h).ok(), Some(h)];
+    for home in homes.iter().flatten() {
+        if let Ok(rest) = path.strip_prefix(home) {
+            return if rest.as_os_str().is_empty() { "~".into() } else { format!("~/{}", rest.display()) };
+        }
+    }
+    path.display().to_string()
+}
+
 /// Where the servers come from: a config file and, for Claude Code's `~/.claude.json`, the
 /// project folder whose own servers are added. `claude mcp add` saves to that "local" scope by
 /// default, under `projects.<folder>.mcpServers`.
@@ -45,8 +57,8 @@ impl Source {
 
     pub fn describe(&self) -> String {
         match &self.project {
-            Some(project) => format!("{}, with the servers for {project}", self.path.display()),
-            None => self.path.display().to_string(),
+            Some(project) => format!("{}, with the servers for {}", tilde(&self.path), tilde(Path::new(project))),
+            None => tilde(&self.path),
         }
     }
 }

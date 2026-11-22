@@ -113,8 +113,9 @@ pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
     write(&root.join("run"), &run)?;
     make_executable(&root.join("run"))?;
 
-    println!("\nYour tools are in {}", root.display());
-    println!("Tell your agent:  Your tools are in {0}. Read {0}/README.md first.", root.display());
+    let shown = config::tilde(&root);
+    println!("\nYour tools are in {shown}");
+    println!("Tell your agent:  Your tools are in {shown}. Read {shown}/README.md first.");
     if need_login {
         println!("Some servers need a login. Run `dogu login`, then `dogu sync` again.");
     } else if failed > 0 {
