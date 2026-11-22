@@ -108,3 +108,22 @@ export const headline = (records: ReadonlyArray<RunRecord>, setups: ReadonlyArra
     )
     .join("\n");
 };
+
+/** Where the seconds went: the mean seconds per run spent starting up, in the model, and in tools. */
+export const timeTable = (records: ReadonlyArray<RunRecord>, setups: ReadonlyArray<string>): string => {
+  const rows = setups.flatMap((setup) => {
+    const timed = records.flatMap((r) => (r.setup === setup && r.metrics?.timeline ? [r.metrics.timeline] : []));
+    if (timed.length === 0) return [];
+    const per = (kind: string) => mean(timed.map((t) => t.filter((s) => s.kind === kind).reduce((n, s) => n + s.seconds, 0)));
+    const model = timed.map((t) => t.filter((s) => s.kind === "model").length);
+    return [`| ${SETUP_LABELS[setup] ?? setup} | ${per("startup").toFixed(2)}s | ${per("model").toFixed(2)}s | ${
+      per("tools").toFixed(2)
+    }s | ${mean(model).toFixed(1)} |`];
+  });
+  if (rows.length === 0) return "";
+  return [
+    "| Setup | Starting up (mean) | Model working (mean) | Tools running (mean) | Model turns (mean) |",
+    "|---|---|---|---|---|",
+    ...rows,
+  ].join("\n");
+};

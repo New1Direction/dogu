@@ -2,7 +2,7 @@
 
 import { Effect, Result } from "npm:effect@4.1.5";
 import { assert, assertEquals } from "jsr:@std/assert@1";
-import { codexMetricsOf, metricsOf, piMetricsOf } from "./claude.ts";
+import { codexMetricsOf, metricsOf, piMetricsOf, timelineOf } from "./claude.ts";
 import { headline, type RunRecord } from "./report.ts";
 import { checkTheCheck, TASKS } from "./tasks.ts";
 
@@ -250,4 +250,29 @@ Deno.test("checkTheCheck catches a check that accepts anything, and one that rej
 
   assert(checkTheCheck(lenient, ["v1"])?.includes("accepts a wrong answer"));
   assert(checkTheCheck(strict, ["v1"])?.includes("rejects the right answer"));
+});
+
+Deno.test("a run's timeline splits start-up, model and tool time by when events arrived", () => {
+  const events = [
+    { type: "system", subtype: "init" },
+    { type: "assistant", message: { content: [{ type: "text" }] } },
+    { type: "assistant", message: { content: [{ type: "tool_use" }] } },
+    { type: "user", message: { content: [{ type: "tool_result" }] } },
+    { type: "assistant", message: { content: [{ type: "tool_use" }] } },
+    { type: "user", message: { content: [{ type: "tool_result" }] } },
+    { type: "assistant", message: { content: [{ type: "text" }] } },
+    { type: "result" },
+  ];
+  const times = [0.5, 1.0, 1.5, 2.0, 3.0, 3.25, 3.5, 4.0];
+
+  const timeline = timelineOf(events, times);
+
+  assertEquals(timeline, [
+    { kind: "startup", seconds: 0.5 },
+    { kind: "model", seconds: 1.0 },
+    { kind: "tools", seconds: 0.5 },
+    { kind: "model", seconds: 1.0 },
+    { kind: "tools", seconds: 0.25 },
+    { kind: "model", seconds: 0.75 },
+  ]);
 });

@@ -10,7 +10,7 @@
 import { Console, Data, Effect, Result } from "npm:effect@4.1.5";
 import { runAgent, runCommand } from "./claude.ts";
 import { ALL_SETUPS, ANSWER_RULE, argsFor, envFor, makeWorkspace, RUN_TIMEOUT, type Setup, warmUp, workDir, type Workspace } from "./workspace.ts";
-import { headline, type RunRecord, summaryTable, taskTable } from "./report.ts";
+import { headline, type RunRecord, summaryTable, taskTable, timeTable } from "./report.ts";
 import { checkTheCheck, type Ctx, type Facts, promptOf, type Task, TASKS } from "./tasks.ts";
 
 class BadTruth extends Data.TaggedError("BadTruth")<{ readonly detail: string }> {}
@@ -83,6 +83,10 @@ const section = (title: string, records: ReadonlyArray<RunRecord>, tasks: Readon
     headline(records, SETUPS),
     "",
     summaryTable(records, SETUPS),
+    "",
+    "Where the time went:",
+    "",
+    timeTable(records, SETUPS),
     "",
     "Median total input tokens per task:",
     "",

@@ -38,6 +38,53 @@ export const runCommand = (
     }),
   );
 
+/** Like runCommand, but also says when each line of output arrived, in seconds from the start. */
+export const runCommandTimed = (
+  command: string,
+  args: ReadonlyArray<string>,
+  options: { readonly cwd?: string; readonly env?: Record<string, string> } = {},
+): Effect.Effect<{ readonly stdout: string; readonly times: ReadonlyArray<number> }, CommandFailed> =>
+  Effect.tryPromise({
+    try: async (signal) => {
+      const started = performance.now();
+      const child = new Deno.Command(command, {
+        args: [...args],
+        cwd: options.cwd,
+        env: options.env,
+        stdin: "null",
+        stdout: "piped",
+        stderr: "piped",
+        signal,
+      }).spawn();
+      const stderr = new Response(child.stderr).text();
+      const lines: Array<string> = [];
+      const times: Array<number> = [];
+      let rest = "";
+      for await (const chunk of child.stdout.pipeThrough(new TextDecoderStream())) {
+        const parts = (rest + chunk).split("\n");
+        rest = parts.pop() ?? "";
+        const now = (performance.now() - started) / 1000;
+        for (const line of parts) {
+          lines.push(line);
+          times.push(now);
+        }
+      }
+      if (rest !== "") {
+        lines.push(rest);
+        times.push((performance.now() - started) / 1000);
+      }
+      const status = await child.status;
+      return { stdout: lines.join("\n"), times, success: status.success, stderr: await stderr };
+    },
+    catch: (e) => new CommandFailed({ command, detail: String(e) }),
+  }).pipe(
+    Effect.flatMap((out) =>
+      out.success
+        ? Effect.succeed({ stdout: out.stdout, times: out.times })
+        : Effect.fail(new CommandFailed({ command, detail: out.stderr.slice(0, 400) || out.stdout.slice(-400) }))
+    ),
+  );
+
 // --- The events we read from `claude --output-format stream-json`. Anything else is skipped. ---
 
 const Usage = Schema.Struct({
@@ -93,7 +140,41 @@ export interface RunMetrics {
   readonly bypassedTools: boolean;
   /** What the agent did, one line per tool call, in order. */
   readonly steps: ReadonlyArray<string>;
+  /** Where the seconds went, in order, from when each event arrived. Claude Code only, for now. */
+  readonly timeline?: ReadonlyArray<Segment>;
 }
+
+/** A stretch of a run: starting up (connecting to tools), the model working, or tools running. */
+export interface Segment {
+  readonly kind: "startup" | "model" | "tools";
+  readonly seconds: number;
+}
+
+/**
+ * Cut a run into segments by when its events arrived: the start-up ends with the `init` event; the model
+ * works until it asks for a tool (or gives the answer); tools run until their results come back.
+ * Neighbouring segments of one kind are merged.
+ */
+export const timelineOf = (events: ReadonlyArray<unknown>, times: ReadonlyArray<number>): ReadonlyArray<Segment> => {
+  const segments: Array<Segment> = [];
+  let mark = 0;
+  const close = (kind: Segment["kind"], at: number) => {
+    const seconds = Math.max(0, at - mark);
+    const last = segments.at(-1);
+    if (last?.kind === kind) segments[segments.length - 1] = { kind, seconds: last.seconds + seconds };
+    else segments.push({ kind, seconds });
+    mark = at;
+  };
+  events.forEach((event, i) => {
+    const e = event as { type?: string; subtype?: string; message?: { content?: ReadonlyArray<{ type?: string }> } };
+    const at = times[i] ?? mark;
+    if (e?.type === "system" && e.subtype === "init") close("startup", at);
+    else if (e?.type === "assistant" && e.message?.content?.some((b) => b?.type === "tool_use")) close("model", at);
+    else if (e?.type === "user" && e.message?.content?.some((b) => b?.type === "tool_result")) close("tools", at);
+    else if (e?.type === "result") close("model", at);
+  });
+  return segments;
+};
 
 /** Ways around the given tools: plain HTTP, or the GitHub CLI, which is often logged in. */
 const BYPASS = /\b(curl|wget)\b|api\.github\.com|(^|[\s;&|(])gh\s+(api|repo|search|issue|pr|release)\b/;
@@ -117,8 +198,10 @@ const parseLine = (line: string): unknown => {
 };
 
 /** Read the stream. Usage is counted once per model message, since one message can span several events. */
-export const metricsOf = (stream: string): Effect.Effect<RunMetrics, NoResult> => {
-  const events = stream.split("\n").filter((l) => l.trim() !== "").map(parseLine);
+export const metricsOf = (stream: string, times?: ReadonlyArray<number>): Effect.Effect<RunMetrics, NoResult> => {
+  const lines = stream.split("\n");
+  const kept = lines.map((l, i) => [l, times?.[i]] as const).filter(([l]) => l.trim() !== "");
+  const events = kept.map(([l]) => parseLine(l));
   const messages = new Map<string, typeof Usage.Type>();
   const order: Array<string> = [];
   const tools: Array<typeof ToolUse.Type> = [];
@@ -155,6 +238,7 @@ export const metricsOf = (stream: string): Effect.Effect<RunMetrics, NoResult> =
     toolCalls: tools.length,
     bypassedTools: tools.some((t) => typeof t.input.command === "string" && BYPASS.test(t.input.command)),
     steps: tools.map(stepOf),
+    ...(times ? { timeline: timelineOf(events, kept.map(([, t]) => t ?? 0)) } : {}),
   });
 };
 
@@ -290,9 +374,13 @@ export const runAgent = (
 ): Effect.Effect<RunMetrics, CommandFailed | NoResult | Cause.TimeoutError> =>
   Effect.gen(function* () {
     const started = performance.now();
-    const stream = yield* runCommand(bin, args, { cwd: options.cwd, env: options.env });
+    const { stdout: stream, times } = yield* runCommandTimed(bin, args, { cwd: options.cwd, env: options.env });
     const seconds = (performance.now() - started) / 1000;
-    return yield* (agent === "codex" ? codexMetricsOf(stream, seconds) : agent === "pi" ? piMetricsOf(stream, seconds) : metricsOf(stream));
+    return yield* (agent === "codex"
+      ? codexMetricsOf(stream, seconds)
+      : agent === "pi"
+      ? piMetricsOf(stream, seconds)
+      : metricsOf(stream, times));
   }).pipe(
     Effect.timeout(options.timeout),
     Effect.retry({ times: 1, while: (e) => e._tag === "NoResult" }),
