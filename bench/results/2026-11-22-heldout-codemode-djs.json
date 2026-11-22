@@ -1,0 +1,268 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.4.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "4092181",
+  "dirty": false,
+  "answers": {
+    "created": [
+      "2021-05-30"
+    ],
+    "issue-title": [
+      "Progress notifications"
+    ],
+    "release-tags": [
+      "v2.5.0",
+      "v2.3.0",
+      "v2.4.0",
+      "2.16.0",
+      "2026-07-28"
+    ],
+    "docs-id": [
+      "/vercel/next.js",
+      "/websites/nextjs",
+      "/websites/deepwiki_vercel_next_js",
+      "/vercel/next-learn",
+      "/websites/nextjs_app_getting-started_project-structure"
+    ],
+    "deno-sections": [
+      "Deno Overview",
+      "CLI Architecture",
+      "Runtime Core",
+      "Language Server Protocol",
+      "HTTP, Fetch, and WebSocket",
+      "Web Standards APIs",
+      "Node.js Compatibility Layer",
+      "Foreign Function Interface",
+      "Testing and Benchmarking",
+      "Developer Tools and Productivity",
+      "Unstable and Experimental APIs",
+      "Glossary"
+    ],
+    "memory-find": [
+      "Project Ginkgo"
+    ],
+    "tokio-sections": [
+      "13"
+    ],
+    "axum-releases": [
+      "175"
+    ]
+  },
+  "records": [
+    {
+      "setup": "codemode",
+      "task": "created",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "tokio-rs/axum was created on **2021-05-30**. The GitHub repository search returned a `created_at` of 2021-05-30T09:22:25Z for it.",
+        "turns": 2,
+        "seconds": 3.086,
+        "costUsd": 0.0075041000000000005,
+        "firstTurnTokens": 4618,
+        "totalInputTokens": 9576,
+        "outputTokens": 85,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1251,
+          "cacheRead": 8321
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:tokio-rs/axum\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "issue-title",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #1 in modelcontextprotocol/inspector is titled **\"Progress notifications\"**.\n\nIt was closed as completed on 2024-10-18.",
+        "turns": 3,
+        "seconds": 4.258,
+        "costUsd": 0.0119338,
+        "firstTurnTokens": 4618,
+        "totalInputTokens": 15718,
+        "outputTokens": 101,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2054,
+          "cacheRead": 13658
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"issue_read\"}",
+          "mcp__tools__run_code {\"code\":\"const r:any = await tools.github.issue_read({owner:\\\"modelcontextprotocol\\\",repo:\\\"inspector\\\",issue_number:1,method:\\\"get\\\"});\\nconsole.log(JSON.stringify(r).slice(0,600));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "release-tags",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The five most-starred repos in the modelcontextprotocol org, with their latest release tags:\n- servers (92,162 stars): v2.5.0\n- python-sdk (24,933 stars): v2.3.0\n- typescript-sdk (13,803 stars): v2.4.0\n- inspector (11,345 stars): 2.16.0\n- modelcontextprotocol (9,747 stars): 2026-07-28",
+        "turns": 3,
+        "seconds": 9.711,
+        "costUsd": 0.014751799999999999,
+        "firstTurnTokens": 4637,
+        "totalInputTokens": 16338,
+        "outputTokens": 182,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2294,
+          "cacheRead": 14038
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:5});\\nfor(const x of r.items!){let t;try{const l=await tools.github.get_latest_release({o"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "docs-id",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Use **`/vercel/next.js`**. It's the official Vercel repo, with High source reputation, 7,661 code snippets and a 77.14 benchmark score.\n\nTo pin a version, append it, for example `/vercel/next.js/v16.2.9`.\n\n`/websites/nextjs` is a reasonable alternative. It has more snippets (9,524) but a lower benchmark score (72.39).",
+        "turns": 3,
+        "seconds": 5.367,
+        "costUsd": 0.0192036,
+        "firstTurnTokens": 4613,
+        "totalInputTokens": 18244,
+        "outputTokens": 182,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3602,
+          "cacheRead": 14636
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"context7 resolve_library_id\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.context7.resolve_library_id({libraryName:\\\"Next.js\\\", query:\\\"Next.js framework documentation\\\"});\\nconsole.log(typeof r===\\\"string\\\"?r.slice(0,2500):JSON.stringify(r).slice(0,2500));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 3.006,
+        "costUsd": 0.013242300000000002,
+        "firstTurnTokens": 4620,
+        "totalInputTokens": 10715,
+        "outputTokens": 195,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2388,
+          "cacheRead": 8323
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"denoland/deno\\\"});\\nconsole.log(typeof r===\\\"string\\\"?r:JSON.stringify(r));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The entity is **Project Ginkgo**. One of its observations reads \"Its build uses the kanaxnaxqui toolchain\".",
+        "turns": 2,
+        "seconds": 3.4,
+        "costUsd": 0.006647200000000001,
+        "firstTurnTokens": 4629,
+        "totalInputTokens": 9430,
+        "outputTokens": 73,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1094,
+          "cacheRead": 8332
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.memory.search_nodes({query:\\\"kanaxnaxqui\\\"});\\nconsole.log(JSON.stringify(r));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "tokio-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most-starred repo in the tokio-rs org is **tokio-rs/tokio**, with about 33,767 stars.\n\nIts DeepWiki documentation has **13 top-level sections**. They run from \"Tokio Overview\" through \"Glossary\", and most have numbered subsections.",
+        "turns": 3,
+        "seconds": 4.583,
+        "costUsd": 0.0156625,
+        "firstTurnTokens": 4631,
+        "totalInputTokens": 16600,
+        "outputTokens": 142,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2749,
+          "cacheRead": 13845
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories read_wiki_structure\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:tokio-rs\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:1});\\nconst n=r.items![0].full_name;console.log(n,r.items![0].stargazers_count);\\nconst w=await tools"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "axum-releases",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub API lists 175 releases for tokio-rs/axum. I counted them by paging through the release list at 100 per page, which took 2 pages. The count includes any drafts or prereleases the API returned.",
+        "turns": 3,
+        "seconds": 5.721,
+        "costUsd": 0.0101449,
+        "firstTurnTokens": 4612,
+        "totalInputTokens": 14884,
+        "outputTokens": 114,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1509,
+          "cacheRead": 13369
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"list_releases\"}",
+          "mcp__tools__run_code {\"code\":\"let total=0,p=1;while(true){const r=await tools.github.list_releases({owner:\\\"tokio-rs\\\",repo:\\\"axum\\\",perPage:100,page:p,fields:[\\\"id\\\"]});const n=r?.length??0;total+=n;if(n<100)break;p++;}console.log(total,p)"
+        ]
+      }
+    }
+  ]
+}
