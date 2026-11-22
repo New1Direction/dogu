@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="24 12 350 126" width="350" height="126" role="img" aria-label="The dogu logo: a wrench that is also a long dog"><g transform="translate(0 0) scale(1)">
+<mask id="dogu-cut-4" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="150">
+<rect width="400" height="150" fill="#fff"/>
+<rect x="318" y="64" width="72" height="26" rx="6" transform="rotate(-16 322 77)" fill="#000"/>
+<circle cx="327" cy="49" r="5.4" fill="#000"/>
+<polygon points="77.0,50.0 69.5,63.0 54.5,63.0 47.0,50.0 54.5,37.0 69.5,37.0" fill="#000"/>
+<path d="M300 29 C281 30 261 61 261 84 C261 101 284 105 292 90 C301 73 307 44 300 29 Z" transform="translate(283 67) scale(0.6) translate(-283 -67)" fill="#000"/></mask>
+<g mask="url(#dogu-cut-4)" fill="#17264D">
+<circle cx="62" cy="50" r="31"/>
+<path d="M58 80 C82 80 84 95 108 95 L108 64 L84 64 Z"/>
+<rect x="106" y="64" width="198" height="31"/>
+<circle cx="322" cy="76" r="44"/><path d="M300 29 C281 30 261 61 261 84 C261 101 284 105 292 90 C301 73 307 44 300 29 Z"/>
+<rect x="115" y="92" width="14" height="32"/><rect x="104" y="120" width="36" height="11" rx="5.5"/>
+<rect x="249" y="92" width="14" height="32"/><rect x="238" y="120" width="36" height="11" rx="5.5"/>
+</g>
+</g></svg>
