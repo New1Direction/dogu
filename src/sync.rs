@@ -174,9 +174,18 @@ enum IndexEntry {
     Stale { app: String },
 }
 
-/// The top README lists every tool with its flags while that stays under this size, so an agent
-/// can usually run a tool straight after reading it. Past it, only the tool names are listed.
-const INDEX_BUDGET: usize = 16_000;
+/// The top README lists every tool with its flags while that stays under this size (about 8k tokens,
+/// a fraction of what the tools' full definitions take), so an agent can usually run a tool straight
+/// after reading it. Past it, descriptions go first, then flags; the last resort is names only.
+const INDEX_BUDGET: usize = 32_000;
+
+/// How much of each tool the top README shows, from most to least.
+#[derive(Clone, Copy, PartialEq)]
+enum Detail {
+    Full,
+    FlagsOnly,
+    Names,
+}
 
 /// Writes the app's folder and returns its tools' README lines.
 fn write_server(root: &Path, me: &Path, name: &str, info: &Value, tools: &[Value]) -> Result<Vec<ToolLine>, String> {
@@ -388,30 +397,36 @@ fn root_readme(index: &[IndexEntry]) -> String {
          - Types for an app's tools: `cat <app>/index.d.ts`\n\
          - Also: `./run program.ts`, and `./run --allow <app> ...` to limit which tools it may call.\n\n\
          ## Apps\n\n{}\n",
-        app_index(index)
+        app_index(index, INDEX_BUDGET)
     )
 }
 
-/// The apps and their tools: with flags if that fits in INDEX_BUDGET, else names only.
-fn app_index(index: &[IndexEntry]) -> String {
-    let full = index.iter().map(|e| app_entry(e, true)).collect::<Vec<_>>().join("\n");
-    if full.len() <= INDEX_BUDGET {
-        return full;
-    }
-    index.iter().map(|e| app_entry(e, false)).collect::<Vec<_>>().join("\n")
+/// The apps and their tools, with as much detail as fits in `budget` bytes.
+fn app_index(index: &[IndexEntry], budget: usize) -> String {
+    let render = |detail| index.iter().map(|e| app_entry(e, detail)).collect::<Vec<_>>().join("\n");
+    [Detail::Full, Detail::FlagsOnly]
+        .into_iter()
+        .map(render)
+        .find(|text| text.len() <= budget)
+        .unwrap_or_else(|| render(Detail::Names))
 }
 
-fn app_entry(entry: &IndexEntry, with_flags: bool) -> String {
+fn app_entry(entry: &IndexEntry, detail: Detail) -> String {
     match entry {
         IndexEntry::Stale { app } => format!("- `{app}/` — (not refreshed: server did not answer)"),
-        IndexEntry::Fresh { app, title, tools } if with_flags => {
-            let lines: Vec<String> =
-                tools.iter().map(|t| format!("- `{app}/{}{}` — {}{}", t.file, t.flags, t.about, t.returns)).collect();
-            format!("### `{app}/` — {} tools{title}\n\n{}\n", tools.len(), lines.join("\n"))
-        }
-        IndexEntry::Fresh { app, title, tools } => {
+        IndexEntry::Fresh { app, title, tools } if detail == Detail::Names => {
             let names: Vec<&str> = tools.iter().map(|t| t.file.as_str()).collect();
             format!("- `{app}/` — {} tools{title}: {}", tools.len(), names.join(", "))
+        }
+        IndexEntry::Fresh { app, title, tools } => {
+            let lines: Vec<String> = tools
+                .iter()
+                .map(|t| match detail {
+                    Detail::Full => format!("- `{app}/{}{}` — {}{}", t.file, t.flags, t.about, t.returns),
+                    _ => format!("- `{app}/{}{}`{}", t.file, t.flags, t.returns),
+                })
+                .collect();
+            format!("### `{app}/` — {} tools{title}\n\n{}\n", tools.len(), lines.join("\n"))
         }
     }
 }
@@ -465,4 +480,47 @@ pub fn saved_state(root: &Path) -> Option<Value> {
 pub fn saved_era(root: &Path, server: &str) -> Option<crate::client::Era> {
     let state = saved_state(root)?;
     state["eras"][server].as_str().map(crate::client::Era::from_label)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn app(tools: usize, about_len: usize) -> IndexEntry {
+        IndexEntry::Fresh {
+            app: "gh".into(),
+            title: String::new(),
+            tools: (0..tools)
+                .map(|i| ToolLine {
+                    file: format!("tool_{i}"),
+                    flags: " --repo <string>".into(),
+                    about: "x".repeat(about_len),
+                    returns: " → {id, name}".into(),
+                })
+                .collect(),
+        }
+    }
+
+    #[test]
+    fn a_small_index_has_flags_descriptions_and_returns() {
+        let text = app_index(&[app(3, 20)], 10_000);
+
+        assert!(text.contains("- `gh/tool_0 --repo <string>` — xxxxxxxxxxxxxxxxxxxx → {id, name}"), "{text}");
+    }
+
+    #[test]
+    fn a_bigger_index_drops_descriptions_before_flags() {
+        let text = app_index(&[app(40, 200)], 4_000);
+
+        assert!(text.contains("- `gh/tool_0 --repo <string>` → {id, name}"), "{text}");
+        assert!(!text.contains("xxxx"), "{text}");
+    }
+
+    #[test]
+    fn a_huge_index_lists_names_only() {
+        let text = app_index(&[app(400, 200)], 4_000);
+
+        assert!(text.contains("tool_0, tool_1"), "{text}");
+        assert!(!text.contains("--repo"), "{text}");
+    }
 }
