@@ -37,6 +37,7 @@ export const SETUP_LABELS: Record<string, string> = {
   "folder-read": "dogu folder, \"read the README\"",
   codemode: "dogu serve (code mode)",
   "codemode-b": "dogu code mode, candidate build",
+  "folder-b": "dogu folder, candidate build",
   utcp: "UTCP code-mode 1.2.1",
 };
 
@@ -84,6 +85,7 @@ const BASELINES: Record<string, ReadonlyArray<string>> = {
   "folder-read": ["direct", "direct-search"],
   codemode: ["direct", "direct-search"],
   "codemode-b": ["codemode", "direct"],
+  "folder-b": ["folder", "direct"],
   utcp: ["direct", "codemode"],
   "codex-folder": ["codex-direct"],
   "pi-folder": ["pi-direct", "pi-codemode"],

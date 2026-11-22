@@ -8,7 +8,7 @@ import type { Ctx } from "./tasks.ts";
 export const RUN_TIMEOUT = Duration.minutes(5);
 export const ANSWER_RULE = " Use only the tools you have been given. Answer in under 6 lines.";
 export const ALL_SETUPS = [
-  "direct", "direct-search", "folder", "folder-read", "codemode", "codemode-b", "utcp",
+  "direct", "direct-search", "folder", "folder-read", "folder-b", "codemode", "codemode-b", "utcp",
   "codex-direct", "codex-folder",
   "pi-direct", "pi-codemode", "pi-folder",
 ] as const;
@@ -33,6 +33,7 @@ const HERE = new URL(".", import.meta.url).pathname;
 export interface Workspace {
   readonly dir: string;
   readonly root: string; // the dogu folder
+  readonly rootB: string; // the same folder synced by the BENCH_DOGU_B build, for folder-b
   readonly directConfig: string; // Claude Code config with every server, token included
   readonly serveConfig: string; // Claude Code config with only `dogu serve`
   readonly serveConfigB: string; // the same with the BENCH_DOGU_B build
@@ -133,6 +134,9 @@ export const makeWorkspace = (options: { readonly memory: boolean }) =>
         }),
       );
       yield* runCommand("dogu", ["sync", "--config", `${dir}/servers.json`, "--out", root], { env: { GITHUB_TOKEN: token } });
+      // The folder's commands run the dogu that synced it, so folder-b is synced by the build under test.
+      const rootB = `${dir}/mcp-b`;
+      yield* runCommand(DOGU_B ?? "dogu", ["sync", "--config", `${dir}/servers.json`, "--out", rootB], { env: { GITHUB_TOKEN: token } });
       const mcpServers = Object.keys(direct.mcpServers).map((n) => `mcp__${n}`);
       // Codex gets its own home with only your login in it, linked, not copied.
       const codexHome = `${dir}/codex-home`;
@@ -140,7 +144,7 @@ export const makeWorkspace = (options: { readonly memory: boolean }) =>
       const login = `${Deno.env.get("HOME")}/.codex/auth.json`;
       yield* Effect.promise(() => Deno.symlink(login, `${codexHome}/auth.json`).catch(() => undefined));
       return {
-        dir, root, directConfig: `${dir}/direct.json`, serveConfig: `${dir}/serve.json`, serveConfigB: `${dir}/serve-b.json`,
+        dir, root, rootB, directConfig: `${dir}/direct.json`, serveConfig: `${dir}/serve.json`, serveConfigB: `${dir}/serve-b.json`,
         utcpConfig: `${dir}/utcp.json`,
         token, mcpServers, seeded: memory.seeded,
         memoryFile: options.memory ? `${dir}/memory.jsonl` : null, codexHome, hosted,
@@ -158,7 +162,7 @@ export interface Call {
   readonly args: ReadonlyArray<string>;
 }
 
-const readme = (ws: Workspace) => Effect.promise(() => Deno.readTextFile(`${ws.root}/README.md`));
+const readme = (ws: Workspace, root = ws.root) => Effect.promise(() => Deno.readTextFile(`${root}/README.md`));
 
 /** Codex's settings for one run: its sandbox stays on with network allowed, as dogu's tools need it. */
 const codexArgs = (prompt: string, cwd: string, extra: ReadonlyArray<string>) => [
@@ -255,16 +259,18 @@ export const argsFor = (setup: Setup, prompt: string, ws: Workspace, runId: stri
     const common = ["-p", `Run ${runId}. ${told}${prompt}`, "--model", model, "--setting-sources", "project", "--strict-mcp-config"];
     const bash = ["--mcp-config", '{"mcpServers":{}}', "--tools", "Bash", "Read", "--allowedTools", "Bash", "Read"];
     const standing = setup === "folder" ? `Your tools are in ${ws.root}. This is its README:\n\n${yield* readme(ws)}` : "";
+    const standingB = setup === "folder-b" ? `Your tools are in ${ws.rootB}. This is its README:\n\n${yield* readme(ws, ws.rootB)}` : "";
     const codemode = (config: string) => [
       "--mcp-config", config, "--tools", "",
       "--allowedTools", "mcp__tools__search", "mcp__tools__run_code", "mcp__tools__forge",
     ];
-    const tools: Record<"direct" | "direct-search" | "folder" | "folder-read" | "codemode" | "codemode-b" | "utcp", ReadonlyArray<string>> = {
+    const tools: Record<"direct" | "direct-search" | "folder" | "folder-read" | "folder-b" | "codemode" | "codemode-b" | "utcp", ReadonlyArray<string>> = {
       direct: ["--mcp-config", ws.directConfig, "--tools", "", "--allowedTools", ...ws.mcpServers],
       // Claude Code's own answer to the same problem: tool definitions deferred, found with ToolSearch.
       "direct-search": ["--mcp-config", ws.directConfig, "--tools", "ToolSearch", "--allowedTools", "ToolSearch", ...ws.mcpServers],
       folder: ["--append-system-prompt", standing, ...bash],
       "folder-read": bash,
+      "folder-b": ["--append-system-prompt", standingB, ...bash],
       codemode: codemode(ws.serveConfig),
       "codemode-b": codemode(ws.serveConfigB),
       utcp: ["--mcp-config", ws.utcpConfig, "--tools", "", "--allowedTools", "mcp__utcp"],

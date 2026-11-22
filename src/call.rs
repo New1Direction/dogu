@@ -64,19 +64,17 @@ pub fn run(root: &Path, server: &str, tool: &str, args: &[String]) -> Result<i32
         };
     }
 
-    // Find the server in the config and call it.
-    let source = config::Source::from_state(&saved_state(root).unwrap_or(Value::Null))?;
-    let servers = config::load(&source)?;
-    let spec = servers
-        .get(server)
-        .ok_or_else(|| format!("server \"{server}\" is not in {}. Run `dogu sync`.", source.describe()))?;
-
-    let secs = std::env::var("DOGU_TIMEOUT").ok().and_then(|s| s.parse().ok()).unwrap_or(300);
-    let mut options = Options::new(Duration::from_secs(secs));
-    options.era = saved_era(root, server);
-    let mut client = Client::connect(spec, &options)?;
+    // Through the folder's background process, which keeps connections open; else directly.
     let started = std::time::Instant::now();
-    let result = client.call_tool(tool, Value::Object(arguments), Some(input));
+    let arguments = Value::Object(arguments);
+    #[cfg(unix)]
+    let warm = crate::warm::call(root, server, tool, &arguments);
+    #[cfg(not(unix))]
+    let warm = None;
+    let result = match warm {
+        Some(result) => result,
+        None => call_directly(root, server, tool, arguments, input),
+    };
     log_call(root, "call", server, tool, matches!(&result, Ok(r) if r["isError"] != true), started);
     let result = result?;
 
@@ -88,6 +86,20 @@ pub fn run(root: &Path, server: &str, tool: &str, args: &[String]) -> Result<i32
         print_result(&result);
     }
     Ok(if result["isError"].as_bool() == Some(true) { 1 } else { 0 })
+}
+
+/// Find the server in the config, connect, and call it.
+fn call_directly(root: &Path, server: &str, tool: &str, arguments: Value, input: &Value) -> Result<Value, String> {
+    let source = config::Source::from_state(&saved_state(root).unwrap_or(Value::Null))?;
+    let servers = config::load(&source)?;
+    let spec = servers
+        .get(server)
+        .ok_or_else(|| format!("server \"{server}\" is not in {}. Run `dogu sync`.", source.describe()))?;
+    let secs = std::env::var("DOGU_TIMEOUT").ok().and_then(|s| s.parse().ok()).unwrap_or(300);
+    let mut options = Options::new(Duration::from_secs(secs));
+    options.era = saved_era(root, server);
+    let mut client = Client::connect(spec, &options)?;
+    client.call_tool(tool, arguments, Some(input))
 }
 
 /// Turn command-line words into the tool's arguments. Three ways to pass them:

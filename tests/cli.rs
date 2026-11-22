@@ -22,6 +22,8 @@ fn dogu(home: &Path, cwd: &Path, args: &[&str]) -> Output {
         .current_dir(cwd)
         .env("HOME", home)
         .env_remove("DOGU_CONFIG")
+        // No background process unless a test asks for one: it would outlive the test.
+        .env("DOGU_WARM", "0")
         .stdin(Stdio::null())
         .output()
         .unwrap()
@@ -713,4 +715,108 @@ fn calls_to_an_http_server_reuse_one_connection() {
     // A server that keeps its stream open after the answer must not hold the answer up.
     assert!(stdout(&held).contains("pong"), "{}", stderr(&held));
     assert!(took < std::time::Duration::from_millis(1500), "the answer waited {took:?} for the stream to end");
+}
+
+// --- A warm folder: a background dogu keeps servers running between `dogu call`s ---
+
+/// `dogu call` with the background process on, and extra environment.
+fn warm_call(home: &Path, root: &Path, tool: &str, env: &[(&str, &str)]) -> Output {
+    let mut c = Command::new(DOGU);
+    c.args(["call", "--root", root.to_str().unwrap(), "fx", tool, "--json"])
+        .env("HOME", home)
+        .env_remove("DOGU_CONFIG")
+        .env("DOGU_WARM_IDLE", "3")
+        .stdin(Stdio::null());
+    for (k, v) in env {
+        c.env(k, v);
+    }
+    c.output().unwrap()
+}
+
+fn wait_for(what: impl Fn() -> bool) -> bool {
+    (0..60).any(|_| what() || {
+        std::thread::sleep(std::time::Duration::from_millis(50));
+        false
+    })
+}
+
+fn warm_folder(name: &str) -> (PathBuf, PathBuf) {
+    let home = scratch(name);
+    let server = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/mcp_server.py");
+    let config = home.join("fx.json");
+    // MARK is passed through to the server, so a different value means different settings.
+    write_json(&config, &json!({ "mcpServers": { "fx": { "command": "python3", "args": [server], "env": { "MARK": "${MARK}" } } } }));
+    let out = home.join("mcp");
+    let mut sync = Command::new(DOGU);
+    sync.args(["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()])
+        .env("HOME", &home)
+        .env("MARK", "a")
+        .env("DOGU_WARM", "0");
+    sync.output().unwrap();
+    (home, out)
+}
+
+#[test]
+fn the_second_call_finds_the_server_still_running() {
+    let (home, root) = warm_folder("warm-reuse");
+    let sock = root.join(".dogu/warm.json");
+
+    // The first call runs directly, with a server of its own, and starts the background process.
+    let first = warm_call(&home, &root, "count", &[("MARK", "a")]);
+    assert!(wait_for(|| sock.exists()), "no background process started");
+    let second = warm_call(&home, &root, "count", &[("MARK", "a")]);
+    let third = warm_call(&home, &root, "count", &[("MARK", "a")]);
+
+    assert_eq!(stdout(&first).trim(), r#"{"count":1}"#, "{}", stderr(&first));
+    assert_eq!(stdout(&second).trim(), r#"{"count":1}"#, "{}", stderr(&second));
+    assert_eq!(stdout(&third).trim(), r#"{"count":2}"#, "the third call did not reach the server the second one used");
+}
+
+#[test]
+fn different_settings_never_reach_a_server_started_with_others() {
+    let (home, root) = warm_folder("warm-settings");
+    let sock = root.join(".dogu/warm.json");
+    warm_call(&home, &root, "count", &[("MARK", "a")]);
+    assert!(wait_for(|| sock.exists()));
+
+    let other = warm_call(&home, &root, "count", &[("MARK", "b")]);
+
+    assert_eq!(stdout(&other).trim(), r#"{"count":1}"#, "a call with other settings used the old server");
+    assert!(wait_for(|| !sock.exists()), "the old background process did not step aside");
+}
+
+#[test]
+fn a_new_sync_retires_the_background_process() {
+    let (home, root) = warm_folder("warm-resync");
+    let sock = root.join(".dogu/warm.json");
+    warm_call(&home, &root, "count", &[("MARK", "a")]);
+    assert!(wait_for(|| sock.exists()));
+
+    std::thread::sleep(std::time::Duration::from_millis(1100)); // so the sync gets a new time
+    let config = home.join("fx.json");
+    let mut sync = Command::new(DOGU);
+    sync.args(["sync", "--config", config.to_str().unwrap(), "--out", root.to_str().unwrap()])
+        .env("HOME", &home)
+        .env("MARK", "a")
+        .env("DOGU_WARM", "0");
+    sync.output().unwrap();
+
+    assert!(wait_for(|| !sock.exists()), "the background process outlived a new sync");
+    let after = warm_call(&home, &root, "count", &[("MARK", "a")]);
+    assert_eq!(stdout(&after).trim(), r#"{"count":1}"#, "{}", stderr(&after));
+}
+
+#[test]
+fn the_background_process_leaves_when_idle() {
+    let (home, root) = warm_folder("warm-idle");
+    let sock = root.join(".dogu/warm.json");
+    warm_call(&home, &root, "count", &[("MARK", "a")]);
+    assert!(wait_for(|| sock.exists()));
+
+    let gone = (0..100).any(|_| {
+        std::thread::sleep(std::time::Duration::from_millis(100));
+        !sock.exists()
+    });
+
+    assert!(gone, "still running after the idle time");
 }

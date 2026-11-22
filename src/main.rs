@@ -17,6 +17,8 @@ mod sandbox_djs;
 mod serve;
 mod sync;
 mod util;
+#[cfg(unix)]
+mod warm;
 
 use std::io::Read;
 use std::path::PathBuf;
@@ -147,6 +149,15 @@ fn run(args: &[String]) -> Result<i32, String> {
                 return Err(format!("call needs a server and a tool\n\n{USAGE}"));
             };
             call::run(&root, server, tool, params)
+        }
+        // The folder's background process, started by `dogu call` (see warm.rs). Not for people to run.
+        #[cfg(unix)]
+        "warm" => {
+            let root = match args.get(1..3) {
+                Some([flag, dir]) if flag == "--root" => PathBuf::from(dir),
+                _ => default_root,
+            };
+            warm::serve(&root).map(|_| 0)
         }
         mode @ ("run" | "serve") => {
             let mut opts = run::Options::new(default_root);
