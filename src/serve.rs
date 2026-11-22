@@ -14,11 +14,16 @@ const MODERN: &str = crate::client::MODERN;
 const VERSIONS: [&str; 4] = [MODERN, "2025-11-25", "2025-06-18", "2025-03-26"];
 
 const INSTRUCTIONS: &str = "\
-This server gives you many tools through a few. The description of `search` lists every app and tool. \
-Call `search` with the words of the tool you need to read its TypeScript type. Then call `run_code` with \
-one TypeScript program that calls it as `await tools.<app>.<tool>({...})`. Do several steps in one \
-program, and print only what you need to see. When a program is worth keeping, save it with `forge` and \
-call it next time as `tools.forged.<name>({...})`.";
+This server gives you many tools through a few. The description of `run_code` lists every tool with its \
+required arguments. When that is enough, call `run_code` straight away with one TypeScript program that \
+calls them as `await tools.<app>.<tool>({...})`; if a call fails, its error shows the tool's full type. \
+Call `search` first only when you need optional arguments or the shape of a result. Do several steps in \
+one program, and print only what you need to see. When a program is worth keeping, save it with `forge` \
+and call it next time as `tools.forged.<name>({...})`.";
+
+/// Claude Code cuts every MCP tool description, and a server's instructions, at 4,096 characters and
+/// adds "… [truncated]" (measured 2026-11-22 with numbered words). What must be seen fits under it.
+const DESCRIPTION_LIMIT: usize = 4_000;
 
 /// What run_code may hand back to the model. Past this, the middle is cut out with a note, so one
 /// careless print cannot flood the conversation.
@@ -72,10 +77,10 @@ pub fn run(opts: &Options) -> Result<(), String> {
             "tools/list" => Ok(json!({ "tools": [
                 {
                     "name": "search",
-                    "description": format!("Find tools and read their TypeScript types. With `query`: the best \
-                                    matching tools with their types; put several tool names in one query to get \
-                                    all their types in one call. With `app`: all that app's types. With nothing: \
-                                    the apps.\n\n{}", catalog(opts)),
+                    "description": "Read tools' full TypeScript types: every argument and the shape of the \
+                                    result. With `query`: the best matching tools; put several tool names in one \
+                                    query to get them all at once. With `app`: all that app's types. With nothing: \
+                                    the apps.",
                     "inputSchema": { "type": "object", "properties": {
                         "app": { "type": "string", "description": "An app name from the list" },
                         "query": { "type": "string", "description": "Words to look for" }
@@ -96,10 +101,7 @@ pub fn run(opts: &Options) -> Result<(), String> {
                 },
                 {
                     "name": "run_code",
-                    "description": "Run a TypeScript program in a sandbox. It cannot use files or the network. It can \
-                                    call tools with `await tools.<app>.<tool>({...})` and print with console.log. \
-                                    Calls that do not depend on each other run at the same time when you start \
-                                    them together with Promise.all. Returns what the program printed.",
+                    "description": run_code_description(opts),
                     "inputSchema": { "type": "object", "required": ["code"], "properties": {
                         "code": { "type": "string", "description": "The TypeScript program" }
                     } }
@@ -225,6 +227,45 @@ fn catalog(opts: &Options) -> String {
     }
     let counts: Vec<String> = servers.iter().map(|s| format!("{} ({} tools)", ident(s), tools_of(opts, s).len())).collect();
     format!("Apps: {}", counts.join(", "))
+}
+
+const RUN_CODE_ABOUT: &str = "Run a TypeScript program in a sandbox (no files, no network). Call tools with \
+`await tools.<app>.<tool>({...})` and print with console.log; calls started together with Promise.all run \
+at the same time. Returns what the program printed. The tools, grouped by the arguments they require, `app (args): tools`:\n";
+
+fn run_code_description(opts: &Options) -> String {
+    format!("{RUN_CODE_ABOUT}{}", quick_list(opts, DESCRIPTION_LIMIT - RUN_CODE_ABOUT.len()))
+}
+
+/// Each app's tools with their required arguments. Tools that need the same arguments share them, which
+/// keeps the list short: `github (owner, repo): list_branches, list_commits; (query): search_code`.
+/// Over `budget`, the names alone.
+fn quick_list(opts: &Options, budget: usize) -> String {
+    let servers = servers_of(opts);
+    let with_args = servers
+        .iter()
+        .map(|s| {
+            let mut groups: Vec<(String, Vec<String>)> = Vec::new();
+            for (name, schema) in tools_of(opts, s) {
+                let required: Vec<&str> = schema["inputSchema"]["required"]
+                    .as_array()
+                    .map(|a| a.iter().filter_map(Value::as_str).collect())
+                    .unwrap_or_default();
+                let args = format!("({})", required.join(", "));
+                match groups.iter_mut().find(|(a, _)| *a == args) {
+                    Some((_, names)) => names.push(name),
+                    None => groups.push((args, vec![name])),
+                }
+            }
+            let parts: Vec<String> = groups.iter().map(|(args, names)| format!("{args}: {}", names.join(", "))).collect();
+            format!("{} {}", ident(s), parts.join("; "))
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+    match with_args.len() <= budget {
+        true => with_args,
+        false => catalog(opts),
+    }
 }
 
 fn search(opts: &Options, app: Option<&str>, query: Option<&str>) -> Result<String, String> {
@@ -354,6 +395,19 @@ mod tests {
         assert!(saved.contains("Saved forged/count_once"), "{saved}");
         assert!(catalog(&opts).contains("forged: count_once"), "{}", catalog(&opts));
         assert!(search(&opts, None, Some("count once")).unwrap().contains("tools.forged.count_once("));
+    }
+
+    #[test]
+    fn run_code_lists_each_tool_with_its_required_arguments_within_claude_codes_limit() {
+        let opts = folder("quick-list");
+
+        let text = quick_list(&opts, DESCRIPTION_LIMIT);
+        let tight = quick_list(&opts, 20);
+
+        assert!(text.contains("fx (): count; (query): search_repositories"), "{text}");
+        assert!(tight.contains("fx: count, search_repositories"), "{tight}");
+        assert!(!tight.contains("(query)"), "{tight}");
+        assert!(run_code_description(&opts).len() <= DESCRIPTION_LIMIT);
     }
 
     #[test]

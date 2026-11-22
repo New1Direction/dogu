@@ -256,7 +256,7 @@ pub(crate) fn tool_calls(
             let Prepared::Call { tool, .. } = &prepared[i] else { unreachable!() };
             log_call(&opts.root, "run", &server, tool, matches!(&result, Ok(r) if r["isError"] != true), started);
             broken |= result.is_err();
-            results[i] = Some(result.and_then(useful_form));
+            results[i] = Some(result.and_then(useful_form).map_err(|e| with_type(&opts.root, &server, tool, e)));
         }
         if broken {
             pool.remove(&server); // the connection may be broken; start fresh next time
@@ -356,6 +356,19 @@ fn prepare(opts: &Options, servers: &BTreeMap<String, Server>, pool: &mut Pool, 
 fn input_schema_of(root: &Path, server: &str, tool: &str) -> Option<Value> {
     let saved: Value = serde_json::from_str(&std::fs::read_to_string(schema_path(root, server, tool)).ok()?).ok()?;
     Some(saved["inputSchema"].clone()).filter(|s| !s.is_null())
+}
+
+/// A failed call's error, followed by the tool's full type, so the next try can get the arguments right
+/// without a separate look-up.
+fn with_type(root: &Path, server: &str, tool: &str, error: String) -> String {
+    let saved = std::fs::read_to_string(schema_path(root, server, tool)).ok().and_then(|t| serde_json::from_str::<Value>(&t).ok());
+    match saved {
+        Some(saved) => {
+            let decl = crate::sync::tool_decl(&saved, "", &format!("tools.{}.", ident(server)));
+            format!("{error}\n\nThe tool's type:\n{}", decl.trim_end())
+        }
+        None => error,
+    }
 }
 
 /// Give the program the most useful form of the answer.

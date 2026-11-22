@@ -630,3 +630,18 @@ fn calls_made_together_run_at_the_same_time() {
     // One after another, four 0.6 s calls take 2.4 s; together, about one call plus start-up.
     assert!(took < std::time::Duration::from_millis(1800), "took {took:?}");
 }
+
+#[test]
+fn a_failed_call_shows_the_tools_type_so_the_next_try_can_be_right() {
+    let home = scratch("error-type");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+    let program = "try { await tools.fx.search_repositories({ q: 'x' }) } catch (e) { console.log(e.message) }";
+
+    let o = dogu(&home, &home, &["run", "--root", out.to_str().unwrap(), "-e", program]);
+
+    let text = stdout(&o);
+    assert!(text.contains("query is required"), "{text}");
+    assert!(text.contains("tools.fx.search_repositories(args: {") && text.contains("query: string;"), "{text}");
+}

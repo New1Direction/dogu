@@ -76,6 +76,8 @@ def answer(msg_id, result=None, error=None):
 def call(name, args):
     global counter
     if name == "search_repositories":
+        if not args.get("query"):
+            return {"content": [{"type": "text", "text": "query is required"}], "isError": True}
         items = [{"name": "servers", "stars": 92000}, {"name": "python-sdk", "stars": 25000}]
         data = {"query": args.get("query"), "items": items}
         return {"content": [{"type": "text", "text": json.dumps(data)}], "structuredContent": data}
