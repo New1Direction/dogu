@@ -1,0 +1,1813 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.3.0",
+  "model": "sonnet",
+  "commit": "592fdbd",
+  "truths": {
+    "tokio-rs": [
+      {
+        "repo": "tokio",
+        "tag": "tokio-1.54.1"
+      },
+      {
+        "repo": "axum",
+        "tag": "axum-v0.8.9"
+      },
+      {
+        "repo": "topcoat",
+        "tag": "v0.12.1"
+      }
+    ],
+    "denoland": [
+      {
+        "repo": "deno",
+        "tag": "v2.9.8"
+      },
+      {
+        "repo": "celld",
+        "tag": "v0.6.3"
+      },
+      {
+        "repo": "rusty_v8",
+        "tag": "v152.2.0"
+      }
+    ],
+    "vercel": [
+      {
+        "repo": "next.js",
+        "tag": "v16.4.6"
+      },
+      {
+        "repo": "hyper",
+        "tag": "v3.4.1"
+      },
+      {
+        "repo": "swr",
+        "tag": "v2.5.1"
+      }
+    ],
+    "rust-lang": [
+      {
+        "repo": "rust",
+        "tag": "1.100.0"
+      },
+      {
+        "repo": "rustlings",
+        "tag": "v6.5.0"
+      },
+      {
+        "repo": "mdBook",
+        "tag": "v0.5.4"
+      }
+    ],
+    "modelcontextprotocol": [
+      {
+        "repo": "servers",
+        "tag": "v2.5.0"
+      },
+      {
+        "repo": "python-sdk",
+        "tag": "v2.3.0"
+      },
+      {
+        "repo": "typescript-sdk",
+        "tag": "v2.4.0"
+      }
+    ]
+  },
+  "sessions": [
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 1,
+      "session": 1,
+      "org": "tokio-rs",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "Latest release tags for the three most-starred tokio-rs repos:\n- **tokio** (33,768 stars): `tokio-1.54.1`\n- **axum** (27,915 stars): `axum-v0.8.9`\n- **topcoat** (7,303 stars): `v0.12.1`\n\nI saved the program as `forged/latest_releases`, so next time it's one call: `forged/latest_releases [--org <string>]`. The org defaults to tokio-rs. I ran the saved tool once and it returned these same tags.",
+        "turns": 5,
+        "seconds": 19.218,
+        "costUsd": 0.029030399999999998,
+        "firstTurnTokens": 11978,
+        "totalInputTokens": 63923,
+        "outputTokens": 230,
+        "inputBreakdown": {
+          "fresh": 10,
+          "cacheWrite": 2569,
+          "cacheRead": 61344
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && cat > /tmp/p.ts <<'EOF' // @description Latest release tag for the top 3 most-starred repos in a GitHub or",
+          "cd <work>/mcp && sed -i 's/(args && args.org)/(typeof args !== \"undefined\" \\&\\& args?.org)/' /tmp/p.ts && ./run /tmp/p.ts &",
+          "cd <work>/mcp && sed -i '' 's/(args && args.org)/(typeof args !== \"undefined\" \\&\\& args?.org)/' /tmp/p.ts && ./run /tmp/p.t",
+          "cd <work>/mcp && ./forge latest_releases /tmp/p.ts && forged/latest_releases"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 1,
+      "session": 2,
+      "org": "denoland",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The top 3 denoland repos by stars, with their latest release tags, are:\n- denoland/deno (109,052 stars): v2.9.8\n- denoland/celld (6,351 stars): v0.6.3\n- denoland/rusty_v8 (4,043 stars): v152.2.0\n\nI got the tags from the forged `latest_releases` tool. I checked the star ranking separately with a GitHub repository search, and it matched.",
+        "turns": 3,
+        "seconds": 12.016,
+        "costUsd": 0.048311599999999996,
+        "firstTurnTokens": 12017,
+        "totalInputTokens": 37286,
+        "outputTokens": 161,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 9844,
+          "cacheRead": 27436
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && forged/latest_releases --org denoland",
+          "cd <work>/mcp && github/search_repositories --query \"org:denoland\" --sort stars --perPage 5 --minimal_output true --json | "
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 1,
+      "session": 3,
+      "org": "vercel",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "Latest release tags for the three most-starred repos in the vercel org (run 00b15d1a):\n- **next.js** (143,607 stars): v16.4.6\n- **hyper** (44,741 stars): v3.4.1\n- **swr** (32,497 stars): v2.5.1",
+        "turns": 2,
+        "seconds": 6.843,
+        "costUsd": 0.0098545,
+        "firstTurnTokens": 12018,
+        "totalInputTokens": 24371,
+        "outputTokens": 111,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1282,
+          "cacheRead": 23085
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && forged/latest_releases --org vercel"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 1,
+      "session": 4,
+      "org": "rust-lang",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The 3 most-starred repos in rust-lang and their latest release tags:\n- **rust** (122,397 stars): 1.100.0\n- **rustlings** (64,763 stars): v6.5.0\n- **mdBook** (22,319 stars): v0.5.4",
+        "turns": 2,
+        "seconds": 6.55,
+        "costUsd": 0.0098447,
+        "firstTurnTokens": 12020,
+        "totalInputTokens": 24378,
+        "outputTokens": 106,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1287,
+          "cacheRead": 23087
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && forged/latest_releases --org rust-lang"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 1,
+      "session": 5,
+      "org": "modelcontextprotocol",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org and their latest release tags are:\n- `servers` (92,162 stars): v2.5.0\n- `python-sdk` (24,933 stars): v2.3.0\n- `typescript-sdk` (13,803 stars): v2.4.0\n\nI got these from the forged `latest_releases` tool.",
+        "turns": 2,
+        "seconds": 8.516,
+        "costUsd": 0.0101948,
+        "firstTurnTokens": 12021,
+        "totalInputTokens": 24389,
+        "outputTokens": 133,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1297,
+          "cacheRead": 23088
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && forged/latest_releases --org modelcontextprotocol"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 2,
+      "session": 1,
+      "org": "tokio-rs",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "Run 3c368dd8. These are the latest release tags for the 3 most-starred tokio-rs repos:\n- **tokio** (33,768 stars): `tokio-1.54.1`\n- **axum** (27,915 stars): `axum-v0.8.9`\n- **topcoat** (7,303 stars): `v0.12.1`\n\nI saved the program as `forged/latest_releases`. Next time, run `forged/latest_releases --org tokio-rs`. The tool reports \"none\" for a repo if the release lookup fails, which includes a repo with no releases.",
+        "turns": 2,
+        "seconds": 10.107,
+        "costUsd": 0.0158075,
+        "firstTurnTokens": 11979,
+        "totalInputTokens": 24702,
+        "outputTokens": 207,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1723,
+          "cacheRead": 22975
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && cat > /tmp/p.ts <<'EOF' // @description Latest release tag for the top 3 most-starred repos in a GitHub or"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 2,
+      "session": 2,
+      "org": "denoland",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "Latest release tags for the top 3 most-starred repos in denoland:\n- **deno** (109,052 stars): v2.9.8\n- **celld** (6,351 stars): v0.6.3\n- **rusty_v8** (4,043 stars): v152.2.0",
+        "turns": 2,
+        "seconds": 7.079,
+        "costUsd": 0.040990200000000004,
+        "firstTurnTokens": 12015,
+        "totalInputTokens": 24367,
+        "outputTokens": 105,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 9281,
+          "cacheRead": 15082
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && forged/latest_releases --org denoland"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 2,
+      "session": 3,
+      "org": "vercel",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "Latest release tags for the three most-starred repos in the vercel org (run b8f90e51):\n- **next.js** (143,607 stars): v16.4.6\n- **hyper** (44,741 stars): v3.4.1\n- **swr** (32,497 stars): v2.5.1\n\nI got these from the `forged/latest_releases` tool. I didn't check them separately against GitHub.",
+        "turns": 2,
+        "seconds": 7.67,
+        "costUsd": 0.0101704,
+        "firstTurnTokens": 12017,
+        "totalInputTokens": 24369,
+        "outputTokens": 143,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1281,
+          "cacheRead": 23084
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && forged/latest_releases --org vercel"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 2,
+      "session": 4,
+      "org": "rust-lang",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The three most-starred repos in rust-lang, with their latest release tags:\n- **rust** (122,397 stars): 1.100.0\n- **rustlings** (64,763 stars): v6.5.0\n- **mdBook** (22,319 stars): v0.5.4",
+        "turns": 2,
+        "seconds": 7.582,
+        "costUsd": 0.0098306,
+        "firstTurnTokens": 12019,
+        "totalInputTokens": 24376,
+        "outputTokens": 105,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1286,
+          "cacheRead": 23086
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && forged/latest_releases --org rust-lang"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 2,
+      "session": 5,
+      "org": "modelcontextprotocol",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org and their latest release tags:\n- `servers` (92,162 stars): v2.5.0\n- `python-sdk` (24,933 stars): v2.3.0\n- `typescript-sdk` (13,803 stars): v2.4.0\n\nI got these from the `forged/latest_releases` tool, and none of the three came back as having no releases.",
+        "turns": 2,
+        "seconds": 7.361,
+        "costUsd": 0.0103289,
+        "firstTurnTokens": 12022,
+        "totalInputTokens": 24391,
+        "outputTokens": 146,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1298,
+          "cacheRead": 23089
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && forged/latest_releases --org modelcontextprotocol"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 3,
+      "session": 1,
+      "org": "tokio-rs",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "Run 8144fdbc: the three most-starred tokio-rs repos and their latest release tags are:\n- **tokio** (33,768 stars): `tokio-1.54.1`\n- **axum** (27,915 stars): `axum-v0.8.9`\n- **topcoat** (7,303 stars): `v0.12.1`\n\nI saved the program as `forged/tokio_top_releases`, so next time it's one call. It takes an optional `--org`. It also declares an `n` parameter for the number of repos, which I didn't test. The forged run used the defaults, tokio-rs and 3.",
+        "turns": 3,
+        "seconds": 11.514,
+        "costUsd": 0.02,
+        "firstTurnTokens": 11964,
+        "totalInputTokens": 37380,
+        "outputTokens": 213,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1954,
+          "cacheRead": 35420
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && cat > /tmp/p.ts <<'EOF' // @description Latest release tag for the top-N most-starred repos of a GitHub or",
+          "cd <work>/mcp && ./forge tokio_top_releases /tmp/p.ts && forged/tokio_top_releases"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 3,
+      "session": 2,
+      "org": "denoland",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The top 3 most-starred repos in denoland and their latest release tags are:\n- `denoland/deno` (109,052 stars): `v2.9.8`\n- `denoland/celld` (6,351 stars): `v0.6.3`\n- `denoland/rusty_v8` (4,043 stars): `v152.2.0`\n\nI ran the saved `forged/tokio_top_releases` tool to get the tags. I then checked the star ranking with a separate GitHub repository search, which gave the same top 3.",
+        "turns": 3,
+        "seconds": 11.507,
+        "costUsd": 0.0480943,
+        "firstTurnTokens": 12004,
+        "totalInputTokens": 37224,
+        "outputTokens": 177,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 9795,
+          "cacheRead": 27423
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && forged/tokio_top_releases --org denoland",
+          "cd <work>/mcp && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 5 --minimal_output t"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 3,
+      "session": 3,
+      "org": "vercel",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The latest release tags for the top 3 most-starred repos in the vercel org are:\n\n1. **next.js** (143,607 stars): `v16.4.6`\n2. **hyper** (44,741 stars): `v3.4.1`\n3. **swr** (32,497 stars): `v2.5.1`\n\nI got these from the `forged/tokio_top_releases` tool run with `--org vercel`. All three repos have releases, so none of them is \"none\".",
+        "turns": 2,
+        "seconds": 6.916,
+        "costUsd": 0.012094500000000001,
+        "firstTurnTokens": 12005,
+        "totalInputTokens": 24529,
+        "outputTokens": 24,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1460,
+          "cacheRead": 23065
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && forged/tokio_top_releases --help; forged/tokio_top_releases --org vercel"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 3,
+      "session": 4,
+      "org": "rust-lang",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "These are the latest release tags for the three most-starred repos in rust-lang:\n\n- **rust** (122,397 stars): 1.100.0\n- **rustlings** (64,763 stars): v6.5.0\n- **mdBook** (22,319 stars): v0.5.4\n\nI got these from the saved `forged/tokio_top_releases` tool, run with `--org rust-lang`. I didn't check the results against GitHub directly.",
+        "turns": 2,
+        "seconds": 6.774,
+        "costUsd": 0.0102848,
+        "firstTurnTokens": 12008,
+        "totalInputTokens": 24347,
+        "outputTokens": 158,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1275,
+          "cacheRead": 23068
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && forged/tokio_top_releases --org rust-lang"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "forge",
+      "world": 3,
+      "session": 5,
+      "org": "modelcontextprotocol",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The three most-starred repos in modelcontextprotocol and their latest release tags (from the `forged/tokio_top_releases` tool):\n- `servers` (92,162 stars): v2.5.0\n- `python-sdk` (24,933 stars): v2.3.0\n- `typescript-sdk` (13,803 stars): v2.4.0",
+        "turns": 2,
+        "seconds": 7.146,
+        "costUsd": 0.011011199999999999,
+        "firstTurnTokens": 12012,
+        "totalInputTokens": 24555,
+        "outputTokens": 131,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1479,
+          "cacheRead": 23072
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && forged/tokio_top_releases --help; forged/tokio_top_releases --org modelcontextprotocol"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 1,
+      "session": 1,
+      "org": "tokio-rs",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in tokio-rs and their latest release tags:\n- **tokio** (33,768 stars): `tokio-1.54.1`\n- **axum** (27,915 stars): `axum-v0.8.9`\n- **topcoat** (7,303 stars): `v0.12.1`",
+        "turns": 3,
+        "seconds": 9.17,
+        "costUsd": 0.015015500000000001,
+        "firstTurnTokens": 11943,
+        "totalInputTokens": 36844,
+        "outputTokens": 132,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1623,
+          "cacheRead": 35215
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:tokio-rs\" --sort stars --order desc --perPage 3 --minimal_output t",
+          "cd <work>/mcp && for r in tokio axum topcoat; do echo $r; github/get_latest_release --owner tokio-rs --repo $r --json 2>&1 "
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 1,
+      "session": 2,
+      "org": "denoland",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the denoland org and their latest release tags:\n- denoland/deno (109,052 stars): v2.9.8\n- denoland/celld (6,351 stars): v0.6.3\n- denoland/rusty_v8 (4,043 stars): v152.2.0",
+        "turns": 3,
+        "seconds": 9.025,
+        "costUsd": 0.0154905,
+        "firstTurnTokens": 11941,
+        "totalInputTokens": 36937,
+        "outputTokens": 113,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1686,
+          "cacheRead": 35245
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 3 --minimal_output t",
+          "cd <work>/mcp && for r in deno celld rusty_v8; do echo $r; github/get_latest_release --owner denoland --repo $r --json 2>&1"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 1,
+      "session": 3,
+      "org": "vercel",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the vercel org and their latest release tags (the latest-release lookup for each):\n- vercel/next.js: v16.4.6\n- vercel/hyper: v3.4.1\n- vercel/swr: v2.5.1",
+        "turns": 3,
+        "seconds": 7.274,
+        "costUsd": 0.014594099999999999,
+        "firstTurnTokens": 11941,
+        "totalInputTokens": 36773,
+        "outputTokens": 114,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1586,
+          "cacheRead": 35181
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:vercel\" --sort stars --order desc --perPage 3 --minimal_output tru",
+          "cd <work>/mcp && for r in next.js hyper swr; do echo $r; github/get_latest_release --owner vercel --repo $r --json 2>&1 | j"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 1,
+      "session": 4,
+      "org": "rust-lang",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "These are the latest release tags for the 3 most-starred repos in the rust-lang org (run 47d604e9):\n- **rust-lang/rust** (about 122k stars): `1.100.0`\n- **rust-lang/rustlings** (about 65k stars): `v6.5.0`\n- **rust-lang/mdBook** (about 22k stars): `v0.5.4`\n\nAll three have releases, so none are \"none\".",
+        "turns": 3,
+        "seconds": 10.962,
+        "costUsd": 0.014409500000000002,
+        "firstTurnTokens": 11942,
+        "totalInputTokens": 36839,
+        "outputTokens": 170,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1578,
+          "cacheRead": 35255
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:rust-lang\" --sort stars --order desc --perPage 3 --minimal_output ",
+          "cd ../mcp && for r in rust rustlings mdBook; do echo $r; github/get_latest_release --owner rust-lang --repo $r --json 2>&1 | jq -r '.tag_name // .' ; done"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 1,
+      "session": 5,
+      "org": "modelcontextprotocol",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org, with the tag from each one's latest-release lookup:\n- `servers`: v2.5.0\n- `python-sdk`: v2.3.0\n- `typescript-sdk`: v2.4.0",
+        "turns": 3,
+        "seconds": 8.714,
+        "costUsd": 0.014974200000000002,
+        "firstTurnTokens": 11946,
+        "totalInputTokens": 36863,
+        "outputTokens": 118,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1635,
+          "cacheRead": 35222
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query 'org:modelcontextprotocol' --sort stars --order desc --perPage 3 --mini",
+          "cd <work>/mcp && for r in servers python-sdk typescript-sdk; do echo $r; github/get_latest_release --owner modelcontextprot"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 2,
+      "session": 1,
+      "org": "tokio-rs",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the tokio-rs org, with their latest release tags:\n- **tokio** (33,768 stars): `tokio-1.54.1`\n- **axum** (27,915 stars): `axum-v0.8.9`\n- **topcoat** (7,303 stars): `v0.12.1`",
+        "turns": 3,
+        "seconds": 9.119,
+        "costUsd": 0.0152074,
+        "firstTurnTokens": 11944,
+        "totalInputTokens": 36962,
+        "outputTokens": 135,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1682,
+          "cacheRead": 35274
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:tokio-rs\" --sort stars --order desc --perPage 3 --json | jq '.item",
+          "cd <work>/mcp && for r in tokio axum topcoat; do echo $r; github/get_latest_release --owner tokio-rs --repo $r --json 2>&1 "
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 2,
+      "session": 2,
+      "org": "denoland",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "These are the three most-starred repos in the denoland org and each one's latest release tag:\n- **denoland/deno** (about 109k stars): v2.9.8\n- **denoland/celld** (about 6.4k stars): v0.6.3\n- **denoland/rusty_v8** (about 4k stars): v152.2.0\n\nI took the top three from a GitHub repository search sorted by stars. I took each tag from the repo's latest-release endpoint.",
+        "turns": 3,
+        "seconds": 9.612,
+        "costUsd": 0.0160343,
+        "firstTurnTokens": 11940,
+        "totalInputTokens": 36936,
+        "outputTokens": 165,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1687,
+          "cacheRead": 35243
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 3 --minimal_output t",
+          "cd <work>/mcp && for r in deno celld rusty_v8; do echo $r; github/get_latest_release --owner denoland --repo $r --json 2>&1"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 2,
+      "session": 3,
+      "org": "vercel",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the vercel org and their latest release tags (run 59c7937f):\n- **vercel/next.js** (about 143.6k stars): v16.4.6\n- **vercel/hyper** (about 44.7k stars): v3.4.1\n- **vercel/swr** (about 32.5k stars): v2.5.1",
+        "turns": 2,
+        "seconds": 7.677,
+        "costUsd": 0.0128412,
+        "firstTurnTokens": 11940,
+        "totalInputTokens": 24391,
+        "outputTokens": 128,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1455,
+          "cacheRead": 22932
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r:any = await tools.github.search_repositories({query:\"org:vercel\", sort:\"stars\", or"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 2,
+      "session": 4,
+      "org": "rust-lang",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the rust-lang org, with their latest release tags:\n- **rust-lang/rust** (about 122.4k stars): `1.100.0`\n- **rust-lang/rustlings** (about 64.8k stars): `v6.5.0`\n- **rust-lang/mdBook** (about 22.3k stars): `v0.5.4`",
+        "turns": 3,
+        "seconds": 9.651,
+        "costUsd": 0.0145377,
+        "firstTurnTokens": 11943,
+        "totalInputTokens": 36928,
+        "outputTokens": 152,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1665,
+          "cacheRead": 35257
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:rust-lang\" --sort stars --order desc --perPage 3 --minimal_output ",
+          "cd ../mcp && for r in rust rustlings mdBook; do echo $r; github/get_latest_release --owner rust-lang --repo $r --json | jq -c '{tag_name,published_at}'; done"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 2,
+      "session": 5,
+      "org": "modelcontextprotocol",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org, with their latest release tags:\n1. `servers` (about 92.2k stars): v2.5.0\n2. `python-sdk` (about 24.9k stars): v2.3.0\n3. `typescript-sdk` (about 13.8k stars): v2.4.0",
+        "turns": 3,
+        "seconds": 7.128,
+        "costUsd": 0.014437499999999999,
+        "firstTurnTokens": 11946,
+        "totalInputTokens": 36935,
+        "outputTokens": 140,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1634,
+          "cacheRead": 35295
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:modelcontextprotocol\" --sort stars --order desc --perPage 3 --json",
+          "cd ../mcp && for r in servers python-sdk typescript-sdk; do echo $r; github/get_latest_release --owner modelcontextprotocol --repo $r --json 2>&1 | jq -r '.tag_name' 2>&1 | head -3; done"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 3,
+      "session": 1,
+      "org": "tokio-rs",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred tokio-rs repos and their latest release tags:\n- **tokio**: `tokio-1.54.1`\n- **axum**: `axum-v0.8.9`\n- **topcoat**: `v0.12.1`\n\nI ranked the repos with a GitHub repository search sorted by stars. I took each tag from the latest-release lookup.",
+        "turns": 3,
+        "seconds": 8.648,
+        "costUsd": 0.0153516,
+        "firstTurnTokens": 11940,
+        "totalInputTokens": 36837,
+        "outputTokens": 135,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1635,
+          "cacheRead": 35196
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:tokio-rs\" --sort stars --order desc --perPage 3 --json | jq -r '.i",
+          "cd <work>/mcp && for r in tokio axum topcoat; do echo $r; github/get_latest_release --owner tokio-rs --repo $r --json 2>&1 "
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 3,
+      "session": 2,
+      "org": "denoland",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the denoland org and their latest release tags:\n- denoland/deno (109,052 stars): v2.9.8\n- denoland/celld (6,351 stars): v0.6.3\n- denoland/rusty_v8 (4,043 stars): v152.2.0",
+        "turns": 3,
+        "seconds": 10.386,
+        "costUsd": 0.0163961,
+        "firstTurnTokens": 11938,
+        "totalInputTokens": 36978,
+        "outputTokens": 115,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1771,
+          "cacheRead": 35201
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 3 --minimal_output t",
+          "cd <work>/mcp && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 5 --json | jq -c '.i"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 3,
+      "session": 3,
+      "org": "vercel",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "These are the top 3 vercel repos by stars, with the tag of each one's latest release:\n- **vercel/next.js**: v16.4.6\n- **vercel/hyper**: v3.4.1\n- **vercel/swr**: v2.5.1",
+        "turns": 3,
+        "seconds": 9.163,
+        "costUsd": 0.0139737,
+        "firstTurnTokens": 11936,
+        "totalInputTokens": 36858,
+        "outputTokens": 115,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1635,
+          "cacheRead": 35217
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:vercel\" --sort stars --order desc --perPage 3 --minimal_output tru",
+          "cd ../mcp && for r in next.js hyper swr; do echo $r; github/get_latest_release --owner vercel --repo $r --json | jq -c '{tag_name,published_at}'; done 2>&1"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 3,
+      "session": 4,
+      "org": "rust-lang",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "These are the three most-starred repos in the rust-lang org and their latest release tags:\n- rust-lang/rust (122,397 stars): `1.100.0`\n- rust-lang/rustlings (64,763 stars): `v6.5.0`\n- rust-lang/mdBook (22,319 stars): `v0.5.4`",
+        "turns": 3,
+        "seconds": 9.038,
+        "costUsd": 0.015230300000000002,
+        "firstTurnTokens": 11938,
+        "totalInputTokens": 36925,
+        "outputTokens": 141,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1676,
+          "cacheRead": 35243
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:rust-lang\" --sort stars --order desc --perPage 3 --minimal_output ",
+          "cd <work>/mcp && for r in rust rustlings mdBook; do echo $r; github/get_latest_release --owner rust-lang --repo $r --json |"
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "condition": "no-forge",
+      "world": 3,
+      "session": 5,
+      "org": "modelcontextprotocol",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org and their latest release tags:\n- **servers** (92,162 stars): v2.5.0\n- **python-sdk** (24,933 stars): v2.3.0\n- **typescript-sdk** (13,803 stars): v2.4.0\n\nI took each tag from GitHub's \"latest release\" lookup.",
+        "turns": 3,
+        "seconds": 13.208,
+        "costUsd": 0.0153001,
+        "firstTurnTokens": 11943,
+        "totalInputTokens": 36866,
+        "outputTokens": 151,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1639,
+          "cacheRead": 35221
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:modelcontextprotocol\" --sort stars --order desc --perPage 3 --json",
+          "cd <work>/mcp && for r in servers python-sdk typescript-sdk; do echo $r; github/get_latest_release --owner modelcontextprot"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 1,
+      "session": 1,
+      "org": "tokio-rs",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "Run 9fc9e7d1. These are the latest release tags for the 3 most-starred tokio-rs repos:\n- **tokio** (33,768 stars): `tokio-1.54.1`\n- **axum** (27,915 stars): `axum-v0.8.9`\n- **topcoat** (7,303 stars): `v0.12.1`\n\nI saved the program as `tools.forged.top_repos_latest_release({org, n})`, so next time it's one call.",
+        "turns": 4,
+        "seconds": 10.285,
+        "costUsd": 0.019534,
+        "firstTurnTokens": 4601,
+        "totalInputTokens": 22729,
+        "outputTokens": 232,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2681,
+          "cacheRead": 20040
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__forge {\"name\":\"top_repos_latest_release\",\"code\":\"// @description Latest release tag for the top-N most-starred repos of a GitHub org\\n// @param org string required GitHub org name\\n// @param n integer number of repos (default 3)",
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.forged.top_repos_latest_release({org:\\\"tokio-rs\\\",n:3}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 1,
+      "session": 2,
+      "org": "denoland",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "Latest release tags for the 3 most-starred repos in denoland:\n- **deno** (109,052 stars): v2.9.8\n- **celld** (6,351 stars): v0.6.3\n- **rusty_v8** (4,043 stars): v152.2.0",
+        "turns": 3,
+        "seconds": 8.995,
+        "costUsd": 0.015693699999999998,
+        "firstTurnTokens": 4583,
+        "totalInputTokens": 14297,
+        "outputTokens": 137,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3034,
+          "cacheRead": 11257
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"top_repos_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.forged.top_repos_latest_release({org:\\\"denoland\\\",n:3})))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 1,
+      "session": 3,
+      "org": "vercel",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the vercel org and their latest release tags:\n- next.js (143,607 stars): `v16.4.6`\n- hyper (44,741 stars): `v3.4.1`\n- swr (32,497 stars): `v2.5.1`",
+        "turns": 3,
+        "seconds": 7.112,
+        "costUsd": 0.0092658,
+        "firstTurnTokens": 4585,
+        "totalInputTokens": 14527,
+        "outputTokens": 135,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1403,
+          "cacheRead": 13118
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"app\":\"forged\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.forged.top_repos_latest_release({org:\\\"vercel\\\",n:3})))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 1,
+      "session": 4,
+      "org": "rust-lang",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "Latest release tags for the 3 most-starred repos in rust-lang:\n- **rust** (122,397 stars): 1.100.0\n- **rustlings** (64,763 stars): v6.5.0\n- **mdBook** (22,319 stars): v0.5.4",
+        "turns": 3,
+        "seconds": 6.915,
+        "costUsd": 0.0092673,
+        "firstTurnTokens": 4588,
+        "totalInputTokens": 14357,
+        "outputTokens": 139,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1318,
+          "cacheRead": 13033
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"top_repos_latest_release\",\"app\":\"forged\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.forged.top_repos_latest_release({org:\\\"rust-lang\\\",n:3})))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 1,
+      "session": 5,
+      "org": "modelcontextprotocol",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org and their latest release tags:\n- **servers** (92,162 stars): v2.5.0\n- **python-sdk** (24,933 stars): v2.3.0\n- **typescript-sdk** (13,803 stars): v2.4.0",
+        "turns": 3,
+        "seconds": 6.682,
+        "costUsd": 0.009519,
+        "firstTurnTokens": 4591,
+        "totalInputTokens": 14557,
+        "outputTokens": 147,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1421,
+          "cacheRead": 13130
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"app\":\"forged\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.forged.top_repos_latest_release({org:\\\"modelcontextprotocol\\\",n:3})))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 2,
+      "session": 1,
+      "org": "tokio-rs",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "Latest release tags for the top 3 tokio-rs repos by stars:\n- **tokio** (33,768★): `tokio-1.54.1`\n- **axum** (27,915★): `axum-v0.8.9`\n- **topcoat** (7,303★): `v0.12.1`\n\nI saved the program as `tools.forged.top_org_repos_latest_release({org, count?})`. I tested the query as a one-off run but haven't called the saved tool itself.",
+        "turns": 4,
+        "seconds": 11.913,
+        "costUsd": 0.021587999999999996,
+        "firstTurnTokens": 4598,
+        "totalInputTokens": 23067,
+        "outputTokens": 203,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2899,
+          "cacheRead": 20160
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release list_tags\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:tokio-rs\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const x of r.items!){let t;try{const l=await tools.github.get_latest_release({owner:\\\"tokio",
+          "mcp__tools__forge {\"name\":\"top_org_repos_latest_release\",\"code\":\"// @description For the top N most-starred repos in a GitHub org, print latest release tag ('none' if no releases).\\n// @param org string required GitHub org name (e.g. tokio-"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 2,
+      "session": 2,
+      "org": "denoland",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "Latest release tags for the top 3 most-starred denoland repos (run 0f05852d):\n- **deno** (109,052 stars): v2.9.8\n- **celld** (6,351 stars): v0.6.3\n- **rusty_v8** (4,043 stars): v152.2.0",
+        "turns": 3,
+        "seconds": 6.826,
+        "costUsd": 0.02377,
+        "firstTurnTokens": 4584,
+        "totalInputTokens": 14576,
+        "outputTokens": 145,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5090,
+          "cacheRead": 9480
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"app\":\"forged\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.forged.top_org_repos_latest_release({org:\\\"denoland\\\",count:3})))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 2,
+      "session": 3,
+      "org": "vercel",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "Latest release tags for the top 3 most-starred repos in the vercel org (run 73fc9a5e):\n- **next.js** (143,607 stars): v16.4.6\n- **hyper** (44,741 stars): v3.4.1\n- **swr** (32,497 stars): v2.5.1",
+        "turns": 3,
+        "seconds": 7.25,
+        "costUsd": 0.0097622,
+        "firstTurnTokens": 4586,
+        "totalInputTokens": 14614,
+        "outputTokens": 131,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1446,
+          "cacheRead": 13162
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"app\":\"forged\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.forged.top_org_repos_latest_release({org:\\\"vercel\\\",count:3})))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 2,
+      "session": 4,
+      "org": "rust-lang",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the rust-lang org and their latest release tags:\n- **rust** (122,397 stars): 1.100.0\n- **rustlings** (64,763 stars): v6.5.0\n- **mdBook** (22,319 stars): v0.5.4",
+        "turns": 3,
+        "seconds": 7.23,
+        "costUsd": 0.0097042,
+        "firstTurnTokens": 4586,
+        "totalInputTokens": 14617,
+        "outputTokens": 122,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1449,
+          "cacheRead": 13162
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"app\":\"forged\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.forged.top_org_repos_latest_release({org:\\\"rust-lang\\\",count:3})))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 2,
+      "session": 5,
+      "org": "modelcontextprotocol",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org and their latest release tags:\n1. `servers` (92,162 stars): v2.5.0\n2. `python-sdk` (24,933 stars): v2.3.0\n3. `typescript-sdk` (13,803 stars): v2.4.0\n\nI got these from the `top_org_repos_latest_release` forged tool and didn't check them against GitHub separately.",
+        "turns": 3,
+        "seconds": 7.333,
+        "costUsd": 0.0102728,
+        "firstTurnTokens": 4589,
+        "totalInputTokens": 14635,
+        "outputTokens": 170,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1461,
+          "cacheRead": 13168
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"app\":\"forged\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.forged.top_org_repos_latest_release({org:\\\"modelcontextprotocol\\\",count:3})))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 3,
+      "session": 1,
+      "org": "tokio-rs",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "Latest release tags for the 3 most-starred tokio-rs repos:\n- **tokio** (33,768 stars): `tokio-1.54.1`\n- **axum** (27,915 stars): `axum-v0.8.9`\n- **topcoat** (7,303 stars): `v0.12.1`\n\nI saved the program as `tools.forged.top_repos_latest_release({org?, n?})`, so next time it's one call. I ran the same logic separately to get these results. I didn't run the saved tool itself.",
+        "turns": 4,
+        "seconds": 11.313,
+        "costUsd": 0.0230426,
+        "firstTurnTokens": 4602,
+        "totalInputTokens": 17540,
+        "outputTokens": 216,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3248,
+          "cacheRead": 14286
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release list_releases\"}",
+          "mcp__tools__forge {\"name\":\"top_repos_latest_release\",\"code\":\"// @description Latest release tag for the top-N most-starred repos of a GitHub org (default tokio-rs, 3)\\n// @param org string Org name (default tokio-rs)\\n// @param n integer Nu",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({ query: `org:tokio-rs`, sort: \\\"stars\\\", order: \\\"desc\\\", perPage: 3 });\\nfor (const repo of r.items!) {\\n let tag = \\\"none\\\";\\n try { const rel = await tools.g"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 3,
+      "session": 2,
+      "org": "denoland",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "Latest release tags for the three most-starred repos in the denoland org (run 7a86a486):\n- **denoland/deno** (109,052 stars): v2.9.8\n- **denoland/celld** (6,351 stars): v0.6.3\n- **denoland/rusty_v8** (4,043 stars): v152.2.0",
+        "turns": 3,
+        "seconds": 8.311,
+        "costUsd": 0.0164421,
+        "firstTurnTokens": 4588,
+        "totalInputTokens": 14592,
+        "outputTokens": 157,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3185,
+          "cacheRead": 11401
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"app\":\"forged\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.forged.top_repos_latest_release({org:\\\"denoland\\\",n:3})))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 3,
+      "session": 3,
+      "org": "vercel",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the vercel org and their latest release tags:\n- vercel/next.js (143,607 stars): `v16.4.6`\n- vercel/hyper (44,741 stars): `v3.4.1`\n- vercel/swr (32,497 stars): `v2.5.1`\n\nAll three have releases, so none of them is \"none\".",
+        "turns": 3,
+        "seconds": 6.707,
+        "costUsd": 0.0099186,
+        "firstTurnTokens": 4589,
+        "totalInputTokens": 14627,
+        "outputTokens": 145,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1455,
+          "cacheRead": 13166
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"app\":\"forged\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.forged.top_repos_latest_release({org:\\\"vercel\\\",n:3})))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 3,
+      "session": 4,
+      "org": "rust-lang",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "Top 3 most-starred repos in rust-lang (run a09b5b9f):\n- **rust-lang/rust** (122,397 stars): latest release tag `1.100.0`\n- **rust-lang/rustlings** (64,763 stars): latest release tag `v6.5.0`\n- **rust-lang/mdBook** (22,319 stars): latest release tag `v0.5.4`",
+        "turns": 3,
+        "seconds": 7.14,
+        "costUsd": 0.0098402,
+        "firstTurnTokens": 4591,
+        "totalInputTokens": 14426,
+        "outputTokens": 180,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1358,
+          "cacheRead": 13062
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"top_repos_latest_release\",\"app\":\"forged\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.forged.top_repos_latest_release({org:\\\"rust-lang\\\",n:3})))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "forge",
+      "world": 3,
+      "session": 5,
+      "org": "modelcontextprotocol",
+      "correct": true,
+      "usedForged": true,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org and their latest release tags:\n- `modelcontextprotocol/servers` (92,162 stars): **v2.5.0**\n- `modelcontextprotocol/python-sdk` (24,933 stars): **v2.3.0**\n- `modelcontextprotocol/typescript-sdk` (13,803 stars): **v2.4.0**\n\nI got these from the `top_repos_latest_release` tool and didn't check them against GitHub separately.",
+        "turns": 3,
+        "seconds": 6.601,
+        "costUsd": 0.010419900000000001,
+        "firstTurnTokens": 4594,
+        "totalInputTokens": 14638,
+        "outputTokens": 216,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1473,
+          "cacheRead": 13159
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"app\":\"forged\"}",
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.forged.top_repos_latest_release({org:\\\"modelcontextprotocol\\\",n:3})))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 1,
+      "session": 1,
+      "org": "tokio-rs",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The latest release tag for each of the 3 most-starred tokio-rs repos:\n- **tokio** (33,768 stars): `tokio-1.54.1`\n- **axum** (27,915 stars): `axum-v0.8.9`\n- **topcoat** (7,303 stars): `v0.12.1`",
+        "turns": 3,
+        "seconds": 7.302,
+        "costUsd": 0.014015,
+        "firstTurnTokens": 4573,
+        "totalInputTokens": 16098,
+        "outputTokens": 155,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2242,
+          "cacheRead": 13850
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:tokio-rs\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let t;try{const l=await tools.github.get_latest_release({owner:\\\"tokio"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 1,
+      "session": 2,
+      "org": "denoland",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the denoland org and their latest release tags:\n- **deno** (109,052 stars): v2.9.8\n- **celld** (6,351 stars): v0.6.3\n- **rusty_v8** (4,043 stars): v152.2.0",
+        "turns": 3,
+        "seconds": 7.547,
+        "costUsd": 0.0138744,
+        "firstTurnTokens": 4570,
+        "totalInputTokens": 16087,
+        "outputTokens": 136,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2237,
+          "cacheRead": 13844
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:denoland\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items){let t;try{const l=await tools.github.get_latest_release({owner:\\\"denola"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 1,
+      "session": 3,
+      "org": "vercel",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the vercel org and their latest release tags:\n- vercel/next.js (143,607 stars): v16.4.6\n- vercel/hyper (44,741 stars): v3.4.1\n- vercel/swr (32,497 stars): v2.5.1",
+        "turns": 3,
+        "seconds": 6.813,
+        "costUsd": 0.013996399999999999,
+        "firstTurnTokens": 4570,
+        "totalInputTokens": 16100,
+        "outputTokens": 140,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2250,
+          "cacheRead": 13844
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:vercel\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let t;try{const l=await tools.github.get_latest_release({owner:\\\"vercel\\"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 1,
+      "session": 4,
+      "org": "rust-lang",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the rust-lang org and their latest release tags:\n- rust-lang/rust (about 122.4k stars): 1.100.0\n- rust-lang/rustlings (about 64.8k stars): v6.5.0\n- rust-lang/mdBook (about 22.3k stars): v0.5.4",
+        "turns": 3,
+        "seconds": 7.739,
+        "costUsd": 0.0142404,
+        "firstTurnTokens": 4570,
+        "totalInputTokens": 16111,
+        "outputTokens": 156,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2261,
+          "cacheRead": 13844
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:rust-lang\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let t;try{const l=await tools.github.get_latest_release({owner:\\\"rust"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 1,
+      "session": 5,
+      "org": "modelcontextprotocol",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The latest release tag for each of the three most-starred repos in the modelcontextprotocol org:\n- **servers** (92,162 stars): v2.5.0\n- **python-sdk** (24,933 stars): v2.3.0\n- **typescript-sdk** (13,803 stars): v2.4.0",
+        "turns": 3,
+        "seconds": 7.129,
+        "costUsd": 0.0142008,
+        "firstTurnTokens": 4572,
+        "totalInputTokens": 16110,
+        "outputTokens": 144,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2256,
+          "cacheRead": 13848
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let t;try{const l=await tools.github.get_latest_release({o"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 2,
+      "session": 1,
+      "org": "tokio-rs",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "Run 3d2a4f1e: the three most-starred repos in tokio-rs and their latest release tags:\n- **tokio** (33,768 stars): `tokio-1.54.1`\n- **axum** (27,915 stars): `axum-v0.8.9`\n- **topcoat** (7,303 stars): `v0.12.1`",
+        "turns": 3,
+        "seconds": 7.294,
+        "costUsd": 0.0141182,
+        "firstTurnTokens": 4578,
+        "totalInputTokens": 16113,
+        "outputTokens": 156,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2245,
+          "cacheRead": 13862
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:tokio-rs\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let t;try{const l=await tools.github.get_latest_release({owner:\\\"tokio"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 2,
+      "session": 2,
+      "org": "denoland",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the denoland org and their latest release tags:\n- denoland/deno (109,052 stars): v2.9.8\n- denoland/celld (6,351 stars): v0.6.3\n- denoland/rusty_v8 (4,043 stars): v152.2.0",
+        "turns": 3,
+        "seconds": 7.35,
+        "costUsd": 0.0140168,
+        "firstTurnTokens": 4571,
+        "totalInputTokens": 16104,
+        "outputTokens": 139,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2250,
+          "cacheRead": 13848
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:denoland\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items){let t;try{const l=await tools.github.get_latest_release({owner:\\\"denola"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 2,
+      "session": 3,
+      "org": "vercel",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the vercel org and their latest release tags:\n- vercel/next.js (143,607 stars): v16.4.6\n- vercel/hyper (44,741 stars): v3.4.1\n- vercel/swr (32,497 stars): v2.5.1",
+        "turns": 3,
+        "seconds": 8.298,
+        "costUsd": 0.014001200000000002,
+        "firstTurnTokens": 4573,
+        "totalInputTokens": 16109,
+        "outputTokens": 136,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2251,
+          "cacheRead": 13852
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:vercel\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let t;try{const l=await tools.github.get_latest_release({owner:\\\"vercel\\"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 2,
+      "session": 4,
+      "org": "rust-lang",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The latest release tags for the 3 most-starred rust-lang repos:\n- **rust-lang/rust** (122,397 stars): 1.100.0\n- **rust-lang/rustlings** (64,763 stars): v6.5.0\n- **rust-lang/mdBook** (22,319 stars): v0.5.4",
+        "turns": 3,
+        "seconds": 12.294,
+        "costUsd": 0.014243599999999999,
+        "firstTurnTokens": 4575,
+        "totalInputTokens": 16126,
+        "outputTokens": 159,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2264,
+          "cacheRead": 13856
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:rust-lang\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let t;try{const x=await tools.github.get_latest_release({owner:\\\"rust"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 2,
+      "session": 5,
+      "org": "modelcontextprotocol",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The latest release tags for the three most-starred repos in the modelcontextprotocol org:\n- servers (92,162 stars): v2.5.0\n- python-sdk (24,933 stars): v2.3.0\n- typescript-sdk (13,803 stars): v2.4.0",
+        "turns": 3,
+        "seconds": 8.145,
+        "costUsd": 0.0141424,
+        "firstTurnTokens": 4579,
+        "totalInputTokens": 16131,
+        "outputTokens": 136,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2261,
+          "cacheRead": 13864
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let t;try{const l=await tools.github.get_latest_release({o"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 3,
+      "session": 1,
+      "org": "tokio-rs",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "Latest release tag for each of the top 3 tokio-rs repos by stars:\n- **tokio** (33,768★): `tokio-1.54.1`\n- **axum** (27,915★): `axum-v0.8.9`\n- **topcoat** (7,303★): `v0.12.1`",
+        "turns": 3,
+        "seconds": 8.028,
+        "costUsd": 0.0139379,
+        "firstTurnTokens": 4568,
+        "totalInputTokens": 16083,
+        "outputTokens": 145,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2238,
+          "cacheRead": 13839
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:tokio-rs\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let t;try{const l=await tools.github.get_latest_release({owner:\\\"tokio"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 3,
+      "session": 2,
+      "org": "denoland",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the denoland org and their latest release tags:\n1. **deno** (109,052 ★): v2.9.8\n2. **celld** (6,351 ★): v0.6.3\n3. **rusty_v8** (4,043 ★): v152.2.0",
+        "turns": 3,
+        "seconds": 7.734,
+        "costUsd": 0.0139097,
+        "firstTurnTokens": 4567,
+        "totalInputTokens": 16079,
+        "outputTokens": 135,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2236,
+          "cacheRead": 13837
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:denoland\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let t;try{const l=await tools.github.get_latest_release({owner:\\\"denol"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 3,
+      "session": 3,
+      "org": "vercel",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the vercel org and their latest release tags:\n- vercel/next.js (143,607 stars): v16.4.6\n- vercel/hyper (44,741 stars): v3.4.1\n- vercel/swr (32,497 stars): v2.5.1",
+        "turns": 3,
+        "seconds": 7.808,
+        "costUsd": 0.0139835,
+        "firstTurnTokens": 4566,
+        "totalInputTokens": 16088,
+        "outputTokens": 140,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2247,
+          "cacheRead": 13835
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:vercel\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let t;try{const l=await tools.github.get_latest_release({owner:\\\"vercel\\"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 3,
+      "session": 4,
+      "org": "rust-lang",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the rust-lang org and their latest release tags:\n- rust-lang/rust (122,397 stars): `1.100.0`\n- rust-lang/rustlings (64,763 stars): `v6.5.0`\n- rust-lang/mdBook (22,319 stars): `v0.5.4`",
+        "turns": 3,
+        "seconds": 7.927,
+        "costUsd": 0.014230099999999999,
+        "firstTurnTokens": 4569,
+        "totalInputTokens": 16108,
+        "outputTokens": 151,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2261,
+          "cacheRead": 13841
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:rust-lang\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items!){let t;try{const l=await tools.github.get_latest_release({owner:\\\"rust"
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "condition": "no-forge",
+      "world": 3,
+      "session": 5,
+      "org": "modelcontextprotocol",
+      "correct": true,
+      "usedForged": false,
+      "metrics": {
+        "answer": "The three most-starred repos in the modelcontextprotocol org, with their latest release tags:\n- **servers** (92,162 stars): v2.5.0\n- **python-sdk** (24,933 stars): v2.3.0\n- **typescript-sdk** (13,803 stars): v2.4.0",
+        "turns": 3,
+        "seconds": 7.643,
+        "costUsd": 0.0141723,
+        "firstTurnTokens": 4570,
+        "totalInputTokens": 16103,
+        "outputTokens": 147,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2254,
+          "cacheRead": 13843
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"search_repositories get_latest_release\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:modelcontextprotocol\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3});\\nfor(const i of r.items){let t;try{const l=await tools.github.get_latest_release({ow"
+        ]
+      }
+    }
+  ]
+}

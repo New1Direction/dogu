@@ -104,41 +104,52 @@ const median = (xs: number[]) => {
   return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
 };
 
+/**
+ * Forging changes the standing context (the README, or code mode's tool list), so the session after it
+ * pays a one-time cache refresh. The report keeps that apart from the steady state:
+ *   one-time cost  = sessions 1-2 with forge, minus sessions 1-2 without
+ *   steady saving  = sessions 3-5 without forge, minus with, per job
+ */
 const report = (all: ReadonlyArray<Session>) => {
+  const m = (xs: ReadonlyArray<Session>) => xs.flatMap((s) => (s.metrics ? [s.metrics] : []));
+  const sumCost = (xs: ReadonlyArray<Session>) => m(xs).reduce((a, x) => a + x.costUsd, 0);
   const rows = SETUPS.flatMap((setup) =>
     CONDITIONS.map((condition) => {
       const of = (pred: (s: Session) => boolean) => all.filter((s) => s.setup === setup && s.condition === condition && pred(s));
-      const later = of((s) => s.session > 1);
-      const first = of((s) => s.session === 1);
-      const m = (xs: Session[]) => xs.flatMap((s) => (s.metrics ? [s.metrics] : []));
+      const steady = of((s) => s.session >= 3);
+      const start = of((s) => s.session <= 2);
+      const worlds = new Set(of(() => true).map((s) => s.world)).size || 1;
+      const used = of((s) => s.session >= 2).filter((s) => s.usedForged).length;
       return {
         setup,
         condition,
-        line: `| ${setup} | ${condition} | ${later.filter((s) => s.correct).length}/${later.length} | $${mean(m(later).map((x) => x.costUsd)).toFixed(4)} | ${
-          median(m(later).map((x) => x.seconds)).toFixed(1)
-        }s | ${median(m(later).map((x) => x.turns))} | ${condition === "forge" ? `${later.filter((s) => s.usedForged).length}/${later.length}` : "-"} | $${
-          mean(m(first).map((x) => x.costUsd)).toFixed(4)
+        steadyCost: mean(m(steady).map((x) => x.costUsd)),
+        startCost: sumCost(start) / worlds,
+        line: `| ${setup} | ${condition} | ${all.filter((s) => s.setup === setup && s.condition === condition && s.correct).length}/${of(() => true).length} | $${
+          mean(m(steady).map((x) => x.costUsd)).toFixed(4)
+        } | ${median(m(steady).map((x) => x.seconds)).toFixed(1)}s | ${median(m(steady).map((x) => x.turns))} | $${(sumCost(start) / worlds).toFixed(4)} | ${
+          condition === "forge" ? `${used}/${of((s) => s.session >= 2).length}` : "-"
         } |`,
-        laterCost: mean(m(later).map((x) => x.costUsd)),
-        firstCost: mean(m(first).map((x) => x.costUsd)),
       };
     })
   );
-  const breakEven = SETUPS.map((setup) => {
+  const verdicts = SETUPS.map((setup) => {
     const f = rows.find((r) => r.setup === setup && r.condition === "forge")!;
     const n = rows.find((r) => r.setup === setup && r.condition === "no-forge")!;
-    const saved = n.laterCost - f.laterCost;
-    const extra = f.firstCost - n.firstCost;
-    return `- ${setup}: forging costs $${extra.toFixed(4)} extra once and saves $${saved.toFixed(4)} per later job${
-      saved > 0 ? `, so it pays for itself after ${Math.max(1, Math.ceil(extra / saved))} reuse(s).` : ", so it does not pay off here."
+    const saved = n.steadyCost - f.steadyCost;
+    const once = f.startCost - n.startCost;
+    return `- ${setup}: forging costs $${once.toFixed(4)} once (the forging session and the next session's cache refresh) and then saves $${
+      saved.toFixed(4)
+    } per job (${n.steadyCost > 0 ? Math.round((saved / n.steadyCost) * 100) : 0}%)${
+      saved > 0 ? `, so it pays for itself after ${Math.max(1, Math.ceil(once / saved))} more job(s).` : ", so it does not pay off here."
     }`;
   });
   return [
-    "| Setup | Condition | Sessions 2-5 right | Cost per job, sessions 2-5 (mean) | Time (median) | Turns (median) | Used the forged tool | Session 1 cost (mean) |",
+    "| Setup | Condition | Right | Cost per job, sessions 3-5 (mean) | Time, sessions 3-5 (median) | Turns, sessions 3-5 (median) | Sessions 1-2 cost per world | Used the forged tool (sessions 2-5) |",
     "|---|---|---|---|---|---|---|---|",
     ...rows.map((r) => r.line),
     "",
-    ...breakEven,
+    ...verdicts,
   ].join("\n");
 };
 
