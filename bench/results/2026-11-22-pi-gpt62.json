@@ -1,0 +1,2574 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.7.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "23f9aa9",
+  "dirty": false,
+  "answers": {
+    "most-stars": [
+      "vercel/next.js"
+    ],
+    "three-tags": [
+      "v2.9.8",
+      "bun-v1.4.5",
+      "0.13.9"
+    ],
+    "big-repos": [
+      "17"
+    ],
+    "first-pr": [
+      "Port over Slack server"
+    ],
+    "bun-section": [
+      "Package Manager"
+    ],
+    "started-in": [
+      "Project Dogwood"
+    ],
+    "newer-sdk": [
+      "typescript-sdk"
+    ],
+    "most-issues": [
+      "deno"
+    ]
+  },
+  "records": [
+    {
+      "setup": "pi-direct",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\n143,607 stars, the most of the four.",
+        "turns": 2,
+        "seconds": 7.883586667000001,
+        "costUsd": 0.069547,
+        "firstTurnTokens": 11443,
+        "totalInputTokens": 23585,
+        "outputTokens": 77,
+        "inputBreakdown": {
+          "fresh": 12321,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:denoland/deno repo:oven-sh/bun repo:nodejs/node repo:vercel/next.js\",\"sort\":\"stars\",\"order\":\"desc\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n143,607 GitHub stars.",
+        "turns": 3,
+        "seconds": 9.830030708,
+        "costUsd": 0.032593000000000004,
+        "firstTurnTokens": 1148,
+        "totalInputTokens": 8345,
+        "outputTokens": 118,
+        "inputBreakdown": {
+          "fresh": 5529,
+          "cacheWrite": 0,
+          "cacheRead": 2816
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github search repositories\\\"))\\n\"}",
+          "codemode {\"code\":\"await Promise.allSettled([\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"nodejs/node\\\",\\\"vercel/next.js\\\"].map(async repo=>{let r=await tools.mcp__github__search_repositories({query:`repo:${repo}`,perPage:1});text(JSON.stringify(r).s"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\nIt leads the four repositories with 143,607 stars. I couldn’t locate `e6b16620` to run it, so I verified the ranking with GitHub repository search.",
+        "turns": 3,
+        "seconds": 10.981155083,
+        "costUsd": 0.044492000000000004,
+        "firstTurnTokens": 5849,
+        "totalInputTokens": 17920,
+        "outputTokens": 186,
+        "inputBreakdown": {
+          "fresh": 6656,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd ../mcp && ls && ls forged 2>/dev/null; ls -a ../work-pi-folder; find .. -name '*e6b16620*' | head",
+          "cd ../mcp && github/search_repositories --query 'repo:denoland/deno repo:oven-sh/bun repo:nodejs/node repo:vercel/next.js' --sort stars --json | jq '.items[] | {full_name,stargazers_count}'"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js",
+        "turns": 2,
+        "seconds": 6.269542165999999,
+        "costUsd": 0.02765,
+        "firstTurnTokens": 2383,
+        "totalInputTokens": 4930,
+        "outputTokens": 100,
+        "inputBreakdown": {
+          "fresh": 4930,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['denoland/deno','oven-sh/bun','nodejs/node','vercel/next.js'].map(async n=>console.log(n,JSON.stringify(await tools.github.search_repositories({query:'repo:'+n})).match(/\\\"stargazers_count\\\"\\"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno`: `v2.9.8`\n- `oven-sh/bun`: `bun-v1.4.5`\n- `astral-sh/uv`: `0.13.9`",
+        "turns": 3,
+        "seconds": 11.330454207999999,
+        "costUsd": 0.037042000000000005,
+        "firstTurnTokens": 1137,
+        "totalInputTokens": 7202,
+        "outputTokens": 188,
+        "inputBreakdown": {
+          "fresh": 6178,
+          "cacheWrite": 0,
+          "cacheRead": 1024
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github get_latest_release\\\"))\\n\"}",
+          "codemode {\"code\":\"text(await Promise.allSettled([\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"].map(async s=>{let [owner,repo]=s.split(\\\"/\\\");let r=await tools.mcp__github__get_latest_release({owner,repo});let t=r.content?.[0]?.text;re"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno`: `v2.9.8`\n- `oven-sh/bun`: `bun-v1.4.5`\n- `astral-sh/uv`: `0.13.9`\n\nI couldn’t find `f702455b` to run, so I queried GitHub directly.",
+        "turns": 3,
+        "seconds": 12.291775832999999,
+        "costUsd": 0.070546,
+        "firstTurnTokens": 5839,
+        "totalInputTokens": 17912,
+        "outputTokens": 211,
+        "inputBreakdown": {
+          "fresh": 12280,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ls -la; ls ../mcp/forged; command -v f702455b; find .. -name '*f702455b*'",
+          "cd ../mcp; for pair in denoland/deno oven-sh/bun astral-sh/uv; do (tag=$(github/get_latest_release --owner \"${pair%/*}\" --repo \"${pair#*/}\" --json | jq -r .tag_name); echo \"$pair $tag\") & done; wait"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno`: `v2.9.8`\n- `oven-sh/bun`: `bun-v1.4.5`\n- `astral-sh/uv`: `0.13.9`",
+        "turns": 2,
+        "seconds": 8.645564167,
+        "costUsd": 0.020364,
+        "firstTurnTokens": 2373,
+        "totalInputTokens": 4914,
+        "outputTokens": 167,
+        "inputBreakdown": {
+          "fresh": 2866,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['denoland/deno','oven-sh/bun','astral-sh/uv'].map(async s=>{const [owner,repo]=s.split('/');const r=await tools.github.get_latest_release({owner,repo});console.log(s,JSON.stringify(r).match(/"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "- denoland/deno: [`v2.9.8`](https://github.com/denoland/deno/releases/tag/v2.9.8)\n- oven-sh/bun: [`bun-v1.4.5`](https://github.com/oven-sh/bun/releases/tag/bun-v1.4.5)\n- astral-sh/uv: [`0.13.9`](https://github.com/astral-sh/uv/releases/tag/0.13.9)",
+        "turns": 2,
+        "seconds": 11.531608,
+        "costUsd": 0.16743200000000003,
+        "firstTurnTokens": 11436,
+        "totalInputTokens": 42406,
+        "outputTokens": 203,
+        "inputBreakdown": {
+          "fresh": 31142,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"uv\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "17 repositories in the `modelcontextprotocol` GitHub organization have more than 1,000 stars.",
+        "turns": 2,
+        "seconds": 6.745031165999993,
+        "costUsd": 0.035636,
+        "firstTurnTokens": 5831,
+        "totalInputTokens": 11728,
+        "outputTokens": 78,
+        "inputBreakdown": {
+          "fresh": 6096,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "../mcp/github/search_repositories --query 'org:modelcontextprotocol stars:>1000' --perPage 1 --json | jq .total_count"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "17 repositories in the `modelcontextprotocol` GitHub organization have more than 1,000 stars.",
+        "turns": 2,
+        "seconds": 6.273695,
+        "costUsd": 0.026785000000000003,
+        "firstTurnTokens": 2360,
+        "totalInputTokens": 4919,
+        "outputTokens": 73,
+        "inputBreakdown": {
+          "fresh": 4919,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.github.search_repositories({query:'org:modelcontextprotocol stars:>1000',perPage:1}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "17 repositories in the `modelcontextprotocol` GitHub organization have more than 1,000 stars.",
+        "turns": 2,
+        "seconds": 8.005424124999998,
+        "costUsd": 0.066327,
+        "firstTurnTokens": 11421,
+        "totalInputTokens": 23031,
+        "outputTokens": 62,
+        "inputBreakdown": {
+          "fresh": 11767,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"perPage\":1}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**17 repositories** in the `modelcontextprotocol` GitHub organization have more than 1,000 stars.",
+        "turns": 3,
+        "seconds": 17.299728582999997,
+        "costUsd": 0.023525000000000004,
+        "firstTurnTokens": 1125,
+        "totalInputTokens": 7609,
+        "outputTokens": 92,
+        "inputBreakdown": {
+          "fresh": 3769,
+          "cacheWrite": 0,
+          "cacheRead": 3840
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github search repositories\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__search_repositories({query:\\\"org:modelcontextprotocol stars:>1000\\\",perPage:1});text(r)\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "[Pull request #1](https://github.com/modelcontextprotocol/servers/pull/1) is titled “Port over Slack server.”",
+        "turns": 2,
+        "seconds": 6.327378583999998,
+        "costUsd": 0.018879,
+        "firstTurnTokens": 2360,
+        "totalInputTokens": 5097,
+        "outputTokens": 87,
+        "inputBreakdown": {
+          "fresh": 3049,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.pull_request_read({method:'get',owner:'modelcontextprotocol',repo:'servers',pullNumber:1}); console.log(r);\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "[Pull request #1](https://github.com/modelcontextprotocol/servers/pull/1) is titled **Port over Slack server**.",
+        "turns": 2,
+        "seconds": 7.720240332999994,
+        "costUsd": 0.067482,
+        "firstTurnTokens": 11421,
+        "totalInputTokens": 23202,
+        "outputTokens": 72,
+        "inputBreakdown": {
+          "fresh": 11938,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__pull_request_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"pullNumber\":1}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "[Pull request #1](https://github.com/modelcontextprotocol/servers/pull/1): **Port over Slack server**",
+        "turns": 5,
+        "seconds": 14.787855250000009,
+        "costUsd": 0.036037,
+        "firstTurnTokens": 1125,
+        "totalInputTokens": 10379,
+        "outputTokens": 201,
+        "inputBreakdown": {
+          "fresh": 5515,
+          "cacheWrite": 0,
+          "cacheRead": 4864
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"pull_request_read\\\",{limit:2}))\\n\"}",
+          "codemode {\"code\":\"text(ALL_TOOLS.filter(x=>JSON.stringify(x).includes(\\\"github\\\")).map(x=>typeof x===\\\"string\\\"?x:x.name))\\n\"}",
+          "codemode {\"code\":\"text(await describeTool(\\\"mcp__github__pull_request_read\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__pull_request_read({method:\\\"get\\\",owner:\\\"modelcontextprotocol\\\",repo:\\\"servers\\\",pullNumber:1}); for(const c of r.content??[]){try{text(JSON.parse(c.text).title??c.text.slice(0,500))}catch"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #1 in `modelcontextprotocol/servers` is titled **Port over Slack server**.",
+        "turns": 2,
+        "seconds": 6.5991362920000025,
+        "costUsd": 0.035761,
+        "firstTurnTokens": 5827,
+        "totalInputTokens": 11729,
+        "outputTokens": 82,
+        "inputBreakdown": {
+          "fresh": 6097,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "../mcp/github/pull_request_read --method get --owner modelcontextprotocol --repo servers --pullNumber 1 --json | jq -r .title; ls -a"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 2,
+        "seconds": 6.997891000000004,
+        "costUsd": 0.069562,
+        "firstTurnTokens": 11429,
+        "totalInputTokens": 23834,
+        "outputTokens": 36,
+        "inputBreakdown": {
+          "fresh": 12570,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Section 4: **Package Manager**.",
+        "turns": 3,
+        "seconds": 7.807690792000002,
+        "costUsd": 0.036237000000000005,
+        "firstTurnTokens": 1133,
+        "totalInputTokens": 7683,
+        "outputTokens": 81,
+        "inputBreakdown": {
+          "fresh": 6659,
+          "cacheWrite": 0,
+          "cacheRead": 1024
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"deepwiki structure\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__deepwiki__read_wiki_structure({repoName:\\\"oven-sh/bun\\\"});text(JSON.stringify(r).slice(0,4500))\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "4 Package Manager",
+        "turns": 2,
+        "seconds": 5.393886291999996,
+        "costUsd": 0.06212000000000001,
+        "firstTurnTokens": 5837,
+        "totalInputTokens": 12106,
+        "outputTokens": 53,
+        "inputBreakdown": {
+          "fresh": 12106,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "../mcp/deepwiki/read_wiki_structure --repoName oven-sh/bun | head -35; ls -a"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 2,
+        "seconds": 5.47008537500001,
+        "costUsd": 0.030095000000000004,
+        "firstTurnTokens": 2367,
+        "totalInputTokens": 5731,
+        "outputTokens": 48,
+        "inputBreakdown": {
+          "fresh": 5731,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.deepwiki.read_wiki_structure({repoName:'oven-sh/bun'}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Dogwood started in 2018.",
+        "turns": 4,
+        "seconds": 9.149452666000013,
+        "costUsd": 0.040867,
+        "firstTurnTokens": 1117,
+        "totalInputTokens": 8483,
+        "outputTokens": 102,
+        "inputBreakdown": {
+          "fresh": 7459,
+          "cacheWrite": 0,
+          "cacheRead": 1024
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(ALL_TOOLS.filter(x=>/memory|bash/.test(x)));\\n\"}",
+          "codemode {\"code\":\"text(await searchTools(\\\"memory knowledge graph read search\\\"));\\n\"}",
+          "codemode {\"code\":\"text(await Promise.all([\\\"2018\\\",\\\"c55f430e\\\"].map(query=>tools.mcp__memory__search_nodes({query}))));\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Dogwood started in 2018.",
+        "turns": 2,
+        "seconds": 6.784486667000005,
+        "costUsd": 0.06083000000000001,
+        "firstTurnTokens": 5820,
+        "totalInputTokens": 11764,
+        "outputTokens": 67,
+        "inputBreakdown": {
+          "fresh": 11764,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "../mcp/memory/search_nodes --query 2018 --json | head -c 4000; ls -a; ls ../mcp/forged"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Dogwood started in 2018.",
+        "turns": 2,
+        "seconds": 5.299026042000012,
+        "costUsd": 0.02547,
+        "firstTurnTokens": 2356,
+        "totalInputTokens": 4800,
+        "outputTokens": 49,
+        "inputBreakdown": {
+          "fresh": 4800,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.memory.search_nodes({query:'2018'}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Dogwood started in 2018.",
+        "turns": 2,
+        "seconds": 6.494214999999996,
+        "costUsd": 0.065062,
+        "firstTurnTokens": 11414,
+        "totalInputTokens": 22928,
+        "outputTokens": 37,
+        "inputBreakdown": {
+          "fresh": 11664,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2018\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\nIts latest release, v2.4.0, was published October 23, 2026. The Python SDK’s latest release, v2.3.0, was published October 2, 2026.",
+        "turns": 2,
+        "seconds": 7.497107667000003,
+        "costUsd": 0.012017,
+        "firstTurnTokens": 5845,
+        "totalInputTokens": 11833,
+        "outputTokens": 118,
+        "inputBreakdown": {
+          "fresh": 569,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd ../mcp; for r in python-sdk typescript-sdk; do github/get_latest_release --owner modelcontextprotocol --repo $r --json | jq '{tag_name,published_at}'; done"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nIts latest release, v2.4.0, was published on October 23, 2026, after python-sdk’s v2.3.0 on October 2, 2026.",
+        "turns": 2,
+        "seconds": 7.837346749999997,
+        "costUsd": 0.02874,
+        "firstTurnTokens": 2379,
+        "totalInputTokens": 4932,
+        "outputTokens": 136,
+        "inputBreakdown": {
+          "fresh": 4932,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['python-sdk','typescript-sdk'].map(async repo=>{let r=await tools.github.get_latest_release({owner:'modelcontextprotocol',repo}); console.log(repo,JSON.stringify(r).match(/.{0,8}(?:published_"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\nIts latest release, `v2.4.0`, was published on October 23, 2026, after Python SDK’s `v2.3.0` on October 2, 2026.",
+        "turns": 2,
+        "seconds": 10.13721845900001,
+        "costUsd": 0.07039200000000001,
+        "firstTurnTokens": 11438,
+        "totalInputTokens": 23226,
+        "outputTokens": 165,
+        "inputBreakdown": {
+          "fresh": 11962,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_releases {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\",\"perPage\":3,\"fields\":[\"tag_name\",\"published_at\",\"prerelease\"]}",
+          "mcp__github__list_releases {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\",\"perPage\":3,\"fields\":[\"tag_name\",\"published_at\",\"prerelease\"]}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\nTypeScript SDK v2.4.0 was published on October 23, 2026, after Python SDK v2.3.0 on October 2, 2026.",
+        "turns": 3,
+        "seconds": 12.184538167000007,
+        "costUsd": 0.024530000000000003,
+        "firstTurnTokens": 1141,
+        "totalInputTokens": 7228,
+        "outputTokens": 189,
+        "inputBreakdown": {
+          "fresh": 3388,
+          "cacheWrite": 0,
+          "cacheRead": 3840
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github get_latest_release\\\"))\\n\"}",
+          "codemode {\"code\":\"await Promise.allSettled([\\\"python-sdk\\\",\\\"typescript-sdk\\\"].map(async repo=>{const r=await tools.mcp__github__get_latest_release({owner:\\\"modelcontextprotocol\\\",repo}); const s=JSON.stringify(r).replace(/\\\\\\\\\\\"/g,'\\\"');te"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub counts 1,755 open issues and pull requests for `deno`, versus 103 for `celld` and 68 for `rusty_v8`.",
+        "turns": 2,
+        "seconds": 6.181093166000006,
+        "costUsd": 0.029035000000000005,
+        "firstTurnTokens": 2382,
+        "totalInputTokens": 5243,
+        "outputTokens": 94,
+        "inputBreakdown": {
+          "fresh": 5243,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:'org:denoland sort:stars-desc',perPage:3}); console.log(r)\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub’s open issue counts, including pull requests: deno 1,755; celld 103; rusty_v8 68.",
+        "turns": 2,
+        "seconds": 8.545655791999991,
+        "costUsd": 0.088427,
+        "firstTurnTokens": 11442,
+        "totalInputTokens": 27337,
+        "outputTokens": 81,
+        "inputBreakdown": {
+          "fresh": 16073,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:denoland\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":3,\"minimal_output\":false}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub’s open counts, including pull requests: deno 1,755; celld 103; rusty_v8 68.",
+        "turns": 3,
+        "seconds": 9.684913,
+        "costUsd": 0.046315,
+        "firstTurnTokens": 1145,
+        "totalInputTokens": 12041,
+        "outputTokens": 113,
+        "inputBreakdown": {
+          "fresh": 8201,
+          "cacheWrite": 0,
+          "cacheRead": 3840
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github search repositories\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__search_repositories({query:\\\"org:denoland\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3,minimal_output:false});text(r.structuredContent??r.content)\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n",
+        "turns": 3,
+        "seconds": 9.44249625000001,
+        "costUsd": 0.068556,
+        "firstTurnTokens": 5849,
+        "totalInputTokens": 18000,
+        "outputTokens": 130,
+        "inputBreakdown": {
+          "fresh": 12368,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "ls -la; ls ../mcp; ls ../mcp/forged 2>/dev/null; find .. -iname '*a9deebcc*'",
+          "../mcp/github/search_repositories --query 'org:denoland' --sort stars --order desc --perPage 3 --json | jq '.items[] | {name,stargazers_count,open_issues_count}'"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js",
+        "turns": 2,
+        "seconds": 7.189221959000002,
+        "costUsd": 0.06936200000000001,
+        "firstTurnTokens": 11443,
+        "totalInputTokens": 23590,
+        "outputTokens": 70,
+        "inputBreakdown": {
+          "fresh": 12326,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:denoland/deno repo:oven-sh/bun repo:nodejs/node repo:vercel/next.js\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":4}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\nIt leads with 143,606 GitHub stars.",
+        "turns": 3,
+        "seconds": 8.767936415999996,
+        "costUsd": 0.028015000000000005,
+        "firstTurnTokens": 1146,
+        "totalInputTokens": 8303,
+        "outputTokens": 126,
+        "inputBreakdown": {
+          "fresh": 4463,
+          "cacheWrite": 0,
+          "cacheRead": 3840
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github search repositories\\\"))\\n\"}",
+          "codemode {\"code\":\"await Promise.allSettled([\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"nodejs/node\\\",\\\"vercel/next.js\\\"].map(async r=>{const x=await tools.mcp__github__search_repositories({query:\\\"repo:\\\"+r,perPage:1});text(x.content.map(c=>c.text"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js",
+        "turns": 2,
+        "seconds": 9.260330000000002,
+        "costUsd": 0.036476,
+        "firstTurnTokens": 5851,
+        "totalInputTokens": 11830,
+        "outputTokens": 89,
+        "inputBreakdown": {
+          "fresh": 6198,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd ../mcp; for r in denoland/deno oven-sh/bun nodejs/node vercel/next.js; do github/search_repositories --query \"repo:$r\" --json | jq -c '.items[] | [.full_name,.stargazers_count]'; done"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\n143,606 stars on GitHub.",
+        "turns": 2,
+        "seconds": 6.9490987500000045,
+        "costUsd": 0.029355,
+        "firstTurnTokens": 2383,
+        "totalInputTokens": 5157,
+        "outputTokens": 119,
+        "inputBreakdown": {
+          "fresh": 5157,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['denoland/deno','oven-sh/bun','nodejs/node','vercel/next.js'].map(async n=>{const r=await tools.github.search_repositories({query:'repo:'+n}); const s=JSON.stringify(r); console.log(n,s.match"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno`: `v2.9.8`\n- `oven-sh/bun`: `bun-v1.4.5`\n- `astral-sh/uv`: `0.13.9`",
+        "turns": 3,
+        "seconds": 18.56170279199998,
+        "costUsd": 0.024315000000000003,
+        "firstTurnTokens": 1138,
+        "totalInputTokens": 7197,
+        "outputTokens": 187,
+        "inputBreakdown": {
+          "fresh": 3357,
+          "cacheWrite": 0,
+          "cacheRead": 3840
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"get_latest_release\\\"))\\n\"}",
+          "codemode {\"code\":\"text(await Promise.allSettled([[\\\"denoland\\\",\\\"deno\\\"],[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]].map(async ([owner,repo])=>{const r=await tools.mcp__github__get_latest_release({owner,repo});return [repo,r.structuredCon"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno`: `v2.9.8`\n- `oven-sh/bun`: `bun-v1.4.5`\n- `astral-sh/uv`: `0.13.9`",
+        "turns": 2,
+        "seconds": 8.071604415999987,
+        "costUsd": 0.012797,
+        "firstTurnTokens": 5843,
+        "totalInputTokens": 11827,
+        "outputTokens": 145,
+        "inputBreakdown": {
+          "fresh": 563,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd ../mcp; for pair in denoland/deno oven-sh/bun astral-sh/uv; do (printf '%s %s\\n' \"$pair\" \"$(github/get_latest_release --owner \"${pair%/*}\" --repo \"${pair#*/}\" --json | jq -r .tag_name)\") & done; wait"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno`: `v2.9.8`\n- `oven-sh/bun`: `bun-v1.4.5`\n- `astral-sh/uv`: `0.13.9`",
+        "turns": 2,
+        "seconds": 7.639139999999999,
+        "costUsd": 0.028990000000000002,
+        "firstTurnTokens": 2373,
+        "totalInputTokens": 4904,
+        "outputTokens": 149,
+        "inputBreakdown": {
+          "fresh": 4904,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['denoland/deno','oven-sh/bun','astral-sh/uv'].map(async s=>{const [owner,repo]=s.split('/');const r=await tools.github.get_latest_release({owner,repo}); console.log(s,JSON.stringify(r).match("
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno`: [`v2.9.8`](https://github.com/denoland/deno/releases/tag/v2.9.8)\n- `oven-sh/bun`: [`bun-v1.4.5`](https://github.com/oven-sh/bun/releases/tag/bun-v1.4.5)\n- `astral-sh/uv`: [`0.13.9`](https://github.com/astral-sh/uv/releases/tag/0.13.9)",
+        "turns": 2,
+        "seconds": 11.516373374999995,
+        "costUsd": 0.167512,
+        "firstTurnTokens": 11434,
+        "totalInputTokens": 42404,
+        "outputTokens": 206,
+        "inputBreakdown": {
+          "fresh": 31140,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"uv\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "17 repositories in the `modelcontextprotocol` GitHub organization have more than 1,000 stars.",
+        "turns": 2,
+        "seconds": 5.99940241699999,
+        "costUsd": 0.035606000000000006,
+        "firstTurnTokens": 5828,
+        "totalInputTokens": 11722,
+        "outputTokens": 78,
+        "inputBreakdown": {
+          "fresh": 6090,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "../mcp/github/search_repositories --query 'org:modelcontextprotocol stars:>1000' --perPage 1 --json | jq .total_count"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The `modelcontextprotocol` GitHub organization has **17 repositories** with more than 1,000 stars.",
+        "turns": 2,
+        "seconds": 7.63175016700002,
+        "costUsd": 0.03826500000000001,
+        "firstTurnTokens": 2361,
+        "totalInputTokens": 7197,
+        "outputTokens": 76,
+        "inputBreakdown": {
+          "fresh": 7197,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:'org:modelcontextprotocol stars:>1000'}); console.log(r);\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "17 repositories in the `modelcontextprotocol` GitHub organization have more than 1,000 stars.",
+        "turns": 2,
+        "seconds": 7.811872291000007,
+        "costUsd": 0.11700500000000001,
+        "firstTurnTokens": 11420,
+        "totalInputTokens": 23029,
+        "outputTokens": 62,
+        "inputBreakdown": {
+          "fresh": 23029,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"perPage\":1}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**17 repositories** in the `modelcontextprotocol` GitHub organization have more than 1,000 stars.",
+        "turns": 3,
+        "seconds": 15.974838790999987,
+        "costUsd": 0.02358,
+        "firstTurnTokens": 1124,
+        "totalInputTokens": 7608,
+        "outputTokens": 94,
+        "inputBreakdown": {
+          "fresh": 3768,
+          "cacheWrite": 0,
+          "cacheRead": 3840
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github search repositories\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__search_repositories({query:\\\"org:modelcontextprotocol stars:>1000 fork:true\\\",perPage:1});text(r)\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[PR #1](https://github.com/modelcontextprotocol/servers/pull/1): **Port over Slack server**",
+        "turns": 2,
+        "seconds": 11.142915750000014,
+        "costUsd": 0.018614000000000002,
+        "firstTurnTokens": 2360,
+        "totalInputTokens": 5092,
+        "outputTokens": 79,
+        "inputBreakdown": {
+          "fresh": 3044,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.github.pull_request_read({method:'get',owner:'modelcontextprotocol',repo:'servers',pullNumber:1}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[Port over Slack server](https://github.com/modelcontextprotocol/servers/pull/1)",
+        "turns": 2,
+        "seconds": 8.391867916999995,
+        "costUsd": 0.067202,
+        "firstTurnTokens": 11420,
+        "totalInputTokens": 23200,
+        "outputTokens": 63,
+        "inputBreakdown": {
+          "fresh": 11936,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__pull_request_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"pullNumber\":1}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "[Pull request #1](https://github.com/modelcontextprotocol/servers/pull/1) is titled “Port over Slack server.”",
+        "turns": 3,
+        "seconds": 9.585872459000006,
+        "costUsd": 0.043297,
+        "firstTurnTokens": 1125,
+        "totalInputTokens": 8771,
+        "outputTokens": 135,
+        "inputBreakdown": {
+          "fresh": 7747,
+          "cacheWrite": 0,
+          "cacheRead": 1024
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github pull request read\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__pull_request_read({owner:\\\"modelcontextprotocol\\\",repo:\\\"servers\\\",pullNumber:1,method:\\\"get\\\"}); for(const c of r.content){try{text(JSON.parse(c.text).title ?? c.text.slice(0,500))}catch{t"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #1 is titled **“Port over Slack server.”**",
+        "turns": 2,
+        "seconds": 5.711434207999991,
+        "costUsd": 0.010092,
+        "firstTurnTokens": 5827,
+        "totalInputTokens": 11724,
+        "outputTokens": 72,
+        "inputBreakdown": {
+          "fresh": 460,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "../mcp/github/pull_request_read --method get --owner modelcontextprotocol --repo servers --pullNumber 1 --json | jq -r '.title'"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 2,
+        "seconds": 6.641613207999995,
+        "costUsd": 0.069552,
+        "firstTurnTokens": 11428,
+        "totalInputTokens": 23832,
+        "outputTokens": 36,
+        "inputBreakdown": {
+          "fresh": 12568,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 3,
+        "seconds": 8.543090790999996,
+        "costUsd": 0.028297000000000003,
+        "firstTurnTokens": 1133,
+        "totalInputTokens": 7289,
+        "outputTokens": 74,
+        "inputBreakdown": {
+          "fresh": 4985,
+          "cacheWrite": 0,
+          "cacheRead": 2304
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"deepwiki structure\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__deepwiki__read_wiki_structure({repoName:\\\"oven-sh/bun\\\"});text(JSON.stringify(r).slice(0,3300))\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 2,
+        "seconds": 5.816369042000006,
+        "costUsd": 0.034986,
+        "firstTurnTokens": 5835,
+        "totalInputTokens": 11736,
+        "outputTokens": 55,
+        "inputBreakdown": {
+          "fresh": 6104,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "../mcp/deepwiki/read_wiki_structure --repoName oven-sh/bun | grep -i 'package manag' | head"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 2,
+        "seconds": 5.402449457999988,
+        "costUsd": 0.013987,
+        "firstTurnTokens": 2369,
+        "totalInputTokens": 5735,
+        "outputTokens": 48,
+        "inputBreakdown": {
+          "fresh": 2151,
+          "cacheWrite": 0,
+          "cacheRead": 3584
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.deepwiki.read_wiki_structure({repoName:'oven-sh/bun'}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Dogwood started in 2018.",
+        "turns": 3,
+        "seconds": 8.07602808400002,
+        "costUsd": 0.033587000000000006,
+        "firstTurnTokens": 1118,
+        "totalInputTokens": 7117,
+        "outputTokens": 87,
+        "inputBreakdown": {
+          "fresh": 6093,
+          "cacheWrite": 0,
+          "cacheRead": 1024
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"memory search nodes\\\"));\\n\"}",
+          "codemode {\"code\":\"await Promise.all([\\\"2018\\\",\\\"95e3411c\\\"].map(async query=>{let r=await tools.mcp__memory__search_nodes({query});text(r.structuredContent??r.content)}));\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Dogwood started in 2018.",
+        "turns": 2,
+        "seconds": 5.06870079100001,
+        "costUsd": 0.010002,
+        "firstTurnTokens": 5820,
+        "totalInputTokens": 11748,
+        "outputTokens": 65,
+        "inputBreakdown": {
+          "fresh": 484,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "../mcp/memory/search_nodes --query 2018 --json; ls -a; ls ../mcp/forged 2>/dev/null"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Dogwood started in 2018.",
+        "turns": 2,
+        "seconds": 7.772318667000014,
+        "costUsd": 0.009332,
+        "firstTurnTokens": 2355,
+        "totalInputTokens": 4798,
+        "outputTokens": 49,
+        "inputBreakdown": {
+          "fresh": 1214,
+          "cacheWrite": 0,
+          "cacheRead": 3584
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.memory.search_nodes({query:'2018'}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Dogwood started in 2018.",
+        "turns": 2,
+        "seconds": 6.799258375000005,
+        "costUsd": 0.11574000000000001,
+        "firstTurnTokens": 11413,
+        "totalInputTokens": 22926,
+        "outputTokens": 37,
+        "inputBreakdown": {
+          "fresh": 22926,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2018\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk",
+        "turns": 2,
+        "seconds": 6.4733437909999925,
+        "costUsd": 0.03724600000000001,
+        "firstTurnTokens": 5843,
+        "totalInputTokens": 11912,
+        "outputTokens": 101,
+        "inputBreakdown": {
+          "fresh": 6280,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "ls -a; ls ../mcp; ls ../mcp/forged; for r in python-sdk typescript-sdk; do (../mcp/github/get_latest_release --owner modelcontextprotocol --repo \"$r\" --json | jq --arg r \"$r\" '{repo:$r,tag_name,published_at}') & done; wait"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\nIts latest release, v2.4.0, was published October 23, 2026, after python-sdk’s v2.3.0 on October 2, 2026.",
+        "turns": 2,
+        "seconds": 8.679843250000005,
+        "costUsd": 0.019769000000000002,
+        "firstTurnTokens": 2378,
+        "totalInputTokens": 4933,
+        "outputTokens": 144,
+        "inputBreakdown": {
+          "fresh": 2885,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['python-sdk','typescript-sdk'].map(async repo=>{const r=await tools.github.get_latest_release({owner:'modelcontextprotocol',repo}); console.log(repo,JSON.stringify(r).match(/\\\"(?:published_at"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nTypeScript SDK v2.4.0 was published on October 23, 2026, after Python SDK v2.3.0 on October 2, 2026.",
+        "turns": 2,
+        "seconds": 8.981418666999991,
+        "costUsd": 0.087742,
+        "firstTurnTokens": 11436,
+        "totalInputTokens": 26972,
+        "outputTokens": 119,
+        "inputBreakdown": {
+          "fresh": 15708,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nTypeScript SDK v2.4.0 was published on October 23, 2026, after Python SDK v2.3.0 on October 2, 2026.",
+        "turns": 3,
+        "seconds": 9.723814957999974,
+        "costUsd": 0.03730700000000001,
+        "firstTurnTokens": 1141,
+        "totalInputTokens": 7303,
+        "outputTokens": 180,
+        "inputBreakdown": {
+          "fresh": 6279,
+          "cacheWrite": 0,
+          "cacheRead": 1024
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github latest release\\\"))\\n\"}",
+          "codemode {\"code\":\"await Promise.allSettled([\\\"python-sdk\\\",\\\"typescript-sdk\\\"].map(async repo=>{const r=await tools.mcp__github__get_latest_release({owner:\\\"modelcontextprotocol\\\",repo});const s=JSON.stringify(r);text([repo,s.match(/.{0,8}p"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub’s open issue counts, including pull requests: deno 1,755; celld 103; rusty_v8 68.",
+        "turns": 2,
+        "seconds": 10.141174958999997,
+        "costUsd": 0.019954,
+        "firstTurnTokens": 2382,
+        "totalInputTokens": 5252,
+        "outputTokens": 97,
+        "inputBreakdown": {
+          "fresh": 3204,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:'org:denoland sort:stars-desc',perPage:3}); console.log(JSON.stringify(r).slice(0,14000));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub’s open-issue counts (including pull requests): deno 1,755; celld 103; rusty_v8 68.",
+        "turns": 2,
+        "seconds": 8.248046917,
+        "costUsd": 0.088477,
+        "firstTurnTokens": 11444,
+        "totalInputTokens": 27341,
+        "outputTokens": 82,
+        "inputBreakdown": {
+          "fresh": 16077,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:denoland\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":3,\"minimal_output\":false}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\nGitHub’s open-issue counts (including pull requests): deno 1,755; celld 103; rusty_v8 68.",
+        "turns": 3,
+        "seconds": 8.498788416000025,
+        "costUsd": 0.06347,
+        "firstTurnTokens": 1146,
+        "totalInputTokens": 12040,
+        "outputTokens": 109,
+        "inputBreakdown": {
+          "fresh": 12040,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github search repositories\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__search_repositories({query:\\\"org:denoland\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3,minimal_output:false});text(r)\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub counts 1,755 open issues and pull requests for `deno`, versus 103 for `celld` and 68 for `rusty_v8`.",
+        "turns": 2,
+        "seconds": 8.344820083999977,
+        "costUsd": 0.037956,
+        "firstTurnTokens": 5848,
+        "totalInputTokens": 11952,
+        "outputTokens": 118,
+        "inputBreakdown": {
+          "fresh": 6320,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "ls -la; cd ../mcp; ls; github/search_repositories --query 'org:denoland' --sort stars --order desc --perPage 3 --json | jq '.items[] | {name,stargazers_count,open_issues_count}'"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js",
+        "turns": 2,
+        "seconds": 8.518322125000006,
+        "costUsd": 0.12003000000000001,
+        "firstTurnTokens": 11441,
+        "totalInputTokens": 23586,
+        "outputTokens": 70,
+        "inputBreakdown": {
+          "fresh": 23586,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:denoland/deno repo:oven-sh/bun repo:nodejs/node repo:vercel/next.js\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":4}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js",
+        "turns": 3,
+        "seconds": 17.778843041999995,
+        "costUsd": 0.027690000000000003,
+        "firstTurnTokens": 1147,
+        "totalInputTokens": 8298,
+        "outputTokens": 116,
+        "inputBreakdown": {
+          "fresh": 4458,
+          "cacheWrite": 0,
+          "cacheRead": 3840
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github search repositories\\\"))\\n\"}",
+          "codemode {\"code\":\"text(await Promise.allSettled([\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"nodejs/node\\\",\\\"vercel/next.js\\\"].map(async r=>{let x=await tools.mcp__github__search_repositories({query:\\\"repo:\\\"+r,perPage:1});return x.content.map(c=>c"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js",
+        "turns": 2,
+        "seconds": 6.164747708999989,
+        "costUsd": 0.036556000000000005,
+        "firstTurnTokens": 5849,
+        "totalInputTokens": 11846,
+        "outputTokens": 89,
+        "inputBreakdown": {
+          "fresh": 6214,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "../mcp/github/search_repositories --query 'repo:denoland/deno repo:oven-sh/bun repo:nodejs/node repo:vercel/next.js' --sort stars --order desc --json | jq '.items[] | [.full_name,.stargazers_count]'"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js",
+        "turns": 2,
+        "seconds": 6.870626917000016,
+        "costUsd": 0.029220000000000003,
+        "firstTurnTokens": 2383,
+        "totalInputTokens": 5094,
+        "outputTokens": 125,
+        "inputBreakdown": {
+          "fresh": 5094,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await Promise.all(['denoland/deno','oven-sh/bun','nodejs/node','vercel/next.js'].map(x=>tools.github.search_repositories({query:`repo:${x}`}))); for(const x of r) console.log(JSON.stringify(x).match(/.{"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno`: `v2.9.8`\n- `oven-sh/bun`: `bun-v1.4.5`\n- `astral-sh/uv`: `0.13.9`",
+        "turns": 3,
+        "seconds": 10.964460292000004,
+        "costUsd": 0.0413,
+        "firstTurnTokens": 1136,
+        "totalInputTokens": 7180,
+        "outputTokens": 180,
+        "inputBreakdown": {
+          "fresh": 7180,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github latest release\\\"))\\n\"}",
+          "codemode {\"code\":\"text(await Promise.allSettled([[\\\"denoland\\\",\\\"deno\\\"],[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]].map(async ([owner,repo])=>{const r=await tools.mcp__github__get_latest_release({owner,repo});return [repo,JSON.stringify("
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "denoland/deno: `v2.9.8`  \noven-sh/bun: `bun-v1.4.5`  \nastral-sh/uv: `0.13.9`",
+        "turns": 2,
+        "seconds": 7.718455834000022,
+        "costUsd": 0.038541000000000006,
+        "firstTurnTokens": 5841,
+        "totalInputTokens": 11859,
+        "outputTokens": 153,
+        "inputBreakdown": {
+          "fresh": 6227,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd ../mcp; ls; ls forged 2>/dev/null; for r in denoland/deno oven-sh/bun astral-sh/uv; do (github/get_latest_release --owner \"${r%/*}\" --repo \"${r#*/}\" --json | jq -r --arg r \"$r\" '\"\\($r): \\(.tag_name)\"' ) & done; wait"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno`: `v2.9.8`\n- `oven-sh/bun`: `bun-v1.4.5`\n- `astral-sh/uv`: `0.13.9`",
+        "turns": 2,
+        "seconds": 9.431131541999989,
+        "costUsd": 0.028955,
+        "firstTurnTokens": 2373,
+        "totalInputTokens": 4903,
+        "outputTokens": 148,
+        "inputBreakdown": {
+          "fresh": 4903,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['denoland/deno','oven-sh/bun','astral-sh/uv'].map(async s=>{const [owner,repo]=s.split('/');const r=await tools.github.get_latest_release({owner,repo});console.log(s,JSON.stringify(r).match(/"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "- `denoland/deno`: `v2.9.8`\n- `oven-sh/bun`: `bun-v1.4.5`\n- `astral-sh/uv`: `0.13.9`",
+        "turns": 2,
+        "seconds": 10.675396500000003,
+        "costUsd": 0.16576700000000003,
+        "firstTurnTokens": 11433,
+        "totalInputTokens": 42403,
+        "outputTokens": 148,
+        "inputBreakdown": {
+          "fresh": 31139,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"uv\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "17 repositories in the `modelcontextprotocol` GitHub organization have more than 1,000 stars.",
+        "turns": 2,
+        "seconds": 6.651782124999998,
+        "costUsd": 0.06169500000000001,
+        "firstTurnTokens": 5828,
+        "totalInputTokens": 11781,
+        "outputTokens": 93,
+        "inputBreakdown": {
+          "fresh": 11781,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd ../mcp && ls -a && ./github/search_repositories --query 'org:modelcontextprotocol stars:>1000' --json | jq '{total_count,incomplete_results}' ; ls -a ../work-pi-folder"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "17 repositories in the `modelcontextprotocol` GitHub organization have more than 1,000 stars.",
+        "turns": 2,
+        "seconds": 6.382322957999976,
+        "costUsd": 0.008528,
+        "firstTurnTokens": 2360,
+        "totalInputTokens": 4924,
+        "outputTokens": 78,
+        "inputBreakdown": {
+          "fresh": 828,
+          "cacheWrite": 0,
+          "cacheRead": 4096
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"let r=await tools.github.search_repositories({query:'org:modelcontextprotocol stars:>1000',perPage:1});console.log(r)\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "17 repositories in the `modelcontextprotocol` GitHub organization have more than 1,000 stars.",
+        "turns": 2,
+        "seconds": 7.2527225000000035,
+        "costUsd": 0.066317,
+        "firstTurnTokens": 11420,
+        "totalInputTokens": 23029,
+        "outputTokens": 62,
+        "inputBreakdown": {
+          "fresh": 11765,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"perPage\":1}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**17 repositories** in the [`modelcontextprotocol` GitHub organization](https://github.com/search?q=org%3Amodelcontextprotocol+stars%3A%3E1000&type=repositories) have more than 1,000 stars.",
+        "turns": 3,
+        "seconds": 17.919940833000002,
+        "costUsd": 0.024380000000000002,
+        "firstTurnTokens": 1124,
+        "totalInputTokens": 7606,
+        "outputTokens": 121,
+        "inputBreakdown": {
+          "fresh": 3766,
+          "cacheWrite": 0,
+          "cacheRead": 3840
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github search repositories\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__search_repositories({query:\\\"org:modelcontextprotocol stars:>1000\\\",perPage:1});text(r)\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "[Port over Slack server](https://github.com/modelcontextprotocol/servers/pull/1)",
+        "turns": 2,
+        "seconds": 6.610895333000022,
+        "costUsd": 0.027855000000000005,
+        "firstTurnTokens": 2360,
+        "totalInputTokens": 5097,
+        "outputTokens": 79,
+        "inputBreakdown": {
+          "fresh": 5097,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.pull_request_read({method:'get',owner:'modelcontextprotocol',repo:'servers',pullNumber:1}); console.log(r);\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "[PR #1](https://github.com/modelcontextprotocol/servers/pull/1) is titled **“Port over Slack server.”**",
+        "turns": 2,
+        "seconds": 8.010779250000022,
+        "costUsd": 0.067472,
+        "firstTurnTokens": 11420,
+        "totalInputTokens": 23200,
+        "outputTokens": 72,
+        "inputBreakdown": {
+          "fresh": 11936,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__pull_request_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"pullNumber\":1}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "[Pull request #1](https://github.com/modelcontextprotocol/servers/pull/1) is titled **Port over Slack server**.",
+        "turns": 3,
+        "seconds": 9.567529958,
+        "costUsd": 0.031952,
+        "firstTurnTokens": 1125,
+        "totalInputTokens": 8776,
+        "outputTokens": 140,
+        "inputBreakdown": {
+          "fresh": 5192,
+          "cacheWrite": 0,
+          "cacheRead": 3584
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"pull_request_read\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__pull_request_read({method:\\\"get\\\",owner:\\\"modelcontextprotocol\\\",repo:\\\"servers\\\",pullNumber:1}); text(r.structuredContent?.title ?? r.content.map(x=>{try{return JSON.parse(x.text).title ??"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #1 is titled **Port over Slack server**.",
+        "turns": 2,
+        "seconds": 11.470498250000004,
+        "costUsd": 0.035416,
+        "firstTurnTokens": 5828,
+        "totalInputTokens": 11726,
+        "outputTokens": 71,
+        "inputBreakdown": {
+          "fresh": 6094,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "../mcp/github/pull_request_read --method get --owner modelcontextprotocol --repo servers --pullNumber 1 --json | jq -r '.title'"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 2,
+        "seconds": 6.154863582999998,
+        "costUsd": 0.069562,
+        "firstTurnTokens": 11429,
+        "totalInputTokens": 23834,
+        "outputTokens": 36,
+        "inputBreakdown": {
+          "fresh": 12570,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 4,
+        "seconds": 23.03944104200002,
+        "costUsd": 0.030441000000000003,
+        "firstTurnTokens": 1132,
+        "totalInputTokens": 10239,
+        "outputTokens": 153,
+        "inputBreakdown": {
+          "fresh": 4607,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"deepwiki wiki structure\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__deepwiki__read_wiki_structure({repoName:\\\"oven-sh/bun\\\"}); text(r.content.map(x=>x.text).join(\\\"\\\\n\\\").split(\\\"\\\\n\\\").filter(x=>/package manager|^ {0,2}\\\\d+ /.test(x)).slice(0,35))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__deepwiki__read_wiki_structure({repoName:\\\"oven-sh/bun\\\"});text(JSON.stringify(r).slice(0,4000))\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 2,
+        "seconds": 5.554478833000001,
+        "costUsd": 0.060515,
+        "firstTurnTokens": 5836,
+        "totalInputTokens": 11743,
+        "outputTokens": 60,
+        "inputBreakdown": {
+          "fresh": 11743,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "../mcp/deepwiki/read_wiki_structure --repoName oven-sh/bun | grep -i 'package manag' | cut -c1-180"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Package Manager",
+        "turns": 2,
+        "seconds": 8.699527208999992,
+        "costUsd": 0.020889,
+        "firstTurnTokens": 2368,
+        "totalInputTokens": 5733,
+        "outputTokens": 48,
+        "inputBreakdown": {
+          "fresh": 3685,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.deepwiki.read_wiki_structure({repoName:'oven-sh/bun'}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Dogwood started in 2018.",
+        "turns": 3,
+        "seconds": 15.215448042000004,
+        "costUsd": 0.033552000000000005,
+        "firstTurnTokens": 1116,
+        "totalInputTokens": 7110,
+        "outputTokens": 87,
+        "inputBreakdown": {
+          "fresh": 6086,
+          "cacheWrite": 0,
+          "cacheRead": 1024
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"memory search\\\"))\\n\"}",
+          "codemode {\"code\":\"await Promise.allSettled([\\\"2018\\\",\\\"a759477d\\\"].map(async query=>{let r=await tools.mcp__memory__search_nodes({query});text(r.structuredContent??r.content)}))\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Dogwood started in 2018.",
+        "turns": 2,
+        "seconds": 6.08632379200001,
+        "costUsd": 0.036231,
+        "firstTurnTokens": 5820,
+        "totalInputTokens": 11883,
+        "outputTokens": 72,
+        "inputBreakdown": {
+          "fresh": 6251,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "pwd; ls -la; ls ../mcp; ls ../mcp/forged 2>/dev/null; ../mcp/memory/search_nodes --query 2018 --json"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Dogwood started in 2018.",
+        "turns": 2,
+        "seconds": 4.8362561250000144,
+        "costUsd": 0.02544,
+        "firstTurnTokens": 2353,
+        "totalInputTokens": 4794,
+        "outputTokens": 49,
+        "inputBreakdown": {
+          "fresh": 4794,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.memory.search_nodes({query:'2018'}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Dogwood started in 2018.",
+        "turns": 2,
+        "seconds": 6.669221707999998,
+        "costUsd": 0.065052,
+        "firstTurnTokens": 11413,
+        "totalInputTokens": 22926,
+        "outputTokens": 37,
+        "inputBreakdown": {
+          "fresh": 11662,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2018\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\nIts latest release was published October 23, 2026, after Python SDK’s October 2 release. I couldn’t find `dfe9c6df` to run it.",
+        "turns": 2,
+        "seconds": 7.645348166999989,
+        "costUsd": 0.012682,
+        "firstTurnTokens": 5845,
+        "totalInputTokens": 11858,
+        "outputTokens": 136,
+        "inputBreakdown": {
+          "fresh": 594,
+          "cacheWrite": 0,
+          "cacheRead": 11264
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd ../mcp; for r in python-sdk typescript-sdk; do github/get_latest_release --owner modelcontextprotocol --repo \"$r\" --json | jq '{tag_name,published_at}'; done; command -v dfe9c6df; find .. -name '*dfe9c6df*'"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nIts latest release (v2.4.0) was published on October 23, 2026, after python-sdk’s latest release (v2.3.0) on October 2, 2026.",
+        "turns": 2,
+        "seconds": 12.549158667000011,
+        "costUsd": 0.011678000000000001,
+        "firstTurnTokens": 2379,
+        "totalInputTokens": 5062,
+        "outputTokens": 160,
+        "inputBreakdown": {
+          "fresh": 966,
+          "cacheWrite": 0,
+          "cacheRead": 4096
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['python-sdk','typescript-sdk'].map(async repo=>{const r=await tools.github.get_latest_release({owner:'modelcontextprotocol',repo}); const s=JSON.stringify(r); console.log(repo,s.match(/.{0,20"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "modelcontextprotocol/typescript-sdk\n\nIts latest release, v2.4.0, was published on October 23, 2026. The Python SDK’s latest release, v2.3.0, was published on October 2, 2026.",
+        "turns": 2,
+        "seconds": 8.690919082999987,
+        "costUsd": 0.037444000000000005,
+        "firstTurnTokens": 11436,
+        "totalInputTokens": 26972,
+        "outputTokens": 132,
+        "inputBreakdown": {
+          "fresh": 4444,
+          "cacheWrite": 0,
+          "cacheRead": 22528
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nIts latest release (v2.4.0) was published October 23, 2026, after python-sdk’s v2.3.0 on October 2, 2026.",
+        "turns": 3,
+        "seconds": 9.583227625,
+        "costUsd": 0.036077000000000005,
+        "firstTurnTokens": 1143,
+        "totalInputTokens": 7195,
+        "outputTokens": 157,
+        "inputBreakdown": {
+          "fresh": 6171,
+          "cacheWrite": 0,
+          "cacheRead": 1024
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"get_latest_release\\\"))\\n\"}",
+          "codemode {\"code\":\"text(await Promise.allSettled([\\\"python-sdk\\\",\\\"typescript-sdk\\\"].map(async repo=>{let r=await tools.mcp__github__get_latest_release({owner:\\\"modelcontextprotocol\\\",repo}); let s=r.content[0].text; try {let j=JSON.parse(s)"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub’s open count (issues and pull requests): deno 1,755; celld 103; rusty_v8 68.",
+        "turns": 2,
+        "seconds": 6.9653356669999775,
+        "costUsd": 0.019984000000000002,
+        "firstTurnTokens": 2385,
+        "totalInputTokens": 5258,
+        "outputTokens": 97,
+        "inputBreakdown": {
+          "fresh": 3210,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:'org:denoland sort:stars-desc',perPage:3}); console.log(JSON.stringify(r).slice(0,15000))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-direct",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub counts 1,755 open issues, including pull requests, versus 103 for `celld` and 68 for `rusty_v8`.",
+        "turns": 2,
+        "seconds": 8.108429459000007,
+        "costUsd": 0.037819,
+        "firstTurnTokens": 11441,
+        "totalInputTokens": 27335,
+        "outputTokens": 84,
+        "inputBreakdown": {
+          "fresh": 4807,
+          "cacheWrite": 0,
+          "cacheRead": 22528
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:denoland\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":3,\"minimal_output\":false}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub reports 1,755 open issues including pull requests, versus 103 for `celld` and 68 for `rusty_v8`.",
+        "turns": 3,
+        "seconds": 11.859299624999984,
+        "costUsd": 0.029903000000000002,
+        "firstTurnTokens": 1146,
+        "totalInputTokens": 7609,
+        "outputTokens": 151,
+        "inputBreakdown": {
+          "fresh": 4793,
+          "cacheWrite": 0,
+          "cacheRead": 2816
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github search repositories\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__search_repositories({query:\\\"org:denoland\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:3,minimal_output:false}); const d=r.structuredContent??JSON.parse(r.content[0].text);text(d.items?.map(x=>["
+        ]
+      }
+    },
+    {
+      "setup": "pi-folder",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nGitHub counts 1,755 open issues and pull requests, versus 103 for `celld` and 68 for `rusty_v8`.",
+        "turns": 2,
+        "seconds": 7.558169042000023,
+        "costUsd": 0.037431000000000006,
+        "firstTurnTokens": 5851,
+        "totalInputTokens": 11883,
+        "outputTokens": 112,
+        "inputBreakdown": {
+          "fresh": 6251,
+          "cacheWrite": 0,
+          "cacheRead": 5632
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd ../mcp && github/search_repositories --query 'org:denoland' --sort stars --order desc --perPage 3 --minimal_output false --json | jq '.items[] | {name,stargazers_count,open_issues_count}'"
+        ]
+      }
+    }
+  ]
+}

@@ -10,7 +10,7 @@ dogu gives the agent the same tools in a lighter way. We tested whether that is 
 - dogu was also cheaper than Claude Code's own fix for this problem, "tool search", by about 65%.
 - Loading the tools the usual way is still **about a second faster** on quick, one-step tasks.
 - With Codex, dogu read 30% less and was faster, in normal and in fast mode.
-- One agent's own feature (pi's "code mode") beat dogu on cost.
+- Inside pi, **dogu's code mode beats pi's own code mode**: about a third cheaper and faster, on two sets of tasks.
 
 ![At a glance: 62% lower cost per task with the dogu folder in Claude Code; 120 of 120 answers right; 53% fewer tokens read with Codex and Terra; and the trade-off, about 1 second slower on quick tasks than loading the tools directly](docs/bench/glance.svg)
 
@@ -86,9 +86,9 @@ On a second set, made of the tricky counting questions where code mode used to p
 
 ## 3. Other agents
 
-The same 8 tasks, with three agents. Each bar compares dogu's folder with that agent's usual way, and, where the agent has one, with its own fix for the same problem. Left of zero means dogu was cheaper; right means it cost more.
+The same 8 tasks, with three agents (for pi with gpt-6.2, a newer set of 8). Each bar compares dogu with that agent's usual way, and, where the agent has one, with its own fix for the same problem: dogu's folder, and for pi with gpt-6.2 dogu's code mode. Left of zero means dogu was cheaper; right means it cost more.
 
-![Change in cost per task with the dogu folder: Claude Code Sonnet -62% vs loading directly and -65% vs tool search; Haiku -56% and -52%; pi -35% vs loading directly and +24% vs its own code mode; Codex -30% in tokens](docs/bench/agents.svg)
+![Change in cost per task with dogu: Claude Code Sonnet -62% vs loading directly and -65% vs tool search; Haiku -56% and -52%; pi with gpt-6.2-sol, dogu code mode -73% vs loading directly and -31% vs pi's own code mode; pi with gpt-6.1-sol, dogu folder -35% vs loading directly and +24% vs pi's code mode; Codex -30% in tokens](docs/bench/agents.svg)
 
 | Agent and model | Compared with | Change in cost with dogu |
 |---|---|---|
@@ -96,13 +96,26 @@ The same 8 tasks, with three agents. Each bar compares dogu's folder with that a
 | Claude Code, Sonnet | Its tool search | **65% less** |
 | Claude Code, Haiku | Loading directly | **56% less** |
 | Claude Code, Haiku | Its tool search | **52% less** |
-| pi, gpt-6.1-sol | Loading directly | **35% less** |
-| pi, gpt-6.1-sol | Its own code mode | **24% more** |
+| pi, gpt-6.2-sol, dogu code mode | Loading directly | **73% less** |
+| pi, gpt-6.2-sol, dogu code mode | Its own code mode | **31% less** |
+| pi, gpt-6.1-sol, dogu folder | Loading directly | **35% less** |
+| pi, gpt-6.1-sol, dogu folder | Its own code mode | 24% more |
 | Codex, its default model | Loading directly | 30% fewer tokens* |
 
 \* Codex runs on a ChatGPT plan and does not report a price, so this one compares tokens. It uses the setting dogu's README asks Codex users to add (letting Codex's sandbox write `~/.npm`). An earlier run without that setting saved only 6%, because one of the tools could not start. Codex also did something worth knowing: with the tools loaded directly, it often skipped them and fetched web pages itself, in 4 of 16 runs. With dogu it did that once in 32.
 
-pi's own code mode was built for exactly this problem, and in pi it is the cheaper choice. The dogu folder was the fastest of pi's three options.
+pi's own code mode was built for exactly this problem. Inside pi, dogu's code mode (`dogu serve`, added to pi as an MCP server) now does it better, with gpt-6.2-sol:
+
+| In pi, gpt-6.2-sol | Cost per task | Time (median) | Model turns | Answers right |
+|---|---|---|---|---|
+| Loading the servers directly | $0.087 | 8.0 s | 2.0 | 24 of 24 |
+| pi's own code mode | $0.034 | 11.0 s | 3.2 | 24 of 24 |
+| dogu folder | $0.039 | **6.8 s** | 2.1 | 24 of 24 |
+| **dogu code mode** | **$0.023** | 7.0 s | **2.0** | 24 of 24 |
+| *A second set of tasks:* pi's own code mode | $0.035 | 9.3 s | 3.0 | 21 of 21 |
+| *A second set of tasks:* **dogu code mode** | **$0.023** | **6.7 s** | **2.1** | 21 of 21 |
+
+pi's code mode starts with a very short list and then searches for the tool it needs, which takes an extra turn; dogu's list already names each tool with its arguments and what it does, so the agent can usually go straight to work. With pi, gpt-6.2 models need reasoning on at least "low", so these runs use low. ([set 3](bench/results/2026-11-22-pi-gpt62.md), [set 4](bench/results/2026-11-22-pi-gpt62-set4.md))
 
 ## 4. Fast mode
 
@@ -142,7 +155,7 @@ We also tried letting a strong model (Sonnet) save the tool and a cheap model (H
 ## 6. Where dogu does not win
 
 - With Claude Code, on quick one-step tasks, **loading the tools directly was about a second faster** with dogu 0.5.0. 0.6.1 is as fast or faster on typical tasks, but on some multi-step counting tasks loading directly is still faster; see [Where the seconds go](#where-the-seconds-go).
-- In **pi**, pi's own code mode is cheaper than dogu's folder.
+- In **pi**, pi's own code mode is still a little cheaper than dogu's *folder* (dogu's code mode is cheaper than both).
 - With **Codex**, without the `~/.npm` setting the saving was small (6%), because a local tool could not start. Since 0.6.0 no setting is needed: dogu gives npm a cache folder it is allowed to write.
 - An agent told only "read the README first", instead of having the tool list in its standing instructions, **costs more** than loading the tools directly, because it reads the long list in the middle of every task.
 

@@ -73,6 +73,19 @@ In an open session, code mode now ties loading the servers directly; counting st
 
 **The other held-out sets on the same code:** set 1 re-run with 0.6.0 ([2026-11-22-heldout-v0.6.0](../../bench/results/2026-11-22-heldout-v0.6.0.md), 7 of 8 tasks, 84/84 right): with start-up, code mode 5.06 s median against 5.56 s loading directly; in an open session 4.86 s against 4.33 s. That was before experiments 6 and 7.
 
+## Against pi's own code mode, inside pi
+
+pi ships a code mode built for this problem: a very short list of tools, a `searchTools` function the program calls to find one, and TypeScript in QuickJS. dogu's code mode can run inside pi too, as an MCP server pi declares directly (`pi-dogu` in the bench). With gpt-6.2-sol (reasoning "low", the lowest it allows), all answers right in every setup:
+
+| | Set 3 (8 × 3): cost | time (median) | turns | Set 4 (7 × 3): cost | time (median) | turns |
+|---|---|---|---|---|---|---|
+| pi, tools declared directly | $0.087 | 8.0 s | 2.0 | | | |
+| pi's own code mode | $0.034 | 11.0 s | 3.2 | $0.035 | 9.3 s | 3.0 |
+| dogu folder | $0.039 | 6.8 s | 2.1 | | | |
+| **dogu code mode** | **$0.023** | 7.0 s | **2.0** | **$0.023** | **6.7 s** | **2.1** |
+
+dogu's code mode is 31% and 35% cheaper than pi's, and 36% and 28% faster. pi's code mode reads less on the first turn (1.1k tokens against 2.4k), but its program must first search for the tool it needs, which costs a turn; dogu's list names each tool with its arguments and what it does, so the first program usually does the job. Neither set was used to tune anything in pi. ([set 3](../../bench/results/2026-11-22-pi-gpt62.md), [set 4](../../bench/results/2026-11-22-pi-gpt62-set4.md))
+
 ## Where the time goes now
 
 The model's own work is the biggest part of every task: 3.1 to 4.1 s per task on average, depending on the setup. What differs:

@@ -1,0 +1,1148 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.7.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "23f9aa9",
+  "dirty": false,
+  "answers": {
+    "ruff-issues": [
+      "2337"
+    ],
+    "last-commit": [
+      "docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)"
+    ],
+    "pr-opener": [
+      "jspahrsummers"
+    ],
+    "most-forks": [
+      "pallets/flask"
+    ],
+    "pushed-last": [
+      "oven-sh/bun"
+    ],
+    "ruff-section": [
+      "Ruff Formatter"
+    ],
+    "entity-year": [
+      "2026"
+    ]
+  },
+  "records": [
+    {
+      "setup": "pi-codemode",
+      "task": "ruff-issues",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "GitHub reports **2,337 open issues** for [astral-sh/ruff](https://github.com/astral-sh/ruff), including open pull requests.",
+        "turns": 3,
+        "seconds": 8.396997209,
+        "costUsd": 0.030665,
+        "firstTurnTokens": 1131,
+        "totalInputTokens": 8989,
+        "outputTokens": 100,
+        "inputBreakdown": {
+          "fresh": 5149,
+          "cacheWrite": 0,
+          "cacheRead": 3840
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github repository search\\\"))\\n\"}",
+          "codemode {\"code\":\"text(await tools.mcp__github__search_repositories({query:\\\"repo:astral-sh/ruff\\\",minimal_output:false,perPage:1}))\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "ruff-issues",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "GitHub reports **2,337** open issues for `astral-sh/ruff`, including open pull requests.",
+        "turns": 2,
+        "seconds": 6.005476834000001,
+        "costUsd": 0.017879000000000003,
+        "firstTurnTokens": 2367,
+        "totalInputTokens": 4975,
+        "outputTokens": 74,
+        "inputBreakdown": {
+          "fresh": 2927,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:'repo:astral-sh/ruff'}); console.log(r);\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "last-commit",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)",
+        "turns": 2,
+        "seconds": 5.988004125,
+        "costUsd": 0.027945000000000005,
+        "firstTurnTokens": 2369,
+        "totalInputTokens": 5157,
+        "outputTokens": 72,
+        "inputBreakdown": {
+          "fresh": 5157,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.github.list_commits({owner:'modelcontextprotocol',repo:'modelcontextprotocol',perPage:1}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "last-commit",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)",
+        "turns": 3,
+        "seconds": 9.724384625000003,
+        "costUsd": 0.031295,
+        "firstTurnTokens": 1131,
+        "totalInputTokens": 10195,
+        "outputTokens": 112,
+        "inputBreakdown": {
+          "fresh": 5075,
+          "cacheWrite": 0,
+          "cacheRead": 5120
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github list commits\\\"));\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__list_commits({owner:\\\"modelcontextprotocol\\\",repo:\\\"modelcontextprotocol\\\",perPage:1,fields:[\\\"commit\\\",\\\"sha\\\",\\\"html_url\\\"]});text(r.content.map(x=>x.text?.slice(0,3500)));\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "pr-opener",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "`jspahrsummers`",
+        "turns": 3,
+        "seconds": 9.752597583,
+        "costUsd": 0.026874000000000002,
+        "firstTurnTokens": 1126,
+        "totalInputTokens": 8784,
+        "outputTokens": 123,
+        "inputBreakdown": {
+          "fresh": 4176,
+          "cacheWrite": 0,
+          "cacheRead": 4608
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github pull request read\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__pull_request_read({owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",pullNumber:7,method:\\\"get\\\"}); for(const c of r.content){try{const d=JSON.parse(c.text);text(d.user?.login??JSON.string"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "pr-opener",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "`jspahrsummers`",
+        "turns": 2,
+        "seconds": 6.715605541,
+        "costUsd": 0.027665000000000002,
+        "firstTurnTokens": 2362,
+        "totalInputTokens": 5137,
+        "outputTokens": 66,
+        "inputBreakdown": {
+          "fresh": 5137,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.pull_request_read({method:'get',owner:'modelcontextprotocol',repo:'python-sdk',pullNumber:7}); console.log(r);\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "most-forks",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "pallets/flask\n",
+        "turns": 2,
+        "seconds": 6.802769625000001,
+        "costUsd": 0.020763,
+        "firstTurnTokens": 2371,
+        "totalInputTokens": 4923,
+        "outputTokens": 102,
+        "inputBreakdown": {
+          "fresh": 3387,
+          "cacheWrite": 0,
+          "cacheRead": 1536
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['astral-sh/ruff','astral-sh/uv','pallets/flask'].map(async n=>{const r=await tools.github.search_repositories({query:'repo:'+n});console.log(n,JSON.stringify(r).match(/.{0,15}forks_count.{0,2"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "most-forks",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "pallets/flask\nGitHub reported 17,294 forks, ahead of astral-sh/uv (3,928) and astral-sh/ruff (2,775).",
+        "turns": 3,
+        "seconds": 10.881292584000002,
+        "costUsd": 0.043685,
+        "firstTurnTokens": 1134,
+        "totalInputTokens": 7693,
+        "outputTokens": 174,
+        "inputBreakdown": {
+          "fresh": 7693,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"de22faf2\\\"));text(await searchTools(\\\"github search repositories\\\"))\\n\"}",
+          "codemode {\"code\":\"await Promise.allSettled([\\\"astral-sh/ruff\\\",\\\"astral-sh/uv\\\",\\\"pallets/flask\\\"].map(async n=>{let r=await tools.mcp__github__search_repositories({query:`repo:${n}`,minimal_output:false,perPage:1});text([n,JSON.stringify(r"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "pushed-last",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "oven-sh/bun\nIts latest default-branch commit had the newest committer timestamp: 2026-11-22 21:09:07 UTC. This compares commit timestamps, not push-event timestamps.",
+        "turns": 3,
+        "seconds": 9.944567250000004,
+        "costUsd": 0.038295,
+        "firstTurnTokens": 1149,
+        "totalInputTokens": 11175,
+        "outputTokens": 182,
+        "inputBreakdown": {
+          "fresh": 6055,
+          "cacheWrite": 0,
+          "cacheRead": 5120
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github list commits repository\\\"))\\n\"}",
+          "codemode {\"code\":\"text(ALL_TOOLS.filter(x=>/event|activity|bash/.test(x))); await Promise.allSettled([\\\"oven-sh/bun\\\",\\\"denoland/deno\\\",\\\"astral-sh/uv\\\"].map(async n=>{let [owner,repo]=n.split(\\\"/\\\");let r=await tools.mcp__github__list_comm"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "pushed-last",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "oven-sh/bun",
+        "turns": 2,
+        "seconds": 10.699679708,
+        "costUsd": 0.026134,
+        "firstTurnTokens": 2383,
+        "totalInputTokens": 6464,
+        "outputTokens": 101,
+        "inputBreakdown": {
+          "fresh": 4416,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['oven-sh/bun','denoland/deno','astral-sh/uv'].map(async n=>{let [owner,repo]=n.split('/');let r=await tools.github.list_commits({owner,repo,perPage:1});console.log(n,JSON.stringify(r).slice(0"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Ruff Formatter",
+        "turns": 2,
+        "seconds": 5.298651374999994,
+        "costUsd": 0.028840000000000005,
+        "firstTurnTokens": 2368,
+        "totalInputTokens": 5468,
+        "outputTokens": 50,
+        "inputBreakdown": {
+          "fresh": 5468,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.deepwiki.read_wiki_structure({repoName:'astral-sh/ruff'}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Ruff Formatter",
+        "turns": 3,
+        "seconds": 10.469749959000001,
+        "costUsd": 0.036827,
+        "firstTurnTokens": 1131,
+        "totalInputTokens": 10117,
+        "outputTokens": 79,
+        "inputBreakdown": {
+          "fresh": 6533,
+          "cacheWrite": 0,
+          "cacheRead": 3584
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"deepwiki read_wiki_structure\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__deepwiki__read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"}); text(JSON.stringify(r).slice(0,6500))\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Maple started in **2026**, according to the knowledge graph.",
+        "turns": 3,
+        "seconds": 7.991943333000003,
+        "costUsd": 0.037790000000000004,
+        "firstTurnTokens": 1117,
+        "totalInputTokens": 7162,
+        "outputTokens": 66,
+        "inputBreakdown": {
+          "fresh": 7162,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"memory search nodes\\\"));\\n\"}",
+          "codemode {\"code\":\"text(await tools.mcp__memory__search_nodes({query:\\\"Project Maple\\\"}));\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Maple started in 2026.",
+        "turns": 2,
+        "seconds": 4.677450125000003,
+        "costUsd": 0.016214,
+        "firstTurnTokens": 2353,
+        "totalInputTokens": 4798,
+        "outputTokens": 48,
+        "inputBreakdown": {
+          "fresh": 2750,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.memory.search_nodes({query:'Project Maple'}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "ruff-issues",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "GitHub reports **2,337** open issues for `astral-sh/ruff`, including open pull requests.",
+        "turns": 2,
+        "seconds": 6.983644250000005,
+        "costUsd": 0.027095,
+        "firstTurnTokens": 2367,
+        "totalInputTokens": 4975,
+        "outputTokens": 74,
+        "inputBreakdown": {
+          "fresh": 4975,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:'repo:astral-sh/ruff'}); console.log(r);\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "ruff-issues",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "GitHub reports **2,337 open issues** for `astral-sh/ruff`, including pull requests.",
+        "turns": 3,
+        "seconds": 10.500601667000003,
+        "costUsd": 0.042255,
+        "firstTurnTokens": 1130,
+        "totalInputTokens": 7617,
+        "outputTokens": 139,
+        "inputBreakdown": {
+          "fresh": 7617,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github repository search\\\")); text(ALL_TOOLS.filter(x=>/bash/.test(x)));\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__search_repositories({query:\\\"repo:astral-sh/ruff\\\",minimal_output:false,perPage:1}); const s=JSON.stringify(r); text(s.match(/.{0,30}open_issues.{0,50}/g)??s.slice(0,5000));\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "last-commit",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)",
+        "turns": 3,
+        "seconds": 9.598555084,
+        "costUsd": 0.035488000000000006,
+        "firstTurnTokens": 1130,
+        "totalInputTokens": 10136,
+        "outputTokens": 108,
+        "inputBreakdown": {
+          "fresh": 6040,
+          "cacheWrite": 0,
+          "cacheRead": 4096
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github list commits\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__list_commits({owner:\\\"modelcontextprotocol\\\",repo:\\\"modelcontextprotocol\\\",perPage:1,fields:[\\\"sha\\\",\\\"commit\\\"]});text(r.content[0].text?.slice(0,2400))\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "last-commit",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)",
+        "turns": 2,
+        "seconds": 6.287292625000002,
+        "costUsd": 0.019199,
+        "firstTurnTokens": 2367,
+        "totalInputTokens": 5167,
+        "outputTokens": 86,
+        "inputBreakdown": {
+          "fresh": 3119,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.list_commits({owner:'modelcontextprotocol',repo:'modelcontextprotocol',perPage:1}); console.log(JSON.stringify(r).slice(0,4500));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "pr-opener",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "`jspahrsummers`",
+        "turns": 2,
+        "seconds": 6.807953833,
+        "costUsd": 0.027660000000000004,
+        "firstTurnTokens": 2359,
+        "totalInputTokens": 4848,
+        "outputTokens": 114,
+        "inputBreakdown": {
+          "fresh": 4848,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.pull_request_read({method:'get',owner:'modelcontextprotocol',repo:'python-sdk',pullNumber:7}); console.log(JSON.stringify(r).match(/\\\"login\\\"\\\\s*:\\\\s*\\\"[^\\\"]+\\\"|\\\\\\\\\\\"login\\\\\\\\\\\"\\\\s*:"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "pr-opener",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "`jspahrsummers`",
+        "turns": 3,
+        "seconds": 9.069932167000006,
+        "costUsd": 0.031637000000000005,
+        "firstTurnTokens": 1127,
+        "totalInputTokens": 8791,
+        "outputTokens": 127,
+        "inputBreakdown": {
+          "fresh": 5207,
+          "cacheWrite": 0,
+          "cacheRead": 3584
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github pull request read\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__pull_request_read({method:\\\"get\\\",owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",pullNumber:7}); for(const c of r.content){try{const p=JSON.parse(c.text);text(p.user?.login ?? p.author?"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "most-forks",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "pallets/flask",
+        "turns": 3,
+        "seconds": 9.289149374999994,
+        "costUsd": 0.037387000000000004,
+        "firstTurnTokens": 1137,
+        "totalInputTokens": 7631,
+        "outputTokens": 128,
+        "inputBreakdown": {
+          "fresh": 6607,
+          "cacheWrite": 0,
+          "cacheRead": 1024
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github search repositories\\\"));\\n\"}",
+          "codemode {\"code\":\"await Promise.allSettled([\\\"astral-sh/ruff\\\",\\\"astral-sh/uv\\\",\\\"pallets/flask\\\"].map(async q=>{let r=await tools.mcp__github__search_repositories({query:\\\"repo:\\\"+q,minimal_output:false,perPage:1});text([q,JSON.stringify(r"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "most-forks",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "pallets/flask",
+        "turns": 2,
+        "seconds": 7.110675417000006,
+        "costUsd": 0.009093,
+        "firstTurnTokens": 2371,
+        "totalInputTokens": 4911,
+        "outputTokens": 99,
+        "inputBreakdown": {
+          "fresh": 815,
+          "cacheWrite": 0,
+          "cacheRead": 4096
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['astral-sh/ruff','astral-sh/uv','pallets/flask'].map(async n=>{let r=await tools.github.search_repositories({query:`repo:${n}`}); console.log(JSON.stringify(r).match(/.{0,25}forks_count.{0,20"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "pushed-last",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "oven-sh/bun",
+        "turns": 2,
+        "seconds": 6.821220874999999,
+        "costUsd": 0.025994000000000003,
+        "firstTurnTokens": 2384,
+        "totalInputTokens": 6430,
+        "outputTokens": 102,
+        "inputBreakdown": {
+          "fresh": 4382,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['oven-sh/bun','denoland/deno','astral-sh/uv'].map(async n=>{const [owner,repo]=n.split('/');const r=await tools.github.list_commits({owner,repo,perPage:1});console.log(n,JSON.stringify(r).sli"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "pushed-last",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "oven-sh/bun\nIts latest default-branch commit had the newest committer timestamp: 2026-11-22 21:09:07 UTC.",
+        "turns": 3,
+        "seconds": 11.150014500000005,
+        "costUsd": 0.054302,
+        "firstTurnTokens": 1148,
+        "totalInputTokens": 10696,
+        "outputTokens": 181,
+        "inputBreakdown": {
+          "fresh": 9672,
+          "cacheWrite": 0,
+          "cacheRead": 1024
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github list commits get repository\\\"))\\n\"}",
+          "codemode {\"code\":\"await Promise.allSettled([\\\"oven-sh/bun\\\",\\\"denoland/deno\\\",\\\"astral-sh/uv\\\"].map(async n=>{let [owner,repo]=n.split(\\\"/\\\");let r=await tools.mcp__github__list_commits({owner,repo,perPage:1,fields:[\\\"sha\\\",\\\"commit\\\"]});te"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Ruff Formatter",
+        "turns": 3,
+        "seconds": 7.717788457999996,
+        "costUsd": 0.021444,
+        "firstTurnTokens": 1131,
+        "totalInputTokens": 6894,
+        "outputTokens": 65,
+        "inputBreakdown": {
+          "fresh": 3566,
+          "cacheWrite": 0,
+          "cacheRead": 3328
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"deepwiki structure\\\"))\\n\"}",
+          "codemode {\"code\":\"text((await tools.mcp__deepwiki__read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"})).content)\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Ruff Formatter",
+        "turns": 2,
+        "seconds": 5.309723041999998,
+        "costUsd": 0.028820000000000002,
+        "firstTurnTokens": 2366,
+        "totalInputTokens": 5464,
+        "outputTokens": 50,
+        "inputBreakdown": {
+          "fresh": 5464,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.deepwiki.read_wiki_structure({repoName:'astral-sh/ruff'}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Maple started in 2026.",
+        "turns": 2,
+        "seconds": 5.125757916999995,
+        "costUsd": 0.018518,
+        "firstTurnTokens": 2353,
+        "totalInputTokens": 4798,
+        "outputTokens": 48,
+        "inputBreakdown": {
+          "fresh": 3262,
+          "cacheWrite": 0,
+          "cacheRead": 1536
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.memory.search_nodes({query:'Project Maple'}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Maple started in 2026.",
+        "turns": 3,
+        "seconds": 7.638115458000001,
+        "costUsd": 0.032947000000000004,
+        "firstTurnTokens": 1116,
+        "totalInputTokens": 7157,
+        "outputTokens": 59,
+        "inputBreakdown": {
+          "fresh": 6133,
+          "cacheWrite": 0,
+          "cacheRead": 1024
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"memory search\\\"))\\n\"}",
+          "codemode {\"code\":\"text(await tools.mcp__memory__search_nodes({query:\\\"Project Maple\\\"}))\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "ruff-issues",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "GitHub reports **2,337 open issues** for [astral-sh/ruff](https://github.com/astral-sh/ruff), including open pull requests.",
+        "turns": 3,
+        "seconds": 9.274076666000008,
+        "costUsd": 0.047785,
+        "firstTurnTokens": 1132,
+        "totalInputTokens": 8987,
+        "outputTokens": 95,
+        "inputBreakdown": {
+          "fresh": 8987,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github repository search\\\"))\\n\"}",
+          "codemode {\"code\":\"text(await tools.mcp__github__search_repositories({query:\\\"repo:astral-sh/ruff\\\",minimal_output:false}))\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "ruff-issues",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "GitHub reports **2,337 open issues** for `astral-sh/ruff`, including open pull requests.",
+        "turns": 2,
+        "seconds": 7.441267042000007,
+        "costUsd": 0.011787000000000002,
+        "firstTurnTokens": 2367,
+        "totalInputTokens": 4941,
+        "outputTokens": 107,
+        "inputBreakdown": {
+          "fresh": 1357,
+          "cacheWrite": 0,
+          "cacheRead": 3584
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:'repo:astral-sh/ruff'}); console.log(JSON.stringify(r).match(/\\\"open_issues_count\\\"\\\\s*:\\\\s*\\\\d+/g)); console.log(JSON.stringify(r).slice(0,350));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "last-commit",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)",
+        "turns": 3,
+        "seconds": 8.15581695800001,
+        "costUsd": 0.023224,
+        "firstTurnTokens": 2367,
+        "totalInputTokens": 8126,
+        "outputTokens": 111,
+        "inputBreakdown": {
+          "fresh": 3518,
+          "cacheWrite": 0,
+          "cacheRead": 4608
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"github.list_commits\"}",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.list_commits({owner:'modelcontextprotocol',repo:'modelcontextprotocol',perPage:1});console.log(JSON.stringify(r).slice(0,3300));\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "last-commit",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)",
+        "turns": 3,
+        "seconds": 8.658244249999989,
+        "costUsd": 0.030520000000000005,
+        "firstTurnTokens": 1130,
+        "totalInputTokens": 9938,
+        "outputTokens": 129,
+        "inputBreakdown": {
+          "fresh": 4818,
+          "cacheWrite": 0,
+          "cacheRead": 5120
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github list_commits\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__list_commits({owner:\\\"modelcontextprotocol\\\",repo:\\\"modelcontextprotocol\\\",perPage:1,fields:[\\\"commit\\\"]});text(r.content.map(c=>{try{return JSON.parse(c.text)[0].commit.message.split(\\\"\\\\n"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "pr-opener",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "`jspahrsummers`",
+        "turns": 3,
+        "seconds": 9.246593083999993,
+        "costUsd": 0.030942000000000004,
+        "firstTurnTokens": 1123,
+        "totalInputTokens": 8760,
+        "outputTokens": 109,
+        "inputBreakdown": {
+          "fresh": 5176,
+          "cacheWrite": 0,
+          "cacheRead": 3584
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"pull_request_read\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__github__pull_request_read({owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",pullNumber:7,method:\\\"get\\\"}); let t=r.structuredContent??JSON.parse(r.content[0].text); text(t.user?.login??JSON.strin"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "pr-opener",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "`jspahrsummers`",
+        "turns": 2,
+        "seconds": 6.944229707999999,
+        "costUsd": 0.009308,
+        "firstTurnTokens": 2360,
+        "totalInputTokens": 4852,
+        "outputTokens": 116,
+        "inputBreakdown": {
+          "fresh": 756,
+          "cacheWrite": 0,
+          "cacheRead": 4096
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.pull_request_read({method:'get',owner:'modelcontextprotocol',repo:'python-sdk',pullNumber:7}); console.log(JSON.stringify(r).match(/\\\"login\\\"\\\\s*:\\\\s*\\\"[^\\\"]+\\\"|\\\\\\\\\\\"login\\\\\\\\\\\"\\\\s*:"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "most-forks",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "pallets/flask\n",
+        "turns": 2,
+        "seconds": 6.588543833000004,
+        "costUsd": 0.018499,
+        "firstTurnTokens": 2372,
+        "totalInputTokens": 4931,
+        "outputTokens": 102,
+        "inputBreakdown": {
+          "fresh": 2883,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['astral-sh/ruff','astral-sh/uv','pallets/flask'].map(async n=>{const r=await tools.github.search_repositories({query:`repo:${n}`}); console.log(JSON.stringify(r).match(/.{0,20}forks_count.{0,"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "most-forks",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "pallets/flask",
+        "turns": 3,
+        "seconds": 10.644068583999994,
+        "costUsd": 0.04242,
+        "firstTurnTokens": 1136,
+        "totalInputTokens": 7620,
+        "outputTokens": 144,
+        "inputBreakdown": {
+          "fresh": 7620,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github search repositories\\\"))\\n\"}",
+          "codemode {\"code\":\"text(await Promise.allSettled([\\\"astral-sh/ruff\\\",\\\"astral-sh/uv\\\",\\\"pallets/flask\\\"].map(async r=>{let v=await tools.mcp__github__search_repositories({query:`repo:${r}`,minimal_output:false,perPage:1}); return v.content.m"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "pushed-last",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "oven-sh/bun",
+        "turns": 3,
+        "seconds": 19.49671424999999,
+        "costUsd": 0.033739000000000005,
+        "firstTurnTokens": 1147,
+        "totalInputTokens": 10205,
+        "outputTokens": 115,
+        "inputBreakdown": {
+          "fresh": 5597,
+          "cacheWrite": 0,
+          "cacheRead": 4608
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"github list commits branches events\\\"))\\n\"}",
+          "codemode {\"code\":\"await Promise.allSettled([\\\"oven-sh/bun\\\",\\\"denoland/deno\\\",\\\"astral-sh/uv\\\"].map(async n=>{let [owner,repo]=n.split(\\\"/\\\");let r=await tools.mcp__github__list_commits({owner,repo,perPage:1,fields:[\\\"sha\\\",\\\"commit\\\"]});te"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "pushed-last",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "oven-sh/bun",
+        "turns": 3,
+        "seconds": 11.030337541999994,
+        "costUsd": 0.05119900000000001,
+        "firstTurnTokens": 2383,
+        "totalInputTokens": 11345,
+        "outputTokens": 123,
+        "inputBreakdown": {
+          "fresh": 9297,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__search {\"query\":\"github list_commits search_repositories\"}",
+          "mcp__tools__run_code {\"code\":\"await Promise.all(['oven-sh/bun','denoland/deno','astral-sh/uv'].map(async n=>{const [owner,repo]=n.split('/'); console.log(n,await tools.github.list_commits({owner,repo,perPage:1,fields:['sha','commit']}));}))"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Ruff Formatter",
+        "turns": 2,
+        "seconds": 4.577414374999993,
+        "costUsd": 0.019624000000000003,
+        "firstTurnTokens": 2368,
+        "totalInputTokens": 5468,
+        "outputTokens": 50,
+        "inputBreakdown": {
+          "fresh": 3420,
+          "cacheWrite": 0,
+          "cacheRead": 2048
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.deepwiki.read_wiki_structure({repoName:'astral-sh/ruff'}))\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Ruff Formatter",
+        "turns": 3,
+        "seconds": 7.8056858749999956,
+        "costUsd": 0.026287,
+        "firstTurnTokens": 1130,
+        "totalInputTokens": 6893,
+        "outputTokens": 73,
+        "inputBreakdown": {
+          "fresh": 4589,
+          "cacheWrite": 0,
+          "cacheRead": 2304
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"deepwiki structure\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__deepwiki__read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"});text(r.structuredContent??r.content)\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-codemode",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Maple started in **2026**.",
+        "turns": 3,
+        "seconds": 7.503422000000006,
+        "costUsd": 0.024878,
+        "firstTurnTokens": 1117,
+        "totalInputTokens": 7078,
+        "outputTokens": 72,
+        "inputBreakdown": {
+          "fresh": 4262,
+          "cacheWrite": 0,
+          "cacheRead": 2816
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "codemode {\"code\":\"text(await searchTools(\\\"memory search_nodes\\\"))\\n\"}",
+          "codemode {\"code\":\"const r=await tools.mcp__memory__search_nodes({query:\\\"Project Maple\\\"});text(r.structuredContent??r.content)\\n\"}"
+        ]
+      }
+    },
+    {
+      "setup": "pi-dogu",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Maple started in 2026.",
+        "turns": 2,
+        "seconds": 4.415473375000001,
+        "costUsd": 0.02545,
+        "firstTurnTokens": 2355,
+        "totalInputTokens": 4802,
+        "outputTokens": 48,
+        "inputBreakdown": {
+          "fresh": 4802,
+          "cacheWrite": 0,
+          "cacheRead": 0
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(await tools.memory.search_nodes({query:'Project Maple'}))\"}"
+        ]
+      }
+    }
+  ]
+}

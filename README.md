@@ -49,7 +49,7 @@ On Haiku the order is the same: dogu costs 56 to 60% less than both. Loading the
 The gap depends on the agent:
 
 - **Codex** (its default model): the dogu folder in `AGENTS.md` read 30% fewer tokens and was faster than Codex with the servers loaded directly, 11.2 s against 13.8 s, and in Codex's fast mode 9.2 s against 10.0 s. That is with `~/.npm` writable (below); without it, a local server cannot start and the saving was 6%. With the Terra model it read about half the tokens, and fast mode took it from 11.1 s to 7.3 s per task. With the servers loaded directly, Codex often skipped them and fetched pages with `curl` itself (11 of 32 runs); with the folder, 1 of 32.
-- **pi** (gpt-6.1-sol): the dogu folder was 35% cheaper and 15% faster than pi with the tools declared directly. pi has its own code mode, built for the same problem, and it was cheaper still: the folder cost 24% more, and was 21% faster.
+- **pi**: pi has its own code mode, built for the same problem. With gpt-6.2-sol, dogu's code mode (`dogu serve` added to pi as an MCP server) beat it on two sets of tasks: 31% and 35% cheaper, 36% and 28% faster, the same answers right, and 73% cheaper than pi with the tools declared directly. pi's code mode searches for each tool first, which takes a turn; dogu's list already says what each tool needs. (The dogu folder, with gpt-6.1-sol, was the fastest in pi but cost 24% more than pi's code mode.)
 
 **[The benchmarks in plain words, with charts](BENCHMARKS.md).** All results, and how to run them yourself: [`bench/`](bench/).
 

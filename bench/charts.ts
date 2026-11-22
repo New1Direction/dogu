@@ -86,6 +86,7 @@ const codexFast = load("2026-11-22-heldout-codex-fast1");
 const terra = load("2026-11-22-heldout-codex-terra-fast0");
 const terraFast = load("2026-11-22-heldout-codex-terra-fast1");
 const forge = load("2026-11-22-forge");
+const pi62 = load("2026-11-22-pi-gpt62");
 
 const claudeSetups: ReadonlyArray<[string, string, string]> = [
   ["direct", "Loading the servers directly", "other"],
@@ -116,8 +117,10 @@ const charts: Record<string, string> = {
       ["Claude Code, Sonnet: vs its tool search", change(cost(sonnet, "folder"), cost(sonnet, "direct-search"))],
       ["Claude Code, Haiku: vs loading directly", change(cost(haiku, "folder"), cost(haiku, "direct"))],
       ["Claude Code, Haiku: vs its tool search", change(cost(haiku, "folder"), cost(haiku, "direct-search"))],
-      ["pi: vs loading directly", change(cost(pi, "pi-folder"), cost(pi, "pi-direct"))],
-      ["pi: vs its own code mode", change(cost(pi, "pi-folder"), cost(pi, "pi-codemode"))],
+      ["pi 6.2, code mode: vs loading directly", change(cost(pi62, "pi-dogu"), cost(pi62, "pi-direct"))],
+      ["pi 6.2, code mode: vs pi's code mode", change(cost(pi62, "pi-dogu"), cost(pi62, "pi-codemode"))],
+      ["pi 6.1, folder: vs loading directly", change(cost(pi, "pi-folder"), cost(pi, "pi-direct"))],
+      ["pi 6.1, folder: vs pi's code mode", change(cost(pi, "pi-folder"), cost(pi, "pi-codemode"))],
       ["Codex: vs loading directly (tokens)", change(tokens(codex, "codex-folder"), tokens(codex, "codex-direct"))],
     ].map(([label, v]) => ({
       label: label as string,
@@ -125,7 +128,7 @@ const charts: Record<string, string> = {
       cls: (v as number) <= 0 ? "dogu" : "more",
       shown: `${(v as number) > 0 ? "+" : ""}${v}%`,
     }));
-    return diverging("Change in cost per task with the dogu folder, by agent", rows, -80, 40, [[-80, "-80%"], [-40, "-40%"], [0, "0"], [40, "+40%"]]);
+    return diverging("Change in cost per task with dogu, by agent", rows, -100, 40, [[-80, "-80%"], [-40, "-40%"], [0, "0"], [40, "+40%"]]);
   })(),
   "fast.svg": bars(
     "Time per task with Codex, normal speed and fast mode, two models",
