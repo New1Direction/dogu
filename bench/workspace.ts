@@ -9,7 +9,7 @@ export const RUN_TIMEOUT = Duration.minutes(5);
 export const ANSWER_RULE = " Use only the tools you have been given. Answer in under 6 lines.";
 export const ALL_SETUPS = [
   "direct", "direct-search", "folder", "folder-read", "folder-b", "codemode", "codemode-b", "utcp",
-  "codex-direct", "codex-folder",
+  "codex-direct", "codex-folder", "codex-codemode", "codex-dogu",
   "pi-direct", "pi-codemode", "pi-folder", "pi-dogu",
 ] as const;
 /** pi runs the same model as Claude Code's `sonnet`, with thinking off as in Claude Code's default. */
@@ -225,7 +225,17 @@ const piArgs = (setup: Setup, prompt: string, ws: Workspace) =>
   });
 
 /** Our servers as Codex config overrides. */
+/**
+ * BENCH_CODEX_APPROVE=1: trust every MCP server's tools, as a person does after allowing a server.
+ * Without it, Codex asks before calling a tool not marked read-only, and in a headless run nobody can
+ * answer, so the call is refused. Applied to every Codex setup alike.
+ */
+const CODEX_APPROVE = Deno.env.get("BENCH_CODEX_APPROVE") === "1";
+const approve = (names: ReadonlyArray<string>) =>
+  CODEX_APPROVE ? names.flatMap((n) => ["-c", `mcp_servers.${n}.default_tools_approval_mode="approve"`]) : [];
+
 const codexServers = (ws: Workspace) => [
+  ...approve(["github", "context7", "deepwiki", ...(ws.memoryFile ? ["memory"] : [])]),
   "-c", 'mcp_servers.github.url="https://api.githubcopilot.com/mcp/"',
   "-c", 'mcp_servers.github.bearer_token_env_var="GITHUB_TOKEN"',
   "-c", 'mcp_servers.context7.url="https://mcp.context7.com/mcp"',
@@ -256,6 +266,22 @@ export const argsFor = (setup: Setup, prompt: string, ws: Workspace, runId: stri
     }
     if (setup === "codex-direct") {
       return { agent: "codex", bin: CODEX_BIN, args: codexArgs(codexPrompt, cwd, codexServers(ws)) } as Call;
+    }
+    if (setup === "codex-codemode") {
+      // Codex's own code mode (a feature still in development in Codex 0.171): the agent reaches the
+      // same MCP servers only through code.
+      const flags = ["-c", "features.code_mode=true", "-c", "features.code_mode_only=true"];
+      return { agent: "codex", bin: CODEX_BIN, args: codexArgs(codexPrompt, cwd, [...codexServers(ws), ...flags]) } as Call;
+    }
+    if (setup === "codex-dogu") {
+      // dogu's code mode in Codex: `dogu serve` as the only MCP server. The token is passed by name.
+      const dogu = [
+        "-c", `mcp_servers.tools.command=${JSON.stringify(DOGU_B ?? "dogu")}`,
+        "-c", `mcp_servers.tools.args=${JSON.stringify(["serve", "--root", ws.root])}`,
+        "-c", 'mcp_servers.tools.env_vars=["GITHUB_TOKEN"]',
+        ...approve(["tools"]),
+      ];
+      return { agent: "codex", bin: CODEX_BIN, args: codexArgs(codexPrompt, cwd, dogu) } as Call;
     }
     if (setup === "codex-folder") {
       // A Codex user puts standing instructions in AGENTS.md; Codex reads it from the working folder.

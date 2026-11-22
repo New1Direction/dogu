@@ -33,6 +33,8 @@ export const SETUP_LABELS: Record<string, string> = {
   "pi-folder": "pi, dogu folder in instructions",
   "pi-dogu": "pi, dogu code mode (dogu serve)",
   "codex-folder": "Codex, dogu folder in AGENTS.md",
+  "codex-codemode": "Codex, its own code mode",
+  "codex-dogu": "Codex, dogu code mode (dogu serve)",
   "direct-search": "Loaded directly, Claude Code tool search on",
   folder: "dogu folder, list in instructions",
   "folder-read": "dogu folder, \"read the README\"",
@@ -89,6 +91,8 @@ const BASELINES: Record<string, ReadonlyArray<string>> = {
   "folder-b": ["folder", "direct"],
   utcp: ["direct", "codemode"],
   "codex-folder": ["codex-direct"],
+  "codex-codemode": ["codex-direct"],
+  "codex-dogu": ["codex-direct", "codex-codemode"],
   "pi-folder": ["pi-direct", "pi-codemode"],
   "pi-dogu": ["pi-direct", "pi-codemode"],
 };
