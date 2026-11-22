@@ -645,3 +645,42 @@ fn a_failed_call_shows_the_tools_type_so_the_next_try_can_be_right() {
     assert!(text.contains("query is required"), "{text}");
     assert!(text.contains("tools.fx.search_repositories(args: {") && text.contains("query: string;"), "{text}");
 }
+
+// --- dogu serve connects to every server as it starts, so the first program does not wait ---
+
+#[test]
+fn serve_connects_while_the_model_thinks_so_the_first_program_is_quick() {
+    use std::io::{BufRead, BufReader, Write};
+    let home = scratch("warm");
+    let server = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/mcp_server.py");
+    let config = home.join("slow.json");
+    write_json(&config, &json!({ "mcpServers": { "fx": { "command": "python3", "args": [server], "env": { "FIXTURE_START_DELAY": "1" } } } }));
+    let out = home.join("mcp");
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+    let mut serve = Command::new(env!("CARGO_BIN_EXE_dogu"))
+        .args(["serve", "--root", out.to_str().unwrap()])
+        .env("HOME", &home)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::null())
+        .spawn()
+        .unwrap();
+    let mut stdin = serve.stdin.take().unwrap();
+    let mut lines = BufReader::new(serve.stdout.take().unwrap()).lines();
+    let mut ask = |msg: Value| {
+        writeln!(stdin, "{msg}").unwrap();
+        serde_json::from_str::<Value>(&lines.next().unwrap().unwrap()).unwrap()
+    };
+    ask(json!({ "jsonrpc": "2.0", "id": 1, "method": "initialize",
+        "params": { "protocolVersion": "2025-06-18", "capabilities": {}, "clientInfo": { "name": "t", "version": "1" } } }));
+    std::thread::sleep(std::time::Duration::from_millis(1500)); // the model reads and thinks
+
+    let started = std::time::Instant::now();
+    let answer = ask(json!({ "jsonrpc": "2.0", "id": 2, "method": "tools/call",
+        "params": { "name": "run_code", "arguments": { "code": "console.log((await tools.fx.count({})).count)" } } }));
+    let took = started.elapsed();
+
+    let _ = serve.kill();
+    assert!(answer["result"]["content"][0]["text"].as_str().unwrap_or("").contains('1'), "{answer}");
+    assert!(took < std::time::Duration::from_millis(600), "the first program waited {took:?} for the server to start");
+}

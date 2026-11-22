@@ -265,6 +265,41 @@ pub(crate) fn tool_calls(
     results.into_iter().map(|r| r.unwrap_or_else(|| Err("no answer".into()))).collect()
 }
 
+/// Connections `dogu serve` began as it started and has not used yet. A program that needs one waits
+/// for it instead of connecting a second time.
+type Warming = Vec<(String, std::thread::JoinHandle<Result<Client, String>>)>;
+static WARMING: std::sync::Mutex<Warming> = std::sync::Mutex::new(Vec::new());
+
+/// Start connecting to every server in the background, the way an agent connects to its MCP servers
+/// when it starts, so the first program finds them ready. Nothing here opens a login: a server that
+/// fails is connected on first use, as before.
+pub fn warm_up(opts: &Options) -> Result<(), String> {
+    let state = crate::sync::saved_state(&opts.root)
+        .ok_or_else(|| format!("{} is not a dogu folder. Run `dogu sync` first.", opts.root.display()))?;
+    let servers = config::load(&config::Source::from_state(&state)?)?;
+    let mut warming = WARMING.lock().unwrap_or_else(|e| e.into_inner());
+    for (name, server) in servers {
+        let (root, timeout, key) = (opts.root.clone(), opts.timeout, name.clone());
+        let handle = std::thread::spawn(move || {
+            let mut options = ConnectOptions::new(timeout);
+            options.era = saved_era(&root, &key);
+            Client::connect(&server, &options)
+        });
+        warming.push((name, handle));
+    }
+    Ok(())
+}
+
+/// The connection warm_up made for `server`, waiting for it if it is still being made.
+fn warmed(server: &str) -> Option<Client> {
+    let handle = {
+        let mut warming = WARMING.lock().unwrap_or_else(|e| e.into_inner());
+        let i = warming.iter().position(|(s, _)| s == server)?;
+        warming.remove(i).1
+    };
+    handle.join().ok()?.ok()
+}
+
 /// Connect to every server the calls need that is not connected yet, all at the same time. A call whose
 /// server cannot be reached is answered with the reason.
 fn connect_all(opts: &Options, servers: &BTreeMap<String, Server>, pool: &mut Pool, prepared: Vec<Prepared>) -> Vec<Prepared> {
@@ -278,6 +313,9 @@ fn connect_all(opts: &Options, servers: &BTreeMap<String, Server>, pool: &mut Po
     missing.sort();
     missing.dedup();
     let connect = |server: &str| {
+        if let Some(client) = warmed(server) {
+            return Ok(client);
+        }
         let mut options = ConnectOptions::new(opts.timeout);
         options.era = saved_era(&opts.root, server);
         Client::connect(&servers[server], &options)

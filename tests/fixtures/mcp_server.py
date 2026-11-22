@@ -14,6 +14,9 @@ import time
 
 WRITE = threading.Lock()
 
+# FIXTURE_START_DELAY: seconds to wait before answering anything, like a server that is slow to start.
+time.sleep(float(__import__("os").environ.get("FIXTURE_START_DELAY", "0")))
+
 TOOLS = [
     {
         "name": "search_repositories",

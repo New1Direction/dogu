@@ -38,6 +38,12 @@ pub fn run(opts: &Options) -> Result<(), String> {
     if !opts.root.join(".dogu/state.json").is_file() {
         return Err(format!("{} is not an dogu folder. Run `dogu sync` first.", opts.root.display()));
     }
+    // Connect to the servers while the model reads the task, as an agent does with its own servers.
+    if let Err(e) = crate::run::warm_up(opts) {
+        if std::env::var("DOGU_DEBUG").is_ok() {
+            eprintln!("dogu: could not start connecting early: {e}");
+        }
+    }
     let mut pool = Pool::new(); // connections stay open between programs, so servers stay warm
     let stdout = std::io::stdout();
     for line in std::io::stdin().lock().lines() {
