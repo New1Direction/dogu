@@ -20,10 +20,15 @@ const median = (xs: ReadonlyArray<number>) => {
   return s.length % 2 === 1 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
 };
 const k = (n: number) => `${(n / 1000).toFixed(1)}k`;
+/** The values an agent reported; null means it did not report that number. */
+const known = (xs: ReadonlyArray<number | null>): number[] => xs.filter((x): x is number => x !== null);
+const orNA = (xs: ReadonlyArray<number | null>, show: (ns: number[]) => string) => (known(xs).length ? show(known(xs)) : "n/a");
 const pct = (part: number, whole: number) => (whole === 0 ? "0%" : `${Math.round((part / whole) * 100)}%`);
 
 export const SETUP_LABELS: Record<string, string> = {
   direct: "MCP servers loaded directly",
+  "codex-direct": "Codex, MCP servers loaded directly",
+  "codex-folder": "Codex, dogu folder in AGENTS.md",
   "direct-search": "Loaded directly, Claude Code tool search on",
   folder: "dogu folder, list in instructions",
   "folder-read": "dogu folder, \"read the README\"",
@@ -36,8 +41,8 @@ export const summaryTable = (records: ReadonlyArray<RunRecord>, setups: Readonly
     const all = records.filter((r) => r.setup === setup);
     const done = all.flatMap((r) => (r.metrics ? [r.metrics] : []));
     return `| ${SETUP_LABELS[setup] ?? setup} | ${all.filter((r) => r.correct).length}/${all.length} | ${
-      k(median(done.map((m) => m.firstTurnTokens)))
-    } | ${k(median(done.map((m) => m.totalInputTokens)))} | $${mean(done.map((m) => m.costUsd)).toFixed(4)} | ${
+      orNA(done.map((m) => m.firstTurnTokens), (ns) => k(median(ns)))
+    } | ${k(median(done.map((m) => m.totalInputTokens)))} | ${orNA(done.map((m) => m.costUsd), (ns) => `$${mean(ns).toFixed(4)}`)} | ${
       median(done.map((m) => m.seconds)).toFixed(1)
     }s | ${median(done.map((m) => m.turns))} | ${done.filter((m) => m.bypassedTools).length} |`;
   });
@@ -68,7 +73,14 @@ export const taskTable = (
 const change = (ratio: number, less: string, more: string) =>
   ratio <= 1 ? `${pct(1 - ratio, 1)} ${less}` : `${pct(ratio - 1, 1)} ${more}`;
 
-/** Headline numbers for each dogu setup, against loading the servers directly with and without tool search. */
+/** Each dogu setup against the baselines of its own agent: Claude Code's direct and tool search, or Codex's direct. */
+const BASELINES: Record<string, ReadonlyArray<string>> = {
+  folder: ["direct", "direct-search"],
+  "folder-read": ["direct", "direct-search"],
+  codemode: ["direct", "direct-search"],
+  "codex-folder": ["codex-direct"],
+};
+
 export const headline = (records: ReadonlyArray<RunRecord>, setups: ReadonlyArray<string>): string => {
   const metricsOf = (setup: string) => records.filter((r) => r.setup === setup && r.metrics).map((r) => r.metrics!);
   const versus = (setup: string, baseline: string) => {
@@ -76,14 +88,14 @@ export const headline = (records: ReadonlyArray<RunRecord>, setups: ReadonlyArra
     const ms = metricsOf(setup);
     if (base.length === 0 || ms.length === 0) return "";
     const tokens = median(ms.map((m) => m.totalInputTokens)) / median(base.map((m) => m.totalInputTokens));
-    const cost = mean(ms.map((m) => m.costUsd)) / mean(base.map((m) => m.costUsd));
     const time = median(ms.map((m) => m.seconds)) / median(base.map((m) => m.seconds));
-    return `${change(tokens, "fewer", "more")} input tokens, ${change(cost, "lower", "higher")} cost and ${change(time, "less", "more")} time than ${SETUP_LABELS[baseline].toLowerCase()}`;
+    const costs = [known(ms.map((m) => m.costUsd)), known(base.map((m) => m.costUsd))];
+    const cost = costs.every((c) => c.length > 0) ? `, ${change(mean(costs[0]) / mean(costs[1]), "lower", "higher")} cost` : "";
+    return `${change(tokens, "fewer", "more")} input tokens${cost} and ${change(time, "less", "more")} time than ${SETUP_LABELS[baseline].toLowerCase()}`;
   };
   return setups
-    .filter((s) => !s.startsWith("direct"))
     .flatMap((s) =>
-      ["direct", "direct-search"].filter((b) => setups.includes(b)).map((b) => versus(s, b)).filter((t) => t !== "")
+      (BASELINES[s] ?? []).filter((b) => setups.includes(b)).map((b) => versus(s, b)).filter((t) => t !== "")
         .map((t) => `- ${SETUP_LABELS[s]}: ${t}.`)
     )
     .join("\n");

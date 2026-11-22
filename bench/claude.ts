@@ -1,4 +1,4 @@
-// Runs Claude Code once, headless, and turns its event stream into numbers.
+// Runs an agent once, headless (Claude Code or Codex), and turns its event stream into numbers.
 
 import { Cause, Data, Duration, Effect, Option, Schema } from "npm:effect@4.1.5";
 
@@ -79,9 +79,10 @@ export interface RunMetrics {
   readonly answer: string;
   readonly turns: number;
   readonly seconds: number;
-  readonly costUsd: number;
-  /** Tokens the model read on its first turn: system prompt, tool definitions and the task. */
-  readonly firstTurnTokens: number;
+  /** In dollars at API prices. Null when the agent does not report it (Codex on a ChatGPT plan). */
+  readonly costUsd: number | null;
+  /** Tokens the model read on its first turn: system prompt, tool definitions and the task. Null if not reported. */
+  readonly firstTurnTokens: number | null;
   /** Tokens the model read over the whole run, cached or not. */
   readonly totalInputTokens: number;
   readonly outputTokens: number;
@@ -157,13 +158,85 @@ export const metricsOf = (stream: string): Effect.Effect<RunMetrics, NoResult> =
   });
 };
 
-/** One headless Claude Code run. Killed after `timeout`; retried once if it produced no result. */
-export const runClaude = (
+// --- Codex: `codex exec --json` ---
+
+const CodexItem = Schema.Struct({
+  type: Schema.String,
+  text: Schema.optional(Schema.String),
+  command: Schema.optional(Schema.String),
+  server: Schema.optional(Schema.String),
+  tool: Schema.optional(Schema.String),
+  arguments: Schema.optional(Schema.Unknown),
+});
+const CodexEvent = Schema.Struct({ type: Schema.String, item: Schema.optional(CodexItem) });
+const CodexUsage = Schema.Struct({
+  type: Schema.Literal("turn.completed"),
+  usage: Schema.Struct({
+    input_tokens: Schema.Number,
+    cached_input_tokens: Schema.optional(Schema.Number),
+    cache_write_input_tokens: Schema.optional(Schema.Number),
+    output_tokens: Schema.Number,
+  }),
+});
+const asCodexEvent = Schema.decodeUnknownOption(CodexEvent);
+const asCodexUsage = Schema.decodeUnknownOption(CodexUsage);
+
+/**
+ * Codex reports usage once per run, not per model call, and no cost on a ChatGPT plan. Turns are
+ * counted as model replies: one per tool call plus the final answer.
+ */
+export const codexMetricsOf = (stream: string, seconds: number): Effect.Effect<RunMetrics, NoResult> => {
+  const events = stream.split("\n").filter((l) => l.trim() !== "").map(parseLine);
+  const items = events.flatMap((e) => {
+    const ev = Option.getOrUndefined(asCodexEvent(e));
+    return ev?.type === "item.completed" && ev.item ? [ev.item] : [];
+  });
+  const usage = events.map((e) => Option.getOrUndefined(asCodexUsage(e))).find((u) => u !== undefined)?.usage;
+  const answer = items.filter((i) => i.type === "agent_message").map((i) => i.text ?? "").at(-1);
+  if (usage === undefined || answer === undefined) return Effect.fail(new NoResult({ detail: stream.slice(-400) }));
+  const calls = items.filter((i) => i.type === "command_execution" || i.type === "mcp_tool_call");
+  const steps = calls.map((i) =>
+    (i.type === "command_execution" ? i.command ?? "" : `mcp__${i.server}__${i.tool} ${JSON.stringify(i.arguments ?? {})}`)
+      .replace(/\s+/g, " ").slice(0, 240)
+  );
+  const cached = usage.cached_input_tokens ?? 0;
+  const written = usage.cache_write_input_tokens ?? 0;
+  return Effect.succeed({
+    answer,
+    turns: calls.length + 1,
+    seconds,
+    costUsd: null,
+    firstTurnTokens: null,
+    totalInputTokens: usage.input_tokens,
+    outputTokens: usage.output_tokens,
+    inputBreakdown: { fresh: usage.input_tokens - cached - written, cacheWrite: written, cacheRead: cached },
+    toolCalls: calls.length,
+    bypassedTools: steps.some((s) => BYPASS.test(s)),
+    steps,
+  });
+};
+
+export type Agent = "claude" | "codex";
+
+/** One headless agent run. Killed after `timeout`; retried once if it produced no result. */
+export const runAgent = (
+  agent: Agent,
+  bin: string,
   args: ReadonlyArray<string>,
   options: { readonly cwd: string; readonly env: Record<string, string>; readonly timeout: Duration.Duration },
 ): Effect.Effect<RunMetrics, CommandFailed | NoResult | Cause.TimeoutError> =>
-  runCommand("claude", args, { cwd: options.cwd, env: options.env }).pipe(
-    Effect.flatMap(metricsOf),
+  Effect.gen(function* () {
+    const started = performance.now();
+    const stream = yield* runCommand(bin, args, { cwd: options.cwd, env: options.env });
+    const seconds = (performance.now() - started) / 1000;
+    return yield* (agent === "codex" ? codexMetricsOf(stream, seconds) : metricsOf(stream));
+  }).pipe(
     Effect.timeout(options.timeout),
     Effect.retry({ times: 1, while: (e) => e._tag === "NoResult" }),
   );
+
+/** One headless Claude Code run. */
+export const runClaude = (
+  args: ReadonlyArray<string>,
+  options: { readonly cwd: string; readonly env: Record<string, string>; readonly timeout: Duration.Duration },
+) => runAgent("claude", "claude", args, options);

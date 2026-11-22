@@ -2,7 +2,7 @@
 
 import { Effect, Result } from "npm:effect@4.1.5";
 import { assert, assertEquals } from "jsr:@std/assert@1";
-import { metricsOf } from "./claude.ts";
+import { codexMetricsOf, metricsOf } from "./claude.ts";
 import { headline, type RunRecord } from "./report.ts";
 import { TASKS } from "./tasks.ts";
 
@@ -73,6 +73,27 @@ Deno.test("flags the GitHub CLI as going around the tools", () => {
 
   assert(Result.isSuccess(out) && out.success.bypassedTools);
   assert(Result.isSuccess(ok) && !ok.success.bypassedTools);
+});
+
+Deno.test("reads a Codex stream: steps, usage, the last message as the answer, no cost", () => {
+  const stream = [
+    line({ type: "thread.started", thread_id: "t" }),
+    line({ type: "item.completed", item: { id: "0", type: "agent_message", text: "Looking." } }),
+    line({ type: "item.completed", item: { id: "1", type: "command_execution", command: "/bin/zsh -lc 'github/x --json'", exit_code: 0 } }),
+    line({ type: "item.completed", item: { id: "2", type: "mcp_tool_call", server: "deepwiki", tool: "read_wiki_structure", arguments: { repoName: "a/b" } } }),
+    line({ type: "item.completed", item: { id: "3", type: "agent_message", text: "The answer is 13." } }),
+    line({ type: "turn.completed", usage: { input_tokens: 1000, cached_input_tokens: 600, cache_write_input_tokens: 100, output_tokens: 50 } }),
+  ].join("\n");
+
+  const out = run(codexMetricsOf(stream, 4.5));
+
+  assert(Result.isSuccess(out));
+  assertEquals(out.success.answer, "The answer is 13.");
+  assertEquals(out.success.costUsd, null);
+  assertEquals(out.success.toolCalls, 2);
+  assertEquals(out.success.turns, 3);
+  assertEquals(out.success.inputBreakdown, { fresh: 300, cacheWrite: 100, cacheRead: 600 });
+  assertEquals(out.success.steps[1], 'mcp__deepwiki__read_wiki_structure {"repoName":"a/b"}');
 });
 
 Deno.test("a stream with no result, or an error result, is a NoResult", () => {

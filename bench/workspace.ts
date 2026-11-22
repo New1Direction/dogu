@@ -2,12 +2,15 @@
 // seeded memory server, and the Claude Code arguments for each way of giving an agent the tools.
 
 import { Console, Duration, Effect } from "npm:effect@4.1.5";
-import { CommandFailed, runClaude, runCommand } from "./claude.ts";
+import { type Agent, CommandFailed, runAgent, runCommand } from "./claude.ts";
 import type { Ctx } from "./tasks.ts";
 
 export const RUN_TIMEOUT = Duration.minutes(5);
 export const ANSWER_RULE = " Use only the tools you have been given. Answer in under 6 lines.";
-export const ALL_SETUPS = ["direct", "direct-search", "folder", "folder-read", "codemode"] as const;
+export const ALL_SETUPS = ["direct", "direct-search", "folder", "folder-read", "codemode", "codex-direct", "codex-folder"] as const;
+/** The Codex binary; set CODEX_BIN when it is not on your PATH. CODEX_MODEL picks a model, else Codex's default. */
+const CODEX_BIN = Deno.env.get("CODEX_BIN") ?? "codex";
+const CODEX_MODEL = Deno.env.get("CODEX_MODEL");
 export type Setup = (typeof ALL_SETUPS)[number];
 
 const HERE = new URL(".", import.meta.url).pathname;
@@ -20,6 +23,8 @@ export interface Workspace {
   readonly token: string;
   readonly mcpServers: ReadonlyArray<string>; // `mcp__<name>` for each server, for --allowedTools
   readonly seeded: Ctx["seeded"];
+  readonly memoryFile: string | null; // the memory server's file, when it runs
+  readonly codexHome: string; // CODEX_HOME: your Codex login linked in, nothing else of yours
 }
 
 const writePrivate = (path: string, text: string) =>
@@ -85,29 +90,83 @@ export const makeWorkspace = (options: { readonly memory: boolean }) =>
       );
       yield* runCommand("dogu", ["sync", "--config", `${dir}/servers.json`, "--out", root], { env: { GITHUB_TOKEN: token } });
       const mcpServers = Object.keys(direct.mcpServers).map((n) => `mcp__${n}`);
-      return { dir, root, directConfig: `${dir}/direct.json`, serveConfig: `${dir}/serve.json`, token, mcpServers, seeded: memory.seeded };
+      // Codex gets its own home with only your login in it, linked, not copied.
+      const codexHome = `${dir}/codex-home`;
+      yield* Effect.promise(() => Deno.mkdir(codexHome, { recursive: true }));
+      const login = `${Deno.env.get("HOME")}/.codex/auth.json`;
+      yield* Effect.promise(() => Deno.symlink(login, `${codexHome}/auth.json`).catch(() => undefined));
+      return {
+        dir, root, directConfig: `${dir}/direct.json`, serveConfig: `${dir}/serve.json`, token, mcpServers, seeded: memory.seeded,
+        memoryFile: options.memory ? `${dir}/memory.jsonl` : null, codexHome,
+      };
     }),
     (ws) => Effect.tryPromise(() => Deno.remove(ws.dir, { recursive: true })).pipe(Effect.orElseSucceed(() => undefined)),
   );
 
 export const workDir = (ws: Workspace, setup: Setup) => `${ws.dir}/work-${setup}`;
 
+/** How to run one session: which agent, which program, which arguments. */
+export interface Call {
+  readonly agent: Agent;
+  readonly bin: string;
+  readonly args: ReadonlyArray<string>;
+}
+
+const readme = (ws: Workspace) => Effect.promise(() => Deno.readTextFile(`${ws.root}/README.md`));
+
+/** Codex's settings for one run: its sandbox stays on with network allowed, as dogu's tools need it. */
+const codexArgs = (prompt: string, cwd: string, extra: ReadonlyArray<string>) => [
+  "exec", "--json", "--ephemeral", "--ignore-user-config", "--skip-git-repo-check",
+  "-s", "workspace-write", "-c", "sandbox_workspace_write.network_access=true",
+  // Codex hides variables named like *TOKEN* from commands by default; dogu's tools need GITHUB_TOKEN.
+  "-c", "shell_environment_policy.ignore_default_excludes=true",
+  "-c", 'approval_policy="never"',
+  ...(CODEX_MODEL ? ["-m", CODEX_MODEL] : []),
+  "-C", cwd, ...extra, prompt,
+];
+
+/** Our servers as Codex config overrides. */
+const codexServers = (ws: Workspace) => [
+  "-c", 'mcp_servers.github.url="https://api.githubcopilot.com/mcp/"',
+  "-c", 'mcp_servers.github.bearer_token_env_var="GITHUB_TOKEN"',
+  "-c", 'mcp_servers.context7.url="https://mcp.context7.com/mcp"',
+  "-c", 'mcp_servers.deepwiki.url="https://mcp.deepwiki.com/mcp"',
+  ...(ws.memoryFile
+    ? [
+      "-c", 'mcp_servers.memory.command="npx"',
+      "-c", 'mcp_servers.memory.args=["-y","@modelcontextprotocol/server-memory"]',
+      "-c", `mcp_servers.memory.env={MEMORY_FILE_PATH=${JSON.stringify(ws.memoryFile)}}`,
+    ]
+    : []),
+];
+
 /**
- * The Claude Code arguments for one run. `runId` starts the prompt so no two conversations are alike:
- * the standing part (system prompt, tool definitions, README) stays cached between runs, as it does
+ * The arguments for one run. `runId` starts the prompt so no two conversations are alike: the
+ * standing part (system prompt, tool definitions, README) stays cached between runs, as it does
  * between a person's sessions, but no run can replay an earlier conversation from the cache.
  * The folder's README is read fresh each run, as a CLAUDE.md import would, so newly forged tools show up.
  */
 export const argsFor = (setup: Setup, prompt: string, ws: Workspace, runId: string, model: string) =>
   Effect.gen(function* () {
+    const cwd = workDir(ws, setup);
+    // Codex read a bare "Run <id>." as something to look up, so for Codex the ID is a labelled note at the end.
+    // It still makes every conversation unique, which is all it is for.
+    const codexPrompt = `${prompt} (Run ID ${runId}, for logging only; ignore it.)`;
+    if (setup === "codex-direct") {
+      return { agent: "codex", bin: CODEX_BIN, args: codexArgs(codexPrompt, cwd, codexServers(ws)) } as Call;
+    }
+    if (setup === "codex-folder") {
+      // A Codex user puts standing instructions in AGENTS.md; Codex reads it from the working folder.
+      const text = `Your tools are in ${ws.root}. This is its README:\n\n${yield* readme(ws)}`;
+      yield* Effect.promise(() => Deno.writeTextFile(`${cwd}/AGENTS.md`, text));
+      return { agent: "codex", bin: CODEX_BIN, args: codexArgs(codexPrompt, cwd, []) } as Call;
+    }
     // "folder-read" gets the one line every agent can be given; "folder" has the README in its instructions.
     const told = setup === "folder-read" ? `Your tools are in ${ws.root}. Read ${ws.root}/README.md first. ` : "";
     const common = ["-p", `Run ${runId}. ${told}${prompt}`, "--model", model, "--setting-sources", "project", "--strict-mcp-config"];
     const bash = ["--mcp-config", '{"mcpServers":{}}', "--tools", "Bash", "Read", "--allowedTools", "Bash", "Read"];
-    const standing = setup === "folder"
-      ? `Your tools are in ${ws.root}. This is its README:\n\n${yield* Effect.promise(() => Deno.readTextFile(`${ws.root}/README.md`))}`
-      : "";
-    const tools: Record<Setup, ReadonlyArray<string>> = {
+    const standing = setup === "folder" ? `Your tools are in ${ws.root}. This is its README:\n\n${yield* readme(ws)}` : "";
+    const tools: Record<Exclude<Setup, "codex-direct" | "codex-folder">, ReadonlyArray<string>> = {
       direct: ["--mcp-config", ws.directConfig, "--tools", "", "--allowedTools", ...ws.mcpServers],
       // Claude Code's own answer to the same problem: tool definitions deferred, found with ToolSearch.
       "direct-search": ["--mcp-config", ws.directConfig, "--tools", "ToolSearch", "--allowedTools", "ToolSearch", ...ws.mcpServers],
@@ -118,17 +177,21 @@ export const argsFor = (setup: Setup, prompt: string, ws: Workspace, runId: stri
         "--allowedTools", "mcp__tools__search", "mcp__tools__run_code", "mcp__tools__forge",
       ],
     };
-    return [...common, ...tools[setup], "--output-format", "stream-json", "--verbose"] as ReadonlyArray<string>;
+    return { agent: "claude", bin: "claude", args: [...common, ...tools[setup], "--output-format", "stream-json", "--verbose"] } as Call;
   });
 
-export const envFor = (setup: Setup, ws: Workspace): Record<string, string> =>
-  setup === "direct-search" ? { GITHUB_TOKEN: ws.token, ENABLE_TOOL_SEARCH: "true" } : { GITHUB_TOKEN: ws.token };
+export const envFor = (setup: Setup, ws: Workspace): Record<string, string> => ({
+  GITHUB_TOKEN: ws.token,
+  ...(setup === "direct-search" ? { ENABLE_TOOL_SEARCH: "true" } : {}),
+  ...(setup.startsWith("codex") ? { CODEX_HOME: ws.codexHome } : {}),
+});
 
 /** One short session before measuring, so a setup starts with its standing part cached. */
 export const warmUp = (ws: Workspace, setup: Setup, model: string) =>
   Effect.gen(function* () {
     yield* Effect.promise(() => Deno.mkdir(workDir(ws, setup), { recursive: true }));
-    yield* runClaude(yield* argsFor(setup, "Reply with just: ok", ws, "warmup", model), {
+    const call = yield* argsFor(setup, "Reply with just: ok", ws, "warmup", model);
+    yield* runAgent(call.agent, call.bin, call.args, {
       cwd: workDir(ws, setup),
       env: envFor(setup, ws),
       timeout: RUN_TIMEOUT,

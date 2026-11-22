@@ -8,7 +8,7 @@
 // BENCH_DRY=1 (fetch and print the right answers, run no agents).
 
 import { Console, Data, Effect, Result } from "npm:effect@4.1.5";
-import { runClaude, runCommand } from "./claude.ts";
+import { runAgent, runCommand } from "./claude.ts";
 import { ALL_SETUPS, ANSWER_RULE, argsFor, envFor, makeWorkspace, RUN_TIMEOUT, type Setup, warmUp, workDir, type Workspace } from "./workspace.ts";
 import { headline, type RunRecord, summaryTable, taskTable } from "./report.ts";
 import { type Ctx, type Facts, promptOf, type Task, TASKS } from "./tasks.ts";
@@ -51,8 +51,9 @@ const runOne = (ws: Workspace, facts: Map<string, Facts>, setup: Setup, task: Ta
   Effect.gen(function* () {
     // Every run of a setup starts in the same empty folder: no project files leak in, and like a person
     // working in one project, the session's standing instructions stay the same from run to run.
+    const call = yield* argsFor(setup, `${promptOf(task, ws.seeded)}${ANSWER_RULE}`, ws, crypto.randomUUID().slice(0, 8), MODEL);
     const outcome = yield* Effect.result(
-      runClaude(yield* argsFor(setup, `${promptOf(task, ws.seeded)}${ANSWER_RULE}`, ws, crypto.randomUUID().slice(0, 8), MODEL), {
+      runAgent(call.agent, call.bin, call.args, {
         cwd: workDir(ws, setup),
         env: envFor(setup, ws),
         timeout: RUN_TIMEOUT,

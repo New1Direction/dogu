@@ -10,7 +10,7 @@
 // BENCH_SETUPS (folder,codemode), BENCH_OUT.
 
 import { Console, Effect, Result } from "npm:effect@4.1.5";
-import { runClaude, runCommand, type RunMetrics } from "./claude.ts";
+import { runAgent, runCommand, type RunMetrics } from "./claude.ts";
 import { ANSWER_RULE, argsFor, envFor, makeWorkspace, RUN_TIMEOUT, type Setup, warmUp, workDir, type Workspace } from "./workspace.ts";
 
 const env = (name: string, fallback: string) => Deno.env.get(name) ?? fallback;
@@ -72,8 +72,9 @@ const world = (setup: Setup, condition: Condition, n: number, truths: Map<string
       for (const [i, org] of ORGS.entries()) {
         const ask = condition === "forge" && i === 0 ? forgeAsk[setup] : "";
         const prompt = `${job(org)}${ask}${ANSWER_RULE}`;
+        const call = yield* argsFor(setup, prompt, ws, crypto.randomUUID().slice(0, 8), MODEL);
         const outcome = yield* Effect.result(
-          runClaude(yield* argsFor(setup, prompt, ws, crypto.randomUUID().slice(0, 8), MODEL), {
+          runAgent(call.agent, call.bin, call.args, {
             cwd: workDir(ws, setup),
             env: envFor(setup, ws),
             timeout: RUN_TIMEOUT,
@@ -85,7 +86,7 @@ const world = (setup: Setup, condition: Condition, n: number, truths: Map<string
           : { ...base, correct: false, usedForged: false, error: `${outcome.failure._tag}` };
         yield* Console.log(
           `  ${record.correct ? "right" : "WRONG"}  ${setup.padEnd(8)} ${condition.padEnd(8)} w${n} s${i + 1} ${org.padEnd(20)} ${
-            record.metrics ? `$${record.metrics.costUsd.toFixed(4)} ${record.metrics.seconds.toFixed(1)}s ${record.metrics.turns}t${record.usedForged ? " used-forged" : ""}` : record.error
+            record.metrics ? `$${(record.metrics.costUsd ?? 0).toFixed(4)} ${record.metrics.seconds.toFixed(1)}s ${record.metrics.turns}t${record.usedForged ? " used-forged" : ""}` : record.error
           }`,
         );
         sessions.push(record);
@@ -112,7 +113,7 @@ const median = (xs: number[]) => {
  */
 const report = (all: ReadonlyArray<Session>) => {
   const m = (xs: ReadonlyArray<Session>) => xs.flatMap((s) => (s.metrics ? [s.metrics] : []));
-  const sumCost = (xs: ReadonlyArray<Session>) => m(xs).reduce((a, x) => a + x.costUsd, 0);
+  const sumCost = (xs: ReadonlyArray<Session>) => m(xs).reduce((a, x) => a + (x.costUsd ?? 0), 0);
   const rows = SETUPS.flatMap((setup) =>
     CONDITIONS.map((condition) => {
       const of = (pred: (s: Session) => boolean) => all.filter((s) => s.setup === setup && s.condition === condition && pred(s));
@@ -123,10 +124,10 @@ const report = (all: ReadonlyArray<Session>) => {
       return {
         setup,
         condition,
-        steadyCost: mean(m(steady).map((x) => x.costUsd)),
+        steadyCost: mean(m(steady).map((x) => x.costUsd ?? 0)),
         startCost: sumCost(start) / worlds,
         line: `| ${setup} | ${condition} | ${all.filter((s) => s.setup === setup && s.condition === condition && s.correct).length}/${of(() => true).length} | $${
-          mean(m(steady).map((x) => x.costUsd)).toFixed(4)
+          mean(m(steady).map((x) => x.costUsd ?? 0)).toFixed(4)
         } | ${median(m(steady).map((x) => x.seconds)).toFixed(1)}s | ${median(m(steady).map((x) => x.turns))} | $${(sumCost(start) / worlds).toFixed(4)} | ${
           condition === "forge" ? `${used}/${of((s) => s.session >= 2).length}` : "-"
         } |`,
