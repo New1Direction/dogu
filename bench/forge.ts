@@ -17,6 +17,11 @@ const env = (name: string, fallback: string) => Deno.env.get(name) ?? fallback;
 const WORLDS = Number(env("FORGE_WORLDS", "3"));
 const CONCURRENCY = Number(env("FORGE_CONCURRENCY", "3"));
 const MODEL = env("BENCH_MODEL", "sonnet");
+/**
+ * The model for everything except the forging session. Set it to a cheaper model to test whether a
+ * strong model's forged tool lets a cheap model do the job: FORGE_REUSE_MODEL=haiku.
+ */
+const REUSE_MODEL = env("FORGE_REUSE_MODEL", MODEL);
 const SETUPS = env("BENCH_SETUPS", "folder,codemode").split(",") as Setup[];
 const ORGS = ["tokio-rs", "denoland", "vercel", "rust-lang", "modelcontextprotocol"];
 const CONDITIONS = ["forge", "no-forge"] as const;
@@ -47,6 +52,14 @@ type Truth = ReadonlyArray<{ repo: string; tag: string }>;
 const correct = (answer: string, truth: Truth) =>
   truth.every(({ repo, tag }) => answer.toLowerCase().includes((tag === "" ? repo : tag.replace(/^v/, "")).toLowerCase()));
 
+/** The check must accept the right answer and reject a non-answer, or nothing it measures means anything. */
+const checkTheCheck = (org: string, truth: Truth) => {
+  const right = truth.map(({ repo, tag }) => `${repo}: ${tag === "" ? "none" : tag}`).join("\n");
+  if (!correct(right, truth)) return `the check for ${org} rejects the right answer`;
+  if (correct("I don't know.", truth)) return `the check for ${org} accepts a wrong answer`;
+  return null;
+};
+
 interface Session {
   readonly setup: Setup;
   readonly condition: Condition;
@@ -67,12 +80,14 @@ const world = (setup: Setup, condition: Condition, n: number, truths: Map<string
   Effect.scoped(
     Effect.gen(function* () {
       const ws = yield* makeWorkspace({ memory: false });
-      yield* warmUp(ws, setup, MODEL);
+      yield* warmUp(ws, setup, REUSE_MODEL);
+      if (condition === "forge" && MODEL !== REUSE_MODEL) yield* warmUp(ws, setup, MODEL);
       const sessions: Session[] = [];
       for (const [i, org] of ORGS.entries()) {
         const ask = condition === "forge" && i === 0 ? forgeAsk[setup] : "";
         const prompt = `${job(org)}${ask}${ANSWER_RULE}`;
-        const call = yield* argsFor(setup, prompt, ws, crypto.randomUUID().slice(0, 8), MODEL);
+        const model = condition === "forge" && i === 0 ? MODEL : REUSE_MODEL;
+        const call = yield* argsFor(setup, prompt, ws, crypto.randomUUID().slice(0, 8), model);
         const outcome = yield* Effect.result(
           runAgent(call.agent, call.bin, call.args, {
             cwd: workDir(ws, setup),
@@ -156,7 +171,12 @@ const report = (all: ReadonlyArray<Session>) => {
 
 const program = Effect.gen(function* () {
   const truths = new Map<string, Truth>();
-  for (const org of ORGS) truths.set(org, yield* truthOf(org));
+  for (const org of ORGS) {
+    const truth = yield* truthOf(org);
+    const broken = checkTheCheck(org, truth);
+    if (broken) return yield* Effect.die(new Error(broken));
+    truths.set(org, truth);
+  }
   yield* Console.log(`Answers: ${JSON.stringify(Object.fromEntries(truths))}`);
   const plan = SETUPS.flatMap((setup) => CONDITIONS.flatMap((condition) => Array.from({ length: WORLDS }, (_, i) => ({ setup, condition, n: i + 1 }))));
   yield* Console.log(`Running ${plan.length} worlds of ${ORGS.length} sessions, ${CONCURRENCY} at a time, model ${MODEL}`);
@@ -167,7 +187,7 @@ const program = Effect.gen(function* () {
   const text = [
     `# Forge benchmark ${date}`,
     "",
-    `${dogu}, model \`${MODEL}\`, ${WORLDS} worlds per setup and condition, bench at commit ${commit}. Job: the latest release of each of an org's 3 most-starred repos; orgs in order: ${ORGS.join(", ")}.`,
+    `${dogu}, ${MODEL === REUSE_MODEL ? `model \`${MODEL}\`` : `\`${MODEL}\` forges in session 1, \`${REUSE_MODEL}\` does every other session`}, ${WORLDS} worlds per setup and condition, bench at commit ${commit}. Job: the latest release of each of an org's 3 most-starred repos; orgs in order: ${ORGS.join(", ")}.`,
     "",
     report(all),
     "",

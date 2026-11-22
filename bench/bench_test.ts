@@ -4,7 +4,7 @@ import { Effect, Result } from "npm:effect@4.1.5";
 import { assert, assertEquals } from "jsr:@std/assert@1";
 import { codexMetricsOf, metricsOf, piMetricsOf } from "./claude.ts";
 import { headline, type RunRecord } from "./report.ts";
-import { TASKS } from "./tasks.ts";
+import { checkTheCheck, TASKS } from "./tasks.ts";
 
 const line = (v: unknown) => JSON.stringify(v);
 const usage = (input: number, created: number, read: number, output: number) => ({
@@ -190,4 +190,38 @@ Deno.test("headline says more, not negative fewer, when a setup used more", () =
 
   assert(text.includes("50% fewer input tokens, 50% lower cost"), text);
   assert(text.includes("20% more input tokens, 20% higher cost"), text);
+});
+
+/** A plausible right answer for every task, shaped like what fetch returns. */
+const SAMPLE_FACTS: Record<string, ReadonlyArray<string>> = {
+  lookup: ["v2.4.0"],
+  search: ["servers", "python-sdk", "typescript-sdk"],
+  chain: ["Introduction to Model Context Protocol Servers", "Reference Servers Overview", "Glossary"],
+  docs: ["/effect-ts/effect", "/effect-ts/website"],
+  compare: ["typescript-sdk", "python-sdk"],
+  created: ["2021-05-30"],
+  "issue-title": ["Progress notifications"],
+  "release-tags": ["v2.5.0", "2.16.0", "2026-07-28"],
+  "docs-id": ["/vercel/next.js", "/websites/nextjs"],
+  "deno-sections": ["Deno Overview", "CLI Architecture", "Runtime Core"],
+  "memory-find": ["Project Maple"],
+  "tokio-sections": ["13"],
+  "axum-releases": ["175"],
+};
+
+Deno.test("every task's check accepts its right answer and rejects a non-answer", () => {
+  for (const task of TASKS) {
+    const facts = SAMPLE_FACTS[task.id];
+    assert(facts, `no sample facts for ${task.id}`);
+    assertEquals(checkTheCheck(task, facts), null, task.id);
+  }
+});
+
+Deno.test("checkTheCheck catches a check that accepts anything, and one that rejects everything", () => {
+  const base = TASKS[0];
+  const lenient = { ...base, check: () => true };
+  const strict = { ...base, check: () => false };
+
+  assert(checkTheCheck(lenient, ["v1"])?.includes("accepts a wrong answer"));
+  assert(checkTheCheck(strict, ["v1"])?.includes("rejects the right answer"));
 });

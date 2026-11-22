@@ -11,7 +11,7 @@ import { Console, Data, Effect, Result } from "npm:effect@4.1.5";
 import { runAgent, runCommand } from "./claude.ts";
 import { ALL_SETUPS, ANSWER_RULE, argsFor, envFor, makeWorkspace, RUN_TIMEOUT, type Setup, warmUp, workDir, type Workspace } from "./workspace.ts";
 import { headline, type RunRecord, summaryTable, taskTable } from "./report.ts";
-import { type Ctx, type Facts, promptOf, type Task, TASKS } from "./tasks.ts";
+import { checkTheCheck, type Ctx, type Facts, promptOf, type Task, TASKS } from "./tasks.ts";
 
 class BadTruth extends Data.TaggedError("BadTruth")<{ readonly detail: string }> {}
 
@@ -41,6 +41,9 @@ const fetchFacts = (ws: Workspace) =>
       Effect.flatMap((facts) =>
         facts.length === 0 || facts.some((f) => f === "")
           ? Effect.fail(new BadTruth({ detail: `could not fetch the answer for ${task.id}` }))
+          // Test each check on the right answer before any agent runs.
+          : checkTheCheck(task, facts) !== null
+          ? Effect.fail(new BadTruth({ detail: checkTheCheck(task, facts)! }))
           : Effect.succeed([task.id, facts] as const)
       ),
     )).pipe(Effect.map((pairs) => new Map<string, Facts>(pairs)));

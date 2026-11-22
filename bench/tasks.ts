@@ -211,5 +211,18 @@ export const TASKS: ReadonlyArray<Task> = [
   },
 ];
 
+/** An answer no check should accept. */
+const NON_ANSWER = "I don't know.";
+
+/**
+ * A check that rejects the right answer, or accepts a non-answer, is broken: everything measured with
+ * it would be wrong. Returns what is wrong, or null. The right answer is the facts, one per line.
+ */
+export const checkTheCheck = (task: Task, facts: Facts): string | null => {
+  if (!task.check(facts.join("\n"), facts)) return `the check for ${task.id} rejects the right answer`;
+  if (task.check(NON_ANSWER, facts)) return `the check for ${task.id} accepts a wrong answer`;
+  return null;
+};
+
 /** The prompt with this run's seeded facts filled in. */
 export const promptOf = (task: Task, seeded: Ctx["seeded"]) => task.prompt.replaceAll("{word}", seeded.word);
