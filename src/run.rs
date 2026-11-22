@@ -185,54 +185,181 @@ pub(crate) fn tool_call(
     names: &mut Names,
     msg: &Value,
 ) -> Result<Value, String> {
+    tool_calls(opts, servers, pool, names, std::slice::from_ref(msg)).pop().unwrap_or_else(|| Err("no call".into()))
+}
+
+/// What one call from a program needs before it can go to its server.
+enum Prepared {
+    /// Already answered: a forged tool (run in its own sandbox), or a call we refused.
+    Done(Result<Value, String>),
+    /// `input_schema` is the tool's `inputSchema` (it says which arguments travel as HTTP headers).
+    Call { server: String, tool: String, args: Value, input_schema: Option<Value> },
+}
+
+/// Calls a program made together. Calls to different servers run at the same time, and so do calls
+/// to one server where its connection allows (see `Client::call_tools`). Answers come back in order.
+pub(crate) fn tool_calls(
+    opts: &Options,
+    servers: &BTreeMap<String, Server>,
+    pool: &mut Pool,
+    names: &mut Names,
+    msgs: &[Value],
+) -> Vec<Result<Value, String>> {
+    let prepared: Vec<Prepared> = msgs.iter().map(|m| prepare(opts, servers, pool, names, m)).collect();
+    let prepared = connect_all(opts, servers, pool, prepared);
+    let mut by_server: BTreeMap<String, Vec<usize>> = BTreeMap::new();
+    for (i, p) in prepared.iter().enumerate() {
+        if let Prepared::Call { server, .. } = p {
+            by_server.entry(server.clone()).or_default().push(i);
+        }
+    }
+    let run_group = |client: &mut Client, idx: &[usize]| -> Vec<Result<Value, String>> {
+        let calls = idx
+            .iter()
+            .map(|&i| match &prepared[i] {
+                Prepared::Call { tool, args, input_schema, .. } => (tool.clone(), args.clone(), input_schema.clone()),
+                Prepared::Done(_) => unreachable!(),
+            })
+            .collect();
+        client.call_tools(calls)
+    };
+    let started = Instant::now();
+    let answered: Vec<(String, Vec<Result<Value, String>>)> = if by_server.len() == 1 {
+        let (server, idx) = by_server.iter().next().unwrap();
+        vec![(server.clone(), run_group(pool.get_mut(server).unwrap(), idx))]
+    } else {
+        std::thread::scope(|scope| {
+            let running: Vec<_> = pool
+                .iter_mut()
+                .filter_map(|(server, client)| by_server.get(server).map(|idx| (server.clone(), client, idx)))
+                .map(|(server, client, idx)| (server, scope.spawn(|| run_group(client, idx))))
+                .collect();
+            running
+                .into_iter()
+                .map(|(server, h)| {
+                    let n = by_server[&server].len();
+                    (server, h.join().unwrap_or_else(|_| (0..n).map(|_| Err("a tool call crashed".into())).collect()))
+                })
+                .collect()
+        })
+    };
+    let mut results: Vec<Option<Result<Value, String>>> = prepared
+        .iter()
+        .map(|p| match p {
+            Prepared::Done(r) => Some(r.clone()),
+            Prepared::Call { .. } => None,
+        })
+        .collect();
+    for (server, answers) in answered {
+        let mut broken = false;
+        for (&i, result) in by_server[&server].iter().zip(answers) {
+            let Prepared::Call { tool, .. } = &prepared[i] else { unreachable!() };
+            log_call(&opts.root, "run", &server, tool, matches!(&result, Ok(r) if r["isError"] != true), started);
+            broken |= result.is_err();
+            results[i] = Some(result.and_then(useful_form));
+        }
+        if broken {
+            pool.remove(&server); // the connection may be broken; start fresh next time
+        }
+    }
+    results.into_iter().map(|r| r.unwrap_or_else(|| Err("no answer".into()))).collect()
+}
+
+/// Connect to every server the calls need that is not connected yet, all at the same time. A call whose
+/// server cannot be reached is answered with the reason.
+fn connect_all(opts: &Options, servers: &BTreeMap<String, Server>, pool: &mut Pool, prepared: Vec<Prepared>) -> Vec<Prepared> {
+    let mut missing: Vec<&str> = prepared
+        .iter()
+        .filter_map(|p| match p {
+            Prepared::Call { server, .. } if !pool.contains_key(server) => Some(server.as_str()),
+            _ => None,
+        })
+        .collect();
+    missing.sort();
+    missing.dedup();
+    let connect = |server: &str| {
+        let mut options = ConnectOptions::new(opts.timeout);
+        options.era = saved_era(&opts.root, server);
+        Client::connect(&servers[server], &options)
+    };
+    let connected: Vec<(String, Result<Client, String>)> = match missing.as_slice() {
+        [] => Vec::new(),
+        [one] => vec![(one.to_string(), connect(one))],
+        many => std::thread::scope(|scope| {
+            let running: Vec<_> = many.iter().map(|s| (s.to_string(), scope.spawn(|| connect(s)))).collect();
+            running
+                .into_iter()
+                .map(|(s, h)| (s, h.join().unwrap_or_else(|_| Err("connecting crashed".into()))))
+                .collect()
+        }),
+    };
+    let mut failed: BTreeMap<String, String> = BTreeMap::new();
+    for (server, result) in connected {
+        match result {
+            Ok(client) => {
+                pool.insert(server, client);
+            }
+            Err(e) => {
+                failed.insert(server, e);
+            }
+        }
+    }
+    prepared
+        .into_iter()
+        .map(|p| match p {
+            Prepared::Call { server, .. } if failed.contains_key(&server) => Prepared::Done(Err(failed[&server].clone())),
+            other => other,
+        })
+        .collect()
+}
+
+fn prepare(opts: &Options, servers: &BTreeMap<String, Server>, pool: &mut Pool, names: &mut Names, msg: &Value) -> Prepared {
     let args = match &msg["args"] {
         Value::Null => json!({}),
         Value::Object(_) => msg["args"].clone(),
-        _ => return Err("pass the parameters as one object: tools.app.tool({ name: value })".into()),
+        _ => return Prepared::Done(Err("pass the parameters as one object: tools.app.tool({ name: value })".into())),
     };
     // A forged tool is another program: run it in its own sandbox, sharing our connections.
     if msg["server"].as_str() == Some(crate::sync::FORGED) {
         let tool = msg["tool"].as_str().unwrap_or("");
         if !opts.allow.is_empty() && !opts.allow.iter().any(|p| allows(p, crate::sync::FORGED, tool)) {
-            return Err(format!("{}/{tool} is not allowed in this run (allowed: {})", crate::sync::FORGED, opts.allow.join(", ")));
+            return Prepared::Done(Err(format!(
+                "{}/{tool} is not allowed in this run (allowed: {})",
+                crate::sync::FORGED,
+                opts.allow.join(", ")
+            )));
         }
-        let printed = crate::forge::run(&opts.root, tool, &args, pool)?;
-        let text = printed.trim_end();
-        return Ok(serde_json::from_str(text).unwrap_or(Value::String(text.to_string())));
+        return Prepared::Done(crate::forge::run(&opts.root, tool, &args, pool).map(|printed| {
+            let text = printed.trim_end();
+            serde_json::from_str(text).unwrap_or(Value::String(text.to_string()))
+        }));
     }
-    let (server, tool) = names.resolve(
+    let (server, tool) = match names.resolve(
         &opts.root,
         servers,
         msg["server"].as_str().unwrap_or(""),
         msg["tool"].as_str().unwrap_or(""),
-    )?;
+    ) {
+        Ok(found) => found,
+        Err(e) => return Prepared::Done(Err(e)),
+    };
     // A pattern may use the real names or the names as written in code (`get_sum` for `get-sum`).
     let allowed = |p: &String| allows(p, &server, &tool) || allows(p, &ident(&server), &ident(&tool));
     if !opts.allow.is_empty() && !opts.allow.iter().any(allowed) {
-        return Err(format!("{server}/{tool} is not allowed in this run (allowed: {})", opts.allow.join(", ")));
+        return Prepared::Done(Err(format!("{server}/{tool} is not allowed in this run (allowed: {})", opts.allow.join(", "))));
     }
+    let input_schema = input_schema_of(&opts.root, &server, &tool);
+    Prepared::Call { server, tool, args, input_schema }
+}
 
-    if !pool.contains_key(&server) {
-        let mut options = ConnectOptions::new(opts.timeout);
-        options.era = saved_era(&opts.root, &server);
-        pool.insert(server.clone(), Client::connect(&servers[&server], &options)?);
-    }
-    let schema: Option<Value> = std::fs::read_to_string(schema_path(&opts.root, &server, &tool))
-        .ok()
-        .and_then(|t| serde_json::from_str(&t).ok());
-    let started = Instant::now();
-    let result =
-        pool.get_mut(&server).unwrap().call_tool(&tool, args, schema.as_ref().map(|s| &s["inputSchema"]));
-    log_call(&opts.root, "run", &server, &tool, matches!(&result, Ok(r) if r["isError"] != true), started);
-    let result = match result {
-        Ok(r) => r,
-        Err(e) => {
-            pool.remove(&server); // the connection may be broken; start fresh next time
-            return Err(e);
-        }
-    };
+/// The `inputSchema` saved for a tool at sync: the client needs it, not the whole saved tool.
+fn input_schema_of(root: &Path, server: &str, tool: &str) -> Option<Value> {
+    let saved: Value = serde_json::from_str(&std::fs::read_to_string(schema_path(root, server, tool)).ok()?).ok()?;
+    Some(saved["inputSchema"].clone()).filter(|s| !s.is_null())
+}
 
-    // Give the program the most useful form of the answer.
+/// Give the program the most useful form of the answer.
+fn useful_form(result: Value) -> Result<Value, String> {
     if result["isError"].as_bool() == Some(true) {
         return Err(result_text(&result));
     }
@@ -346,5 +473,25 @@ impl TempFile {
 impl Drop for TempFile {
     fn drop(&mut self) {
         let _ = std::fs::remove_file(&self.0);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn the_client_gets_the_input_schema_not_the_whole_saved_tool() {
+        let root = std::env::temp_dir().join(format!("dogu-input-schema-{}", std::process::id()));
+        let path = schema_path(&root, "gh", "get_release");
+        std::fs::create_dir_all(path.parent().unwrap()).unwrap();
+        let input = json!({ "type": "object", "properties": { "owner": { "type": "string", "x-mcp-header": "owner" } } });
+        std::fs::write(&path, json!({ "name": "get_release", "inputSchema": input }).to_string()).unwrap();
+
+        let got = input_schema_of(&root, "gh", "get_release");
+
+        assert_eq!(got, Some(input));
+        assert_eq!(input_schema_of(&root, "gh", "missing"), None);
+        let _ = std::fs::remove_dir_all(&root);
     }
 }

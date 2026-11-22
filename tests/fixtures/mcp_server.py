@@ -4,10 +4,15 @@
 Tools:
   search_repositories  returns structured JSON, so output formatting can be checked
   wiki                 returns markdown text plus the same text inside structured JSON, like DeepWiki
+  slow                 answers after 0.6 s, on its own thread, so calls made together can finish together
   count                adds 1 to a counter kept in memory, so tests can tell a warm server from a fresh one
 """
 import json
 import sys
+import threading
+import time
+
+WRITE = threading.Lock()
 
 TOOLS = [
     {
@@ -41,6 +46,12 @@ TOOLS = [
         "annotations": {"readOnlyHint": False, "destructiveHint": False},
     },
     {
+        "name": "slow",
+        "description": "Wait 0.6 seconds, then answer. For testing calls that run at the same time.",
+        "inputSchema": {"type": "object", "properties": {}},
+        "annotations": {"readOnlyHint": True},
+    },
+    {
         "name": "reset",
         "description": "Set the counter back to zero.",
         "inputSchema": {"type": "object", "properties": {}},
@@ -57,8 +68,9 @@ def answer(msg_id, result=None, error=None):
         out["error"] = error
     else:
         out["result"] = result
-    sys.stdout.write(json.dumps(out) + "\n")
-    sys.stdout.flush()
+    with WRITE:
+        sys.stdout.write(json.dumps(out) + "\n")
+        sys.stdout.flush()
 
 
 def call(name, args):
@@ -70,6 +82,9 @@ def call(name, args):
     if name == "wiki":
         text = "# Title\n- one\n- two"
         return {"content": [{"type": "text", "text": text}], "structuredContent": {"result": text}}
+    if name == "slow":
+        time.sleep(0.6)
+        return {"content": [{"type": "text", "text": "done"}], "structuredContent": {"done": True}}
     if name == "reset":
         counter = 0
         return {"content": [{"type": "text", "text": "0"}], "structuredContent": {"count": 0}}
@@ -97,7 +112,12 @@ for line in sys.stdin:
         answer(msg_id, {"tools": TOOLS})
     elif method == "tools/call":
         params = msg.get("params", {})
-        answer(msg_id, call(params.get("name"), params.get("arguments") or {}))
+        name, args = params.get("name"), params.get("arguments") or {}
+        if name == "slow":
+            # Like an async server: a slow call does not hold up the next request.
+            threading.Thread(target=lambda i=msg_id: answer(i, call(name, args))).start()
+        else:
+            answer(msg_id, call(name, args))
     elif method == "ping":
         answer(msg_id, {})
     else:

@@ -611,3 +611,22 @@ fn a_left_out_tool_cannot_be_called_from_the_folder_or_from_code() {
     assert!(stderr(&call).contains("read-only"), "{}", stderr(&call));
     assert_ne!(code.status.code(), Some(0), "{}", stdout(&code));
 }
+
+// --- Calls a program makes together run together ---
+
+#[test]
+fn calls_made_together_run_at_the_same_time() {
+    let home = scratch("parallel");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+    let program = "const r = await Promise.all([1, 2, 3, 4].map(() => tools.fx.slow({}))); console.log(r.length);";
+
+    let started = std::time::Instant::now();
+    let o = dogu(&home, &home, &["run", "--root", out.to_str().unwrap(), "-e", program]);
+    let took = started.elapsed();
+
+    assert_eq!(stdout(&o).trim(), "4", "stderr: {}", stderr(&o));
+    // One after another, four 0.6 s calls take 2.4 s; together, about one call plus start-up.
+    assert!(took < std::time::Duration::from_millis(1800), "took {took:?}");
+}

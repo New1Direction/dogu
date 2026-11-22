@@ -10,7 +10,7 @@ use crate::auth::{is_local, Auth};
 use crate::config::Server;
 use crate::util::base64;
 use serde_json::{json, Value};
-use std::collections::{BTreeMap, VecDeque};
+use std::collections::{BTreeMap, HashMap, VecDeque};
 use std::io::{BufRead, BufReader, Write};
 use std::process::{Child, ChildStdin, Command, Stdio};
 use std::sync::mpsc::{self, Receiver, RecvTimeoutError};
@@ -360,6 +360,99 @@ impl Client {
     pub fn call_tool(&mut self, name: &str, arguments: Value, input_schema: Option<&Value>) -> Result<Value, String> {
         let result = self.call_tool_inner(name, arguments, input_schema);
         result.map_err(|e| self.explain(e))
+    }
+
+    /// Several calls at once. On HTTP each goes on its own request; over stdio they are all written
+    /// first and the answers collected as they come, so a server that can work on them together does.
+    /// A server with a login (which may need refreshing) gets its calls one after another.
+    /// Each call is (tool name, arguments, the tool's `inputSchema`).
+    pub fn call_tools(&mut self, calls: Vec<(String, Value, Option<Value>)>) -> Vec<Result<Value, String>> {
+        if calls.len() < 2 {
+            return calls.into_iter().map(|(name, args, schema)| self.call_tool(&name, args, schema.as_ref())).collect();
+        }
+        match &self.transport {
+            Transport::Http { auth: None, .. } => {
+                let forks: Vec<Client> = (0..calls.len()).filter_map(|i| self.fork(i)).collect();
+                std::thread::scope(|scope| {
+                    let running: Vec<_> = forks
+                        .into_iter()
+                        .zip(calls)
+                        .map(|(mut fork, (name, args, schema))| {
+                            scope.spawn(move || fork.call_tool(&name, args, schema.as_ref()))
+                        })
+                        .collect();
+                    running.into_iter().map(|h| h.join().unwrap_or_else(|_| Err("a tool call crashed".into()))).collect()
+                })
+            }
+            Transport::Stdio { .. } => self.call_tools_pipelined(calls),
+            Transport::Http { .. } => {
+                calls.into_iter().map(|(name, args, schema)| self.call_tool(&name, args, schema.as_ref())).collect()
+            }
+        }
+    }
+
+    /// A copy of an HTTP connection without a login, for one call on another thread.
+    fn fork(&self, n: usize) -> Option<Client> {
+        let Transport::Http { agent, url, headers, session, auth: None } = &self.transport else { return None };
+        Some(Client {
+            transport: Transport::Http {
+                agent: agent.clone(),
+                url: url.clone(),
+                headers: headers.clone(),
+                session: session.clone(),
+                auth: None,
+            },
+            next_id: self.next_id + 1_000 * (n as u64 + 1),
+            timeout: self.timeout,
+            era: self.era.clone(),
+            legacy_version: self.legacy_version.clone(),
+            info: Value::Null,
+        })
+    }
+
+    fn call_tools_pipelined(&mut self, calls: Vec<(String, Value, Option<Value>)>) -> Vec<Result<Value, String>> {
+        let deadline = Instant::now() + self.timeout;
+        let mut ids = Vec::new();
+        for (name, args, _) in &calls {
+            let id = self.next_id;
+            self.next_id += 1;
+            let mut params = json!({ "name": name, "arguments": args });
+            if let Era::Modern(version) = &self.era {
+                params["_meta"] = meta(version);
+            }
+            let msg = json!({ "jsonrpc": "2.0", "id": id, "method": "tools/call", "params": params });
+            let Transport::Stdio { stdin, .. } = &mut self.transport else { unreachable!() };
+            if let Err(e) = send_line(stdin, &msg) {
+                let e = self.explain(e);
+                return calls.iter().map(|_| Err(e.clone())).collect();
+            }
+            ids.push(id);
+        }
+        let mut answers: HashMap<u64, Result<Value, Failure>> = HashMap::new();
+        while answers.len() < ids.len() {
+            let waiting: Vec<u64> = ids.iter().copied().filter(|id| !answers.contains_key(id)).collect();
+            let Transport::Stdio { stdin, lines, .. } = &mut self.transport else { unreachable!() };
+            match wait_for(stdin, lines, &waiting, deadline) {
+                Some((id, answer)) => {
+                    let broken = matches!(&answer, Err(f) if !f.answered);
+                    answers.insert(id, answer);
+                    if broken {
+                        break; // the server exited: the rest will not come
+                    }
+                }
+                None => break,
+            }
+        }
+        // An answer that needs another round (a newer version, "ask me again") goes the usual way.
+        ids.iter()
+            .zip(calls)
+            .map(|(id, (name, args, schema))| match answers.remove(id) {
+                Some(Ok(r)) if r["resultType"] != "input_required" => Ok(r),
+                Some(Err(f)) if f.code != Some(UNSUPPORTED_VERSION) => Err(self.explain(f.message)),
+                Some(_) => self.call_tool(&name, args, schema.as_ref()),
+                None => Err(self.explain("no answer to tools/call in time".to_string())),
+            })
+            .collect()
     }
 
     fn call_tool_inner(&mut self, name: &str, arguments: Value, input_schema: Option<&Value>) -> Result<Value, String> {

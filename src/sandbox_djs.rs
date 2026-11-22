@@ -6,7 +6,7 @@
 //! which a script cannot catch.
 
 use crate::config;
-use crate::run::{tool_call, Names, Options, Outcome, Pool};
+use crate::run::{tool_calls, Names, Options, Outcome, Pool};
 use djs_embed::{Error, HostFn, Limits, Snapshot, Source, Step, Value};
 use serde_json::{json, Value as Json};
 
@@ -114,14 +114,19 @@ pub fn run_program(
                     call.reply(Ok(Value::Undefined))?;
                 }
                 Step::Wait(started) => {
-                    for id in started {
-                        let msg = {
+                    // Calls the program started together (Promise.all) are made together.
+                    let msgs: Vec<Json> = started
+                        .iter()
+                        .map(|&id| {
                             let call = vm.host_call(id)?;
                             let arg = |i| call.arg(i).as_str().map(|s| s.into_owned()).unwrap_or_default();
                             let args: Json = serde_json::from_str(&arg(2)).unwrap_or(Json::Null);
-                            json!({ "server": arg(0), "tool": arg(1), "args": args })
-                        };
-                        let answer = match tool_call(opts, &servers, pool, &mut names, &msg) {
+                            Ok(json!({ "server": arg(0), "tool": arg(1), "args": args }))
+                        })
+                        .collect::<Result<_, Error>>()?;
+                    let answers = tool_calls(opts, &servers, pool, &mut names, &msgs);
+                    for (id, answer) in started.into_iter().zip(answers) {
+                        let answer = match answer {
                             Ok(value) => json!({ "value": value }),
                             Err(e) => json!({ "error": e }),
                         };
