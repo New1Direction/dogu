@@ -536,3 +536,18 @@ fn link_skill_links_the_folder_into_the_agent_skill_folders() {
         assert!(link.join("SKILL.md").is_file(), "{dir} missing: {}{}", stdout(&o), stderr(&o));
     }
 }
+
+// --- A server that dies at start says why ---
+
+#[test]
+fn a_server_that_dies_at_start_shows_what_it_said() {
+    let home = scratch("dies");
+    let config = home.join("dies.json");
+    let script = "echo 'npm error code EPERM' >&2; echo 'npm error path /Users/me/.npm/_cacache/tmp/x' >&2; exit 1";
+    write_json(&config, &json!({ "mcpServers": { "dies": { "command": "sh", "args": ["-c", script] } } }));
+
+    let o = dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", home.join("out").to_str().unwrap()]);
+
+    assert!(stdout(&o).contains("npm error code EPERM"), "shows the server's own words: {}", stdout(&o));
+    assert!(stdout(&o).contains("~/.npm"), "says what probably happened: {}", stdout(&o));
+}

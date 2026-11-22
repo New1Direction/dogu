@@ -10,10 +10,14 @@ use crate::auth::{is_local, Auth};
 use crate::config::Server;
 use crate::util::base64;
 use serde_json::{json, Value};
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, VecDeque};
 use std::io::{BufRead, BufReader, Write};
 use std::process::{Child, ChildStdin, Command, Stdio};
 use std::sync::mpsc::{self, Receiver, RecvTimeoutError};
+use std::sync::{Arc, Mutex};
+
+/// How many of a local server's last stderr lines we keep, to explain it if it dies.
+const LAST_WORDS: usize = 6;
 use std::time::{Duration, Instant};
 
 pub const MODERN: &str = "2026-07-28";
@@ -80,7 +84,8 @@ impl Failure {
 }
 
 enum Transport {
-    Stdio { child: Child, stdin: ChildStdin, lines: Receiver<String> },
+    /// `said` keeps the last lines the server wrote to stderr, to explain it if it dies.
+    Stdio { child: Child, stdin: ChildStdin, lines: Receiver<String>, said: Arc<Mutex<VecDeque<String>>> },
     Http { agent: ureq::Agent, url: String, headers: BTreeMap<String, String>, session: Option<String>, auth: Option<Auth> },
 }
 
@@ -106,9 +111,22 @@ impl Client {
                     .current_dir(cwd)
                     .stdin(Stdio::piped())
                     .stdout(Stdio::piped())
-                    .stderr(if debug { Stdio::inherit() } else { Stdio::null() })
+                    .stderr(if debug { Stdio::inherit() } else { Stdio::piped() })
                     .spawn()
                     .map_err(|e| format!("cannot start `{command}`: {e}"))?;
+                let said = Arc::new(Mutex::new(VecDeque::new()));
+                if let Some(stderr) = child.stderr.take() {
+                    let said = Arc::clone(&said);
+                    std::thread::spawn(move || {
+                        for line in BufReader::new(stderr).lines().map_while(Result::ok) {
+                            let mut said = said.lock().unwrap_or_else(|e| e.into_inner());
+                            if said.len() == LAST_WORDS {
+                                said.pop_front();
+                            }
+                            said.push_back(line.chars().take(300).collect());
+                        }
+                    });
+                }
                 let stdin = child.stdin.take().unwrap();
                 let stdout = child.stdout.take().unwrap();
                 // A helper thread reads the server's output, so we can wait with a timeout.
@@ -121,7 +139,7 @@ impl Client {
                         }
                     }
                 });
-                Transport::Stdio { child, stdin, lines }
+                Transport::Stdio { child, stdin, lines, said }
             }
             Server::Http { name, url, headers, oauth } => {
                 // If the config already gives an Authorization header, we leave logins alone.
@@ -147,18 +165,47 @@ impl Client {
             legacy_version: None,
             info: Value::Null,
         };
-        match &opts.era {
+        let connected = match &opts.era {
             // We know this server is modern: there is no handshake, so we are connected.
-            Some(Era::Modern(version)) => client.era = Era::Modern(version.clone()),
-            // We know it is legacy: go straight to the handshake. If that fails, detect again.
-            Some(Era::Legacy) => {
-                if client.initialize().is_err() {
-                    client.detect()?;
-                }
+            Some(Era::Modern(version)) => {
+                client.era = Era::Modern(version.clone());
+                Ok(())
             }
-            None => client.detect()?,
+            // We know it is legacy: go straight to the handshake. If that fails, detect again.
+            Some(Era::Legacy) => client.initialize().or_else(|_| client.detect()),
+            None => client.detect(),
+        };
+        match connected {
+            Ok(()) => Ok(client),
+            Err(e) => Err(client.explain(e)),
         }
-        Ok(client)
+    }
+
+    /// If a local server has died, add what it said last, and a hint for a common cause.
+    fn explain(&mut self, error: String) -> String {
+        let Transport::Stdio { child, said, .. } = &mut self.transport else { return error };
+        // Give the stderr reader a moment to collect the server's last lines.
+        for _ in 0..20 {
+            if matches!(child.try_wait(), Ok(Some(_))) {
+                break;
+            }
+            std::thread::sleep(Duration::from_millis(25));
+        }
+        if !matches!(child.try_wait(), Ok(Some(_))) {
+            return error;
+        }
+        std::thread::sleep(Duration::from_millis(50));
+        let words: Vec<String> = said.lock().unwrap_or_else(|e| e.into_inner()).iter().cloned().collect();
+        if words.is_empty() {
+            return error;
+        }
+        let text = words.join("\n  ");
+        let hint = if text.contains("EPERM") && text.contains(".npm") {
+            "\n  It could not write npm's cache (~/.npm). That happens inside a sandbox, such as Codex's: allow writing to ~/.npm."
+        } else {
+            ""
+        };
+        format!("{}. The server said:\n  {text}{hint}", error.trim_end_matches(" (set DOGU_DEBUG=1 to see its output)"))
     }
 
     pub fn era(&self) -> &Era {
@@ -285,6 +332,11 @@ impl Client {
 
     /// All tools the server has. Servers may answer in pages, so keep asking until done.
     pub fn list_tools(&mut self) -> Result<Vec<Value>, String> {
+        let result = self.list_tools_inner();
+        result.map_err(|e| self.explain(e))
+    }
+
+    fn list_tools_inner(&mut self) -> Result<Vec<Value>, String> {
         let mut tools = Vec::new();
         let mut cursor: Option<String> = None;
         loop {
@@ -306,6 +358,11 @@ impl Client {
     /// Run a tool. `input_schema` is the tool's schema, if we have it: a modern HTTP server may
     /// mark parameters there that must also be sent as HTTP headers.
     pub fn call_tool(&mut self, name: &str, arguments: Value, input_schema: Option<&Value>) -> Result<Value, String> {
+        let result = self.call_tool_inner(name, arguments, input_schema);
+        result.map_err(|e| self.explain(e))
+    }
+
+    fn call_tool_inner(&mut self, name: &str, arguments: Value, input_schema: Option<&Value>) -> Result<Value, String> {
         let mut headers = Vec::new();
         if let Some(schema) = input_schema {
             for (path, header) in header_params(schema).unwrap_or_default() {
