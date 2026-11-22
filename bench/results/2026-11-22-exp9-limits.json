@@ -1,0 +1,3140 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.6.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "747b350",
+  "dirty": false,
+  "answers": {
+    "httpx-open-both": [
+      "153"
+    ],
+    "requests-open-both": [
+      "257"
+    ],
+    "httpx-open-prs": [
+      "90"
+    ],
+    "requests-open-issues": [
+      "169"
+    ],
+    "httpx-newest-issue": [
+      "Potential Issue: `AsyncClient.stream` double-cancel may leak active connections"
+    ],
+    "requests-newest-pr": [
+      "Bump the actions group with 2 updates"
+    ],
+    "httpx-stars": [
+      "15838"
+    ]
+  },
+  "records": [
+    {
+      "setup": "direct",
+      "task": "httpx-open-both",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **153 open items** as GitHub counts them, with pull requests included.\n\n- Open issues: 63\n- Open pull requests: 90\n\nI got both numbers from the `total_count` of the issue and PR searches, each filtered to open items.",
+        "turns": 3,
+        "seconds": 5.531,
+        "costUsd": 0.024003500000000004,
+        "firstTurnTokens": 27222,
+        "totalInputTokens": 54990,
+        "outputTokens": 91,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3471,
+          "cacheRead": 51515
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_issues {\"query\":\"is:open\",\"owner\":\"encode\",\"repo\":\"httpx\",\"perPage\":1,\"fields\":[\"number\"]}",
+          "mcp__github__search_pull_requests {\"query\":\"is:open\",\"owner\":\"encode\",\"repo\":\"httpx\",\"perPage\":1,\"fields\":[\"number\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.254415167000001
+          },
+          {
+            "kind": "model",
+            "seconds": 2.925973415999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9265288340000009
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6509352909999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "httpx-open-both",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": false,
+      "metrics": {
+        "answer": "Run 79580edc: encode/httpx has **63 open issues**, counting pull requests, according to GitHub's search `total_count` for `repo:encode/httpx state:open`. That query doesn't filter by type, so open PRs are included in the 63.",
+        "turns": 3,
+        "seconds": 7.707,
+        "costUsd": 0.0109665,
+        "firstTurnTokens": 5157,
+        "totalInputTokens": 16373,
+        "outputTokens": 116,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1502,
+          "cacheRead": 14865
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:encode/httpx state:open\\\"});\\nconsole.log(JSON.stringify(r).slice(0,600));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:encode/httpx state:open\\\"});\\nconsole.log(r.total_count, r.items.length);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3169181669999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7985235830000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.957416334
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3820647499999987
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.2935916250000012
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2442368329999995
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "httpx-open-both",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **153** open issues. That is GitHub's `open_issues_count` for the repo, which includes open pull requests. I got it from a repository search for `repo:encode/httpx`.",
+        "turns": 2,
+        "seconds": 3.911,
+        "costUsd": 0.0096605,
+        "firstTurnTokens": 6622,
+        "totalInputTokens": 13664,
+        "outputTokens": 72,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1435,
+          "cacheRead": 12225
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:encode/httpx\\\"});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3263365410000006
+          },
+          {
+            "kind": "model",
+            "seconds": 2.014992458999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5231392910000014
+          },
+          {
+            "kind": "model",
+            "seconds": 1.333831584
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "requests-open-both",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **257 open issues**, counted the way GitHub's `open_issues_count` does, which includes open pull requests. I got the number from a repository search on 2026-11-22.",
+        "turns": 2,
+        "seconds": 4.853,
+        "costUsd": 0.0087194,
+        "firstTurnTokens": 5157,
+        "totalInputTokens": 10703,
+        "outputTokens": 65,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1385,
+          "cacheRead": 9314
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:psf/requests\\\"});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24876745800000027
+          },
+          {
+            "kind": "model",
+            "seconds": 2.743726167000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9066201249999977
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1828189579999995
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "requests-open-both",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **257 open issues**, counting open pull requests the way GitHub's `open_issues_count` field does. I got the number from a repository search on 2026-11-22.",
+        "turns": 2,
+        "seconds": 3.649,
+        "costUsd": 0.0094263,
+        "firstTurnTokens": 6620,
+        "totalInputTokens": 13656,
+        "outputTokens": 65,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1429,
+          "cacheRead": 12223
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:psf/requests\\\"});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2755252500000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8410961670000012
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5225989999999987
+          },
+          {
+            "kind": "model",
+            "seconds": 1.263294750000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "requests-open-both",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **257 open items** by GitHub's count, which includes pull requests. That is 169 open issues plus 88 open pull requests.\n\nI got both numbers from GitHub search (`is:open`, scoped to issues and to pull requests) and added them.",
+        "turns": 3,
+        "seconds": 6.285,
+        "costUsd": 0.0236531,
+        "firstTurnTokens": 27218,
+        "totalInputTokens": 54956,
+        "outputTokens": 94,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3441,
+          "cacheRead": 51511
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_issues {\"query\":\"is:open\",\"owner\":\"psf\",\"repo\":\"requests\",\"perPage\":1,\"fields\":[\"number\"]}",
+          "mcp__github__search_pull_requests {\"query\":\"is:open\",\"owner\":\"psf\",\"repo\":\"requests\",\"perPage\":1,\"fields\":[\"number\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.327987624999998
+          },
+          {
+            "kind": "model",
+            "seconds": 2.92812325
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8817432499999995
+          },
+          {
+            "kind": "model",
+            "seconds": 2.456085667
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "httpx-open-prs",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **90 open pull requests** right now. I got that from a GitHub search for open PRs in the repo (`total_count` = 90), and the search reported its results as complete.",
+        "turns": 3,
+        "seconds": 5.048,
+        "costUsd": 0.0106155,
+        "firstTurnTokens": 6608,
+        "totalInputTokens": 20559,
+        "outputTokens": 109,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1438,
+          "cacheRead": 19115
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"repo:encode/httpx is:pr is:open\\\", perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"repo:encode/httpx is:pr is:open\\\", perPage:1});\\nconsole.log(r.total_count, Object.keys(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23403033299999879
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4205338330000012
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5400271249999968
+          },
+          {
+            "kind": "model",
+            "seconds": 1.231259250000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5833938749999978
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2569075420000004
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "httpx-open-prs",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **90 open pull requests** right now (run 6a16f806). I got that from a GitHub pull request search for `is:pr is:open`, which returned a total count of 90.",
+        "turns": 2,
+        "seconds": 3.377,
+        "costUsd": 0.0192521,
+        "firstTurnTokens": 27208,
+        "totalInputTokens": 54571,
+        "outputTokens": 95,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3066,
+          "cacheRead": 51501
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_pull_requests {\"query\":\"repo:encode/httpx is:pr is:open\",\"perPage\":1,\"fields\":[\"number\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2199082920000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4017968749999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5584408750000005
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3930150830000017
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "httpx-open-prs",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Run 8366b633: encode/httpx has **90 open pull requests** right now. I got that from a GitHub search for open PRs in the repo. The search reported the result as complete.",
+        "turns": 3,
+        "seconds": 5.275,
+        "costUsd": 0.0100485,
+        "firstTurnTokens": 5146,
+        "totalInputTokens": 16159,
+        "outputTokens": 108,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1408,
+          "cacheRead": 14745
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"repo:encode/httpx is:pr is:open\\\", perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"repo:encode/httpx is:pr is:open\\\", perPage:1});\\nconsole.log(r.total_count, r.incomplete_results);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2636359170000033
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5680399579999975
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5355424590000004
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2473418750000018
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6024524579999992
+          },
+          {
+            "kind": "model",
+            "seconds": 1.302204666999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "requests-open-issues",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **169 open issues**, not counting pull requests. This comes from the `totalCount` field that GitHub's issues listing returned when I queried it just now (run 951b3764).",
+        "turns": 2,
+        "seconds": 4.268,
+        "costUsd": 0.0215046,
+        "firstTurnTokens": 27213,
+        "totalInputTokens": 54844,
+        "outputTokens": 69,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3334,
+          "cacheRead": 51506
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_issues {\"owner\":\"psf\",\"repo\":\"requests\",\"state\":\"OPEN\",\"perPage\":1,\"fields\":[\"number\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.3112660829999987
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0973114590000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8973456659999974
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2479005000000027
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "requests-open-issues",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **169 open issues**, not counting pull requests. I got that from a GitHub search for `repo:psf/requests is:issue is:open`, run just now (2026-11-22). The search result said `incomplete_results: false`.",
+        "turns": 3,
+        "seconds": 5.681,
+        "costUsd": 0.010498500000000001,
+        "firstTurnTokens": 5153,
+        "totalInputTokens": 16322,
+        "outputTokens": 128,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1491,
+          "cacheRead": 14825
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests is:issue is:open\\\", perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,600));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests is:issue is:open\\\", perPage:1});\\nconsole.log(r.total_count, Object.keys(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.27460895800000074
+          },
+          {
+            "kind": "model",
+            "seconds": 1.436560957999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8560988340000004
+          },
+          {
+            "kind": "model",
+            "seconds": 1.256877875000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8501631659999984
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2563541250000014
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "requests-open-issues",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **169** open issues, not counting pull requests. I got this from a GitHub issue search for `repo:psf/requests is:issue is:open` on 2026-11-22. The number is the search's `total_count`, and the search reported its results as complete.",
+        "turns": 3,
+        "seconds": 6.585,
+        "costUsd": 0.011059500000000002,
+        "firstTurnTokens": 6615,
+        "totalInputTokens": 20708,
+        "outputTokens": 134,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1507,
+          "cacheRead": 19195
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests is:issue is:open\\\", perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,600));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests is:issue is:open\\\", perPage:1});\\nconsole.log(r.total_count, Object.keys(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25156458300000306
+          },
+          {
+            "kind": "model",
+            "seconds": 2.490612083
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8345725840000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2046795829999972
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7680445420000037
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2662841249999985
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "httpx-newest-issue",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened issue in encode/httpx is #3782, \"Potential Issue: `AsyncClient.stream` double-cancel may leak active connections\". It was created on 2026-02-26.",
+        "turns": 3,
+        "seconds": 6.641,
+        "costUsd": 0.0131089,
+        "firstTurnTokens": 5158,
+        "totalInputTokens": 17281,
+        "outputTokens": 117,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2046,
+          "cacheRead": 15229
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"encode\\\",repo:\\\"httpx\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"DESC\\\",perPage:3});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"encode\\\",repo:\\\"httpx\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"DESC\\\",perPage:3});\\nconsole.log(r.issues.map(i=>[i.number,i.title,i.created_at]));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2490136670000029
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0420939999999974
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8053247499999996
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0008583750000035
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5317148329999979
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2349027920000006
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "httpx-newest-issue",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened issue in encode/httpx is #3782, \"Potential Issue: `AsyncClient.stream` double-cancel may leak active connections\". It was opened on 2026-02-26 and is now closed.\n\nThe most recent one that is still open is #3781, \"ADD PROXY _DICT SUPPORT into this latest HTTPX\".",
+        "turns": 3,
+        "seconds": 6.822,
+        "costUsd": 0.017759700000000003,
+        "firstTurnTokens": 6619,
+        "totalInputTokens": 23125,
+        "outputTokens": 142,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2822,
+          "cacheRead": 20297
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"encode\\\",repo:\\\"httpx\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"DESC\\\",perPage:3,state:\\\"OPEN\\\"});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"encode\\\",repo:\\\"httpx\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"DESC\\\",perPage:3});\\nconsole.log(r.issues.map(i=>[i.number,i.created_at,i.state,i.title]));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2433084170000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.852745167000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7420347079999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8017139580000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0396970000000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.367706958999995
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "httpx-newest-issue",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened issue in encode/httpx is #3782, \"Potential Issue: `AsyncClient.stream` double-cancel may leak active connections\". It was opened on 2026-02-26 and is now closed.",
+        "turns": 2,
+        "seconds": 3.638,
+        "costUsd": 0.0212153,
+        "firstTurnTokens": 27220,
+        "totalInputTokens": 54876,
+        "outputTokens": 96,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3359,
+          "cacheRead": 51513
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_issues {\"owner\":\"encode\",\"repo\":\"httpx\",\"orderBy\":\"CREATED_AT\",\"direction\":\"DESC\",\"perPage\":1,\"fields\":[\"number\",\"title\",\"created_at\",\"state\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2625942090000026
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5890378750000016
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8341915000000011
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1919481249999948
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "requests-newest-pr",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened pull request that is still open in psf/requests is #7640, titled **\"Bump the actions group with 2 updates\"**.",
+        "turns": 2,
+        "seconds": 3.479,
+        "costUsd": 0.010436,
+        "firstTurnTokens": 6617,
+        "totalInputTokens": 14083,
+        "outputTokens": 70,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1859,
+          "cacheRead": 12220
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_pull_requests({owner:\\\"psf\\\",repo:\\\"requests\\\",state:\\\"open\\\",sort:\\\"created\\\",direction:\\\"desc\\\",perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.235179584000005
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4289511249999995
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9122049999999944
+          },
+          {
+            "kind": "model",
+            "seconds": 1.125394708
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "requests-newest-pr",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened pull request that is still open in psf/requests is **\"Bump the actions group with 2 updates\"**.\n\nIt is PR #7640, opened on 2026-11-02: https://github.com/psf/requests/pull/7640",
+        "turns": 2,
+        "seconds": 4.886,
+        "costUsd": 0.0208049,
+        "firstTurnTokens": 27216,
+        "totalInputTokens": 54717,
+        "outputTokens": 109,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3204,
+          "cacheRead": 51509
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_pull_requests {\"owner\":\"psf\",\"repo\":\"requests\",\"state\":\"open\",\"sort\":\"created\",\"direction\":\"desc\",\"perPage\":1,\"fields\":[\"number\",\"title\",\"created_at\",\"html_url\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.3007869589999972
+          },
+          {
+            "kind": "model",
+            "seconds": 2.760457957999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8467717080000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2518480000000052
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "requests-newest-pr",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened pull request that is still open in psf/requests is #7640, \"Bump the actions group with 2 updates\". I sorted open PRs by creation date, newest first, and took the top result. I didn't check its creation timestamp separately.",
+        "turns": 2,
+        "seconds": 6.59,
+        "costUsd": 0.013927100000000001,
+        "firstTurnTokens": 5154,
+        "totalInputTokens": 11872,
+        "outputTokens": 28,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2557,
+          "cacheRead": 9311
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_pull_requests({owner:\\\"psf\\\",repo:\\\"requests\\\",state:\\\"open\\\",sort:\\\"created\\\",direction:\\\"desc\\\",perPage:3});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.236755167000003
+          },
+          {
+            "kind": "model",
+            "seconds": 3.724483957999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9716290000000005
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8746820420000008
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "httpx-stars",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The `encode/httpx` repo has **15,838 stars**. That's the `stargazers_count` from the GitHub API as of 2026-11-22.",
+        "turns": 2,
+        "seconds": 2.948,
+        "costUsd": 0.0205376,
+        "firstTurnTokens": 27203,
+        "totalInputTokens": 54940,
+        "outputTokens": 75,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3440,
+          "cacheRead": 51496
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:encode/httpx\",\"minimal_output\":false,\"perPage\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.237708958000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2607402089999957
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5144585829999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1527339580000042
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "httpx-stars",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub repo encode/httpx has **15,838 stars**. I got that from the `stargazers_count` field in a GitHub repository search, which showed it as of 2026-11-22.",
+        "turns": 2,
+        "seconds": 2.65,
+        "costUsd": 0.0078258,
+        "firstTurnTokens": 5141,
+        "totalInputTokens": 10604,
+        "outputTokens": 87,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1302,
+          "cacheRead": 9298
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:encode/httpx\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.5689992500000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1378368330000013
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.48720891700000335
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9928804579999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "httpx-stars",
+      "suite": "heldout6",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **15,838 stars**. That comes from a GitHub repository search run just now (2026-11-22).",
+        "turns": 2,
+        "seconds": 2.512,
+        "costUsd": 0.0079565,
+        "firstTurnTokens": 6602,
+        "totalInputTokens": 13526,
+        "outputTokens": 65,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1317,
+          "cacheRead": 12205
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:encode/httpx\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24129558299999918
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1421577919999981
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4732020000000048
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8781009579999952
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "httpx-open-both",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": false,
+      "metrics": {
+        "answer": "encode/httpx has **63 open issues**, counting pull requests as GitHub does. I got this from a GitHub search for `repo:encode/httpx is:open`, which reports a total count of 63. The search returned only the first page of 30 items, so I took the total from that count and didn't tally the items myself.",
+        "turns": 3,
+        "seconds": 7.486,
+        "costUsd": 0.0113124,
+        "firstTurnTokens": 5160,
+        "totalInputTokens": 16408,
+        "outputTokens": 126,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1518,
+          "cacheRead": 14884
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:encode/httpx is:open\\\"});\\nconsole.log(JSON.stringify(r).slice(0,600));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:encode/httpx is:open\\\"});\\nconsole.log(r.total_count, r.items.length);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2623234169999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.930055666
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.404659083999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2166422499999974
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.1821685830000055
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7315778329999958
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "httpx-open-both",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **153 open issues** as GitHub counts them, with open pull requests included. That figure is the `open_issues_count` field from the repo metadata, which GitHub computes that way. I read it from a repository search on 2026-11-22.",
+        "turns": 2,
+        "seconds": 3.589,
+        "costUsd": 0.0095364,
+        "firstTurnTokens": 6621,
+        "totalInputTokens": 13642,
+        "outputTokens": 90,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1414,
+          "cacheRead": 12224
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:encode/httpx\\\"});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24928287499999716
+          },
+          {
+            "kind": "model",
+            "seconds": 1.753050916
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.49055091700000064
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3301663750000006
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "httpx-open-both",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**153** open issues on encode/httpx, counting pull requests the way GitHub does. That is 63 open issues plus 90 open pull requests.\n\nThe issue search hit a rate limit. The 63 comes from the issue list's `totalCount`, and the 90 comes from a pull request search `total_count`. Both were read on 2026-11-22.",
+        "turns": 6,
+        "seconds": 12.57,
+        "costUsd": 0.04430959999999999,
+        "firstTurnTokens": 27219,
+        "totalInputTokens": 141516,
+        "outputTokens": 182,
+        "inputBreakdown": {
+          "fresh": 10,
+          "cacheWrite": 4910,
+          "cacheRead": 136596
+        },
+        "toolCalls": 5,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_issues {\"query\":\"state:open\",\"owner\":\"encode\",\"repo\":\"httpx\",\"perPage\":1,\"fields\":[\"number\"]}",
+          "mcp__github__search_pull_requests {\"query\":\"state:open\",\"owner\":\"encode\",\"repo\":\"httpx\",\"perPage\":1,\"fields\":[\"number\"]}",
+          "mcp__github__search_issues {\"query\":\"state:open\",\"owner\":\"encode\",\"repo\":\"httpx\",\"perPage\":1,\"fields\":[\"number\"]}",
+          "mcp__github__search_issues {\"query\":\"state:open\",\"owner\":\"encode\",\"repo\":\"httpx\",\"perPage\":1,\"fields\":[\"number\"]}",
+          "mcp__github__list_issues {\"owner\":\"encode\",\"repo\":\"httpx\",\"state\":\"OPEN\",\"perPage\":1,\"fields\":[\"number\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1973877500000016
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0910628330000036
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3477207090000012
+          },
+          {
+            "kind": "model",
+            "seconds": 0.22150920799999563
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6054950000000026
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6088250419999968
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5440795829999994
+          },
+          {
+            "kind": "model",
+            "seconds": 2.779243583000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.26262095900000126
+          },
+          {
+            "kind": "model",
+            "seconds": 1.939518833000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5268754169999958
+          },
+          {
+            "kind": "model",
+            "seconds": 1.618403666000006
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "requests-open-both",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub repo psf/requests has **257 open issues**. That's GitHub's `open_issues_count`, which includes open pull requests.\n\nI got it from the repository search result for `psf/requests`, which was last updated 2026-11-22.",
+        "turns": 2,
+        "seconds": 3.98,
+        "costUsd": 0.0097261,
+        "firstTurnTokens": 6618,
+        "totalInputTokens": 13659,
+        "outputTokens": 84,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1434,
+          "cacheRead": 12221
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:psf/requests\\\"});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2810739590000012
+          },
+          {
+            "kind": "model",
+            "seconds": 2.063121290999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5288302089999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3691218750000043
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "requests-open-both",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **257 open items** as GitHub counts them, with pull requests included.\n\n- **Open issues:** 169, from the issues listing's `totalCount`.\n- **Open pull requests:** 88, from the pull request search's `total_count`.\n\nI added the two together. The issue search I tried first was rate-limited, so the issue figure comes from the listing instead. Both counts were taken on 2026-11-22.",
+        "turns": 5,
+        "seconds": 11.525,
+        "costUsd": 0.038275500000000004,
+        "firstTurnTokens": 27219,
+        "totalInputTokens": 112307,
+        "outputTokens": 56,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 4464,
+          "cacheRead": 107835
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_issues {\"query\":\"state:open\",\"owner\":\"psf\",\"repo\":\"requests\",\"perPage\":1,\"fields\":[\"number\"]}",
+          "mcp__github__search_pull_requests {\"query\":\"state:open\",\"owner\":\"psf\",\"repo\":\"requests\",\"perPage\":1,\"fields\":[\"number\"]}",
+          "mcp__github__search_issues {\"query\":\"state:open\",\"owner\":\"psf\",\"repo\":\"requests\",\"perPage\":1,\"fields\":[\"number\"]}",
+          "mcp__github__list_issues {\"owner\":\"psf\",\"repo\":\"requests\",\"state\":\"OPEN\",\"perPage\":1,\"fields\":[\"number\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.3129956250000032
+          },
+          {
+            "kind": "model",
+            "seconds": 3.2715603750000013
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3294702499999982
+          },
+          {
+            "kind": "model",
+            "seconds": 0.20224920900000143
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6292465000000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5426927910000012
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6631459169999951
+          },
+          {
+            "kind": "model",
+            "seconds": 1.956336750000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4646980829999947
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4515755840000057
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "requests-open-both",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **257 open items** by GitHub's count, which includes pull requests (run 54b528de).\n\n- **Open issues:** 169, from `list_issues`' `totalCount`. That count is issues only.\n- **Open pull requests:** 88, from `search_pull_requests`.\n\nI added the two together myself. A single GitHub search for open issues and PRs together failed on a rate limit.",
+        "turns": 5,
+        "seconds": 13.711,
+        "costUsd": 0.029653000000000002,
+        "firstTurnTokens": 5156,
+        "totalInputTokens": 33913,
+        "outputTokens": 50,
+        "inputBreakdown": {
+          "fresh": 10,
+          "cacheWrite": 3693,
+          "cacheRead": 30210
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests state:open\\\", perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,500));\"}",
+          "mcp__tools__run_code {\"code\":\"await new Promise(r=>setTimeout(r,10000));\\nconst a = await tools.github.search_issues({query:\\\"open issues\\\", owner:\\\"psf\\\", repo:\\\"requests\\\", perPage:1}).catch(e=>String(e).slice(0,200));\\nconst b = await to",
+          "mcp__tools__run_code {\"code\":\"const a = await tools.github.search_issues({query:\\\"open issues\\\", owner:\\\"psf\\\", repo:\\\"requests\\\", perPage:1}).catch(e=>String(e).slice(0,200));\\nconst b = await tools.github.search_pull_requests({query:\\\"rep",
+          "mcp__tools__run_code {\"code\":\"const b = await tools.github.search_pull_requests({query:\\\"repo:psf/requests is:open\\\", perPage:1});\\nconsole.log(\\\"PRs\\\", b.total_count);\\nconst c = await tools.github.list_issues({owner:\\\"psf\\\",repo:\\\"request"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2401929170000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7200225419999988
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3061274159999958
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4275642090000034
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.013254041000000605
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7038278749999956
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.245359959000008
+          },
+          {
+            "kind": "model",
+            "seconds": 2.599569790999988
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.3864521670000105
+          },
+          {
+            "kind": "model",
+            "seconds": 2.2898646250000017
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "httpx-open-prs",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **90 open pull requests**. I got that from a GitHub search with `is:open` on the repo, and the search reported `incomplete_results: false`.",
+        "turns": 2,
+        "seconds": 3.479,
+        "costUsd": 0.0196499,
+        "firstTurnTokens": 27206,
+        "totalInputTokens": 54601,
+        "outputTokens": 81,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3098,
+          "cacheRead": 51499
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_pull_requests {\"query\":\"is:open\",\"owner\":\"encode\",\"repo\":\"httpx\",\"perPage\":1,\"fields\":[\"number\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2397379999999976
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6117902920000053
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5634342499999909
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2726129999999976
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "httpx-open-prs",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub repo encode/httpx has **90 open pull requests** right now (run 7d4166a3).\n\nI listed open PRs with a page size of 100 and got 90 back. That's under the page limit, so it should be the full count.",
+        "turns": 2,
+        "seconds": 5.345,
+        "costUsd": 0.007872500000000001,
+        "firstTurnTokens": 5148,
+        "totalInputTokens": 10435,
+        "outputTokens": 27,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1126,
+          "cacheRead": 9305
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_pull_requests({owner:\\\"encode\\\",repo:\\\"httpx\\\",state:\\\"open\\\",perPage:100});\\nconsole.log(Array.isArray(r)?r.length:JSON.stringify(r).slice(0,500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24331266700000562
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4226312499999911
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.3867501250000056
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5191334159999972
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "httpx-open-prs",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **90 open pull requests** right now. That comes from a GitHub search for `repo:encode/httpx is:pr is:open`, and the search result reported `incomplete_results: false`.",
+        "turns": 3,
+        "seconds": 5.101,
+        "costUsd": 0.0106939,
+        "firstTurnTokens": 6610,
+        "totalInputTokens": 20565,
+        "outputTokens": 117,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1440,
+          "cacheRead": 19119
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"repo:encode/httpx is:pr is:open\\\", perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"repo:encode/httpx is:pr is:open\\\", perPage:1});\\nconsole.log(r.total_count, Object.keys(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22817316700000084
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4059682080000055
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5596406249999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3133653749999943
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5525517920000125
+          },
+          {
+            "kind": "model",
+            "seconds": 1.249805124999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "requests-open-issues",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **169 open issues**, not counting pull requests. I got this from a GitHub search for `repo:psf/requests is:issue is:open`, run just now (2026-11-22). The search result didn't flag itself as incomplete.",
+        "turns": 3,
+        "seconds": 5.872,
+        "costUsd": 0.0110996,
+        "firstTurnTokens": 5154,
+        "totalInputTokens": 16343,
+        "outputTokens": 107,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1501,
+          "cacheRead": 14836
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests is:issue is:open\\\", perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests is:issue is:open\\\", perPage:1});\\nconsole.log(r.total_count, Object.keys(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23119825000000127
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6658515000000045
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8539125829999974
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2588662079999926
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7299516670000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3470671670000014
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "requests-open-issues",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **169 open issues**, not counting pull requests. I got this from a GitHub issue search for `repo:psf/requests is:open`, and the tool says that search is already limited to issues. The count is as of today, 2026-11-22.",
+        "turns": 3,
+        "seconds": 6.505,
+        "costUsd": 0.0112216,
+        "firstTurnTokens": 6613,
+        "totalInputTokens": 20722,
+        "outputTokens": 129,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1520,
+          "cacheRead": 19196
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests is:open\\\", owner:\\\"psf\\\", repo:\\\"requests\\\"});\\nconsole.log(JSON.stringify(r).slice(0,600));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests is:open\\\", owner:\\\"psf\\\", repo:\\\"requests\\\", perPage:1});\\nconsole.log(r.total_count, Object.keys(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2847866250000079
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5506476669999973
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.4300714169999993
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3878314999999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7452388329999957
+          },
+          {
+            "kind": "model",
+            "seconds": 1.371354166999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "requests-open-issues",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub repo psf/requests has **169 open issues**, not counting pull requests, as of 2026-11-22.\n\nTwo tools returned the same figure. `search_issues` is scoped to issues only and reported a `total_count` of 169. `list_issues` with state OPEN reported a `totalCount` of 169.",
+        "turns": 3,
+        "seconds": 7.332,
+        "costUsd": 0.0279991,
+        "firstTurnTokens": 27214,
+        "totalInputTokens": 82594,
+        "outputTokens": 114,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3597,
+          "cacheRead": 78991
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_issues {\"query\":\"is:open\",\"owner\":\"psf\",\"repo\":\"requests\",\"perPage\":1,\"fields\":[\"number\"]}",
+          "mcp__github__list_issues {\"owner\":\"psf\",\"repo\":\"requests\",\"state\":\"OPEN\",\"perPage\":1,\"fields\":[\"number\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2383194999999978
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4718304999999967
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7941435840000048
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9577296249999927
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5397333330000107
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5418357499999988
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "httpx-newest-issue",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened issue in encode/httpx is #3782, \"Potential Issue: `AsyncClient.stream` double-cancel may leak active connections\". It was opened on 2026-02-26 and is now closed.",
+        "turns": 3,
+        "seconds": 6.091,
+        "costUsd": 0.013795700000000001,
+        "firstTurnTokens": 6619,
+        "totalInputTokens": 21684,
+        "outputTokens": 124,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2081,
+          "cacheRead": 19597
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"encode\\\",repo:\\\"httpx\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"DESC\\\",perPage:3});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"encode\\\",repo:\\\"httpx\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"DESC\\\",perPage:3});\\nconsole.log(r.issues.map(i=>[i.number,i.title,i.created_at,i.state]));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24357095799999662
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4814819580000038
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9589563340000025
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4962916249999982
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8613632910000009
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2765713749999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "httpx-newest-issue",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened issue in encode/httpx is #3782, **\"Potential Issue: `AsyncClient.stream` double-cancel may leak active connections\"**. It was opened on 2026-02-26 and is now closed.",
+        "turns": 2,
+        "seconds": 3.305,
+        "costUsd": 0.021237100000000002,
+        "firstTurnTokens": 27218,
+        "totalInputTokens": 54872,
+        "outputTokens": 99,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3357,
+          "cacheRead": 51511
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_issues {\"owner\":\"encode\",\"repo\":\"httpx\",\"orderBy\":\"CREATED_AT\",\"direction\":\"DESC\",\"perPage\":1,\"fields\":[\"number\",\"title\",\"created_at\",\"state\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1931221670000087
+          },
+          {
+            "kind": "model",
+            "seconds": 1.626784124999991
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4778392500000046
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1767816659999952
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "httpx-newest-issue",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened issue in encode/httpx is #3782, \"Potential Issue: `AsyncClient.stream` double-cancel may leak active connections\". It was opened on 2026-02-26 and is now closed.\n\nThe newest issue that is still open is #3781, \"ADD PROXY _DICT SUPPORT into this latest HTTPX\".",
+        "turns": 3,
+        "seconds": 5.933,
+        "costUsd": 0.0146841,
+        "firstTurnTokens": 5159,
+        "totalInputTokens": 17485,
+        "outputTokens": 142,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2178,
+          "cacheRead": 15301
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"encode\\\",repo:\\\"httpx\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"DESC\\\",perPage:3,state:\\\"OPEN\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"encode\\\",repo:\\\"httpx\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"DESC\\\",perPage:3});\\nconsole.log(r.issues.map(i=>[i.number,i.state,i.created_at,i.title]));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24042062499999883
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4624665000000094
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7314000419999938
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7887015830000021
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6076642500000018
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3241687499999966
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "requests-newest-pr",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened pull request still open in psf/requests is #7640, **\"Bump the actions group with 2 updates\"**. It was opened on 2026-11-02.\n\nLink: https://github.com/psf/requests/pull/7640",
+        "turns": 2,
+        "seconds": 3.54,
+        "costUsd": 0.020794899999999998,
+        "firstTurnTokens": 27216,
+        "totalInputTokens": 54717,
+        "outputTokens": 108,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3204,
+          "cacheRead": 51509
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_pull_requests {\"owner\":\"psf\",\"repo\":\"requests\",\"state\":\"open\",\"sort\":\"created\",\"direction\":\"desc\",\"perPage\":1,\"fields\":[\"number\",\"title\",\"created_at\",\"html_url\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1889346670000087
+          },
+          {
+            "kind": "model",
+            "seconds": 1.699171000000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5156306659999972
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2992727920000031
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "requests-newest-pr",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The title of the most recently opened pull request that's still open in psf/requests is **\"Bump the actions group with 2 updates\"**. It's PR #7640, a Dependabot update for `actions/setup-python` and `zizmorcore/zizmor-action`.",
+        "turns": 2,
+        "seconds": 4.999,
+        "costUsd": 0.013331200000000001,
+        "firstTurnTokens": 5155,
+        "totalInputTokens": 11874,
+        "outputTokens": 109,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2558,
+          "cacheRead": 9312
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_pull_requests({owner:\\\"psf\\\",repo:\\\"requests\\\",state:\\\"open\\\",sort:\\\"created\\\",direction:\\\"desc\\\",perPage:3});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23534933299999103
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7107751669999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0211604579999987
+          },
+          {
+            "kind": "model",
+            "seconds": 2.247715292000008
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "requests-newest-pr",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened pull request still open in psf/requests is #7640, titled \"Bump the actions group with 2 updates\". It bumps `actions/setup-python` and `zizmorcore/zizmor-action`.",
+        "turns": 2,
+        "seconds": 3.224,
+        "costUsd": 0.010681900000000001,
+        "firstTurnTokens": 6616,
+        "totalInputTokens": 14081,
+        "outputTokens": 95,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1858,
+          "cacheRead": 12219
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_pull_requests({owner:\\\"psf\\\",repo:\\\"requests\\\",state:\\\"open\\\",sort:\\\"created\\\",direction:\\\"desc\\\",perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2592543750000041
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4302697500000068
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6235504999999977
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1528097500000003
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "httpx-stars",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **15,838 stars**. I got that from the `stargazers_count` field in a GitHub repository search, run on 2026-11-22.",
+        "turns": 2,
+        "seconds": 2.951,
+        "costUsd": 0.007732200000000001,
+        "firstTurnTokens": 5145,
+        "totalInputTokens": 10612,
+        "outputTokens": 76,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1306,
+          "cacheRead": 9302
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:encode/httpx\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24129341700000806
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4576624169999994
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5437908329999921
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9317117500000021
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "httpx-stars",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **15,838 stars**. I got that from the GitHub repository search, and the data was last updated 2026-11-22. (Run 6649060b)",
+        "turns": 2,
+        "seconds": 2.691,
+        "costUsd": 0.0081006,
+        "firstTurnTokens": 6603,
+        "totalInputTokens": 13528,
+        "outputTokens": 79,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1318,
+          "cacheRead": 12206
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query: \\\"repo:encode/httpx\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23501070800000162
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2013105840000062
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5651152080000028
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9091862919999985
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "httpx-stars",
+      "suite": "heldout6",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **15,838 stars**. The count comes from the GitHub search API as of 2026-11-22.",
+        "turns": 2,
+        "seconds": 3.012,
+        "costUsd": 0.0204235,
+        "firstTurnTokens": 27202,
+        "totalInputTokens": 54938,
+        "outputTokens": 64,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3439,
+          "cacheRead": 51495
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:encode/httpx\",\"minimal_output\":false,\"perPage\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2982374169999966
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4014742499999993
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5438142079999961
+          },
+          {
+            "kind": "model",
+            "seconds": 1.044191082999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "httpx-open-both",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "`encode/httpx` has **153 open issues**, counting open pull requests the way GitHub does. That is the `open_issues_count` field GitHub returns for the repo, which includes PRs. I read it from a repository search on `encode/httpx`.",
+        "turns": 2,
+        "seconds": 5.585,
+        "costUsd": 0.012486200000000001,
+        "firstTurnTokens": 6619,
+        "totalInputTokens": 13960,
+        "outputTokens": 85,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1734,
+          "cacheRead": 12222
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:encode/httpx\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\\nconst [a,b]=await Promise.all([tools.github.search_issues({query:\\\"repo:encode/ht"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22982120799999392
+          },
+          {
+            "kind": "model",
+            "seconds": 2.9653823750000012
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.275927582999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3270785840000023
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "httpx-open-both",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **153** open issues, counted the way GitHub counts them, with open pull requests included. That comes from the `open_issues_count` field in the repository metadata, as of 2026-11-22.",
+        "turns": 2,
+        "seconds": 3.367,
+        "costUsd": 0.0214452,
+        "firstTurnTokens": 27219,
+        "totalInputTokens": 55020,
+        "outputTokens": 70,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3504,
+          "cacheRead": 51512
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:encode/httpx\",\"minimal_output\":false,\"perPage\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1902567500000005
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6452499589999934
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5448414160000103
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1628382500000005
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "httpx-open-both",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": false,
+      "metrics": {
+        "answer": "The encode/httpx repo has **63 open items**, with issues and pull requests counted together. I got this from a GitHub search for `repo:encode/httpx state:open`, which didn't filter out pull requests. The result's `total_count` field gave the number, and `incomplete_results` was false.\n\nThis is run 20d510d5.",
+        "turns": 3,
+        "seconds": 7.822,
+        "costUsd": 0.0109551,
+        "firstTurnTokens": 5158,
+        "totalInputTokens": 16174,
+        "outputTokens": 138,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1417,
+          "cacheRead": 14751
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:encode/httpx state:open\\\", perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,300));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:encode/httpx state:open\\\", perPage:1});\\nconst {items,...rest}=r; console.log(JSON.stringify(rest));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24152195900000514
+          },
+          {
+            "kind": "model",
+            "seconds": 3.135455791
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7990549590000011
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4540252500000062
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8180707499999986
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5971259999999887
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "requests-open-both",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **257** open issues. GitHub's `open_issues_count` field includes open pull requests, and I read the number from that field (run b32ab1d0).",
+        "turns": 2,
+        "seconds": 3.537,
+        "costUsd": 0.021499200000000003,
+        "firstTurnTokens": 27219,
+        "totalInputTokens": 55031,
+        "outputTokens": 59,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3515,
+          "cacheRead": 51512
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:psf/requests\",\"minimal_output\":false,\"perPage\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.3346179159999882
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7126988340000098
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4921756250000038
+          },
+          {
+            "kind": "model",
+            "seconds": 1.313403249999988
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "requests-open-both",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": false,
+      "metrics": {
+        "answer": "psf/requests has **169 open issues**, counting pull requests as GitHub does. I got this from `total_count` on a GitHub issue search for `repo:psf/requests state:open`.",
+        "turns": 3,
+        "seconds": 6.093,
+        "costUsd": 0.0100658,
+        "firstTurnTokens": 5157,
+        "totalInputTokens": 16228,
+        "outputTokens": 111,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1444,
+          "cacheRead": 14778
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests state:open\\\"});\\nconsole.log(JSON.stringify(r).slice(0,500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests state:open\\\",perPage:1});\\nconsole.log(r.total_count, Object.keys(r), r.items.length);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22817641700000968
+          },
+          {
+            "kind": "model",
+            "seconds": 1.475703125
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.4172481659999903
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3101688340000108
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7149610830000022
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1564756249999917
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "requests-open-both",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **257 open issues** by GitHub's count, which includes pull requests. That is the `open_issues_count` field GitHub returned for the repo, taken from a repository search. I didn't cross-check it by counting issues and PRs separately, because that search hit a rate limit.",
+        "turns": 2,
+        "seconds": 5.063,
+        "costUsd": 0.0163721,
+        "firstTurnTokens": 6618,
+        "totalInputTokens": 15023,
+        "outputTokens": 97,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2798,
+          "cacheRead": 12221
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:psf/requests\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\\nconst [i,p]=await Promise.all([tools.github.search_issues({query:\\\"repo:psf/reque"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2646666660000046
+          },
+          {
+            "kind": "model",
+            "seconds": 2.377048624999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.3864942089999968
+          },
+          {
+            "kind": "model",
+            "seconds": 1.279415166000006
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "httpx-open-prs",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub search for encode/httpx with `is:pr is:open` returns **90 open pull requests** as of 2026-11-22.",
+        "turns": 3,
+        "seconds": 5.011,
+        "costUsd": 0.0097803,
+        "firstTurnTokens": 5145,
+        "totalInputTokens": 16145,
+        "outputTokens": 94,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1396,
+          "cacheRead": 14743
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"repo:encode/httpx is:pr is:open\\\", perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,500));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"repo:encode/httpx is:pr is:open\\\", perPage:1});\\nconsole.log(r.total_count);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2571672079999989
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5825765419999953
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6029008750000064
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2646800409999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4995241669999957
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0398857080000017
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "httpx-open-prs",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **90** open pull requests right now. That comes from the `total_count` in a GitHub search for `repo:encode/httpx is:pr is:open`. The search flagged `incomplete_results: false`.",
+        "turns": 3,
+        "seconds": 6.223,
+        "costUsd": 0.0108142,
+        "firstTurnTokens": 6609,
+        "totalInputTokens": 20615,
+        "outputTokens": 125,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1467,
+          "cacheRead": 19142
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"repo:encode/httpx is:pr is:open\\\"});\\nconsole.log(JSON.stringify(r).slice(0,600));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_pull_requests({query:\\\"repo:encode/httpx is:pr is:open\\\"});\\nconsole.log(r.total_count, r.items.length, Object.keys(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2586580410000024
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4851794999999985
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.098945209000012
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2509867909999883
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9260697090000036
+          },
+          {
+            "kind": "model",
+            "seconds": 1.446815415999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "httpx-open-prs",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **90** open pull requests. I got that from a GitHub search for `is:open` PRs in the repo, run just now (2026-11-22).",
+        "turns": 2,
+        "seconds": 3.886,
+        "costUsd": 0.0196281,
+        "firstTurnTokens": 27208,
+        "totalInputTokens": 54605,
+        "outputTokens": 85,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3100,
+          "cacheRead": 51501
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_pull_requests {\"query\":\"is:open\",\"owner\":\"encode\",\"repo\":\"httpx\",\"perPage\":1,\"fields\":[\"number\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2177555410000058
+          },
+          {
+            "kind": "model",
+            "seconds": 1.519644749999992
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9228046670000043
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4196450830000105
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "requests-open-issues",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **169 open issues**, not counting pull requests. This is as of 2026-11-22 (run 43af4a1a).\n\nThe first search call hit a GitHub rate limit, so I got the count from `list_issues` instead. That call reports issues only, and its `totalCount` was 169.",
+        "turns": 6,
+        "seconds": 13.109,
+        "costUsd": 0.0315887,
+        "firstTurnTokens": 6616,
+        "totalInputTokens": 52775,
+        "outputTokens": 236,
+        "inputBreakdown": {
+          "fresh": 12,
+          "cacheWrite": 4656,
+          "cacheRead": 48107
+        },
+        "toolCalls": 5,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests is:open\\\", owner:\\\"psf\\\", repo:\\\"requests\\\"});\\nconsole.log(JSON.stringify(r).slice(0,600));\"}",
+          "mcp__tools__run_code {\"code\":\"await new Promise(r=>setTimeout(r,20000));\\nconst r = await tools.github.search_issues({query:\\\"is:open\\\", owner:\\\"psf\\\", repo:\\\"requests\\\", perPage:1, fields:[\\\"number\\\"]});\\nconsole.log(r.total_count, r.incom",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"is:open\\\", owner:\\\"psf\\\", repo:\\\"requests\\\", perPage:1, fields:[\\\"number\\\"]});\\nconsole.log(r.total_count, r.incomplete_results);\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"psf\\\", repo:\\\"requests\\\", state:\\\"OPEN\\\", perPage:100});\\nconsole.log(JSON.stringify(r).slice(0,400)); console.log(Object.keys(r));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"psf\\\", repo:\\\"requests\\\", state:\\\"OPEN\\\", perPage:1});\\nconsole.log(r.totalCount, JSON.stringify(r.pageInfo));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2675546250000043
+          },
+          {
+            "kind": "model",
+            "seconds": 1.553012750000009
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6333397079999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6973977079999893
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.005771500000002483
+          },
+          {
+            "kind": "model",
+            "seconds": 1.333049792000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2949686249999939
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6828557080000026
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.2893136249999957
+          },
+          {
+            "kind": "model",
+            "seconds": 1.288507417
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.888607541999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.421831333000009
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "requests-open-issues",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **169 open issues**. That count comes from the GitHub issues listing, which excludes pull requests.\n\nIt's the `totalCount` the tool returned when I ran it for 2026-11-22.",
+        "turns": 2,
+        "seconds": 4.105,
+        "costUsd": 0.020994699999999998,
+        "firstTurnTokens": 27214,
+        "totalInputTokens": 54805,
+        "outputTokens": 71,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3294,
+          "cacheRead": 51507
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_issues {\"owner\":\"psf\",\"repo\":\"requests\",\"state\":\"OPEN\",\"perPage\":1,\"fields\":[\"number\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1833070000000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9437861249999988
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5344284999999944
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6074874580000036
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "requests-open-issues",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "psf/requests has **169 open issues**, not counting pull requests. I got this from the `totalCount` that GitHub's issues listing returns when filtered to open state. That listing returns issues only, so pull requests aren't in the count. The date was 2026-11-22.\n\nThe issue search tool hit a rate limit, so I used the listing instead.",
+        "turns": 4,
+        "seconds": 8.055,
+        "costUsd": 0.0244283,
+        "firstTurnTokens": 5152,
+        "totalInputTokens": 27452,
+        "outputTokens": 157,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3761,
+          "cacheRead": 23683
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_issues({query:\\\"repo:psf/requests is:issue is:open\\\", perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,500));\"}",
+          "mcp__tools__run_code {\"code\":\"let n=0,page=1;\\nwhile(true){const r:any=await tools.github.list_issues({owner:\\\"psf\\\",repo:\\\"requests\\\",state:\\\"OPEN\\\",perPage:100,page});\\nif(page==1)console.log(JSON.stringify(r).slice(0,300), Object.keys(r)",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.list_issues({owner:\\\"psf\\\",repo:\\\"requests\\\",state:\\\"OPEN\\\",perPage:1,fields:[\\\"number\\\"]});\\nconsole.log(r.totalCount);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24915395900000295
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5707729160000017
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.28124841699999514
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4916326249999985
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5824271250000024
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2263922080000045
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.42879058399998726
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4540298330000079
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "httpx-newest-issue",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened issue in encode/httpx is #3782, \"Potential Issue: `AsyncClient.stream` double-cancel may leak active connections\". It was opened on 2026-02-26 and is now closed.",
+        "turns": 2,
+        "seconds": 3.442,
+        "costUsd": 0.0212112,
+        "firstTurnTokens": 27219,
+        "totalInputTokens": 54874,
+        "outputTokens": 96,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3358,
+          "cacheRead": 51512
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_issues {\"owner\":\"encode\",\"repo\":\"httpx\",\"orderBy\":\"CREATED_AT\",\"direction\":\"DESC\",\"perPage\":1,\"fields\":[\"number\",\"title\",\"created_at\",\"state\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1796324160000076
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7295905839999905
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4933742910000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2005771250000103
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "httpx-newest-issue",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened issue in encode/httpx is #3782: **\"Potential Issue: `AsyncClient.stream` double-cancel may leak active connections\"**. It was opened on 2026-02-26. I got this by listing the repo's issues sorted by creation date, newest first. That tool returns issues only, not pull requests.",
+        "turns": 3,
+        "seconds": 6.031,
+        "costUsd": 0.016314600000000002,
+        "firstTurnTokens": 5156,
+        "totalInputTokens": 18534,
+        "outputTokens": 171,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2682,
+          "cacheRead": 15846
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"encode\\\",repo:\\\"httpx\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"DESC\\\",perPage:3});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"encode\\\",repo:\\\"httpx\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"DESC\\\",perPage:3});\\nconsole.log(r.issues.map(i=>[i.number,i.title,i.created_at||i.createdAt]));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2588132079999923
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5215255000000034
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6047447919999975
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6221854999999925
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.918238041000004
+          },
+          {
+            "kind": "model",
+            "seconds": 1.345184667000023
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "httpx-newest-issue",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened issue in encode/httpx is #3782, \"Potential Issue: `AsyncClient.stream` double-cancel may leak active connections\". It was opened on 2026-02-26 and is now closed.",
+        "turns": 3,
+        "seconds": 5.933,
+        "costUsd": 0.0163376,
+        "firstTurnTokens": 6618,
+        "totalInputTokens": 22923,
+        "outputTokens": 124,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2701,
+          "cacheRead": 20216
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"encode\\\",repo:\\\"httpx\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"DESC\\\",perPage:3});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_issues({owner:\\\"encode\\\",repo:\\\"httpx\\\",orderBy:\\\"CREATED_AT\\\",direction:\\\"DESC\\\",perPage:3});\\nconsole.log(r.issues.map(i=>[i.number,i.title,i.created_at,i.state]));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2812902080000058
+          },
+          {
+            "kind": "model",
+            "seconds": 1.427553999999989
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9680810840000049
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4160071659999955
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9423768339999956
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1494769160000136
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "requests-newest-pr",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened PR that's still open in psf/requests is #7640, **\"Bump the actions group with 2 updates\"**. It was opened on 2026-11-02.",
+        "turns": 3,
+        "seconds": 6.154,
+        "costUsd": 0.0166185,
+        "firstTurnTokens": 5153,
+        "totalInputTokens": 18907,
+        "outputTokens": 87,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2876,
+          "cacheRead": 16025
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_pull_requests({owner:\\\"psf\\\",repo:\\\"requests\\\",state:\\\"open\\\",sort:\\\"created\\\",direction:\\\"desc\\\",perPage:3});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_pull_requests({owner:\\\"psf\\\",repo:\\\"requests\\\",state:\\\"open\\\",sort:\\\"created\\\",direction:\\\"desc\\\",perPage:3});\\nconsole.log(r.map(p=>[p.number,p.title,p.created_at]));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.27740245799999685
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5787967499999942
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7627516670000041
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6667402909999947
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0037970840000199
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1099865409999907
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "requests-newest-pr",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened open pull request in psf/requests is #7640, titled **\"Bump the actions group with 2 updates\"**. It bumps `actions/setup-python` and `zizmorcore/zizmor-action`.",
+        "turns": 2,
+        "seconds": 3.357,
+        "costUsd": 0.013629800000000001,
+        "firstTurnTokens": 6615,
+        "totalInputTokens": 14802,
+        "outputTokens": 97,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2580,
+          "cacheRead": 12218
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_pull_requests({owner:\\\"psf\\\",repo:\\\"requests\\\",state:\\\"open\\\",sort:\\\"created\\\",direction:\\\"desc\\\",perPage:3});\\nconsole.log(JSON.stringify(r,null,1).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.29837991700001293
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4807920409999786
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6929776249999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1646631670000205
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "requests-newest-pr",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The most recently opened pull request that is still open in psf/requests is **\"Bump the actions group with 2 updates\"**.\n\nIt is PR #7640, opened 2026-11-02: https://github.com/psf/requests/pull/7640",
+        "turns": 2,
+        "seconds": 3.662,
+        "costUsd": 0.020786699999999998,
+        "firstTurnTokens": 27214,
+        "totalInputTokens": 54713,
+        "outputTokens": 108,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3202,
+          "cacheRead": 51507
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__list_pull_requests {\"owner\":\"psf\",\"repo\":\"requests\",\"state\":\"open\",\"sort\":\"created\",\"direction\":\"desc\",\"perPage\":1,\"fields\":[\"number\",\"title\",\"created_at\",\"html_url\"]}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2950625
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7136071670000093
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5642460830000053
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3613701669999867
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "httpx-stars",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **15,838 stars**. I got that from the GitHub repository search on 2026-11-22. I didn't use the run ID 7d8d332b for anything.",
+        "turns": 2,
+        "seconds": 2.553,
+        "costUsd": 0.008148800000000001,
+        "firstTurnTokens": 6605,
+        "totalInputTokens": 13532,
+        "outputTokens": 83,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1320,
+          "cacheRead": 12208
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:encode/httpx\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.30519533300001056
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1155414590000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.506916499999992
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9088414999999803
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "httpx-stars",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The `encode/httpx` repo has **15,838 stars**. That figure comes from the GitHub repository search result.\n\nIt also has 2,032 forks and 153 open issues.",
+        "turns": 2,
+        "seconds": 3.732,
+        "costUsd": 0.0206035,
+        "firstTurnTokens": 27202,
+        "totalInputTokens": 54938,
+        "outputTokens": 82,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3439,
+          "cacheRead": 51495
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:encode/httpx\",\"minimal_output\":false,\"perPage\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.3020651669999934
+          },
+          {
+            "kind": "model",
+            "seconds": 2.068373916000011
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.49709362500000864
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1472059999999762
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "httpx-stars",
+      "suite": "heldout6",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "encode/httpx has **15,838 stars**. This comes from the GitHub repository search, as of 2026-11-22.",
+        "turns": 2,
+        "seconds": 2.352,
+        "costUsd": 0.007609900000000001,
+        "firstTurnTokens": 5142,
+        "totalInputTokens": 10606,
+        "outputTokens": 65,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1303,
+          "cacheRead": 9299
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query: \\\"repo:encode/httpx\\\"});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.33704508400001215
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1117268329999934
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.48958845800001294
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7140541249999952
+          }
+        ]
+      }
+    }
+  ]
+}
