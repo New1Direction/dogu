@@ -130,6 +130,8 @@ const pi = load("2026-11-22-heldout-pi");
 // 2026-11-22-heldout-codex), at normal speed and in fast mode.
 const codex = load("2026-11-22-heldout-codex-fast0");
 const codexFast = load("2026-11-22-heldout-codex-fast1");
+const terra = load("2026-11-22-heldout-codex-terra-fast0");
+const terraFast = load("2026-11-22-heldout-codex-terra-fast1");
 const forge = load("2026-11-22-forge");
 
 const claudeSetups: ReadonlyArray<[string, string, string]> = [
@@ -173,12 +175,16 @@ const charts: Record<string, string> = {
     return diverging("Change in cost per task with the dogu folder, by agent", rows, -80, 40, [[-80, "-80%"], [-40, "-40%"], [0, "0"], [40, "+40%"]]);
   })(),
   "fast.svg": bars(
-    "Time per task with Codex, normal speed and fast mode",
+    "Time per task with Codex, normal speed and fast mode, two models",
     [
-      ["Loaded directly, normal speed", time(codex, "codex-direct"), "other"],
-      ["Loaded directly, fast mode", time(codexFast, "codex-direct"), "other"],
-      ["dogu folder, normal speed", time(codex, "codex-folder"), "dogu"],
-      ["dogu folder, fast mode", time(codexFast, "codex-folder"), "dogu"],
+      ["Default model, directly, normal", time(codex, "codex-direct"), "other"],
+      ["Default model, directly, fast", time(codexFast, "codex-direct"), "other"],
+      ["Default model, dogu, normal", time(codex, "codex-folder"), "dogu"],
+      ["Default model, dogu, fast", time(codexFast, "codex-folder"), "dogu"],
+      ["Terra, directly, normal", time(terra, "codex-direct"), "other"],
+      ["Terra, directly, fast", time(terraFast, "codex-direct"), "other"],
+      ["Terra, dogu, normal", time(terra, "codex-folder"), "dogu"],
+      ["Terra, dogu, fast", time(terraFast, "codex-folder"), "dogu"],
     ].map(([label, v, cls]) => ({ label: label as string, value: v as number, cls: cls as string, shown: `${(v as number).toFixed(1)} s` })),
     15,
     [[0, "0 s"], [5, "5 s"], [10, "10 s"], [15, "15 s"]],

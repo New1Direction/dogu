@@ -76,16 +76,21 @@ pi's own code mode was built for exactly this problem, and in pi it is the cheap
 
 ## 4. Fast mode
 
-Codex has a **fast mode**: OpenAI answers faster, and it uses more of your plan. We ran the same 8 tasks with it on and off.
+Codex has a **fast mode**: OpenAI answers faster, and it can use more of your plan. We ran the same 8 tasks with it on and off, with Codex's default model and with the **Terra** model (`gpt-6.1-terra`).
 
-![Time per task with Codex: loaded directly 13.8 s at normal speed and 10.0 s in fast mode; dogu folder 11.2 s and 9.2 s](docs/bench/fast.svg)
+![Time per task with Codex. Default model: directly 13.8 s normal and 10.0 s fast; dogu 11.2 s and 9.2 s. Terra: directly 13.7 s and 8.3 s; dogu 11.1 s and 7.3 s](docs/bench/fast.svg)
 
-| Codex | Normal speed | Fast mode | Answers right |
-|---|---|---|---|
-| Loading the servers directly | 13.8 s | 10.0 s | 32 of 32 |
-| **dogu folder** | **11.2 s** | **9.2 s** | 32 of 32 |
+| Codex | Model | Normal speed | Fast mode | Answers right | Tokens read |
+|---|---|---|---|---|---|
+| Loading the servers directly | default | 13.8 s | 10.0 s | 32 of 32 | 74k / 68k |
+| **dogu folder** | default | **11.2 s** | **9.2 s** | 32 of 32 | **52k** |
+| Loading the servers directly | Terra | 13.7 s | 8.3 s | 29 of 32 | 104k / 92k |
+| **dogu folder** | Terra | **11.1 s** | **7.3 s** | **32 of 32** | **49k** |
 
-Fast mode made tasks about a fifth to a quarter quicker, with the same answers, and dogu stayed the faster of the two in both modes. Whether that is worth the extra use of your plan is your call; Codex does not say how much more it uses, so we cannot put a number on it.
+- Fast mode made tasks about a fifth to a quarter quicker with the default model, and about **35 to 40% quicker with Terra**. dogu stayed the faster way in every case.
+- With Terra, dogu read about **half** the tokens.
+- The 3 wrong answers with Terra loading the servers directly were all the same task: Codex would not call DeepWiki's tools without someone approving them, and in these automatic runs nobody could. Through dogu the same tools run as ordinary commands, so that did not come up. In everyday use you would see an approval prompt instead.
+- Is fast mode worth it? Codex describes Terra's fast mode as "1.5x speed" and the default model's as using more of your plan; it does not say how much more, so we cannot put a price on it.
 
 ## 5. Saving a job as a new tool
 
