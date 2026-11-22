@@ -193,7 +193,8 @@ enum Prepared {
     /// Already answered: a forged tool (run in its own sandbox), or a call we refused.
     Done(Result<Value, String>),
     /// `input_schema` is the tool's `inputSchema` (it says which arguments travel as HTTP headers).
-    Call { server: String, tool: String, args: Value, input_schema: Option<Value> },
+    /// `read_only`: the server marks the tool read-only, so its answers may be kept a short while.
+    Call { server: String, tool: String, args: Value, input_schema: Option<Value>, read_only: bool },
 }
 
 /// Calls a program made together. Calls to different servers run at the same time, and so do calls
@@ -205,7 +206,7 @@ pub(crate) fn tool_calls(
     names: &mut Names,
     msgs: &[Value],
 ) -> Vec<Result<Value, String>> {
-    let prepared: Vec<Prepared> = msgs.iter().map(|m| prepare(opts, servers, pool, names, m)).collect();
+    let prepared: Vec<Prepared> = msgs.iter().map(|m| prepare(opts, servers, pool, names, m)).map(from_cache).collect();
     let prepared = connect_all(opts, servers, pool, prepared);
     let mut by_server: BTreeMap<String, Vec<usize>> = BTreeMap::new();
     for (i, p) in prepared.iter().enumerate() {
@@ -253,8 +254,11 @@ pub(crate) fn tool_calls(
     for (server, answers) in answered {
         let mut broken = false;
         for (&i, result) in by_server[&server].iter().zip(answers) {
-            let Prepared::Call { tool, .. } = &prepared[i] else { unreachable!() };
+            let Prepared::Call { tool, args, read_only, .. } = &prepared[i] else { unreachable!() };
             log_call(&opts.root, "run", &server, tool, matches!(&result, Ok(r) if r["isError"] != true), started);
+            if let (true, Ok(answer)) = (*read_only, &result) {
+                crate::cache::put(&crate::cache::key(&server, tool, args), answer);
+            }
             broken |= result.is_err();
             results[i] = Some(result.and_then(useful_form).map_err(|e| with_type(&opts.root, &server, tool, e)));
         }
@@ -388,14 +392,34 @@ fn prepare(opts: &Options, servers: &BTreeMap<String, Server>, pool: &mut Pool, 
     if !opts.allow.is_empty() && !opts.allow.iter().any(allowed) {
         return Prepared::Done(Err(format!("{server}/{tool} is not allowed in this run (allowed: {})", opts.allow.join(", "))));
     }
-    let input_schema = input_schema_of(&opts.root, &server, &tool);
-    Prepared::Call { server, tool, args, input_schema }
+    let saved = saved_tool(&opts.root, &server, &tool);
+    let read_only = saved.as_ref().is_some_and(crate::cache::is_read_only);
+    let input_schema = saved.map(|s| s["inputSchema"].clone()).filter(|s| !s.is_null());
+    Prepared::Call { server, tool, args, input_schema, read_only }
+}
+
+/// The tool as saved at sync: its schemas and what the server says about it.
+pub(crate) fn saved_tool(root: &Path, server: &str, tool: &str) -> Option<Value> {
+    serde_json::from_str(&std::fs::read_to_string(schema_path(root, server, tool)).ok()?).ok()
 }
 
 /// The `inputSchema` saved for a tool at sync: the client needs it, not the whole saved tool.
+#[cfg(test)]
 fn input_schema_of(root: &Path, server: &str, tool: &str) -> Option<Value> {
-    let saved: Value = serde_json::from_str(&std::fs::read_to_string(schema_path(root, server, tool)).ok()?).ok()?;
-    Some(saved["inputSchema"].clone()).filter(|s| !s.is_null())
+    saved_tool(root, server, tool).map(|s| s["inputSchema"].clone()).filter(|s| !s.is_null())
+}
+
+/// A read-only call made with the same arguments a moment ago is answered from memory, without the server.
+fn from_cache(p: Prepared) -> Prepared {
+    match &p {
+        Prepared::Call { server, tool, args, read_only: true, .. } => {
+            match crate::cache::get(&crate::cache::key(server, tool, args)) {
+                Some(answer) => Prepared::Done(useful_form(answer)),
+                None => p,
+            }
+        }
+        _ => p,
+    }
 }
 
 /// A failed call's error, followed by the tool's full type, so the next try can get the arguments right

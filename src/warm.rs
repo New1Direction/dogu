@@ -218,11 +218,12 @@ fn handle(root: &Path, servers: &BTreeMap<String, Server>, pool: &Pool, print: &
     }
     let (server, tool) = (request["server"].as_str().unwrap_or(""), request["tool"].as_str().unwrap_or(""));
     let Some(spec) = servers.get(server) else { return json!({ "stale": true }) };
-    let input: Value = std::fs::read_to_string(crate::sync::schema_path(root, server, tool))
-        .ok()
-        .and_then(|t| serde_json::from_str::<Value>(&t).ok())
-        .map(|s| s["inputSchema"].clone())
-        .unwrap_or(Value::Null);
+    let saved = crate::run::saved_tool(root, server, tool).unwrap_or(Value::Null);
+    let input = saved["inputSchema"].clone();
+    let remembered = crate::cache::is_read_only(&saved).then(|| crate::cache::key(server, tool, &request["arguments"]));
+    if let Some(answer) = remembered.as_deref().and_then(crate::cache::get) {
+        return json!({ "result": answer });
+    }
     let ready = pool.lock().ok().and_then(|mut p| p.get_mut(server).and_then(Vec::pop));
     let client = match ready {
         Some(c) => Ok(c),
@@ -241,6 +242,9 @@ fn handle(root: &Path, servers: &BTreeMap<String, Server>, pool: &Pool, print: &
         Ok(result) => {
             if let Ok(mut p) = pool.lock() {
                 p.entry(server.to_string()).or_default().push(client);
+            }
+            if let Some(key) = &remembered {
+                crate::cache::put(key, &result);
             }
             json!({ "result": result })
         }

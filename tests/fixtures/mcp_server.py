@@ -55,6 +55,12 @@ TOOLS = [
         "annotations": {"readOnlyHint": True},
     },
     {
+        "name": "tick",
+        "description": "Marked read-only, but answers a new number each call, so tests can see a cached answer.",
+        "inputSchema": {"type": "object", "properties": {"label": {"type": "string"}}},
+        "annotations": {"readOnlyHint": True},
+    },
+    {
         "name": "reset",
         "description": "Set the counter back to zero.",
         "inputSchema": {"type": "object", "properties": {}},
@@ -63,6 +69,7 @@ TOOLS = [
 ]
 
 counter = 0
+ticks = 0
 
 
 def answer(msg_id, result=None, error=None):
@@ -90,6 +97,10 @@ def call(name, args):
     if name == "slow":
         time.sleep(0.6)
         return {"content": [{"type": "text", "text": "done"}], "structuredContent": {"done": True}}
+    if name == "tick":
+        global ticks
+        ticks += 1
+        return {"content": [{"type": "text", "text": str(ticks)}], "structuredContent": {"tick": ticks}}
     if name == "reset":
         counter = 0
         return {"content": [{"type": "text", "text": "0"}], "structuredContent": {"count": 0}}

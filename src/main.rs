@@ -6,6 +6,7 @@
 //!   dogu serve    be one MCP server (search + run_code) in front of all the others
 
 mod auth;
+mod cache;
 mod call;
 mod client;
 mod config;

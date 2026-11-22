@@ -820,3 +820,56 @@ fn the_background_process_leaves_when_idle() {
 
     assert!(gone, "still running after the idle time");
 }
+
+// --- A repeat of the same call to a read-only tool, soon after, is answered from memory ---
+
+#[test]
+fn a_repeated_read_only_call_is_answered_at_once_and_others_are_not() {
+    let home = scratch("read-cache");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+    let program = "const t = async (label) => (await tools.fx.tick({ label })).tick;
+        console.log(await t('a'), await t('a'), await t('b'));
+        console.log((await tools.fx.count({})).count, (await tools.fx.count({})).count);";
+
+    let o = dogu(&home, &home, &["run", "--root", out.to_str().unwrap(), "-e", program]);
+
+    let lines: Vec<String> = stdout(&o).lines().map(String::from).collect();
+    assert_eq!(lines.first().map(String::as_str), Some("1 1 2"), "same call, same answer; other arguments, a new call: {}", stderr(&o));
+    assert_eq!(lines.get(1).map(String::as_str), Some("1 2"), "a tool that changes things is never cached");
+}
+
+#[test]
+fn the_read_cache_can_be_turned_off() {
+    // How long answers are kept is tested in cache.rs, with the clock passed in.
+    let home = scratch("read-cache-off");
+    let config = fixture_config(&home);
+    let out = home.join("mcp");
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+    let run = |env: &[(&str, &str)], code: &str| {
+        let mut c = Command::new(DOGU);
+        c.args(["run", "--root", out.to_str().unwrap(), "-e", code]).env("HOME", &home).env("DOGU_WARM", "0");
+        for (k, v) in env {
+            c.env(k, v);
+        }
+        c.output().unwrap()
+    };
+
+    let off = run(&[("DOGU_CACHE_SECS", "0")], "const t = async () => (await tools.fx.tick({})).tick; console.log(await t(), await t());");
+
+    assert_eq!(stdout(&off).trim(), "1 2", "DOGU_CACHE_SECS=0 turns the cache off: {}", stderr(&off));
+}
+
+#[test]
+fn the_warm_folder_answers_a_repeated_read_only_command_from_memory() {
+    let (home, root) = warm_folder("warm-cache");
+    let sock = root.join(".dogu/warm.json");
+    warm_call(&home, &root, "count", &[("MARK", "a")]); // starts the background dogu
+    assert!(wait_for(|| sock.exists()));
+
+    let first = warm_call(&home, &root, "tick", &[("MARK", "a")]);
+    let again = warm_call(&home, &root, "tick", &[("MARK", "a")]);
+
+    assert_eq!(stdout(&first).trim(), stdout(&again).trim(), "{} / {}", stderr(&first), stderr(&again));
+}
