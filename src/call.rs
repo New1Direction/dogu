@@ -332,21 +332,26 @@ const MAX_RETURN_FIELDS: usize = 8;
 /// The top-level fields a tool returns, from its output schema: `{tag_name, name, html_url}`.
 /// An agent that sees them can pick fields with jq straight away instead of looking at the output first.
 pub fn returns_of(tool: &Value) -> Option<String> {
-    shape_of(&tool["outputSchema"])
+    returns_brief(tool, MAX_RETURN_FIELDS)
 }
 
-fn shape_of(schema: &Value) -> Option<String> {
+/// The shape of a tool's result with at most `fields` field names: `{total_count, items}`.
+pub fn returns_brief(tool: &Value, fields: usize) -> Option<String> {
+    shape_of(&tool["outputSchema"], fields)
+}
+
+fn shape_of(schema: &Value, fields: usize) -> Option<String> {
     // `null | {...}` and other unions: use the first choice that has a shape.
     if let Some(choices) = ["anyOf", "oneOf"].iter().find_map(|k| schema[*k].as_array()) {
-        return choices.iter().find_map(shape_of);
+        return choices.iter().find_map(|c| shape_of(c, fields));
     }
     if let Some(props) = schema["properties"].as_object().filter(|p| !p.is_empty()) {
-        let names: Vec<&str> = props.keys().map(String::as_str).take(MAX_RETURN_FIELDS).collect();
-        let more = if props.len() > MAX_RETURN_FIELDS { ", …" } else { "" };
+        let names: Vec<&str> = props.keys().map(String::as_str).take(fields).collect();
+        let more = if props.len() > fields { ", …" } else { "" };
         return Some(format!("{{{}{more}}}", names.join(", ")));
     }
     if kind_of(schema) == "array" {
-        return shape_of(&schema["items"]).map(|s| format!("[{s}]"));
+        return shape_of(&schema["items"], fields).map(|s| format!("[{s}]"));
     }
     None
 }
