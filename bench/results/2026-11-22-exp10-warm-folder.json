@@ -1,0 +1,3240 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.6.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "c3dc617",
+  "dirty": false,
+  "answers": {
+    "most-stars": [
+      "vercel/next.js"
+    ],
+    "three-tags": [
+      "v2.9.8",
+      "bun-v1.4.5",
+      "0.13.9"
+    ],
+    "big-repos": [
+      "17"
+    ],
+    "first-pr": [
+      "Port over Slack server"
+    ],
+    "bun-section": [
+      "Package Manager"
+    ],
+    "started-in": [
+      "Project Birch"
+    ],
+    "newer-sdk": [
+      "typescript-sdk"
+    ],
+    "most-issues": [
+      "deno"
+    ]
+  },
+  "records": [
+    {
+      "setup": "direct",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\nIt has about 143,606 stars. The others:\n- nodejs/node: about 123,925\n- denoland/deno: about 109,052\n- oven-sh/bun: about 96,826",
+        "turns": 2,
+        "seconds": 3.33,
+        "costUsd": 0.0266232,
+        "firstTurnTokens": 28981,
+        "totalInputTokens": 59717,
+        "outputTokens": 92,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4701,
+          "cacheRead": 55012
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:denoland/deno repo:oven-sh/bun repo:nodejs/node repo:vercel/next.js\",\"sort\":\"stars\",\"order\":\"desc\",\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1986789169999992
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4428836250000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6811772500000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1892932919999986
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\nStar counts from the GitHub search tool:\n- vercel/next.js: 143,606\n- nodejs/node: 123,925\n- denoland/deno: 109,052\n- oven-sh/bun: 96,826",
+        "turns": 3,
+        "seconds": 9.412,
+        "costUsd": 0.019275600000000004,
+        "firstTurnTokens": 12680,
+        "totalInputTokens": 40522,
+        "outputTokens": 103,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2380,
+          "cacheRead": 38136
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' for (const r of [\"denoland/deno\",\"oven-sh/bun\",\"nodejs/node\",\"vercel/next.js\"]) { const x ",
+          "cd <work>/mcp && ./run - <<'EOF' const x = await tools.github.search_repositories({query:`repo:oven-sh/bun`, minimal_output"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.259876166
+          },
+          {
+            "kind": "model",
+            "seconds": 2.218367292000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.3664745000000003
+          },
+          {
+            "kind": "model",
+            "seconds": 2.084565917
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.764698375
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9195698750000005
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\nStar counts from GitHub search:\n- vercel/next.js: 143,606\n- nodejs/node: 123,925\n- denoland/deno: 109,052\n- oven-sh/bun: 96,826",
+        "turns": 2,
+        "seconds": 5.735,
+        "costUsd": 0.0111427,
+        "firstTurnTokens": 12684,
+        "totalInputTokens": 25807,
+        "outputTokens": 92,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1396,
+          "cacheRead": 24407
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && for q in \"repo:denoland/deno\" \"repo:oven-sh/bun\" \"repo:nodejs/node\" \"repo:vercel/next.js\"; do github/sea"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2691620839999996
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0898313750000015
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.7175329159999984
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8693993750000013
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run 2926e3a8):\n- denoland/deno: `v2.9.8`\n- oven-sh/bun: `bun-v1.4.5`\n- astral-sh/uv: `0.13.9`",
+        "turns": 2,
+        "seconds": 6.265,
+        "costUsd": 0.0105626,
+        "firstTurnTokens": 12667,
+        "totalInputTokens": 25694,
+        "outputTokens": 91,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1304,
+          "cacheRead": 24386
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && for r in denoland/deno oven-sh/bun astral-sh/uv; do github/get_latest_release --owner ${r%/*} --repo ${r#*"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2283980840000004
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8871560409999983
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.2877534590000033
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0463612079999987
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run 5a9169f9):\n- denoland/deno: `v2.9.8`\n- oven-sh/bun: `bun-v1.4.5`\n- astral-sh/uv: `0.13.9`",
+        "turns": 2,
+        "seconds": 5.61,
+        "costUsd": 0.0106076,
+        "firstTurnTokens": 12673,
+        "totalInputTokens": 25710,
+        "outputTokens": 91,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1310,
+          "cacheRead": 24396
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && for r in denoland/deno oven-sh/bun astral-sh/uv; do github/get_latest_release --owner ${r%/*} --repo ${r"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2238552090000012
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0395056250000017
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.5961466249999976
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9332605000000003
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run e8f85b93):\n- **denoland/deno:** `v2.9.8` (published 2026-10-21)\n- **oven-sh/bun:** `bun-v1.4.5` (published 2026-11-19)\n- **astral-sh/uv:** `0.13.9` (published 2026-11-17)",
+        "turns": 4,
+        "seconds": 3.392,
+        "costUsd": 0.0421318,
+        "firstTurnTokens": 28967,
+        "totalInputTokens": 63273,
+        "outputTokens": 134,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 8271,
+          "cacheRead": 54998
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"uv\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1489929169999995
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5917012080000024
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6568561249999982
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1292460840000027
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**17** repos in the `modelcontextprotocol` org have more than 1,000 stars. I got this from a GitHub repository search for `org:modelcontextprotocol stars:>1000`.\n\nThe list includes `servers`, `python-sdk`, `typescript-sdk`, `inspector`, `modelcontextprotocol`, `registry`, the Go, C#, Rust, Java, PHP, Swift and Kotlin SDKs, `ext-apps`, `mcpb`, `quickstart-resources` and `use-mcp`.",
+        "turns": 2,
+        "seconds": 4.785,
+        "costUsd": 0.0126619,
+        "firstTurnTokens": 12656,
+        "totalInputTokens": 25977,
+        "outputTokens": 197,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1594,
+          "cacheRead": 24379
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/search_repositories --query \"org:modelcontextprotocol stars:>1000\" --perPage 100 --json | jq '{to"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23322195799999826
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9987439169999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.065311458
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6820238749999992
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**17 repos** in the `modelcontextprotocol` org have more than 1,000 stars. This comes from a GitHub search for `org:modelcontextprotocol stars:>1000`, which reported `total_count` 17 with `incomplete_results` false.\n\nThe top three are `servers` (about 92k stars), `python-sdk` (about 25k) and `typescript-sdk` (about 14k). The lowest is `use-mcp` at 1,028 stars, which is archived but still counted. The count is as of 2026-11-22.",
+        "turns": 2,
+        "seconds": 4.703,
+        "costUsd": 0.0362584,
+        "firstTurnTokens": 28953,
+        "totalInputTokens": 61766,
+        "outputTokens": 32,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 6778,
+          "cacheRead": 54984
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"perPage\":100}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.3301195000000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2322071250000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0568867919999976
+          },
+          {
+            "kind": "model",
+            "seconds": 2.403170125
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**17** repos in the `modelcontextprotocol` org have more than 1,000 stars. I got this from a GitHub repository search with `org:modelcontextprotocol stars:>1000`, which reported no incomplete results.\n\nThey are: servers, python-sdk, typescript-sdk, inspector, modelcontextprotocol, registry, go-sdk, csharp-sdk, rust-sdk, java-sdk, ext-apps, mcpb, php-sdk, swift-sdk, kotlin-sdk, quickstart-resources and use-mcp.",
+        "turns": 2,
+        "seconds": 4.853,
+        "costUsd": 0.011975,
+        "firstTurnTokens": 12651,
+        "totalInputTokens": 25794,
+        "outputTokens": 203,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1420,
+          "cacheRead": 24370
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:modelcontextprotocol stars:>1000\" --perPage 100 --json | jq '{tota"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22233808300000238
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7985236669999976
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.5173980830000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4954223749999982
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #1 in modelcontextprotocol/servers is titled **\"Port over Slack server\"**.\n\nIt was merged on 2024-11-19 by jspahrsummers.",
+        "turns": 2,
+        "seconds": 3.373,
+        "costUsd": 0.0215705,
+        "firstTurnTokens": 28954,
+        "totalInputTokens": 58520,
+        "outputTokens": 84,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3531,
+          "cacheRead": 54985
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__pull_request_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"pullNumber\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2023795409999984
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3856822500000014
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9059199999999983
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0639031249999973
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #1 in modelcontextprotocol/servers is titled **\"Port over Slack server\"**.\n\nLink: https://github.com/modelcontextprotocol/servers/pull/1",
+        "turns": 2,
+        "seconds": 4.331,
+        "costUsd": 0.0099632,
+        "firstTurnTokens": 12653,
+        "totalInputTokens": 25638,
+        "outputTokens": 80,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1262,
+          "cacheRead": 24372
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/pull_request_read --method get --owner modelcontextprotocol --repo servers --pullNumber 1 --json | "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23310012500000085
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8560601669999959
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.3010026660000005
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1366617499999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #1 in modelcontextprotocol/servers is titled **\"Port over Slack server\"**. Its state is closed.",
+        "turns": 2,
+        "seconds": 3.916,
+        "costUsd": 0.00974,
+        "firstTurnTokens": 12657,
+        "totalInputTokens": 25635,
+        "outputTokens": 60,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1251,
+          "cacheRead": 24380
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/pull_request_read --method get --owner modelcontextprotocol --repo servers --pullNumber 1 --json "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24229895899999973
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8889772909999958
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.1529149590000012
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8212592500000033
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section that covers the package manager is **\"Package Manager\"**. It is section 4 in DeepWiki's structure for oven-sh/bun.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 2,
+        "seconds": 7.044,
+        "costUsd": 0.0143064,
+        "firstTurnTokens": 12665,
+        "totalInputTokens": 26593,
+        "outputTokens": 149,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2205,
+          "cacheRead": 24384
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && deepwiki/read_wiki_structure --repoName oven-sh/bun --json | jq -r .result | head -60"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21259704200000124
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9370519999999962
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.346221875000003
+          },
+          {
+            "kind": "model",
+            "seconds": 4.720672165999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The package manager is covered by top-level section 4, titled **\"Package Manager\"**. DeepWiki's structure for oven-sh/bun lists these subsections under it:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 2,
+        "seconds": 6.104,
+        "costUsd": 0.0160554,
+        "firstTurnTokens": 12671,
+        "totalInputTokens": 27075,
+        "outputTokens": 146,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2677,
+          "cacheRead": 24394
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && deepwiki/read_wiki_structure --repoName oven-sh/bun"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22664320799999405
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7106892080000033
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5211977499999996
+          },
+          {
+            "kind": "model",
+            "seconds": 3.831709333999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "In DeepWiki's documentation for oven-sh/bun, the top-level section covering the package manager is **\"4 Package Manager\"**.\n\nIts subsections are 4.1 Installation Pipeline and Lockfile, 4.2 Dependency Resolution, 4.3 NPM Registry and Network Layer, and 4.4 Workspace and Monorepo Support.",
+        "turns": 2,
+        "seconds": 2.966,
+        "costUsd": 0.0257475,
+        "firstTurnTokens": 28964,
+        "totalInputTokens": 59569,
+        "outputTokens": 157,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4570,
+          "cacheRead": 54995
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2100047919999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3583800829999964
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1972956250000064
+          },
+          {
+            "kind": "model",
+            "seconds": 1.393503707999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Birch** started in 2016. It's owned by team quibelmuzo.",
+        "turns": 2,
+        "seconds": 3.454,
+        "costUsd": 0.0111325,
+        "firstTurnTokens": 12642,
+        "totalInputTokens": 26081,
+        "outputTokens": 45,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1712,
+          "cacheRead": 24365
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && memory/read_graph --json | jq -c '.entities[]'"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2339053750000021
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6024676670000044
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.33311758299999905
+          },
+          {
+            "kind": "model",
+            "seconds": 1.472378874999995
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Birch started in 2016. The knowledge graph also says it is owned by team quibelmuzo.",
+        "turns": 2,
+        "seconds": 1.722,
+        "costUsd": 0.018522800000000002,
+        "firstTurnTokens": 28937,
+        "totalInputTokens": 57994,
+        "outputTokens": 60,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3022,
+          "cacheRead": 54968
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2016\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1610060830000002
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9777034170000043
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.018035165999993996
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7003475000000039
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Birch** started in 2016. The knowledge graph lists it as a project owned by team quibelmuzo.",
+        "turns": 2,
+        "seconds": 3.427,
+        "costUsd": 0.0092036,
+        "firstTurnTokens": 12637,
+        "totalInputTokens": 25580,
+        "outputTokens": 56,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1220,
+          "cacheRead": 24356
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && memory/search_nodes --query 2016 --json"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24867075000000477
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5233790829999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0303508339999974
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8237720410000038
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nIts latest release, 2.4.0, was published on 2026-10-23. The python-sdk's latest release, v2.3.0, was published on 2026-10-02, so the TypeScript one is about three weeks newer.",
+        "turns": 3,
+        "seconds": 3.378,
+        "costUsd": 0.0410118,
+        "firstTurnTokens": 28987,
+        "totalInputTokens": 63245,
+        "outputTokens": 104,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 8223,
+          "cacheRead": 55018
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1334310830000032
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3148943339999968
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7334834580000025
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3157003330000006
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\nIts latest release, v2.4.0, was published 2026-10-23. The python-sdk's latest, v2.3.0, was published 2026-10-02.",
+        "turns": 2,
+        "seconds": 4.789,
+        "costUsd": 0.0107864,
+        "firstTurnTokens": 12685,
+        "totalInputTokens": 25780,
+        "outputTokens": 76,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1372,
+          "cacheRead": 24404
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/get_latest_release --owner modelcontextprotocol --repo python-sdk --json | jq '{tag_name,published_"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22932799999999406
+          },
+          {
+            "kind": "model",
+            "seconds": 1.862720874999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.932417334000005
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9526942500000004
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\nThe latest typescript-sdk release is v2.4.0, published 2026-10-23. The latest python-sdk release is v2.3.0, published 2026-10-02.",
+        "turns": 2,
+        "seconds": 4.35,
+        "costUsd": 0.0108591,
+        "firstTurnTokens": 12688,
+        "totalInputTokens": 25790,
+        "outputTokens": 80,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1375,
+          "cacheRead": 24411
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/get_latest_release --owner modelcontextprotocol --repo python-sdk --json | jq '{tag_name,publishe"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2144458750000049
+          },
+          {
+            "kind": "model",
+            "seconds": 1.974177791999995
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.1740755409999983
+          },
+          {
+            "kind": "model",
+            "seconds": 1.161121959000004
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nAmong the three most-starred repos in the denoland org, deno has the most open issues. GitHub's count includes pull requests.\n- deno: 109,052 stars, 1,755 open issues\n- celld: 6,352 stars, 103 open issues\n- rusty_v8: 4,043 stars, 68 open issues",
+        "turns": 2,
+        "seconds": 4.892,
+        "costUsd": 0.0115414,
+        "firstTurnTokens": 12675,
+        "totalInputTokens": 25799,
+        "outputTokens": 19,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1401,
+          "cacheRead": 24394
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 3 --json | jq '.item"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22604562499999883
+          },
+          {
+            "kind": "model",
+            "seconds": 2.008359500000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8952300409999951
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9475183749999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nOf the three most-starred denoland repos, deno has the most open issues: 1,755, with 109,052 stars. GitHub's count includes pull requests.\n- celld: 103 open issues (6,352 stars)\n- rusty_v8: 68 open issues (4,043 stars)",
+        "turns": 2,
+        "seconds": 4.55,
+        "costUsd": 0.010872799999999998,
+        "firstTurnTokens": 12685,
+        "totalInputTokens": 25788,
+        "outputTokens": 113,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1376,
+          "cacheRead": 24408
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 3 --json | jq '.it"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23645704199999454
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9344595000000047
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7833383329999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.789870499999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\nThe three most-starred repos in the denoland org are deno (109,052 stars), celld (6,352) and rusty_v8 (4,043).\nTheir open issue counts, which include pull requests, are 1,755 for deno, 103 for celld and 68 for rusty_v8.",
+        "turns": 2,
+        "seconds": 3.533,
+        "costUsd": 0.0248052,
+        "firstTurnTokens": 28981,
+        "totalInputTokens": 59225,
+        "outputTokens": 118,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4209,
+          "cacheRead": 55012
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:denoland\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":3,\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2228047920000027
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4660489999999988
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6713130000000023
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3776144169999966
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\nStar counts from GitHub search:\n- vercel/next.js: 143,606\n- nodejs/node: 123,925\n- denoland/deno: 109,052\n- oven-sh/bun: 96,826",
+        "turns": 2,
+        "seconds": 5.074,
+        "costUsd": 0.011013,
+        "firstTurnTokens": 12687,
+        "totalInputTokens": 25825,
+        "outputTokens": 92,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1411,
+          "cacheRead": 24410
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && for r in denoland/deno oven-sh/bun nodejs/node vercel/next.js; do echo $r; github/search_repositories --"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22933495800000675
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8186901249999938
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.2883385830000043
+          },
+          {
+            "kind": "model",
+            "seconds": 0.926223417000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\nIt has 143,606 stars. The others are nodejs/node (123,925), denoland/deno (109,052) and oven-sh/bun (96,826).",
+        "turns": 2,
+        "seconds": 3.309,
+        "costUsd": 0.0234313,
+        "firstTurnTokens": 28982,
+        "totalInputTokens": 59005,
+        "outputTokens": 84,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3988,
+          "cacheRead": 55013
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:denoland/deno repo:oven-sh/bun repo:nodejs/node repo:vercel/next.js\",\"sort\":\"stars\",\"order\":\"desc\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2683827499999971
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4298035000000016
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6764265000000016
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1826351249999933
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\nStar counts from GitHub search:\n- vercel/next.js: 143,606\n- nodejs/node: 123,925\n- denoland/deno: 109,052\n- oven-sh/bun: 96,826",
+        "turns": 2,
+        "seconds": 5.958,
+        "costUsd": 0.0107658,
+        "firstTurnTokens": 12679,
+        "totalInputTokens": 25769,
+        "outputTokens": 92,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1367,
+          "cacheRead": 24398
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && for r in denoland/deno oven-sh/bun nodejs/node vercel/next.js; do github/search_repositories --query \"repo"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2396658329999991
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8588522500000035
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.137771458000003
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9150959169999986
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run 18dcd6e4):\n- **denoland/deno:** `v2.9.8` (published 2026-10-21)\n- **oven-sh/bun:** `bun-v1.4.5` (published 2026-11-19)\n- **astral-sh/uv:** `0.13.9` (published 2026-11-17)",
+        "turns": 4,
+        "seconds": 3.239,
+        "costUsd": 0.04216,
+        "firstTurnTokens": 28969,
+        "totalInputTokens": 63277,
+        "outputTokens": 136,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 8273,
+          "cacheRead": 55000
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"uv\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2709554999999964
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3503773749999963
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.14523241700000655
+          },
+          {
+            "kind": "model",
+            "seconds": 0.11611070799999279
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4048944170000035
+          },
+          {
+            "kind": "model",
+            "seconds": 1.204543000000005
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run 7389e0ba):\n- **denoland/deno:** `v2.9.8`\n- **oven-sh/bun:** `bun-v1.4.5`\n- **astral-sh/uv:** `0.13.9`",
+        "turns": 2,
+        "seconds": 7.316,
+        "costUsd": 0.0105106,
+        "firstTurnTokens": 12667,
+        "totalInputTokens": 25686,
+        "outputTokens": 97,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1296,
+          "cacheRead": 24386
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && for r in denoland/deno oven-sh/bun astral-sh/uv; do echo $r $(github/get_latest_release --owner ${r%/*} --"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2311177500000049
+          },
+          {
+            "kind": "model",
+            "seconds": 1.805706041000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.9985640839999976
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4720759160000014
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "These are the latest release tags (run 198725be):\n- denoland/deno: `v2.9.8`\n- oven-sh/bun: `bun-v1.4.5`\n- astral-sh/uv: `0.13.9`",
+        "turns": 2,
+        "seconds": 5.93,
+        "costUsd": 0.0105413,
+        "firstTurnTokens": 12670,
+        "totalInputTokens": 25703,
+        "outputTokens": 90,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1306,
+          "cacheRead": 24393
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && for r in denoland/deno oven-sh/bun astral-sh/uv; do echo -n \"$r: \"; github/get_latest_release --owner ${"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22527491700000246
+          },
+          {
+            "kind": "model",
+            "seconds": 1.837190333000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.6195314169999913
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4335842080000005
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "17 repos in the `modelcontextprotocol` org have more than 1,000 stars. I got this from a GitHub repository search for `org:modelcontextprotocol stars:>1000`.\n\nThey are: servers, python-sdk, typescript-sdk, inspector, modelcontextprotocol, registry, go-sdk, csharp-sdk, rust-sdk, java-sdk, ext-apps, mcpb, php-sdk, swift-sdk, kotlin-sdk, quickstart-resources and use-mcp.",
+        "turns": 2,
+        "seconds": 6.505,
+        "costUsd": 0.0129371,
+        "firstTurnTokens": 12652,
+        "totalInputTokens": 25813,
+        "outputTokens": 192,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1438,
+          "cacheRead": 24371
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' let all:any[]=[]; for (let p=1;p<=5;p++){ const r:any = await tools.github.search_reposito"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2346730830000015
+          },
+          {
+            "kind": "model",
+            "seconds": 3.674307457999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.4501649170000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3394974999999985
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "17 repos in the `modelcontextprotocol` GitHub org have more than 1,000 stars. I got this from a GitHub repository search for `org:modelcontextprotocol stars:>1000`. It returned 17 results and reported them as complete.",
+        "turns": 2,
+        "seconds": 4.427,
+        "costUsd": 0.010388,
+        "firstTurnTokens": 12657,
+        "totalInputTokens": 25652,
+        "outputTokens": 99,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1268,
+          "cacheRead": 24380
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/search_repositories --query \"org:modelcontextprotocol stars:>1000\" --minimal_output true --perPag"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24511733299998742
+          },
+          {
+            "kind": "model",
+            "seconds": 2.036940208
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.1616877920000115
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1809798329999905
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**17** repos in the `modelcontextprotocol` org have more than 1,000 stars, according to a GitHub repository search for `org:modelcontextprotocol stars:>1000`.\n\n- The most-starred are `servers` (about 92.2k), `python-sdk` (about 24.9k) and `typescript-sdk` (about 13.8k).\n- The smallest is `use-mcp` at 1,028 stars. It is archived but still counted.\n- The search was run on 2026-11-22. The search returned `total_count` 17 and all 17 repos in one page.",
+        "turns": 2,
+        "seconds": 5.198,
+        "costUsd": 0.0363343,
+        "firstTurnTokens": 28952,
+        "totalInputTokens": 61764,
+        "outputTokens": 27,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 6777,
+          "cacheRead": 54983
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"perPage\":100}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.207085957999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2365263750000013
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0534554999999965
+          },
+          {
+            "kind": "model",
+            "seconds": 2.8938685419999963
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #1 in modelcontextprotocol/servers is titled **\"Port over Slack server\"**.\n\nLink: https://github.com/modelcontextprotocol/servers/pull/1",
+        "turns": 2,
+        "seconds": 3.769,
+        "costUsd": 0.010012300000000002,
+        "firstTurnTokens": 12660,
+        "totalInputTokens": 25656,
+        "outputTokens": 80,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1269,
+          "cacheRead": 24383
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/pull_request_read --method get --owner modelcontextprotocol --repo servers --pullNumber 1 --json "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2259987919999985
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9209001250000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9537553330000081
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8556717499999942
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #1 in modelcontextprotocol/servers is titled **\"Port over Slack server\"**.\n\n- Author: jspahrsummers\n- Status: merged on 2024-11-19",
+        "turns": 2,
+        "seconds": 3.369,
+        "costUsd": 0.0216064,
+        "firstTurnTokens": 28953,
+        "totalInputTokens": 58518,
+        "outputTokens": 88,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3530,
+          "cacheRead": 54984
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__pull_request_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"pullNumber\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1145894589999952
+          },
+          {
+            "kind": "model",
+            "seconds": 1.382580375000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8554855409999873
+          },
+          {
+            "kind": "model",
+            "seconds": 1.114611792000011
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #1 in modelcontextprotocol/servers is titled **\"Port over Slack server\"**.\n\nLink: https://github.com/modelcontextprotocol/servers/pull/1",
+        "turns": 2,
+        "seconds": 4.418,
+        "costUsd": 0.0099591,
+        "firstTurnTokens": 12652,
+        "totalInputTokens": 25636,
+        "outputTokens": 80,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1261,
+          "cacheRead": 24371
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/pull_request_read --method get --owner modelcontextprotocol --repo servers --pullNumber 1 --json | "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22341666699999768
+          },
+          {
+            "kind": "model",
+            "seconds": 1.876934208000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.2876513750000012
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2146407499999912
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The package manager is covered by top-level section **4, \"Package Manager\"**, in DeepWiki's documentation of oven-sh/bun.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 2,
+        "seconds": 2.859,
+        "costUsd": 0.0257998,
+        "firstTurnTokens": 28967,
+        "totalInputTokens": 59575,
+        "outputTokens": 161,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4573,
+          "cacheRead": 54998
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1525044580000103
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2602627089999876
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.20819200000001015
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3532418329999927
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The package manager is covered by top-level section 4, titled **\"Package Manager\"**, in DeepWiki's documentation of oven-sh/bun.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 2,
+        "seconds": 3.734,
+        "costUsd": 0.0160345,
+        "firstTurnTokens": 12666,
+        "totalInputTokens": 27061,
+        "outputTokens": 148,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2672,
+          "cacheRead": 24385
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && deepwiki/read_wiki_structure --repoName oven-sh/bun"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22968116700000246
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7539918330000073
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4309477499999921
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5065936670000082
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The package manager is covered by top-level section 4, titled **\"Package Manager\"**, in DeepWiki's documentation of oven-sh/bun.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support\n\nSection 7.5, \"Install and Package Commands\", sits under the Command Line Interface section and also touches on this topic.",
+        "turns": 2,
+        "seconds": 3.322,
+        "costUsd": 0.016457199999999998,
+        "firstTurnTokens": 12669,
+        "totalInputTokens": 27071,
+        "outputTokens": 187,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2675,
+          "cacheRead": 24392
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && deepwiki/read_wiki_structure --repoName oven-sh/bun"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24364791700000932
+          },
+          {
+            "kind": "model",
+            "seconds": 1.470513082999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2903545420000011
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5175666669999917
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Birch** started in 2016. It's owned by team quibelmuzo.\n\nI found it by searching the knowledge graph for \"2016\", which returned only this one entity.",
+        "turns": 2,
+        "seconds": 3.169,
+        "costUsd": 0.0093777,
+        "firstTurnTokens": 12638,
+        "totalInputTokens": 25582,
+        "outputTokens": 73,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1221,
+          "cacheRead": 24357
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && memory/search_nodes --query 2016 --json"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21949308300000847
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4477812499999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7724744589999903
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9074035410000065
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "In the knowledge graph, **Project Birch** is the project that started in 2016. It's owned by team quibelmuzo. It was the only entity whose observations mention 2016.",
+        "turns": 2,
+        "seconds": 2.787,
+        "costUsd": 0.0096246,
+        "firstTurnTokens": 12643,
+        "totalInputTokens": 25600,
+        "outputTokens": 74,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1230,
+          "cacheRead": 24366
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && memory/read_graph --json | jq -c '.entities[] | select(tostring|test(\"2016\"))'"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23343741699999374
+          },
+          {
+            "kind": "model",
+            "seconds": 1.690261750000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.09020812500000464
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9600554159999883
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Birch** started in 2016. The knowledge graph lists it as a project owned by team quibelmuzo.",
+        "turns": 2,
+        "seconds": 2.02,
+        "costUsd": 0.0185751,
+        "firstTurnTokens": 28940,
+        "totalInputTokens": 58000,
+        "outputTokens": 64,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3025,
+          "cacheRead": 54971
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2016\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.15787320799999
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9434183750000082
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.015875375000003356
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0381516249999985
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n- typescript-sdk: v2.4.0, published 2026-10-23\n- python-sdk: v2.3.0, published 2026-10-02",
+        "turns": 2,
+        "seconds": 4.361,
+        "costUsd": 0.0108014,
+        "firstTurnTokens": 12691,
+        "totalInputTokens": 25796,
+        "outputTokens": 73,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1378,
+          "cacheRead": 24414
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/get_latest_release --owner modelcontextprotocol --repo python-sdk --json | jq '{tag_name,publishe"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23514762499999778
+          },
+          {
+            "kind": "model",
+            "seconds": 1.836756957999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.5730990000000022
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9079714999999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nIts latest release, 2.4.0, was published on 2026-10-23. The python-sdk latest release, v2.3.0, was published on 2026-10-02.",
+        "turns": 3,
+        "seconds": 3.577,
+        "costUsd": 0.0408154,
+        "firstTurnTokens": 28983,
+        "totalInputTokens": 63237,
+        "outputTokens": 86,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 8219,
+          "cacheRead": 55014
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1668532500000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.587640874999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.559234708000004
+          },
+          {
+            "kind": "model",
+            "seconds": 1.414238792000004
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\nIts latest release, v2.4.0, was published on 2026-10-23. The python-sdk's latest, v2.3.0, was published on 2026-10-02.",
+        "turns": 2,
+        "seconds": 6.197,
+        "costUsd": 0.010334300000000001,
+        "firstTurnTokens": 12684,
+        "totalInputTokens": 25736,
+        "outputTokens": 78,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1329,
+          "cacheRead": 24403
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && for r in python-sdk typescript-sdk; do github/get_latest_release --owner modelcontextprotocol --repo $r --"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2207590840000048
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7664895830000023
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.0941014580000044
+          },
+          {
+            "kind": "model",
+            "seconds": 2.295262416999991
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nThe three most-starred repos in denoland are deno (109,052 stars), celld (6,352) and rusty_v8 (4,043). Their open issue counts, which include pull requests, are 1,755 for deno, 103 for celld and 68 for rusty_v8.",
+        "turns": 2,
+        "seconds": 3.98,
+        "costUsd": 0.0247588,
+        "firstTurnTokens": 28977,
+        "totalInputTokens": 59217,
+        "outputTokens": 115,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4205,
+          "cacheRead": 55008
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:denoland\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":3,\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.204410957999993
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9800907920000028
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6508910830000096
+          },
+          {
+            "kind": "model",
+            "seconds": 1.33236170899999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\nThe three most-starred repos in the denoland org are deno (109,052 stars), celld (6,352) and rusty_v8 (4,043).\nTheir open issue counts, which include pull requests, are 1,755 for deno, 103 for celld and 68 for rusty_v8.",
+        "turns": 2,
+        "seconds": 8.693,
+        "costUsd": 0.0109755,
+        "firstTurnTokens": 12676,
+        "totalInputTokens": 25801,
+        "outputTokens": 110,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1402,
+          "cacheRead": 24395
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 3 --json | jq '.item"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2136473330000008
+          },
+          {
+            "kind": "model",
+            "seconds": 3.9051027499999913
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9373650000000051
+          },
+          {
+            "kind": "model",
+            "seconds": 3.8089705830000016
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nAmong the three most-starred repos in the denoland org, deno has the most open issues. GitHub's count includes pull requests.\n- deno: 109,052 stars, 1,755 open issues\n- celld: 6,352 stars, 103 open issues\n- rusty_v8: 4,043 stars, 68 open issues",
+        "turns": 2,
+        "seconds": 8.063,
+        "costUsd": 0.0114428,
+        "firstTurnTokens": 12685,
+        "totalInputTokens": 25823,
+        "outputTokens": 18,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1411,
+          "cacheRead": 24408
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 3 --json | jq '.it"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22697054199999547
+          },
+          {
+            "kind": "model",
+            "seconds": 5.378439207999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8304248330000119
+          },
+          {
+            "kind": "model",
+            "seconds": 1.814202666999991
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\nStar counts from GitHub search:\n- vercel/next.js: 143,606\n- nodejs/node: 123,925\n- denoland/deno: 109,052\n- oven-sh/bun: 96,826",
+        "turns": 2,
+        "seconds": 8.509,
+        "costUsd": 0.010968,
+        "firstTurnTokens": 12681,
+        "totalInputTokens": 25809,
+        "outputTokens": 92,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1405,
+          "cacheRead": 24400
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && for r in denoland/deno oven-sh/bun nodejs/node vercel/next.js; do echo $r; github/search_repositories --qu"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23458145800000058
+          },
+          {
+            "kind": "model",
+            "seconds": 4.165510125
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.1616332079999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1378042090000084
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\n\nStar counts (run e21a2275):\n- vercel/next.js: 143,606\n- nodejs/node: 123,925\n- denoland/deno: 109,052\n- oven-sh/bun: 96,826",
+        "turns": 2,
+        "seconds": 5.881,
+        "costUsd": 0.0110148,
+        "firstTurnTokens": 12685,
+        "totalInputTokens": 25821,
+        "outputTokens": 93,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1409,
+          "cacheRead": 24408
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && for r in denoland/deno oven-sh/bun nodejs/node vercel/next.js; do echo $r; github/search_repositories --"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2237340839999961
+          },
+          {
+            "kind": "model",
+            "seconds": 2.285234916000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.34466741699999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2091776250000112
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "most-stars",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "vercel/next.js\nIt has 143,606 stars, ahead of nodejs/node (123,925), denoland/deno (109,052) and oven-sh/bun (96,826).",
+        "turns": 2,
+        "seconds": 3.468,
+        "costUsd": 0.0265432,
+        "firstTurnTokens": 28981,
+        "totalInputTokens": 59717,
+        "outputTokens": 84,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4701,
+          "cacheRead": 55012
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:denoland/deno repo:oven-sh/bun repo:nodejs/node repo:vercel/next.js\",\"sort\":\"stars\",\"order\":\"desc\",\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.4812855419999977
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5367154580000062
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7749104590000062
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1451681249999965
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release tags (run 2f1043e5):\n- denoland/deno: `v2.9.8`\n- oven-sh/bun: `bun-v1.4.5`\n- astral-sh/uv: `0.13.9`",
+        "turns": 2,
+        "seconds": 5.368,
+        "costUsd": 0.0106076,
+        "firstTurnTokens": 12673,
+        "totalInputTokens": 25710,
+        "outputTokens": 91,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1310,
+          "cacheRead": 24396
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && for r in denoland/deno oven-sh/bun astral-sh/uv; do github/get_latest_release --owner ${r%/*} --repo ${r"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2037797500000015
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9099509160000014
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.2908233749999924
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1262179170000017
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags:\n- **denoland/deno:** `v2.9.8` (published 2026-10-21)\n- **oven-sh/bun:** `bun-v1.4.5` (published 2026-11-19)\n- **astral-sh/uv:** `0.13.9` (published 2026-11-17)",
+        "turns": 4,
+        "seconds": 3.651,
+        "costUsd": 0.0420518,
+        "firstTurnTokens": 28967,
+        "totalInputTokens": 63273,
+        "outputTokens": 126,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 8271,
+          "cacheRead": 54998
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"denoland\",\"repo\":\"deno\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"uv\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1802376659999863
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4587304590000132
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1678672079999961
+          },
+          {
+            "kind": "model",
+            "seconds": 0.12318266700000091
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6954969580000032
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1940219999999973
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "three-tags",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest release tags (run 59a7844d) are:\n- denoland/deno: `v2.9.8`\n- oven-sh/bun: `bun-v1.4.5`\n- astral-sh/uv: `0.13.9`",
+        "turns": 2,
+        "seconds": 5.822,
+        "costUsd": 0.010498500000000001,
+        "firstTurnTokens": 12666,
+        "totalInputTokens": 25687,
+        "outputTokens": 92,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1298,
+          "cacheRead": 24385
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && for r in denoland/deno oven-sh/bun astral-sh/uv; do github/get_latest_release --owner ${r%/*} --repo ${r#*"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22175191600000835
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9283938749999943
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.888397584000006
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9679905409999918
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**17 repos** in the modelcontextprotocol org have more than 1,000 stars (run f7887754). I got this from a GitHub search for `org:modelcontextprotocol stars:>1000`, which returned 17 of 17 results with no truncation.\n\n- **Most stars:** `servers` has about 92.2k, followed by `python-sdk` (24.9k) and `typescript-sdk` (13.8k).\n- **Fewest stars:** `use-mcp` has 1,028, and it's archived.",
+        "turns": 2,
+        "seconds": 4.921,
+        "costUsd": 0.0365261,
+        "firstTurnTokens": 28950,
+        "totalInputTokens": 61760,
+        "outputTokens": 26,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 6775,
+          "cacheRead": 54981
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:modelcontextprotocol stars:>1000\",\"perPage\":100}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1509882080000098
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1913901669999902
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9257756660000016
+          },
+          {
+            "kind": "model",
+            "seconds": 2.7927321669999943
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "17 repos in the modelcontextprotocol org have more than 1,000 stars. I got this from a GitHub repository search with the query `org:modelcontextprotocol stars:>1000`. The search reported complete results, with no truncation.",
+        "turns": 2,
+        "seconds": 4.72,
+        "costUsd": 0.0102971,
+        "firstTurnTokens": 12652,
+        "totalInputTokens": 25638,
+        "outputTokens": 94,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1263,
+          "cacheRead": 24371
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:modelcontextprotocol stars:>1000\" --perPage 100 --minimal_output t"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22272058300000208
+          },
+          {
+            "kind": "model",
+            "seconds": 2.075324042000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.4585807079999942
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1484363330000051
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "big-repos",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**17** repos in the modelcontextprotocol org have more than 1,000 stars. I got this from a GitHub repository search for `org:modelcontextprotocol stars:>1000`. It reported `incomplete_results: false`.\n\nThey include `servers`, `python-sdk`, `typescript-sdk`, `inspector`, `modelcontextprotocol`, `registry` and the other language SDKs. The list also has `ext-apps`, `mcpb`, `quickstart-resources` and `use-mcp`.",
+        "turns": 2,
+        "seconds": 4.812,
+        "costUsd": 0.0128421,
+        "firstTurnTokens": 12658,
+        "totalInputTokens": 26009,
+        "outputTokens": 187,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1624,
+          "cacheRead": 24381
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./github/search_repositories --query \"org:modelcontextprotocol stars:>1000\" --perPage 100 --minimal_outp"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23507120900000156
+          },
+          {
+            "kind": "model",
+            "seconds": 1.826300500000012
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0353679579999882
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9076766670000072
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #1 in modelcontextprotocol/servers is titled **\"Port over Slack server\"**.",
+        "turns": 2,
+        "seconds": 4.784,
+        "costUsd": 0.0095692,
+        "firstTurnTokens": 12653,
+        "totalInputTokens": 25612,
+        "outputTokens": 53,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1236,
+          "cacheRead": 24372
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/pull_request_read --method get --owner modelcontextprotocol --repo servers --pullNumber 1 --json | "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.19989770799998952
+          },
+          {
+            "kind": "model",
+            "seconds": 2.742038584000009
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0837467499999915
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9196267500000097
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #1 in modelcontextprotocol/servers is titled **\"Port over Slack server\"**.",
+        "turns": 2,
+        "seconds": 3.893,
+        "costUsd": 0.009606,
+        "firstTurnTokens": 12657,
+        "totalInputTokens": 25624,
+        "outputTokens": 53,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1240,
+          "cacheRead": 24380
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/pull_request_read --method get --owner modelcontextprotocol --repo servers --pullNumber 1 --json "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21598879099999613
+          },
+          {
+            "kind": "model",
+            "seconds": 2.193716334000012
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8920353749999919
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7674495829999946
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "first-pr",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #1 in modelcontextprotocol/servers is titled **\"Port over Slack server\"**.\n\nIt was merged on 2024-11-19 by jspahrsummers.",
+        "turns": 2,
+        "seconds": 3.176,
+        "costUsd": 0.0215705,
+        "firstTurnTokens": 28954,
+        "totalInputTokens": 58520,
+        "outputTokens": 84,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3531,
+          "cacheRead": 54985
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__pull_request_read {\"method\":\"get\",\"owner\":\"modelcontextprotocol\",\"repo\":\"servers\",\"pullNumber\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.174108583999987
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3518259580000014
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7561637920000064
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0504649999999969
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The package manager is covered by top-level section **4**, titled **\"Package Manager\"**, in DeepWiki's documentation of oven-sh/bun.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 2,
+        "seconds": 3.343,
+        "costUsd": 0.0160895,
+        "firstTurnTokens": 12672,
+        "totalInputTokens": 27077,
+        "outputTokens": 149,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2678,
+          "cacheRead": 24395
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && deepwiki/read_wiki_structure --repoName oven-sh/bun"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23170404199999758
+          },
+          {
+            "kind": "model",
+            "seconds": 1.610341207999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.25889650000000275
+          },
+          {
+            "kind": "model",
+            "seconds": 1.435302500000005
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section covering the package manager is **\"4 Package Manager\"**, in DeepWiki's documentation of oven-sh/bun.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 2,
+        "seconds": 2.943,
+        "costUsd": 0.0257916,
+        "firstTurnTokens": 28965,
+        "totalInputTokens": 59571,
+        "outputTokens": 161,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4571,
+          "cacheRead": 54996
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1701568750000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3075455000000076
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.18909754099999532
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4184167920000035
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "In DeepWiki's documentation of oven-sh/bun, the package manager is covered by top-level section **4, \"Package Manager\"**.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support\n\nSection 7.5, \"Install and Package Commands\", is under the Command Line Interface section. It isn't the main package manager section.",
+        "turns": 2,
+        "seconds": 6.836,
+        "costUsd": 0.016406300000000002,
+        "firstTurnTokens": 12664,
+        "totalInputTokens": 27057,
+        "outputTokens": 186,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2670,
+          "cacheRead": 24383
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && deepwiki/read_wiki_structure --repoName oven-sh/bun"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2168118749999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5966209159999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3103061670000027
+          },
+          {
+            "kind": "model",
+            "seconds": 4.888706417000009
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Birch started in 2016. It's owned by team quibelmuzo.",
+        "turns": 2,
+        "seconds": 2.196,
+        "costUsd": 0.0184451,
+        "firstTurnTokens": 28940,
+        "totalInputTokens": 58000,
+        "outputTokens": 51,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3025,
+          "cacheRead": 54971
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2016\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.123260666999995
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2375770830000112
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.025081124999996707
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9188138749999926
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Birch** started in 2016. The knowledge graph also lists it as owned by team quibelmuzo.",
+        "turns": 2,
+        "seconds": 6.49,
+        "costUsd": 0.0091977,
+        "firstTurnTokens": 12638,
+        "totalInputTokens": 25582,
+        "outputTokens": 55,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1221,
+          "cacheRead": 24357
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && memory/search_nodes --query 2016 --json"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.218508582999988
+          },
+          {
+            "kind": "model",
+            "seconds": 4.755111084000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7807467910000128
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9116463749999815
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Birch** started in 2016. The knowledge graph also lists team quibelmuzo as its owner.",
+        "turns": 2,
+        "seconds": 3.78,
+        "costUsd": 0.0092286,
+        "firstTurnTokens": 12643,
+        "totalInputTokens": 25596,
+        "outputTokens": 54,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1226,
+          "cacheRead": 24366
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && memory/search_nodes --query 2016 --json"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2352383330000157
+          },
+          {
+            "kind": "model",
+            "seconds": 2.6324002079999773
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.32095229200000164
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7866830420000186
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\nIts latest release, v2.4.0, was published on 2026-10-23. The python-sdk's latest, v2.3.0, was published on 2026-10-02.",
+        "turns": 2,
+        "seconds": 5.42,
+        "costUsd": 0.010334300000000001,
+        "firstTurnTokens": 12684,
+        "totalInputTokens": 25736,
+        "outputTokens": 78,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1329,
+          "cacheRead": 24403
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && for r in python-sdk typescript-sdk; do github/get_latest_release --owner modelcontextprotocol --repo $r --"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.216029916999978
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9593430830000145
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.2161096249999828
+          },
+          {
+            "kind": "model",
+            "seconds": 1.205699791999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\nIts latest release, v2.4.0, was published 2026-10-23. The python-sdk's latest, v2.3.0, was published 2026-10-02.",
+        "turns": 2,
+        "seconds": 4.371,
+        "costUsd": 0.0103552,
+        "firstTurnTokens": 12689,
+        "totalInputTokens": 25750,
+        "outputTokens": 76,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1334,
+          "cacheRead": 24412
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && for r in python-sdk typescript-sdk; do github/get_latest_release --owner modelcontextprotocol --repo $r "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23885633300000336
+          },
+          {
+            "kind": "model",
+            "seconds": 1.844606166999991
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.5812702500000015
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9033077500000073
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "newer-sdk",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "typescript-sdk\n\nIts latest release, 2.4.0, was published 2026-10-23T18:32:25Z. The python-sdk's latest release, v2.3.0, was published 2026-10-02T22:02:27Z, about three weeks earlier.",
+        "turns": 3,
+        "seconds": 5.391,
+        "costUsd": 0.0410595,
+        "firstTurnTokens": 28984,
+        "totalInputTokens": 63239,
+        "outputTokens": 110,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 8220,
+          "cacheRead": 55015
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"python-sdk\"}",
+          "mcp__github__get_latest_release {\"owner\":\"modelcontextprotocol\",\"repo\":\"typescript-sdk\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.156594207999995
+          },
+          {
+            "kind": "model",
+            "seconds": 3.192206792000012
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.700315333000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4830575839999947
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nAmong the three most-starred denoland repos, `deno` has the most open issues. GitHub's count includes pull requests.\n- deno: 109,052 stars, 1,755 open issues\n- celld: 6,352 stars, 103 open issues\n- rusty_v8: 4,043 stars, 68 open issues",
+        "turns": 2,
+        "seconds": 4.272,
+        "costUsd": 0.0109587,
+        "firstTurnTokens": 12684,
+        "totalInputTokens": 25786,
+        "outputTokens": 122,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1375,
+          "cacheRead": 24407
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 3 --json | jq '.it"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2363872080000001
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0139339169999877
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7167813329999917
+          },
+          {
+            "kind": "model",
+            "seconds": 1.499757500000007
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\n\nOf the three most-starred denoland repos, deno has the most open issues. GitHub counts 1,755 for it, pull requests included. The other two are celld with 103 (6,352 stars) and rusty_v8 with 68 (4,043 stars). Deno has 109,052 stars.",
+        "turns": 2,
+        "seconds": 3.664,
+        "costUsd": 0.024832899999999998,
+        "firstTurnTokens": 28978,
+        "totalInputTokens": 59219,
+        "outputTokens": 122,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 4206,
+          "cacheRead": 55009
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:denoland\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":3,\"minimal_output\":false}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2055774999999849
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5850897920000135
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6594364579999819
+          },
+          {
+            "kind": "model",
+            "seconds": 1.397948957999994
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "most-issues",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "deno\nTop 3 denoland repos by stars, with GitHub's open issue counts (pull requests included):\n- deno: 109,052 stars, 1,755 open\n- celld: 6,352 stars, 103 open\n- rusty_v8: 4,043 stars, 68 open",
+        "turns": 2,
+        "seconds": 4.824,
+        "costUsd": 0.0111678,
+        "firstTurnTokens": 12679,
+        "totalInputTokens": 25827,
+        "outputTokens": 110,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1425,
+          "cacheRead": 24398
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:denoland\" --sort stars --order desc --perPage 3 --json | jq 'if ty"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21722966700000687
+          },
+          {
+            "kind": "model",
+            "seconds": 2.389803333000018
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.097960416999995
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2979451249999978
+          }
+        ]
+      }
+    }
+  ]
+}
