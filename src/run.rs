@@ -59,11 +59,9 @@ pub fn run_program(
     collect_stderr: bool,
     out: &mut dyn FnMut(&str),
 ) -> Result<Outcome, String> {
-    let state: Value = std::fs::read_to_string(opts.root.join(".dogu/state.json"))
-        .ok()
-        .and_then(|t| serde_json::from_str(&t).ok())
-        .ok_or_else(|| format!("{} is not an dogu folder. Run `dogu sync` first.", opts.root.display()))?;
-    let servers = config::load(&config::find(state["config"].as_str())?)?;
+    let state = crate::sync::saved_state(&opts.root)
+        .ok_or_else(|| format!("{} is not a dogu folder. Run `dogu sync` first.", opts.root.display()))?;
+    let servers = config::load(&config::Source::from_state(&state)?)?;
     let deno = find_deno()?;
 
     // Put the program inside the runner and save it to a temp file for Deno.

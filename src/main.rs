@@ -60,10 +60,33 @@ fn main() {
     std::process::exit(code);
 }
 
+fn is_help(arg: &str) -> bool {
+    arg == "--help" || arg == "-h"
+}
+
+/// `dogu <command> --help`. For `call`, only right after the command: a later --help is the tool's.
+fn asks_for_help(command: &str, rest: &[String]) -> bool {
+    match command {
+        "call" => {
+            let rest = if rest.first().is_some_and(|a| a == "--root") { rest.get(2..).unwrap_or_default() } else { rest };
+            rest.first().is_some_and(|a| is_help(a))
+        }
+        _ => rest.iter().any(|a| is_help(a)),
+    }
+}
+
 fn run(args: &[String]) -> Result<i32, String> {
     let default_root = config::home().join("mcp");
-    match args.first().map(String::as_str) {
-        Some("sync") => {
+    let Some(command) = args.first().map(String::as_str) else {
+        print!("{USAGE}");
+        return Ok(0);
+    };
+    if matches!(command, "help" | "--help" | "-h") || asks_for_help(command, &args[1..]) {
+        print!("{USAGE}");
+        return Ok(0);
+    }
+    match command {
+        "sync" => {
             let mut config_arg = None;
             let mut out = default_root;
             let mut it = args[1..].iter();
@@ -74,12 +97,23 @@ fn run(args: &[String]) -> Result<i32, String> {
                     other => return Err(format!("unknown option {other}\n\n{USAGE}")),
                 }
             }
-            let config_path = config::find(config_arg.as_deref())?;
-            println!("Reading {}", config_path.display());
-            sync::run(&config_path, &out)?;
+            // Re-syncing a folder keeps the config it was made from, unless told otherwise.
+            let told = config_arg.is_some() || std::env::var("DOGU_CONFIG").is_ok();
+            let saved = sync::saved_state(&out)
+                .filter(|s| !told && s["config"].as_str().is_some_and(|p| std::path::Path::new(p).is_file()));
+            let source = match &saved {
+                Some(state) => config::Source::from_state(state)?,
+                None => config::find(config_arg.as_deref())?,
+            };
+            if saved.is_some() {
+                println!("Reading {} (what this folder was made from. Another: --config <file>)", source.describe());
+            } else {
+                println!("Reading {}", source.describe());
+            }
+            sync::run(&source, &out)?;
             Ok(0)
         }
-        Some("call") => {
+        "call" => {
             let mut rest = &args[1..];
             let mut root = default_root;
             if rest.first().map(String::as_str) == Some("--root") {
@@ -91,7 +125,7 @@ fn run(args: &[String]) -> Result<i32, String> {
             };
             call::run(&root, server, tool, params)
         }
-        Some(mode @ ("run" | "serve")) => {
+        mode @ ("run" | "serve") => {
             let mut opts = run::Options::new(default_root);
             let mut code = None;
             let mut it = args[1..].iter();
@@ -123,7 +157,7 @@ fn run(args: &[String]) -> Result<i32, String> {
             let outcome = run::run_program(&opts, &code, &mut run::Pool::new(), false, &mut |line| println!("{line}"))?;
             Ok(outcome.code)
         }
-        Some(mode @ ("login" | "logout")) => {
+        mode @ ("login" | "logout") => {
             let mut config_arg = None;
             let mut names = Vec::new();
             let mut it = args[1..].iter();
@@ -134,13 +168,11 @@ fn run(args: &[String]) -> Result<i32, String> {
                 }
             }
             // Use the config the folder was made from, unless told otherwise.
-            if config_arg.is_none() {
-                let state: Option<serde_json::Value> = std::fs::read_to_string(default_root.join(".dogu/state.json"))
-                    .ok()
-                    .and_then(|t| serde_json::from_str(&t).ok());
-                config_arg = state.and_then(|s| s["config"].as_str().map(String::from));
-            }
-            let servers = config::load(&config::find(config_arg.as_deref())?)?;
+            let source = match config_arg.as_deref() {
+                Some(path) => config::find(Some(path))?,
+                None => config::Source::from_state(&sync::saved_state(&default_root).unwrap_or_default())?,
+            };
+            let servers = config::load(&source)?;
             for name in &names {
                 match servers.get(name) {
                     None => return Err(format!("no server \"{name}\" in the config")),
@@ -182,14 +214,11 @@ fn run(args: &[String]) -> Result<i32, String> {
             }
             Ok(if failed { 1 } else { 0 })
         }
-        Some("conformance") => conformance::run(args.get(1).ok_or("conformance needs the server URL")?),
-        Some("--version") | Some("-V") => {
+        "conformance" => conformance::run(args.get(1).ok_or("conformance needs the server URL")?),
+        "--version" | "-V" => {
             println!("dogu {}", env!("CARGO_PKG_VERSION"));
             Ok(0)
         }
-        _ => {
-            print!("{USAGE}");
-            Ok(0)
-        }
+        other => Err(format!("unknown command {other}\n\n{USAGE}")),
     }
 }

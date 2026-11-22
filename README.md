@@ -56,14 +56,17 @@ dogu sync
 2. `$DOGU_CONFIG`
 3. `./.mcp.json`, then `./mcp.json`
 4. `~/.config/dogu/mcp.json`
-5. The Claude Desktop config
-6. `~/.cursor/mcp.json`
+5. Claude Code's `~/.claude.json`: your servers, plus the ones added for the folder you run `dogu sync` in
+6. The Claude Desktop config
+7. `~/.cursor/mcp.json`
+
+It takes the first one that lists any servers.
 
 Then tell your agent where the tools are. One line in `CLAUDE.md`, `AGENTS.md` or a system prompt is enough:
 
 > Your tools are in ~/mcp. Read ~/mcp/README.md first.
 
-Run `dogu sync` again when your servers change.
+Run `dogu sync` again when your servers change. It reads the same config as the first time. To switch, pass `--config`.
 
 ## What the folder looks like
 
@@ -203,14 +206,15 @@ Transports: stdio and Streamable HTTP.
 
 - **The official MCP conformance suite**, `@modelcontextprotocol/conformance`. 35 client scenarios pass: 8 for the protocol and the 27 core OAuth ones (discovery, PKCE, scopes, step-up, issuer checks, token endpoint auth, registration). Run them with `sh tests/conformance.sh`.
 - **The sandbox escape test**, `tests/escape.ts`.
-- **Real servers**: the official filesystem, memory and everything servers, a server built with the v2 TypeScript SDK, and the SDK's OAuth demo server.
+- **Real servers**: the official filesystem, memory and everything servers, a server built with the v2 TypeScript SDK, the SDK's OAuth demo server, DeepWiki, and Linear with a real OAuth login and token refresh.
+- **A real agent**: Claude Code, told only "Your tools are in ~/mcp. Read ~/mcp/README.md first.", used the folder for a three-step job with no errors, and did the same through `dogu serve` with no shell.
 
 ## Status
 
 This is version 0.2 and it is new. Here is what has not been done yet:
 
-- It has been built and run on **Linux only**. macOS should work the same way and has not been tried. Windows does not work: the tools are `sh` scripts.
-- It has not been run against **hosted servers** such as GitHub, Linear or Notion. The login flow passes the conformance suite, but real services have quirks. If one breaks, please open an issue with the output of `DOGU_DEBUG=1 dogu sync`.
+- It has been built and run on **Linux and macOS**. Windows does not work: the tools are `sh` scripts.
+- Of the **hosted servers**, only Linear and DeepWiki have been tried. GitHub, Notion and others have not. Real services have quirks. If one breaks, please open an issue with the output of `DOGU_DEBUG=1 dogu sync`.
 - **Tools that ask the user a question mid-call** (elicitation, sampling) are not supported. The call fails with a clear message.
 - **Resources and prompts** are not exposed. Tools only.
 - **Each command starts its server, runs the tool and stops it.** A server started with `npx` takes a second or more per call. `dogu serve`, and a program run with `dogu run`, keep connections open.

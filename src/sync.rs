@@ -30,17 +30,10 @@ pub fn schema_path(root: &Path, server: &str, tool: &str) -> PathBuf {
     root.join(".dogu/schemas").join(safe(server)).join(format!("{}.json", safe(tool)))
 }
 
-pub fn run(config_path: &Path, root: &Path) -> Result<(), String> {
-    let mut servers = config::load(config_path)?;
-    // If this config also lists `dogu serve`, leave it out: we do not wrap ourselves.
-    servers.retain(|_, s| match s {
-        Server::Stdio { command, args, .. } => {
-            !(Path::new(command).file_name().map_or(false, |f| f == "dogu") && args.iter().any(|a| a == "serve"))
-        }
-        _ => true,
-    });
+pub fn run(source: &config::Source, root: &Path) -> Result<(), String> {
+    let servers = config::load(source)?;
     if servers.is_empty() {
-        return Err(format!("{} lists no servers", config_path.display()));
+        return Err(format!("{} lists no servers", source.describe()));
     }
 
     // Never write into a folder that has other things in it.
@@ -50,7 +43,7 @@ pub fn run(config_path: &Path, root: &Path) -> Result<(), String> {
     }
     fs::create_dir_all(&ours).map_err(|e| format!("cannot create {}: {e}", root.display()))?;
     let root = fs::canonicalize(root).map_err(|e| e.to_string())?;
-    let config_path = fs::canonicalize(config_path).map_err(|e| e.to_string())?;
+    let config_path = fs::canonicalize(&source.path).map_err(|e| e.to_string())?;
     let me = std::env::current_exe().map_err(|e| e.to_string())?;
 
     // Talk to all servers at the same time.
@@ -66,10 +59,7 @@ pub fn run(config_path: &Path, root: &Path) -> Result<(), String> {
     });
 
     // Remove folders of servers that are no longer in the config.
-    let old_state: Value = fs::read_to_string(ours.join("state.json"))
-        .ok()
-        .and_then(|t| serde_json::from_str(&t).ok())
-        .unwrap_or(Value::Null);
+    let old_state = saved_state(&root).unwrap_or(Value::Null);
     if let Some(old) = old_state["servers"].as_array() {
         for name in old.iter().filter_map(Value::as_str) {
             if !servers.contains_key(name) {
@@ -111,7 +101,7 @@ pub fn run(config_path: &Path, root: &Path) -> Result<(), String> {
         }
     }
 
-    let state = json!({ "config": config_path, "servers": servers.keys().collect::<Vec<_>>(), "eras": eras });
+    let state = json!({ "config": config_path, "project": source.project, "servers": servers.keys().collect::<Vec<_>>(), "eras": eras });
     write(&ours.join("state.json"), &serde_json::to_string_pretty(&state).unwrap())?;
     write(&root.join("README.md"), &root_readme(&index))?;
     let run = format!(
@@ -390,8 +380,13 @@ fn make_executable(_path: &Path) -> Result<(), String> {
     Ok(())
 }
 
+/// What the last `dogu sync` saved about a folder: which config, which servers, their eras.
+pub fn saved_state(root: &Path) -> Option<Value> {
+    serde_json::from_str(&fs::read_to_string(root.join(".dogu/state.json")).ok()?).ok()
+}
+
 /// The era we saw for a server at the last sync, if any.
 pub fn saved_era(root: &Path, server: &str) -> Option<crate::client::Era> {
-    let state: Value = serde_json::from_str(&fs::read_to_string(root.join(".dogu/state.json")).ok()?).ok()?;
+    let state = saved_state(root)?;
     state["eras"][server].as_str().map(crate::client::Era::from_label)
 }

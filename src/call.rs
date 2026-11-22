@@ -2,7 +2,7 @@
 
 use crate::client::{Client, Options};
 use crate::config;
-use crate::sync::{safe, saved_era, schema_path};
+use crate::sync::{safe, saved_era, saved_state, schema_path};
 use serde_json::{json, Map, Value};
 use std::io::Read;
 use std::path::Path;
@@ -39,15 +39,11 @@ pub fn run(root: &Path, server: &str, tool: &str, args: &[String]) -> Result<i32
     }
 
     // Find the server in the config and call it.
-    let state: Value = std::fs::read_to_string(root.join(".dogu/state.json"))
-        .ok()
-        .and_then(|t| serde_json::from_str(&t).ok())
-        .unwrap_or(Value::Null);
-    let config_path = config::find(state["config"].as_str())?;
-    let servers = config::load(&config_path)?;
+    let source = config::Source::from_state(&saved_state(root).unwrap_or(Value::Null))?;
+    let servers = config::load(&source)?;
     let spec = servers
         .get(server)
-        .ok_or_else(|| format!("server \"{server}\" is not in {}. Run `dogu sync`.", config_path.display()))?;
+        .ok_or_else(|| format!("server \"{server}\" is not in {}. Run `dogu sync`.", source.describe()))?;
 
     let secs = std::env::var("DOGU_TIMEOUT").ok().and_then(|s| s.parse().ok()).unwrap_or(300);
     let mut options = Options::new(Duration::from_secs(secs));
@@ -252,8 +248,11 @@ fn help(tool: &str, schema: &Value) -> String {
             usage.push_str(&format!(" [--{k} <{t}>]"));
         }
     }
-    out.push_str(&format!("Usage:\n{usage}\n  ./{name} '{{\"name\": \"value\"}}'     (same parameters as JSON)\n"));
-    out.push_str(&format!("  ... | ./{name} -                  (JSON from a pipe)\n\n"));
+    let json_line = format!("  ./{name} '{}'", json_example(&keys, &required, props).replace('\'', "'\\''"));
+    let pipe_line = format!("  ... | ./{name} -");
+    let width = json_line.chars().count().max(pipe_line.chars().count()) + 5;
+    out.push_str(&format!("Usage:\n{usage}\n{json_line:width$}(same parameters as JSON)\n"));
+    out.push_str(&format!("{pipe_line:width$}(JSON from a pipe)\n\n"));
 
     if keys.is_empty() {
         out.push_str("Parameters: none\n");
@@ -278,6 +277,33 @@ fn help(tool: &str, schema: &Value) -> String {
     out
 }
 
+/// A JSON example for --help, from the tool's own parameters: the required ones, or else the
+/// first one. Each value is the default, the first allowed value, or a stand-in of the right type.
+fn json_example(keys: &[&String], required: &[&str], props: &Map<String, Value>) -> String {
+    let required_keys: Vec<&&String> = keys.iter().filter(|k| required.contains(&k.as_str())).collect();
+    let shown = if required_keys.is_empty() { keys.iter().take(1).collect() } else { required_keys };
+    let pairs: Vec<String> =
+        shown.iter().map(|k| format!("{}: {}", Value::String(k.to_string()), example_value(&props[k.as_str()]))).collect();
+    format!("{{{}}}", pairs.join(", "))
+}
+
+fn example_value(p: &Value) -> Value {
+    if !p["default"].is_null() {
+        return p["default"].clone();
+    }
+    if let Some(first) = p["enum"].as_array().and_then(|o| o.first()) {
+        return first.clone();
+    }
+    match kind_of(p).as_str() {
+        "string" => json!("..."),
+        "integer" | "number" => json!(1),
+        "boolean" => json!(true),
+        "array" => json!([]),
+        "object" => json!({}),
+        _ => Value::Null,
+    }
+}
+
 /// A short, readable type: "string", "integer", "a|b|c", "list of string"...
 fn type_text(p: &Value) -> String {
     if let Some(options) = p["enum"].as_array() {
@@ -290,5 +316,87 @@ fn type_text(p: &Value) -> String {
         "object" => "json".into(),
         "" => "value".into(),
         other => other.to_string(),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn schema(input: Value) -> Value {
+        json!({ "name": "t", "description": "A tool.", "inputSchema": input })
+    }
+
+    #[test]
+    fn help_json_example_uses_the_real_required_parameters() {
+        let s = schema(json!({
+            "type": "object",
+            "properties": {
+                "verbose": { "type": "boolean" },
+                "path": { "type": "string" },
+                "count": { "type": "integer" }
+            },
+            "required": ["path", "count"]
+        }));
+
+        let text = help("read_it", &s);
+
+        assert!(text.contains(r#"./read_it '{"path": "...", "count": 1}'"#), "{text}");
+        assert!(!text.contains(r#""name": "value""#), "{text}");
+    }
+
+    #[test]
+    fn help_json_example_uses_the_first_parameter_when_none_is_required() {
+        let s = schema(json!({
+            "type": "object",
+            "properties": {
+                "orderBy": { "type": "string", "enum": ["createdAt", "updatedAt"] },
+                "limit": { "type": "number", "default": 50 }
+            }
+        }));
+
+        let text = help("list", &s);
+
+        assert!(text.contains(r#"./list '{"orderBy": "createdAt"}'"#), "{text}");
+    }
+
+    #[test]
+    fn help_json_example_fills_each_type_sensibly() {
+        let s = schema(json!({
+            "type": "object",
+            "properties": {
+                "a": { "type": "array", "items": { "type": "string" } },
+                "b": { "type": "boolean" },
+                "c": { "type": "object" },
+                "d": { "type": "string", "default": "x" }
+            },
+            "required": ["a", "b", "c", "d"]
+        }));
+
+        let text = help("t", &s);
+
+        assert!(text.contains(r#"'{"a": [], "b": true, "c": {}, "d": "x"}'"#), "{text}");
+    }
+
+    #[test]
+    fn help_json_example_is_an_empty_object_for_a_tool_with_no_parameters() {
+        let text = help("ping", &schema(json!({ "type": "object", "properties": {} })));
+
+        assert!(text.contains("./ping '{}'"), "{text}");
+    }
+
+    #[test]
+    fn help_usage_lines_stay_aligned() {
+        let s = schema(json!({
+            "type": "object",
+            "properties": { "path": { "type": "string" } },
+            "required": ["path"]
+        }));
+
+        let text = help("read_it", &s);
+        let json_line = text.lines().find(|l| l.contains("(same parameters as JSON)")).unwrap();
+        let pipe_line = text.lines().find(|l| l.contains("(JSON from a pipe)")).unwrap();
+
+        assert_eq!(json_line.find('('), pipe_line.find("(JSON"), "{text}");
     }
 }
