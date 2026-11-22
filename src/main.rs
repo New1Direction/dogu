@@ -12,6 +12,8 @@ mod config;
 mod conformance;
 mod forge;
 mod run;
+#[cfg(feature = "djs")]
+mod sandbox_djs;
 mod serve;
 mod sync;
 mod util;

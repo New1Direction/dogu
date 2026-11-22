@@ -16,6 +16,15 @@ ureq = "2"
 url = "2"
 sha2 = "0.10"
 getrandom = "0.2"
+# The djs JavaScript engine for the sandbox, instead of Deno: `cargo build --features djs`.
+# Pinned to a commit: djs-embed is not on crates.io (publish = false) and is 0.x.
+djs-embed = { git = "https://github.com/earendil-works/djs", rev = "9d001b472a934277779cdc55f4c9eb3d8c2aeb92", optional = true }
+
+[features]
+# The sandbox runs on djs by default, so Deno is not needed. Build with --no-default-features for
+# Deno only; with djs built in, DOGU_SANDBOX=deno still picks Deno.
+default = ["djs"]
+djs = ["dep:djs-embed"]
 
 [profile.release]
 opt-level = "s"

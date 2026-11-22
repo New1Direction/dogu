@@ -51,8 +51,24 @@ pub struct Outcome {
     pub stderr: String,
 }
 
-/// Run `code` in the sandbox. Each line it prints is handed to `out`.
+/// Run `code` in the sandbox. Each line it prints is handed to `out`. Built with the `djs`
+/// feature, the sandbox is djs unless `DOGU_SANDBOX=deno`; otherwise it is Deno.
 pub fn run_program(
+    opts: &Options,
+    code: &str,
+    pool: &mut Pool,
+    collect_stderr: bool,
+    out: &mut dyn FnMut(&str),
+) -> Result<Outcome, String> {
+    #[cfg(feature = "djs")]
+    if std::env::var("DOGU_SANDBOX").as_deref() != Ok("deno") {
+        return crate::sandbox_djs::run_program(opts, code, pool, collect_stderr, out);
+    }
+    run_program_deno(opts, code, pool, collect_stderr, out)
+}
+
+/// The sandbox on Deno, with every permission off.
+fn run_program_deno(
     opts: &Options,
     code: &str,
     pool: &mut Pool,
@@ -162,7 +178,7 @@ pub fn run_program(
 }
 
 /// Handle one `tools.<app>.<tool>(args)` from the program.
-fn tool_call(
+pub(crate) fn tool_call(
     opts: &Options,
     servers: &BTreeMap<String, Server>,
     pool: &mut Pool,
@@ -239,7 +255,7 @@ pub fn ident(name: &str) -> String {
 
 /// Finds the real server and tool names for the names a program used.
 #[derive(Default)]
-struct Names {
+pub(crate) struct Names {
     tools: HashMap<String, Vec<String>>,
 }
 

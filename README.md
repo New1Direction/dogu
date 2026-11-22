@@ -180,7 +180,7 @@ EOF
 - Each app folder has an `index.d.ts`. The agent reads it before it writes.
 - Calls to one server reuse one connection, so only the first is slow.
 
-This needs [Deno](https://deno.com) (`brew install deno`). Deno is the sandbox.
+The sandbox is [djs](https://github.com/earendil-works/djs), a JavaScript and TypeScript engine written in Rust and built into dogu, so there is nothing else to install. `DOGU_SANDBOX=deno` runs programs in [Deno](https://deno.com) instead, with every permission off.
 
 | Limit | Default | Change with |
 |---|---|---|
@@ -262,7 +262,7 @@ dogu sync --all-tools     # bring the rest back
 
 ## What the sandbox protects, and what it does not
 
-A program run by `dogu run` or `run_code` has every Deno permission switched off. `tests/escape.ts` tries 17 ways out. All 17 are blocked:
+A program run by `dogu run` or `run_code` runs in djs, which has no file, network, environment or process APIs at all: its only way out is calling your tools. Each run has a memory limit and a deadline it cannot catch. `tests/escape.ts` tries 17 ways out. All 17 are blocked, in djs and in Deno:
 
 | Blocked | |
 |---|---|
@@ -276,7 +276,18 @@ The limits of that protection:
 
 - **It does not make your tools safe.** If a tool can delete files or send email, a program can call it. Use `--allow` to give a program only the tools the job needs.
 - **It only matters if the agent has no other way out.** An agent with a shell can skip the sandbox. For the full benefit, give the agent `dogu serve` and no shell.
-- **It is Deno's permission system, not a virtual machine.** Deno maintains it as a security boundary, but a bug in Deno would be a bug here.
+- **It is a JavaScript engine, not a virtual machine.** djs is young; a bug in it would be a bug here. Deno, with `DOGU_SANDBOX=deno`, is the older, more tested choice.
+
+How the two engines compare on the same dogu binary (median of 20 runs, `bench/sandbox_speed.py`):
+
+| Program | Deno | djs |
+|---|---|---|
+| `console.log(1)` | 14.7 ms | **2.3 ms** |
+| 10 tool calls to a local server | 34.2 ms | **21.0 ms** |
+| JSON: build, parse and filter 20,000 items (1.3 MB) | **23.2 ms** | 26.5 ms |
+| A 2,000,000-step loop | **16.9 ms** | 31.5 ms |
+
+djs starts fast and has no JIT, so programs that call tools and filter their results are faster, and long pure-computation loops are slower.
 
 Every tool call is recorded in `~/mcp/.dogu/log.jsonl`: the time, the tool, whether it worked, how long it took. Parameters and results are not recorded.
 
@@ -354,7 +365,7 @@ The usual `mcp.json`:
 
 ## How it is built
 
-About 3,400 lines of Rust and JavaScript, with five dependencies and no async runtime.
+About 4,200 lines of Rust and JavaScript, with six dependencies and no async runtime.
 
 | File | Job |
 |---|---|
@@ -364,6 +375,7 @@ About 3,400 lines of Rust and JavaScript, with five dependencies and no async ru
 | `src/sync.rs` | Write the folder: the commands, the READMEs, the TypeScript types |
 | `src/call.rs` | Run one tool from the command line |
 | `src/run.rs` | Start the sandbox and answer the program's tool calls |
+| `src/sandbox_djs.rs` | Run programs in djs, the built-in JavaScript engine |
 | `src/runner.js` | The only trusted code inside the sandbox |
 | `src/serve.rs` | Be an MCP server with `search` and `run_code` |
 
@@ -373,7 +385,7 @@ About 3,400 lines of Rust and JavaScript, with five dependencies and no async ru
 2. Resources as plain read-only files in each app's folder.
 3. A Homebrew formula.
 4. Windows.
-5. Exploring: run programs without installing Deno, with an embedded JavaScript engine.
+
 
 Issues and pull requests are welcome. The most useful report right now is "I ran it against server X and this happened".
 

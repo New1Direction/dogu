@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- The sandbox runs on djs, a JavaScript and TypeScript engine in Rust built into dogu, so Deno is no longer needed. It blocks the same 17 escapes, starts 6 times faster and runs programs that call tools about 1.6 times faster; long computation loops are about 2 times slower. `DOGU_SANDBOX=deno` still uses Deno.
+
 ### Added
 
 - The README and `--help` show what each tool may change, as its server says: `[read-only]`, `[changes things]` or `[may delete or overwrite]`.

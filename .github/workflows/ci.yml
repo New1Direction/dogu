@@ -39,8 +39,10 @@ jobs:
         run: cargo test --locked
       - name: Release build
         run: cargo build --release --locked
-      - name: Sandbox escape test
+      - name: Sandbox escape test (djs)
         run: sh tests/escape.sh
+      - name: Sandbox escape test (Deno)
+        run: DOGU_SANDBOX=deno sh tests/escape.sh
       - name: Benchmark harness tests
         run: deno test bench/bench_test.ts
 
