@@ -134,6 +134,8 @@ const codexArgs = (prompt: string, cwd: string, extra: ReadonlyArray<string>) =>
     ? []
     : ["-c", `sandbox_workspace_write.writable_roots=[${JSON.stringify(`${Deno.env.get("HOME")}/.npm`)}]`]),
   ...(CODEX_MODEL ? ["-m", CODEX_MODEL] : []),
+  // CODEX_FAST=1: Codex's fast mode, OpenAI's priority processing. It uses more of your plan.
+  ...(Deno.env.get("CODEX_FAST") === "1" ? ["-c", 'service_tier="fast"'] : []),
   "-C", cwd, ...extra, prompt,
 ];
 

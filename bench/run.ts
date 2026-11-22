@@ -5,7 +5,7 @@
 // Needs: claude (logged in), gh (logged in), dogu, Node (for the local memory server) and Deno.
 // Settings: BENCH_REPS (3), BENCH_CONCURRENCY (3), BENCH_MODEL (sonnet), BENCH_SUITE (all, tuning or heldout),
 // BENCH_TASKS and BENCH_SETUPS (all, comma lists), BENCH_OUT (a name for the results files instead of the date),
-// BENCH_DRY=1 (fetch and print the right answers, run no agents).
+// BENCH_DRY=1 (fetch and print the right answers, run no agents), CODEX_FAST=1 (Codex's fast mode).
 
 import { Console, Data, Effect, Result } from "npm:effect@4.1.5";
 import { runAgent, runCommand } from "./claude.ts";
