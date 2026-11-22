@@ -1,0 +1,294 @@
+//! `dogu call` — run one tool. This is what every stub script ends up calling.
+
+use crate::client::{Client, Options};
+use crate::config;
+use crate::sync::{safe, saved_era, schema_path};
+use serde_json::{json, Map, Value};
+use std::io::Read;
+use std::path::Path;
+use std::time::Duration;
+
+pub fn run(root: &Path, server: &str, tool: &str, args: &[String]) -> Result<i32, String> {
+    // The schema was saved by `sync`, so --help and argument checks need no network.
+    let schema: Value = std::fs::read_to_string(schema_path(root, server, tool))
+        .ok()
+        .and_then(|t| serde_json::from_str(&t).ok())
+        .unwrap_or(Value::Null);
+
+    if args.iter().any(|a| a == "--help" || a == "-h") {
+        print!("{}", help(tool, &schema));
+        return Ok(0);
+    }
+    let raw = args.iter().any(|a| a == "--raw");
+    let args: Vec<&String> = args.iter().filter(|a| *a != "--raw").collect();
+
+    let input = &schema["inputSchema"];
+    let arguments = parse_args(&args, input).map_err(|e| format!("{e}\nRun with --help to see the parameters."))?;
+
+    // Catch missing parameters here: it is faster and the message is clearer.
+    if let Some(required) = input["required"].as_array() {
+        let missing: Vec<String> = required
+            .iter()
+            .filter_map(Value::as_str)
+            .filter(|k| arguments.get(*k).is_none())
+            .map(|k| format!("--{k}"))
+            .collect();
+        if !missing.is_empty() {
+            return Err(format!("missing {}\nRun with --help to see the parameters.", missing.join(", ")));
+        }
+    }
+
+    // Find the server in the config and call it.
+    let state: Value = std::fs::read_to_string(root.join(".dogu/state.json"))
+        .ok()
+        .and_then(|t| serde_json::from_str(&t).ok())
+        .unwrap_or(Value::Null);
+    let config_path = config::find(state["config"].as_str())?;
+    let servers = config::load(&config_path)?;
+    let spec = servers
+        .get(server)
+        .ok_or_else(|| format!("server \"{server}\" is not in {}. Run `dogu sync`.", config_path.display()))?;
+
+    let secs = std::env::var("DOGU_TIMEOUT").ok().and_then(|s| s.parse().ok()).unwrap_or(300);
+    let mut options = Options::new(Duration::from_secs(secs));
+    options.era = saved_era(root, server);
+    let mut client = Client::connect(spec, &options)?;
+    let started = std::time::Instant::now();
+    let result = client.call_tool(tool, Value::Object(arguments), Some(input));
+    log_call(root, "call", server, tool, matches!(&result, Ok(r) if r["isError"] != true), started);
+    let result = result?;
+
+    if raw {
+        println!("{}", serde_json::to_string_pretty(&result).unwrap());
+    } else {
+        print_result(&result);
+    }
+    Ok(if result["isError"].as_bool() == Some(true) { 1 } else { 0 })
+}
+
+/// Turn command-line words into the tool's arguments. Three ways to pass them:
+///   --name value ...     flags
+///   '{"name": "value"}'  one JSON object
+///   -                    one JSON object from stdin
+fn parse_args(args: &[&String], input: &Value) -> Result<Map<String, Value>, String> {
+    if args.is_empty() {
+        return Ok(Map::new());
+    }
+    let first = args[0].as_str();
+    if first == "-" || first.trim_start().starts_with('{') {
+        let text = if first == "-" {
+            let mut s = String::new();
+            std::io::stdin().read_to_string(&mut s).map_err(|e| e.to_string())?;
+            s
+        } else {
+            first.to_string()
+        };
+        return match serde_json::from_str(&text) {
+            Ok(Value::Object(m)) => Ok(m),
+            Ok(_) => Err("the JSON input must be an object: {\"name\": \"value\"}".into()),
+            Err(e) => Err(format!("the JSON input is not valid: {e}")),
+        };
+    }
+
+    let props = input["properties"].as_object();
+    let open = input["additionalProperties"].as_bool() == Some(true) || props.map_or(true, |p| p.is_empty());
+    let mut out = Map::new();
+    let mut i = 0;
+    while i < args.len() {
+        let word = args[i].as_str();
+        let Some(flag) = word.strip_prefix("--") else {
+            return Err(format!("did not expect `{word}`. Pass parameters as --name value."));
+        };
+        i += 1;
+        // --name=value or --name value
+        let (key, mut value) = match flag.split_once('=') {
+            Some((k, v)) => (k.to_string(), Some(v.to_string())),
+            None => (flag.to_string(), None),
+        };
+        let prop = props.and_then(|p| p.get(&key));
+        if prop.is_none() && !open {
+            let known: Vec<String> = props.unwrap().keys().map(|k| format!("--{k}")).collect();
+            return Err(format!("unknown parameter --{key}. This tool takes: {}", known.join(", ")));
+        }
+        let kind = prop.map(kind_of).unwrap_or_default();
+        if value.is_none() {
+            let next = args.get(i).map(|s| s.as_str());
+            if kind == "boolean" && !matches!(next, Some("true") | Some("false")) {
+                value = Some("true".into()); // a bare --flag means true
+            } else if let Some(n) = next {
+                value = Some(n.to_string());
+                i += 1;
+            } else {
+                return Err(format!("--{key} needs a value"));
+            }
+        }
+        let value = value.unwrap();
+
+        if kind == "array" {
+            // --tag a --tag b   or   --tag '["a","b"]'
+            let item_kind = prop.map(|p| kind_of(&p["items"])).unwrap_or_default();
+            let list = out.entry(key.clone()).or_insert_with(|| json!([]));
+            match serde_json::from_str::<Value>(&value) {
+                Ok(Value::Array(items)) => list.as_array_mut().unwrap().extend(items),
+                _ => list.as_array_mut().unwrap().push(convert(&key, &value, &item_kind)?),
+            }
+        } else {
+            out.insert(key.clone(), convert(&key, &value, &kind)?);
+        }
+    }
+    Ok(out)
+}
+
+/// The JSON type a schema asks for: "string", "integer", "array"... or "" if it does not say.
+fn kind_of(schema: &Value) -> String {
+    match &schema["type"] {
+        Value::String(s) => s.clone(),
+        Value::Array(list) => {
+            list.iter().filter_map(Value::as_str).find(|t| *t != "null").unwrap_or("").to_string()
+        }
+        _ => String::new(),
+    }
+}
+
+fn convert(key: &str, text: &str, kind: &str) -> Result<Value, String> {
+    match kind {
+        "string" => Ok(json!(text)),
+        "integer" => text.parse::<i64>().map(|n| json!(n)).map_err(|_| format!("--{key} must be a whole number")),
+        "number" => text.parse::<f64>().map(|n| json!(n)).map_err(|_| format!("--{key} must be a number")),
+        "boolean" => text.parse::<bool>().map(|b| json!(b)).map_err(|_| format!("--{key} must be true or false")),
+        "object" => serde_json::from_str(text).map_err(|_| format!("--{key} must be JSON")),
+        // The schema does not say. Use JSON if it parses, text if not.
+        _ => Ok(serde_json::from_str(text).unwrap_or_else(|_| json!(text))),
+    }
+}
+
+fn print_result(result: &Value) {
+    let text = result_text(result);
+    if result["isError"].as_bool() == Some(true) {
+        eprintln!("{text}");
+    } else if !text.is_empty() || result["content"].as_array().map_or(false, |c| !c.is_empty()) {
+        println!("{text}");
+    }
+}
+
+/// The answer from a tool as plain text.
+pub fn result_text(result: &Value) -> String {
+    let blocks = result["content"].as_array().cloned().unwrap_or_default();
+    if blocks.is_empty() && !result["structuredContent"].is_null() {
+        return serde_json::to_string_pretty(&result["structuredContent"]).unwrap();
+    }
+    let mut parts = Vec::new();
+    for block in &blocks {
+        parts.push(match block["type"].as_str() {
+            Some("text") => block["text"].as_str().unwrap_or("").to_string(),
+            // Pictures and sound go to a file. We say where it is.
+            Some(kind @ ("image" | "audio")) => match save_media(block) {
+                Ok(path) => format!("[{kind} saved to {path}]"),
+                Err(e) => format!("[{kind} could not be saved: {e}]"),
+            },
+            Some("resource") => match block["resource"]["text"].as_str() {
+                Some(text) => text.to_string(),
+                None => format!("[resource {}]", block["resource"]["uri"].as_str().unwrap_or("?")),
+            },
+            Some("resource_link") => format!("[link {}]", block["uri"].as_str().unwrap_or("?")),
+            _ => block.to_string(),
+        });
+    }
+    parts.join("\n")
+}
+
+/// Keep a record of every tool call: when, which tool, did it work, how long it took.
+/// Parameters and results are not recorded, because they can hold private data.
+pub fn log_call(root: &Path, mode: &str, server: &str, tool: &str, ok: bool, started: std::time::Instant) {
+    use std::io::Write;
+    let when = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map(|d| d.as_secs()).unwrap_or(0);
+    let line = json!({ "time": when, "mode": mode, "server": server, "tool": tool, "ok": ok,
+                       "ms": started.elapsed().as_millis() as u64 });
+    if let Ok(mut f) = std::fs::OpenOptions::new().create(true).append(true).open(root.join(".dogu/log.jsonl")) {
+        let _ = writeln!(f, "{line}");
+    }
+}
+
+fn save_media(block: &Value) -> Result<String, String> {
+    let bytes = crate::util::base64_decode(block["data"].as_str().ok_or("no data")?)?;
+    let mime = block["mimeType"].as_str().unwrap_or("");
+    let ext = safe(mime.rsplit('/').next().filter(|e| !e.is_empty()).unwrap_or("bin"));
+    let stamp = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_nanos())
+        .unwrap_or(0);
+    let path = std::env::temp_dir().join(format!("dogu-{stamp}.{ext}"));
+    std::fs::write(&path, bytes).map_err(|e| e.to_string())?;
+    Ok(path.display().to_string())
+}
+
+/// The --help text, made from the saved schema.
+fn help(tool: &str, schema: &Value) -> String {
+    if schema.is_null() {
+        return format!("{tool}\n\nNo saved description for this tool. Run `dogu sync` first.\n");
+    }
+    let name = safe(tool);
+    let mut out = format!("{name}\n\n");
+    if let Some(d) = schema["description"].as_str() {
+        out.push_str(d.trim());
+        out.push_str("\n\n");
+    }
+
+    let input = &schema["inputSchema"];
+    let required: Vec<&str> =
+        input["required"].as_array().map(|a| a.iter().filter_map(Value::as_str).collect()).unwrap_or_default();
+    let empty = Map::new();
+    let props = input["properties"].as_object().unwrap_or(&empty);
+    // Required parameters first.
+    let mut keys: Vec<&String> = props.keys().collect();
+    keys.sort_by_key(|k| !required.contains(&k.as_str()));
+
+    let mut usage = format!("  ./{name}");
+    for k in &keys {
+        let t = type_text(&props[*k]);
+        if required.contains(&k.as_str()) {
+            usage.push_str(&format!(" --{k} <{t}>"));
+        } else {
+            usage.push_str(&format!(" [--{k} <{t}>]"));
+        }
+    }
+    out.push_str(&format!("Usage:\n{usage}\n  ./{name} '{{\"name\": \"value\"}}'     (same parameters as JSON)\n"));
+    out.push_str(&format!("  ... | ./{name} -                  (JSON from a pipe)\n\n"));
+
+    if keys.is_empty() {
+        out.push_str("Parameters: none\n");
+    } else {
+        out.push_str("Parameters:\n");
+        let width = keys.iter().map(|k| k.len()).max().unwrap_or(0);
+        for k in &keys {
+            let p = &props[*k];
+            let mut line = format!("  --{k:width$}  {}", type_text(p));
+            line.push_str(if required.contains(&k.as_str()) { ", required" } else { ", optional" });
+            if !p["default"].is_null() {
+                line.push_str(&format!(", default {}", p["default"]));
+            }
+            if let Some(d) = p["description"].as_str() {
+                line.push_str(&format!("\n  {:width$}      {}", "", d.trim().replace('\n', " ")));
+            }
+            out.push_str(&line);
+            out.push('\n');
+        }
+    }
+    out.push_str("\nAdd --raw to print the full JSON answer from the server.\n");
+    out
+}
+
+/// A short, readable type: "string", "integer", "a|b|c", "list of string"...
+fn type_text(p: &Value) -> String {
+    if let Some(options) = p["enum"].as_array() {
+        let list: Vec<String> =
+            options.iter().map(|o| o.as_str().map(String::from).unwrap_or_else(|| o.to_string())).collect();
+        return list.join("|");
+    }
+    match kind_of(p).as_str() {
+        "array" => format!("list of {}", type_text(&p["items"])),
+        "object" => "json".into(),
+        "" => "value".into(),
+        other => other.to_string(),
+    }
+}

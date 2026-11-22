@@ -1,0 +1,324 @@
+//! Code mode: `dogu run program.ts`.
+//!
+//! The program runs in Deno with every permission switched off: no files, no network,
+//! no environment, no other programs. Its only way out is `tools.<app>.<tool>(...)`,
+//! which sends the call down a pipe to us. We check it, run it through the same MCP
+//! client folder mode uses, and send the answer back.
+
+use crate::call::{log_call, result_text};
+use crate::client::{Client, Options as ConnectOptions};
+use crate::config::{self, Server};
+use crate::sync::{safe, saved_era, schema_path};
+use crate::util::base64;
+use serde_json::{json, Value};
+use std::collections::{BTreeMap, HashMap};
+use std::io::{BufRead, BufReader, Read, Write};
+use std::path::{Path, PathBuf};
+use std::process::{Command, Stdio};
+use std::sync::mpsc::{self, RecvTimeoutError};
+use std::time::{Duration, Instant};
+
+const RUNNER: &str = include_str!("runner.js");
+
+pub struct Options {
+    pub root: PathBuf,
+    /// Which tools the program may call: "github", "files/read_*". Empty means all.
+    pub allow: Vec<String>,
+    pub timeout: Duration,
+    pub memory_mb: u32,
+    pub max_output: usize,
+}
+
+impl Options {
+    pub fn new(root: PathBuf) -> Options {
+        let env = |name: &str, default: u64| std::env::var(name).ok().and_then(|s| s.parse().ok()).unwrap_or(default);
+        Options {
+            root,
+            allow: Vec::new(),
+            timeout: Duration::from_secs(env("DOGU_TIMEOUT", 120)),
+            memory_mb: env("DOGU_MEMORY_MB", 256) as u32,
+            max_output: env("DOGU_MAX_OUTPUT", 1_000_000) as usize,
+        }
+    }
+}
+
+/// Open connections to servers, kept so a program's second call to a server is fast.
+pub type Pool = HashMap<String, Client>;
+
+pub struct Outcome {
+    pub code: i32,
+    /// What the program wrote to stderr, if we were asked to collect it.
+    pub stderr: String,
+}
+
+/// Run `code` in the sandbox. Each line it prints is handed to `out`.
+pub fn run_program(
+    opts: &Options,
+    code: &str,
+    pool: &mut Pool,
+    collect_stderr: bool,
+    out: &mut dyn FnMut(&str),
+) -> Result<Outcome, String> {
+    let state: Value = std::fs::read_to_string(opts.root.join(".dogu/state.json"))
+        .ok()
+        .and_then(|t| serde_json::from_str(&t).ok())
+        .ok_or_else(|| format!("{} is not an dogu folder. Run `dogu sync` first.", opts.root.display()))?;
+    let servers = config::load(&config::find(state["config"].as_str())?)?;
+    let deno = find_deno()?;
+
+    // Put the program inside the runner and save it to a temp file for Deno.
+    let file = TempFile::new(&RUNNER.replace("__PROGRAM__", &base64(code.as_bytes())))?;
+    let mut child = Command::new(&deno)
+        .args(["run", "--no-prompt", "--no-config", "--no-lock", "--no-npm", "--no-remote", "--deny-import"])
+        .arg(format!("--v8-flags=--max-old-space-size={}", opts.memory_mb))
+        .arg(&file.0)
+        .env_clear() // the program gets none of our environment (it could not read it anyway)
+        .env("HOME", config::home())
+        .env("NO_COLOR", "1")
+        .env("DENO_NO_UPDATE_CHECK", "1")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(if collect_stderr { Stdio::piped() } else { Stdio::inherit() })
+        .spawn()
+        .map_err(|e| format!("cannot start Deno: {e}"))?;
+    let mut to_program = child.stdin.take().unwrap();
+    let from_program = child.stdout.take().unwrap();
+
+    // Helper threads read the program's output so the main loop can wait with a timeout.
+    let (tx, lines) = mpsc::channel::<String>();
+    std::thread::spawn(move || {
+        let mut reader = BufReader::new(from_program);
+        let mut buf = Vec::new();
+        while matches!(reader.read_until(b'\n', &mut buf), Ok(n) if n > 0) {
+            if buf.last() == Some(&b'\n') {
+                buf.pop();
+            }
+            if tx.send(String::from_utf8_lossy(&buf).into_owned()).is_err() {
+                break;
+            }
+            buf.clear();
+        }
+    });
+    let stderr_thread = child.stderr.take().map(|mut e| {
+        std::thread::spawn(move || {
+            let mut text = String::new();
+            let _ = e.read_to_string(&mut text);
+            text
+        })
+    });
+
+    let deadline = Instant::now() + opts.timeout;
+    let mut names = Names::default();
+    let mut printed = 0;
+    let mut timed_out = false;
+    loop {
+        let line = match lines.recv_timeout(deadline.saturating_duration_since(Instant::now())) {
+            Ok(line) => line,
+            Err(RecvTimeoutError::Disconnected) => break, // the program ended
+            Err(RecvTimeoutError::Timeout) => {
+                timed_out = true;
+                let _ = child.kill();
+                break;
+            }
+        };
+        match line.strip_prefix('\x01') {
+            // A tool call.
+            Some(text) => {
+                let Ok(msg) = serde_json::from_str::<Value>(text) else { continue };
+                let reply = match tool_call(opts, &servers, pool, &mut names, &msg) {
+                    Ok(result) => json!({ "id": msg["id"], "result": result }),
+                    Err(e) => json!({ "id": msg["id"], "error": e }),
+                };
+                let _ = writeln!(to_program, "{reply}"); // fails only if the program is gone
+            }
+            // Something the program printed.
+            None => {
+                if printed <= opts.max_output {
+                    printed += line.len() + 1;
+                    out(&line);
+                    if printed > opts.max_output {
+                        out(&format!("[output cut after {} bytes. Print less: filter or summarize in the program.]", opts.max_output));
+                    }
+                }
+            }
+        }
+    }
+
+    drop(to_program);
+    let status = child.wait().map_err(|e| e.to_string())?;
+    let mut stderr = stderr_thread.and_then(|t| t.join().ok()).unwrap_or_default();
+    let mut note = |text: String| if collect_stderr { stderr.push_str(&text) } else { eprintln!("{text}") };
+    let code = if timed_out {
+        note(format!("error: the program was stopped after {} seconds", opts.timeout.as_secs()));
+        124
+    } else {
+        match status.code() {
+            Some(code) => code,
+            None => {
+                note(format!("error: the program crashed. It may have used more than {} MB of memory.", opts.memory_mb));
+                1
+            }
+        }
+    };
+    Ok(Outcome { code, stderr })
+}
+
+/// Handle one `tools.<app>.<tool>(args)` from the program.
+fn tool_call(
+    opts: &Options,
+    servers: &BTreeMap<String, Server>,
+    pool: &mut Pool,
+    names: &mut Names,
+    msg: &Value,
+) -> Result<Value, String> {
+    let args = match &msg["args"] {
+        Value::Null => json!({}),
+        Value::Object(_) => msg["args"].clone(),
+        _ => return Err("pass the parameters as one object: tools.app.tool({ name: value })".into()),
+    };
+    let (server, tool) = names.resolve(
+        &opts.root,
+        servers,
+        msg["server"].as_str().unwrap_or(""),
+        msg["tool"].as_str().unwrap_or(""),
+    )?;
+    if !opts.allow.is_empty() && !opts.allow.iter().any(|p| allows(p, &server, &tool)) {
+        return Err(format!("{server}/{tool} is not allowed in this run (allowed: {})", opts.allow.join(", ")));
+    }
+
+    if !pool.contains_key(&server) {
+        let mut options = ConnectOptions::new(opts.timeout);
+        options.era = saved_era(&opts.root, &server);
+        pool.insert(server.clone(), Client::connect(&servers[&server], &options)?);
+    }
+    let schema: Option<Value> = std::fs::read_to_string(schema_path(&opts.root, &server, &tool))
+        .ok()
+        .and_then(|t| serde_json::from_str(&t).ok());
+    let started = Instant::now();
+    let result =
+        pool.get_mut(&server).unwrap().call_tool(&tool, args, schema.as_ref().map(|s| &s["inputSchema"]));
+    log_call(&opts.root, "run", &server, &tool, matches!(&result, Ok(r) if r["isError"] != true), started);
+    let result = match result {
+        Ok(r) => r,
+        Err(e) => {
+            pool.remove(&server); // the connection may be broken; start fresh next time
+            return Err(e);
+        }
+    };
+
+    // Give the program the most useful form of the answer.
+    if result["isError"].as_bool() == Some(true) {
+        return Err(result_text(&result));
+    }
+    if !result["structuredContent"].is_null() {
+        return Ok(result["structuredContent"].clone());
+    }
+    let text = result_text(&result);
+    Ok(serde_json::from_str(&text).unwrap_or(Value::String(text)))
+}
+
+/// A name that is safe to write after a dot in code: `get-sum` becomes `get_sum`.
+pub fn ident(name: &str) -> String {
+    let s: String = name.chars().map(|c| if c.is_ascii_alphanumeric() || c == '_' || c == '$' { c } else { '_' }).collect();
+    if s.is_empty() || s.starts_with(|c: char| c.is_ascii_digit()) {
+        format!("_{s}")
+    } else {
+        s
+    }
+}
+
+/// Finds the real server and tool names for the names a program used.
+#[derive(Default)]
+struct Names {
+    tools: HashMap<String, Vec<String>>,
+}
+
+impl Names {
+    fn resolve(
+        &mut self,
+        root: &Path,
+        servers: &BTreeMap<String, Server>,
+        server: &str,
+        tool: &str,
+    ) -> Result<(String, String), String> {
+        let server = servers
+            .keys()
+            .find(|k| *k == server)
+            .or_else(|| servers.keys().find(|k| ident(k) == server))
+            .ok_or_else(|| {
+                let known: Vec<String> = servers.keys().map(|k| ident(k)).collect();
+                format!("there is no tools.{server}. There is: {}", known.join(", "))
+            })?
+            .clone();
+        let known = self.tools.entry(server.clone()).or_insert_with(|| {
+            let dir = root.join(".dogu/schemas").join(safe(&server));
+            let mut list = Vec::new();
+            for entry in std::fs::read_dir(dir).into_iter().flatten().flatten() {
+                let schema: Option<Value> =
+                    std::fs::read_to_string(entry.path()).ok().and_then(|t| serde_json::from_str(&t).ok());
+                if let Some(name) = schema.as_ref().and_then(|s| s["name"].as_str()) {
+                    list.push(name.to_string());
+                }
+            }
+            list
+        });
+        let found = known.iter().find(|k| *k == tool).or_else(|| known.iter().find(|k| ident(k) == tool));
+        match found {
+            Some(name) => Ok((server, name.clone())),
+            None => Err(format!(
+                "there is no tools.{}.{tool}. Read {}/{}/index.d.ts for the list.",
+                ident(&server),
+                root.display(),
+                safe(&server)
+            )),
+        }
+    }
+}
+
+/// Does the pattern allow this tool? "github" allows all of github; "*" matches anything.
+fn allows(pattern: &str, server: &str, tool: &str) -> bool {
+    if pattern.contains('/') {
+        glob(pattern.as_bytes(), format!("{server}/{tool}").as_bytes())
+    } else {
+        glob(pattern.as_bytes(), server.as_bytes())
+    }
+}
+
+fn glob(pattern: &[u8], text: &[u8]) -> bool {
+    match pattern.split_first() {
+        None => text.is_empty(),
+        Some((b'*', rest)) => (0..=text.len()).any(|i| glob(rest, &text[i..])),
+        Some((c, rest)) => text.first() == Some(c) && glob(rest, &text[1..]),
+    }
+}
+
+fn find_deno() -> Result<PathBuf, String> {
+    if let Some(p) = std::env::var("DOGU_DENO").ok().filter(|p| !p.is_empty()) {
+        return Ok(PathBuf::from(p));
+    }
+    let mut dirs: Vec<PathBuf> = std::env::split_paths(&std::env::var_os("PATH").unwrap_or_default()).collect();
+    dirs.push(config::home().join(".deno/bin"));
+    dirs.iter().map(|d| d.join("deno")).find(|p| p.is_file()).ok_or_else(|| {
+        "code mode needs Deno, which is the sandbox. Install it (`brew install deno`, or see https://deno.com) \
+         and try again."
+            .to_string()
+    })
+}
+
+/// A temp file that is deleted when we are done with it.
+struct TempFile(PathBuf);
+
+impl TempFile {
+    fn new(text: &str) -> Result<TempFile, String> {
+        let stamp = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map(|d| d.as_nanos()).unwrap_or(0);
+        let path = std::env::temp_dir().join(format!("dogu-run-{}-{stamp}.js", std::process::id()));
+        std::fs::write(&path, text).map_err(|e| format!("cannot write {}: {e}", path.display()))?;
+        Ok(TempFile(path))
+    }
+}
+
+impl Drop for TempFile {
+    fn drop(&mut self) {
+        let _ = std::fs::remove_file(&self.0);
+    }
+}

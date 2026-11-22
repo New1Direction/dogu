@@ -1,0 +1,18 @@
+[package]
+name = "dogu"
+version = "0.2.0"
+edition = "2021"
+description = "Your MCP tools as a folder of commands, and as a sandboxed code API"
+license = "MIT"
+
+[dependencies]
+serde_json = { version = "1", features = ["preserve_order"] }
+ureq = "2"
+url = "2"
+sha2 = "0.10"
+getrandom = "0.2"
+
+[profile.release]
+opt-level = "s"
+lto = true
+strip = true
