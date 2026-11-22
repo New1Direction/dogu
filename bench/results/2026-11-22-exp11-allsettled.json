@@ -1,0 +1,2773 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.7.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "dd41b25",
+  "dirty": false,
+  "answers": {
+    "oven-tags": [
+      "bun-v1.4.5",
+      "v2.2.0",
+      "|",
+      "awesome-bun",
+      "homebrew-bun",
+      "bun-dependencies"
+    ],
+    "encode-tags": [
+      "3.18.3",
+      "0.28.1",
+      "0.9.0",
+      "0.3.1",
+      "|",
+      "apistar"
+    ],
+    "vite-tags": [
+      "v8.3.8",
+      "v0.8.3",
+      "plugin-react@6.3.0",
+      "v3.8.1",
+      "|",
+      "awesome-vite"
+    ],
+    "encode-newest": [
+      "django-rest-framework"
+    ],
+    "mixed-tags": [
+      "bun-v1.4.5",
+      "v8.3.8",
+      "0.17.6",
+      "axum-v0.8.9",
+      "|",
+      "apistar"
+    ]
+  },
+  "records": [
+    {
+      "setup": "direct",
+      "task": "oven-tags",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 oven-sh repos by stars, with the tag of each latest release:\n- **oven-sh/bun** (96,829★): `bun-v1.4.5`\n- **oven-sh/setup-bun** (735★): `v2.2.0`\n- **oven-sh/awesome-bun** (3,685★): no release\n- **oven-sh/homebrew-bun** (177★): no release\n- **oven-sh/bun-dependencies** (32★): no release",
+        "turns": 7,
+        "seconds": 7.153,
+        "costUsd": 0.0390256,
+        "firstTurnTokens": 27231,
+        "totalInputTokens": 85966,
+        "outputTokens": 202,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5984,
+          "cacheRead": 79976
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:oven-sh\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"awesome-bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"setup-bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"homebrew-bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun-dependencies\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.249971540999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3929979590000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7305104580000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.941768500000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.17614958299999817
+          },
+          {
+            "kind": "model",
+            "seconds": 0.15589025000000056
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.09662295900000029
+          },
+          {
+            "kind": "model",
+            "seconds": 0.2002121249999984
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7376887910000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7010012500000018
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "oven-tags",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 oven-sh repos by stars, with their latest release tag:\n- oven-sh/bun (96,829★): `bun-v1.4.5`\n- oven-sh/awesome-bun (3,685★): no release\n- oven-sh/setup-bun (735★): `v2.2.0`\n- oven-sh/homebrew-bun (177★): no release\n- oven-sh/bun-dependencies (32★): no release\n\nThe three repos with no release each returned a 404 from the latest-release endpoint.",
+        "turns": 2,
+        "seconds": 5.918,
+        "costUsd": 0.012798299999999999,
+        "firstTurnTokens": 6625,
+        "totalInputTokens": 13904,
+        "outputTokens": 192,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1677,
+          "cacheRead": 12223
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:oven-sh\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconst items = (r.items ?? r.repositories ?? JSON.parse(r.content?.[0]?.text ?? \\\"{}\\\").item"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2764209169999995
+          },
+          {
+            "kind": "model",
+            "seconds": 2.6518947499999994
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.8738799580000016
+          },
+          {
+            "kind": "model",
+            "seconds": 1.374862166999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "oven-tags",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The five most-starred repos in oven-sh, with the tag of each one's latest release:\n- **oven-sh/bun** (96,829 stars): `bun-v1.4.5`\n- **oven-sh/setup-bun** (735 stars): `v2.2.0`\n- **oven-sh/awesome-bun** (3,685 stars): no release (the API returned 404)\n- **oven-sh/homebrew-bun** (177 stars): no release (404)\n- **oven-sh/bun-dependencies** (32 stars): no release (404)",
+        "turns": 4,
+        "seconds": 8.639,
+        "costUsd": 0.021556500000000003,
+        "firstTurnTokens": 6785,
+        "totalInputTokens": 32251,
+        "outputTokens": 263,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3058,
+          "cacheRead": 29185
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:oven-sh\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const n=[\\\"bun\\\",\\\"awesome-bun\\\",\\\"setup-bun\\\",\\\"homebrew-bun\\\",\\\"bun-dependencies\\\"];\\nconst rs=await Promise.allSettled(n.map(repo=>tools.github.get_latest_release({owner:\\\"oven-sh\\\",repo})));\\nrs.forEach((r,",
+          "mcp__tools__run_code {\"code\":\"for(const n of [\\\"bun\\\",\\\"setup-bun\\\"]){const r=await tools.github.get_latest_release({owner:\\\"oven-sh\\\",repo:n});console.log(n,r.tag_name,r.name)}\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2791262080000015
+          },
+          {
+            "kind": "model",
+            "seconds": 1.295791333000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6824269170000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5796909170000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.164642165999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2635980840000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0836985409999977
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5501749170000014
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "encode-tags",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 encode repos by stars, with the tag of each latest release:\n- **django-rest-framework** (30,254 stars): 3.18.3\n- **httpx** (15,838 stars): 0.28.1\n- **apistar** (5,535 stars): no release. The latest-release lookup returned 404.\n- **databases** (3,984 stars): 0.9.0\n- **orm** (1,853 stars): 0.3.1\n\nOnly apistar has no release.",
+        "turns": 4,
+        "seconds": 13.194,
+        "costUsd": 0.021688600000000002,
+        "firstTurnTokens": 6623,
+        "totalInputTokens": 30793,
+        "outputTokens": 187,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2819,
+          "cacheRead": 27966
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:30});\\nconsole.log(r.items.map(i=>i.name+\\\" \\\"+i.stargazers_count).join(\\\"\\\\n\\\"), r.total_count);\"",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"django-rest-framework\\\",\\\"httpx\\\",\\\"apistar\\\",\\\"databases\\\",\\\"orm\\\"]) {\\n try { const r = await tools.github.get_latest_release({owner:\\\"encode\\\",repo:n}); console.log(n, r.tag_name ?? JSON.s"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24537850000000253
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9371140829999967
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7419998750000012
+          },
+          {
+            "kind": "model",
+            "seconds": 2.318982458999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9783983330000012
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0828547079999984
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.2942218750000034
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8236310000000007
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "encode-tags",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 encode repos by stars, with the tag of each latest release:\n- encode/django-rest-framework (30,254★): 3.18.3\n- encode/httpx (15,838★): 0.28.1\n- encode/apistar (5,535★): **no release**, because the latest-release lookup returned a 404.\n- encode/databases (3,984★): 0.9.0\n- encode/orm (1,853★): 0.3.1\n\nOnly apistar has no release. The repo search returned 16 encode repos, and starlette and uvicorn weren't among them. If they're missing from the search index, the true top 5 could differ.",
+        "turns": 4,
+        "seconds": 13.443,
+        "costUsd": 0.0228704,
+        "firstTurnTokens": 6784,
+        "totalInputTokens": 31524,
+        "outputTokens": 240,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2852,
+          "cacheRead": 28664
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"user:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:8});\\nconsole.log(JSON.stringify(r.items.map(i=>[i.full_name,i.stargazers_count]), null, 0), r.to",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"django-rest-framework\\\",\\\"httpx\\\",\\\"apistar\\\",\\\"databases\\\",\\\"orm\\\"]) {\\n try{const r=await tools.github.get_latest_release({owner:\\\"encode\\\",repo:n});console.log(n,r.tag_name??JSON.stringify"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2404435420000009
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4447659160000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7052367919999998
+          },
+          {
+            "kind": "model",
+            "seconds": 2.886337249999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.2788162080000038
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8166470839999969
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.1532515830000047
+          },
+          {
+            "kind": "model",
+            "seconds": 2.1416623749999992
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "encode-tags",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 most-starred repos in the encode org, with the tag of each latest release:\n- **django-rest-framework** (30,254★): 3.18.3\n- **httpx** (15,838★): 0.28.1\n- **apistar** (5,535★): no release. The releases API returned 404.\n- **databases** (3,984★): 0.9.0\n- **orm** (1,853★): 0.3.1\n\nOnly apistar has no release. The search showed apistar, databases and orm as archived.",
+        "turns": 7,
+        "seconds": 7.777,
+        "costUsd": 0.0392369,
+        "firstTurnTokens": 27228,
+        "totalInputTokens": 85781,
+        "outputTokens": 190,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5966,
+          "cacheRead": 79809
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:encode\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"django-rest-framework\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"httpx\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"apistar\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"databases\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"orm\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1951500410000009
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4153957499999994
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7259082500000007
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0617742499999987
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3626855839999985
+          },
+          {
+            "kind": "model",
+            "seconds": 0.0016487910000000383
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2370783340000049
+          },
+          {
+            "kind": "model",
+            "seconds": 0.29906437499999505
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.834388624999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8194620000000077
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "vite-tags",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 vitejs repos by stars, with the tag of each latest release:\n- **vite** (84,043★): `v8.3.8`\n- **awesome-vite** (17,302★): no release. The latest-release lookup returned an error, which I took to mean none exists.\n- **devtools** (1,216★): `v0.8.3`\n- **vite-plugin-react** (1,186★): `plugin-react@6.3.0`\n- **vite-plugin-react-swc** (959★, archived): `v3.8.1`\n\nOnly awesome-vite has no release.",
+        "turns": 4,
+        "seconds": 11.884,
+        "costUsd": 0.0214464,
+        "firstTurnTokens": 6786,
+        "totalInputTokens": 32051,
+        "outputTokens": 268,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2999,
+          "cacheRead": 29044
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:vitejs\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(typeof r===\\\"string\\\"? r.slice(0,3000): JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"vite\\\",\\\"awesome-vite\\\",\\\"devtools\\\",\\\"vite-plugin-react\\\",\\\"vite-plugin-react-swc\\\"]) {\\ntry{const r=await tools.github.get_latest_release({owner:\\\"vitejs\\\",repo:n});console.log(n,JSON.strin",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"vite\\\",\\\"devtools\\\",\\\"vite-plugin-react\\\",\\\"vite-plugin-react-swc\\\"]) {\\nconst r=await tools.github.get_latest_release({owner:\\\"vitejs\\\",repo:n});console.log(n,r.tag_name,r.name);}\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2426229999999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2809738750000033
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6507445840000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4402753749999975
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.1866189579999986
+          },
+          {
+            "kind": "model",
+            "seconds": 1.157808500000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.471045207999995
+          },
+          {
+            "kind": "model",
+            "seconds": 1.680413417000004
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "vite-tags",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 vitejs repos by stars, with the tag of each latest release:\n- **vite** (84,043★): `v8.3.8`\n- **awesome-vite** (17,302★): no release (the API returned 404)\n- **devtools** (1,216★): `v0.8.3`\n- **vite-plugin-react** (1,186★): `plugin-react@6.3.0`\n- **vite-plugin-react-swc** (959★): `v3.8.1` (this repo is archived)\n\nOnly awesome-vite has no release.",
+        "turns": 7,
+        "seconds": 6.793,
+        "costUsd": 0.04779,
+        "firstTurnTokens": 27230,
+        "totalInputTokens": 88082,
+        "outputTokens": 221,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 8136,
+          "cacheRead": 79940
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:vitejs\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"vite\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"awesome-vite\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"devtools\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"vite-plugin-react\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"vite-plugin-react-swc\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.187922000000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3419741660000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6486539999999947
+          },
+          {
+            "kind": "model",
+            "seconds": 1.520370292
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.30018283299999826
+          },
+          {
+            "kind": "model",
+            "seconds": 0.10820629200000287
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2868928749999977
+          },
+          {
+            "kind": "model",
+            "seconds": 0.2761120830000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3395889590000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9514161250000033
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "vite-tags",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 vitejs repos by stars (run 94faa65f), with the tag of each latest release:\n- **vite** (84,043 stars): `v8.3.8`\n- **awesome-vite** (17,302 stars): no release (GitHub returned 404)\n- **devtools** (1,216 stars): `v0.8.3`\n- **vite-plugin-react** (1,186 stars): `plugin-react@6.3.0`\n- **vite-plugin-react-swc** (959 stars, archived): `v3.8.1`\n\nOnly awesome-vite has no release.",
+        "turns": 3,
+        "seconds": 8.388,
+        "costUsd": 0.0169953,
+        "firstTurnTokens": 6626,
+        "totalInputTokens": 22564,
+        "outputTokens": 244,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2525,
+          "cacheRead": 20033
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:vitejs\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"vite\\\",\\\"awesome-vite\\\",\\\"devtools\\\",\\\"vite-plugin-react\\\",\\\"vite-plugin-react-swc\\\"]) {\\ntry{const r:any=await tools.github.get_latest_release({owner:\\\"vitejs\\\",repo:n});console.log(n,r.tag_"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24107466700000077
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3907869999999967
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6553141660000035
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3968511669999937
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.2441032499999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6818021250000017
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "encode-newest",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "django-rest-framework\nIts latest release is 3.18.3, published 2026-10-06.\nThe other four top-5 repos by stars were published earlier or never:\n- httpx: 2024-12-06\n- databases: 2024-03-01\n- orm: 2021-11-29\n- apistar: no releases\n\nThe search only returned these five. Starlette and uvicorn didn't show up in the org search, and a direct search for starlette failed.",
+        "turns": 9,
+        "seconds": 10.92,
+        "costUsd": 0.0505917,
+        "firstTurnTokens": 27219,
+        "totalInputTokens": 116556,
+        "outputTokens": 179,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 7231,
+          "cacheRead": 109317
+        },
+        "toolCalls": 8,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:encode\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__search_repositories {\"query\":\"user:encode stars:>3000\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":10}",
+          "mcp__github__search_repositories {\"query\":\"starlette repo:encode/starlette\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"django-rest-framework\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"httpx\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"apistar\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"databases\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"orm\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1931323750000011
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5170413750000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6120349589999967
+          },
+          {
+            "kind": "model",
+            "seconds": 2.6380620000000055
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4804324579999957
+          },
+          {
+            "kind": "model",
+            "seconds": 2.557437292000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.07735391599999986
+          },
+          {
+            "kind": "model",
+            "seconds": 0.4899067920000011
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7394559579999989
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7919324589999963
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "encode-newest",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "django-rest-framework\n\nIts latest release is 3.18.3, published 2026-10-06. I ranked the org's repos by stars and took the top 5: django-rest-framework, httpx, apistar, databases and orm. apistar has no releases. The other releases were published 2024-12-06 (httpx 0.28.1), 2024-03-01 (databases 0.9.0) and 2021-11-29 (orm 0.3.1).",
+        "turns": 3,
+        "seconds": 8.713,
+        "costUsd": 0.019524700000000002,
+        "firstTurnTokens": 6616,
+        "totalInputTokens": 23429,
+        "outputTokens": 171,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2936,
+          "cacheRead": 20487
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:encode\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:5});\\nconst items=(r.items??JSON.parse(r.content?.[0]?.text??\\\"{}\\\").items??r);\\nconsole.log(JSON.strin",
+          "mcp__tools__run_code {\"code\":\"for(const n of [\\\"django-rest-framework\\\",\\\"httpx\\\",\\\"databases\\\",\\\"orm\\\"]){const x:any=await tools.github.get_latest_release({owner:\\\"encode\\\",repo:n});console.log(n,x.tag_name,x.published_at)}\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24100612499999988
+          },
+          {
+            "kind": "model",
+            "seconds": 2.3278967919999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.5161373749999982
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5297085409999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.8066563749999993
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5151123750000037
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "encode-newest",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "django-rest-framework\n\nIt's the most recent by a wide margin. Its latest release is 3.18.3, while httpx's is 0.28.1 from 6 December 2024. I didn't pull DRF's exact publish date, and I didn't compare the dates for databases and orm. Their latest releases look older, but I only skimmed them.\n\nThe 5 most-starred encode repos are django-rest-framework, httpx, apistar, databases and orm. apistar has no releases. Starlette and uvicorn aren't in the search results, so I think they have moved out of the org.",
+        "turns": 3,
+        "seconds": 12.318,
+        "costUsd": 0.020984500000000003,
+        "firstTurnTokens": 6777,
+        "totalInputTokens": 23390,
+        "outputTokens": 41,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3019,
+          "cacheRead": 20365
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"django-rest-framework\\\",\\\"httpx\\\",\\\"apistar\\\",\\\"databases\\\",\\\"orm\\\"]) {\\ntry{const r = await tools.github.get_latest_release({owner:\\\"encode\\\",repo:n});console.log(n,JSON.stringify(r).slice(0"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23343841699999757
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3934222080000036
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7835769169999984
+          },
+          {
+            "kind": "model",
+            "seconds": 2.6252155829999975
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.6300718340000024
+          },
+          {
+            "kind": "model",
+            "seconds": 4.868616833
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "mixed-tags",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run 5ecb9ff2):\n- **oven-sh/bun:** `bun-v1.4.5`\n- **vitejs/vite:** `v8.3.8`\n- **astral-sh/ruff:** `0.17.6`\n- **tokio-rs/axum:** `axum-v0.8.9`\n- **encode/apistar:** no release. The latest-release lookup returned 404.",
+        "turns": 2,
+        "seconds": 4.481,
+        "costUsd": 0.0107147,
+        "firstTurnTokens": 6649,
+        "totalInputTokens": 13664,
+        "outputTokens": 161,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1413,
+          "cacheRead": 12247
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"vitejs\\\",\\\"vite\\\"],[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"tokio-rs\\\",\\\"axum\\\"],[\\\"encode\\\",\\\"apistar\\\"]];\\nconst r=await Promise.all(repos.map(async([owner,repo])=>{try{const x:any=aw"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2319244159999944
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9293775840000016
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.1703680410000015
+          },
+          {
+            "kind": "model",
+            "seconds": 1.367353499999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "mixed-tags",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags:\n- **oven-sh/bun:** `bun-v1.4.5`\n- **vitejs/vite:** `v8.3.8`\n- **astral-sh/ruff:** `0.17.6`\n- **tokio-rs/axum:** `axum-v0.8.9`\n- **encode/apistar:** no release. The API returned 404 for its latest release.",
+        "turns": 3,
+        "seconds": 7.249,
+        "costUsd": 0.016981000000000003,
+        "firstTurnTokens": 6805,
+        "totalInputTokens": 22960,
+        "outputTokens": 188,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2424,
+          "cacheRead": 20530
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"vitejs\\\",\\\"vite\\\"],[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"tokio-rs\\\",\\\"axum\\\"],[\\\"encode\\\",\\\"apistar\\\"]];\\nconst rs=await Promise.allSettled(repos.map(([owner,repo])=>tools.github.get",
+          "mcp__tools__run_code {\"code\":\"const repos=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"vitejs\\\",\\\"vite\\\"],[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"tokio-rs\\\",\\\"axum\\\"]];\\nfor(const [owner,repo] of repos){const r=await tools.github.get_latest_release({owner,repo});console."
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22757004099999903
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7802829589999964
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0535386660000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4254067920000084
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.750829416999987
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2230005830000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "mixed-tags",
+      "suite": "heldout8",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run d415467c):\n- **oven-sh/bun:** `bun-v1.4.5`\n- **vitejs/vite:** `v8.3.8`\n- **astral-sh/ruff:** `0.17.6`\n- **tokio-rs/axum:** `axum-v0.8.9`\n- **encode/apistar:** no release. The API returned 404 for its latest release.",
+        "turns": 6,
+        "seconds": 6.952,
+        "costUsd": 0.0536677,
+        "firstTurnTokens": 27247,
+        "totalInputTokens": 62225,
+        "outputTokens": 29,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 10684,
+          "cacheRead": 51537
+        },
+        "toolCalls": 5,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"vite\"}",
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"ruff\"}",
+          "mcp__github__get_latest_release {\"owner\":\"tokio-rs\",\"repo\":\"axum\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"apistar\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2430092909999948
+          },
+          {
+            "kind": "model",
+            "seconds": 3.3588287920000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.06805158300000791
+          },
+          {
+            "kind": "model",
+            "seconds": 0.5593185839999926
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2615457080000052
+          },
+          {
+            "kind": "model",
+            "seconds": 0.00033062500000280437
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6913430829999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9941189999999915
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "oven-tags",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 oven-sh repos by stars, with the tag of each latest release:\n- **oven-sh/bun** (96,829 stars): `bun-v1.4.5`\n- **oven-sh/setup-bun** (735 stars): `v2.2.0`\n- **No release:** awesome-bun (3,685 stars), homebrew-bun (177 stars) and bun-dependencies (32 stars). The latest-release lookup returned 404 for each of them.",
+        "turns": 4,
+        "seconds": 8.193,
+        "costUsd": 0.021315100000000003,
+        "firstTurnTokens": 6787,
+        "totalInputTokens": 32259,
+        "outputTokens": 238,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3060,
+          "cacheRead": 29191
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:oven-sh\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const n=[\\\"bun\\\",\\\"awesome-bun\\\",\\\"setup-bun\\\",\\\"homebrew-bun\\\",\\\"bun-dependencies\\\"];\\nconst rs=await Promise.allSettled(n.map(repo=>tools.github.get_latest_release({owner:\\\"oven-sh\\\",repo})));\\nrs.forEach((r,",
+          "mcp__tools__run_code {\"code\":\"for(const repo of [\\\"bun\\\",\\\"setup-bun\\\"]){const r=await tools.github.get_latest_release({owner:\\\"oven-sh\\\",repo});console.log(repo,r.tag_name,r.name)}\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2269727500000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2027054999999964
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6943994999999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5547952920000099
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0506251669999909
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1702430410000089
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.040453041999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4634037079999986
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "oven-tags",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 oven-sh repos by stars, with the tag of each latest release:\n- **oven-sh/bun** (96,829★): `bun-v1.4.5`\n- **oven-sh/setup-bun** (735★): `v2.2.0`\n- **oven-sh/awesome-bun** (3,685★): no release\n- **oven-sh/homebrew-bun** (177★): no release\n- **oven-sh/bun-dependencies** (32★): no release\n\nBy stars, awesome-bun is second, ahead of setup-bun. The three without a release returned 404 from the latest-release endpoint.",
+        "turns": 7,
+        "seconds": 7.334,
+        "costUsd": 0.039471400000000004,
+        "firstTurnTokens": 27230,
+        "totalInputTokens": 85963,
+        "outputTokens": 247,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5983,
+          "cacheRead": 79974
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:oven-sh\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"awesome-bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"setup-bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"homebrew-bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun-dependencies\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2158489580000023
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4188623339999906
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.709399541000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5713397919999985
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.06340750000000117
+          },
+          {
+            "kind": "model",
+            "seconds": 0.642978625000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.16024695799998856
+          },
+          {
+            "kind": "model",
+            "seconds": 0.12969887500000166
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5256344999999998
+          },
+          {
+            "kind": "model",
+            "seconds": 2.095928667000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "oven-tags",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 oven-sh repos by stars, with the tag of each latest release:\n- **bun** (96,829★): `bun-v1.4.5`\n- **setup-bun** (735★): `v2.2.0`\n- **awesome-bun** (3,685★): no release\n- **homebrew-bun** (177★): no release\n- **bun-dependencies** (32★): no release\n\nThe three \"no release\" results are 404s from the latest-release endpoint. That means they have no published GitHub releases. I didn't check whether they have tags.",
+        "turns": 3,
+        "seconds": 8.831,
+        "costUsd": 0.0176107,
+        "firstTurnTokens": 6626,
+        "totalInputTokens": 22761,
+        "outputTokens": 220,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2688,
+          "cacheRead": 20067
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:oven-sh\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"bun\\\",\\\"awesome-bun\\\",\\\"setup-bun\\\",\\\"homebrew-bun\\\",\\\"bun-dependencies\\\"]) {\\n try{const r=await tools.github.get_latest_release({owner:\\\"oven-sh\\\",repo:n});console.log(n,r.tag_name??JSON.st"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24296950000000653
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4605310829999945
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6244390830000046
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6934349169999918
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.03446708300001
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0031067919999925
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "encode-tags",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 encode repos by stars, with the tag of each one's latest release:\n- encode/django-rest-framework (30,254★): `3.18.3`\n- encode/httpx (15,838★): `0.28.1`\n- encode/apistar (5,535★): no release (the latest-release lookup returned 404)\n- encode/databases (3,984★): `0.9.0`\n- encode/orm (1,853★): `0.3.1`\n\nOnly apistar has no release. The search returned 16 repos for the org, but I didn't look at the other 11. I also didn't check whether any repo has tags without a GitHub release.",
+        "turns": 7,
+        "seconds": 8.098,
+        "costUsd": 0.0405947,
+        "firstTurnTokens": 27227,
+        "totalInputTokens": 85846,
+        "outputTokens": 230,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 6033,
+          "cacheRead": 79807
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:encode\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"django-rest-framework\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"httpx\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"apistar\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"databases\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"orm\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2648722500000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3009054170000018
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6920409999999975
+          },
+          {
+            "kind": "model",
+            "seconds": 2.5570079580000016
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.014195334000003612
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6053896660000033
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.07156070899999722
+          },
+          {
+            "kind": "model",
+            "seconds": 0.16244229099999963
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4506861249999927
+          },
+          {
+            "kind": "model",
+            "seconds": 2.224043375000008
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "encode-tags",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 encode repos by stars, with the tag of each latest release:\n- django-rest-framework: 3.18.3\n- httpx: 0.28.1\n- apistar: no release (the latest-release lookup failed)\n- databases: 0.9.0\n- orm: 0.3.1\n\nOnly apistar has no release.",
+        "turns": 3,
+        "seconds": 9.266,
+        "costUsd": 0.018896100000000002,
+        "firstTurnTokens": 6625,
+        "totalInputTokens": 22836,
+        "outputTokens": 174,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2649,
+          "cacheRead": 20181
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconst items = (r.items ?? JSON.parse(r.content?.[0]?.text ?? \\\"{}\\\").items ?? r);\\nconsole.l",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(r.items.map((i:any)=>i.name+\\\" \\\"+i.stargazers_count).join(\\\", \\\"));\\nfor (const"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23532554099999833
+          },
+          {
+            "kind": "model",
+            "seconds": 2.681135917000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.668309374999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9027196669999977
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.4350650410000094
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5638025839999896
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "encode-tags",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 encode repos by stars, with the tag of each latest release:\n- encode/django-rest-framework (30,254★): 3.18.3\n- encode/httpx (15,838★): 0.28.1\n- encode/databases (3,984★): 0.9.0\n- encode/orm (1,853★): 0.3.1\n- encode/apistar (5,535★): **no release**. The API returned 404 for its latest release.\n\nBy stars the order is DRF, httpx, apistar, databases, orm. Starlette and uvicorn didn't appear in the search results, so I couldn't rank them.",
+        "turns": 4,
+        "seconds": 11.493,
+        "costUsd": 0.021927099999999998,
+        "firstTurnTokens": 6784,
+        "totalInputTokens": 31313,
+        "outputTokens": 236,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2754,
+          "cacheRead": 28551
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"user:encode stars:>1500\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:10});\\nconsole.log(JSON.stringify(r.items.map(i=>[i.full_name,i.stargazers_count])));",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"django-rest-framework\\\",\\\"httpx\\\",\\\"apistar\\\",\\\"databases\\\",\\\"orm\\\"]) {\\n try { const r = await tools.github.get_latest_release({owner:\\\"encode\\\",repo:n}); console.log(n, r.tag_name ?? JSON.s"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24347870800000965
+          },
+          {
+            "kind": "model",
+            "seconds": 1.249451874999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6380354169999918
+          },
+          {
+            "kind": "model",
+            "seconds": 2.317727083000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7149175419999958
+          },
+          {
+            "kind": "model",
+            "seconds": 1.717007666000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.0009172919999987
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8384120830000015
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "vite-tags",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags for the 5 most-starred vitejs repos:\n- vite (84,043★): `v8.3.8`\n- awesome-vite (17,302★): no release (the API returned 404)\n- devtools (1,216★): `v0.8.3`\n- vite-plugin-react (1,186★): `plugin-react@6.3.0`\n- vite-plugin-react-swc (959★, archived): `v3.8.1`\n\nOnly awesome-vite has no release.",
+        "turns": 3,
+        "seconds": 7.327,
+        "costUsd": 0.016931300000000003,
+        "firstTurnTokens": 6626,
+        "totalInputTokens": 22583,
+        "outputTokens": 203,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2544,
+          "cacheRead": 20033
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:vitejs\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"vite\\\",\\\"awesome-vite\\\",\\\"devtools\\\",\\\"vite-plugin-react\\\",\\\"vite-plugin-react-swc\\\"]) {\\n try { const r = await tools.github.get_latest_release({owner:\\\"vitejs\\\",repo:n}); console.log(n, r.t"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2411195000000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1528082920000013
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6034354999999925
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5354312910000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.530047917000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4854974170000066
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "vite-tags",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 vitejs repos by stars, with the tag of each latest release:\n- vitejs/vite (84,043 stars): v8.3.8\n- vitejs/awesome-vite (17,302 stars): no release (the latest-release lookup returned 404)\n- vitejs/devtools (1,216 stars): v0.8.3\n- vitejs/vite-plugin-react (1,186 stars): plugin-react@6.3.0\n- vitejs/vite-plugin-react-swc (959 stars, archived): v3.8.1\n\nOnly awesome-vite has no release.",
+        "turns": 3,
+        "seconds": 8.405,
+        "costUsd": 0.0173706,
+        "firstTurnTokens": 6784,
+        "totalInputTokens": 23059,
+        "outputTokens": 243,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2547,
+          "cacheRead": 20506
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:vitejs\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"vite\\\",\\\"awesome-vite\\\",\\\"devtools\\\",\\\"vite-plugin-react\\\",\\\"vite-plugin-react-swc\\\"]) {\\n try { const r = await tools.github.get_latest_release({owner:\\\"vitejs\\\",repo:n}); console.log(n, r.t"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22251070899999467
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4048635409999988
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7030790000000124
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8015662919999889
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.630435375000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8502476670000032
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "vite-tags",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 vitejs repos by stars, with the tag of each latest release:\n\n- **vitejs/vite** (84,043★): `v8.3.8`\n- **vitejs/awesome-vite** (17,302★): no release (the API returned 404)\n- **vitejs/devtools** (1,216★): `v0.8.3`\n- **vitejs/vite-plugin-react** (1,186★): `plugin-react@6.3.0`\n- **vitejs/vite-plugin-react-swc** (959★, archived): `v3.8.1`\n\nOnly awesome-vite has no release.",
+        "turns": 7,
+        "seconds": 7.117,
+        "costUsd": 0.04799,
+        "firstTurnTokens": 27230,
+        "totalInputTokens": 88082,
+        "outputTokens": 241,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 8136,
+          "cacheRead": 79940
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:vitejs\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"vite\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"awesome-vite\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"devtools\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"vite-plugin-react\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"vite-plugin-react-swc\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2310907920000027
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3662232499999953
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5999536249999946
+          },
+          {
+            "kind": "model",
+            "seconds": 1.146533625000011
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3178261659999988
+          },
+          {
+            "kind": "model",
+            "seconds": 0.37976608400000256
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.35417816599999785
+          },
+          {
+            "kind": "model",
+            "seconds": 0.2979600419999917
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6030593330000116
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0315990419999874
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "encode-newest",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "django-rest-framework\n\nIts latest release is 3.18.3, published 2026-10-06. Among the top 5 by stars, the next most recent is httpx 0.28.1 (2024-12-06). apistar has no published release. Starlette and uvicorn didn't appear in the org's star-ranked search results, so I left them out.",
+        "turns": 4,
+        "seconds": 13.172,
+        "costUsd": 0.0259593,
+        "firstTurnTokens": 6774,
+        "totalInputTokens": 33315,
+        "outputTokens": 201,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3734,
+          "cacheRead": 29573
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:12});\\nconsole.log(r.items.map(i=>i.name+\\\" \\\"+i.stargazers_count).join(\\\"\\\\n\\\"));\\nconst names=[\\",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"django-rest-framework\\\",\\\"httpx\\\",\\\"databases\\\",\\\"orm\\\"]){const r=await tools.github.get_latest_release({owner:\\\"encode\\\",repo:n});console.log(n,r.published_at,r.tag_name,r.created_at)}\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2373233340000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5911809579999971
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6488782080000093
+          },
+          {
+            "kind": "model",
+            "seconds": 3.7647829170000042
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.8865958329999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6316010419999945
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.1286379999999916
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5061632500000126
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "encode-newest",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "django-rest-framework\n\nIts latest release is 3.18.3, published 2026-10-06. I checked the five most-starred repos in the encode org. The other four are older or have no release:\n- httpx: 0.28.1, published 2024-12-06.\n- databases: 0.9.0, published 2024-03-01.\n- orm: 0.3.1, published 2021-11-29.\n- apistar: no releases.",
+        "turns": 7,
+        "seconds": 8.834,
+        "costUsd": 0.0392107,
+        "firstTurnTokens": 27217,
+        "totalInputTokens": 85768,
+        "outputTokens": 160,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5975,
+          "cacheRead": 79787
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:encode\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"django-rest-framework\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"httpx\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"apistar\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"databases\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"orm\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2190167079999956
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0433779170000053
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7546059999999999
+          },
+          {
+            "kind": "model",
+            "seconds": 3.0920247919999966
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.26725274999999993
+          },
+          {
+            "kind": "model",
+            "seconds": 0.30316049999999795
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.68613283300001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6669739169999964
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "encode-newest",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "django-rest-framework\n\nIts latest release is 3.18.3, published 2026-10-06. That is the most recent of the five most-starred encode repos. The others were httpx (0.28.1, 2024-12-06), databases (0.9.0, 2024-03-01) and orm (0.3.1, 2021-11-29). apistar has no published release.",
+        "turns": 3,
+        "seconds": 9.192,
+        "costUsd": 0.0174608,
+        "firstTurnTokens": 6617,
+        "totalInputTokens": 22419,
+        "outputTokens": 141,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2525,
+          "cacheRead": 19888
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"django-rest-framework\\\",\\\"httpx\\\",\\\"apistar\\\",\\\"databases\\\",\\\"orm\\\"]) {\\ntry{const r:any=await tools.github.get_latest_release({owner:\\\"encode\\\",repo:n});console.log(n,r.tag_name,r.published_"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2647326250000042
+          },
+          {
+            "kind": "model",
+            "seconds": 1.470086666999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6149387080000017
+          },
+          {
+            "kind": "model",
+            "seconds": 3.021120666999995
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.611186792000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4567289999999922
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "mixed-tags",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "- oven-sh/bun: `bun-v1.4.5`\n- vitejs/vite: `v8.3.8`\n- astral-sh/ruff: `0.17.6`\n- tokio-rs/axum: `axum-v0.8.9`\n- encode/apistar: no release. The latest-release lookup returned 404.",
+        "turns": 6,
+        "seconds": 4.278,
+        "costUsd": 0.053064099999999996,
+        "firstTurnTokens": 27251,
+        "totalInputTokens": 62233,
+        "outputTokens": 132,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 10688,
+          "cacheRead": 51541
+        },
+        "toolCalls": 5,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"vite\"}",
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"ruff\"}",
+          "mcp__github__get_latest_release {\"owner\":\"tokio-rs\",\"repo\":\"axum\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"apistar\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.3001514580000075
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5394241250000051
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.31356454199999284
+          },
+          {
+            "kind": "model",
+            "seconds": 0.0167539160000012
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.14697991700000435
+          },
+          {
+            "kind": "model",
+            "seconds": 0.4234228329999894
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4898137500000015
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3336317500000003
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "mixed-tags",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags:\n- **oven-sh/bun**: `bun-v1.4.5`\n- **vitejs/vite**: `v8.3.8`\n- **astral-sh/ruff**: `0.17.6`\n- **tokio-rs/axum**: `axum-v0.8.9`\n- **encode/apistar**: no release. The API returned 404.",
+        "turns": 3,
+        "seconds": 7.874,
+        "costUsd": 0.0157033,
+        "firstTurnTokens": 6646,
+        "totalInputTokens": 21920,
+        "outputTokens": 177,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2141,
+          "cacheRead": 19773
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"vitejs\\\",\\\"vite\\\"],[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"tokio-rs\\\",\\\"axum\\\"],[\\\"encode\\\",\\\"apistar\\\"]];\\nconst r=await Promise.all(repos.map(async([owner,repo])=>{try{const x=await ",
+          "mcp__tools__run_code {\"code\":\"for(const [owner,repo] of [[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"vitejs\\\",\\\"vite\\\"],[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"tokio-rs\\\",\\\"axum\\\"]]){const x:any=await tools.github.get_latest_release({owner,repo});console.log(repo,x.tag_n"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24191774999999324
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7077138750000014
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.857542625000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3697968330000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.9884606670000062
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9358129169999891
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "mixed-tags",
+      "suite": "heldout8",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run f9bf5464):\n- oven-sh/bun: `bun-v1.4.5`\n- vitejs/vite: `v8.3.8`\n- astral-sh/ruff: `0.17.6`\n- tokio-rs/axum: `axum-v0.8.9`\n- encode/apistar: no release. The latest-release lookup returned 404.",
+        "turns": 3,
+        "seconds": 6.557,
+        "costUsd": 0.017463,
+        "firstTurnTokens": 6805,
+        "totalInputTokens": 23013,
+        "outputTokens": 187,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2477,
+          "cacheRead": 20530
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"vitejs\\\",\\\"vite\\\"],[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"tokio-rs\\\",\\\"axum\\\"],[\\\"encode\\\",\\\"apistar\\\"]];\\nconst rs=await Promise.allSettled(repos.map(([owner,repo])=>tools.github.get",
+          "mcp__tools__run_code {\"code\":\"const repos=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"vitejs\\\",\\\"vite\\\"],[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"tokio-rs\\\",\\\"axum\\\"]];\\nconst rs=await Promise.all(repos.map(([owner,repo])=>tools.github.get_latest_release({owner,repo})));"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22942295799999557
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9644126249999971
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9904910000000093
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4752849169999966
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8252828329999904
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2858275
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "oven-tags",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 oven-sh repos by stars, with the tag of each latest release:\n- **bun** (96,829★): `bun-v1.4.5`\n- **setup-bun** (735★): `v2.2.0`\n- **awesome-bun** (3,685★): no release\n- **homebrew-bun** (177★): no release\n- **bun-dependencies** (32★): no release\n\nThe three with no release returned a 404 from the latest-release endpoint. I didn't check whether they have tags.",
+        "turns": 3,
+        "seconds": 9.393,
+        "costUsd": 0.0174611,
+        "firstTurnTokens": 6628,
+        "totalInputTokens": 22765,
+        "outputTokens": 207,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2688,
+          "cacheRead": 20071
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:oven-sh\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"bun\\\",\\\"awesome-bun\\\",\\\"setup-bun\\\",\\\"homebrew-bun\\\",\\\"bun-dependencies\\\"]) {\\ntry{const r=await tools.github.get_latest_release({owner:\\\"oven-sh\\\",repo:n});console.log(n,r.tag_name??JSON.str"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2350442919999914
+          },
+          {
+            "kind": "model",
+            "seconds": 2.9444217910000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6950075000000071
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5269335419999988
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.681775416999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.529135624999995
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "oven-tags",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 oven-sh repos by stars, with the tag of each latest release:\n- **oven-sh/bun** (96,829★): `bun-v1.4.5`\n- **oven-sh/setup-bun** (735★): `v2.2.0`\n- **oven-sh/awesome-bun** (3,685★): no release\n- **oven-sh/homebrew-bun** (177★): no release\n- **oven-sh/bun-dependencies** (32★): no release\n\nThe three \"no release\" results come from the latest-release lookup returning an error. The error text was cut off, so I assumed it meant there was no release and didn't check further.",
+        "turns": 3,
+        "seconds": 9.966,
+        "costUsd": 0.0175062,
+        "firstTurnTokens": 6785,
+        "totalInputTokens": 23153,
+        "outputTokens": 256,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2605,
+          "cacheRead": 20542
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.search_repositories({query:\\\"org:oven-sh\\\",sort:\\\"stars\\\",order:\\\"desc\\\",perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for(const n of [\\\"bun\\\",\\\"awesome-bun\\\",\\\"setup-bun\\\",\\\"homebrew-bun\\\",\\\"bun-dependencies\\\"]){\\ntry{const r:any=await tools.github.get_latest_release({owner:\\\"oven-sh\\\",repo:n});console.log(n,r.tag_name)}catch("
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23549870900000677
+          },
+          {
+            "kind": "model",
+            "seconds": 1.287729707999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6492095419999968
+          },
+          {
+            "kind": "model",
+            "seconds": 1.446761832999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.3719205000000074
+          },
+          {
+            "kind": "model",
+            "seconds": 4.195898166999992
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "oven-tags",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 oven-sh repos by stars, with the tag of each latest release:\n- **bun** (96,829★): `bun-v1.4.5`\n- **setup-bun** (735★): `v2.2.0`\n- **awesome-bun** (3,685★): no release\n- **homebrew-bun** (177★): no release\n- **bun-dependencies** (32★): no release\n\nThe three with no release returned 404 from the latest-release endpoint.",
+        "turns": 7,
+        "seconds": 6.676,
+        "costUsd": 0.0389372,
+        "firstTurnTokens": 27229,
+        "totalInputTokens": 85960,
+        "outputTokens": 194,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5982,
+          "cacheRead": 79972
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:oven-sh\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"awesome-bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"setup-bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"homebrew-bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun-dependencies\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.274980792000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3597128329999977
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6450110829999907
+          },
+          {
+            "kind": "model",
+            "seconds": 1.560154875000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.08595920899999321
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6161067500000064
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.07685799999999343
+          },
+          {
+            "kind": "model",
+            "seconds": 0.21457770800001175
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.44899833299999603
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6437872919999936
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "encode-tags",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 encode repos by stars, with the tag of each one's latest release:\n- **django-rest-framework** (30,254 stars): 3.18.3\n- **httpx** (15,838 stars): 0.28.1\n- **apistar** (5,535 stars): no release (the API returned 404)\n- **databases** (3,984 stars): 0.9.0\n- **orm** (1,853 stars): 0.3.1\n\nOnly apistar has no release.",
+        "turns": 4,
+        "seconds": 12.869,
+        "costUsd": 0.0227154,
+        "firstTurnTokens": 6783,
+        "totalInputTokens": 32516,
+        "outputTokens": 208,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3274,
+          "cacheRead": 29234
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const n=[\\\"django-rest-framework\\\",\\\"httpx\\\",\\\"apistar\\\",\\\"databases\\\",\\\"orm\\\"];\\nconst rs=await Promise.allSettled(n.map(repo=>tools.github.get_latest_release({owner:\\\"encode\\\",repo})));\\nrs.forEach((r,i)=>con",
+          "mcp__tools__run_code {\"code\":\"const n=[\\\"django-rest-framework\\\",\\\"httpx\\\",\\\"databases\\\",\\\"orm\\\"];\\nfor(const repo of n){const r=await tools.github.get_latest_release({owner:\\\"encode\\\",repo});console.log(repo,r?.tag_name);}\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.229922040999998
+          },
+          {
+            "kind": "model",
+            "seconds": 2.986908291999993
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6784166669999974
+          },
+          {
+            "kind": "model",
+            "seconds": 2.256396041
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.935666667000012
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3021267499999967
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.7891663330000007
+          },
+          {
+            "kind": "model",
+            "seconds": 2.906765125000005
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "encode-tags",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 encode repos by stars, with the tag of each latest release:\n- **encode/django-rest-framework** (30,254★): 3.18.3\n- **encode/httpx** (15,838★): 0.28.1\n- **encode/apistar** (5,535★): **no release** (the API returned 404)\n- **encode/databases** (3,984★): 0.9.0\n- **encode/orm** (1,853★): 0.3.1\n\nOnly apistar has no release. It was ranked by the repo search, which returned 16 repos in the org.",
+        "turns": 7,
+        "seconds": 8.371,
+        "costUsd": 0.0399305,
+        "firstTurnTokens": 27226,
+        "totalInputTokens": 85813,
+        "outputTokens": 208,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 6002,
+          "cacheRead": 79805
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:encode\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"django-rest-framework\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"httpx\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"apistar\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"databases\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"orm\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1372611250000046
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3200303750000022
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7545185409999973
+          },
+          {
+            "kind": "model",
+            "seconds": 2.347322624999986
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3011069169999976
+          },
+          {
+            "kind": "model",
+            "seconds": 0.038923750000016355
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2031225829999892
+          },
+          {
+            "kind": "model",
+            "seconds": 0.35921875000000014
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4473589590000042
+          },
+          {
+            "kind": "model",
+            "seconds": 2.5875962500000034
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "encode-tags",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 most-starred repos in the encode org, with their latest release tags:\n- django-rest-framework: 3.18.3\n- httpx: 0.28.1\n- apistar: no release (the API returned 404)\n- databases: 0.9.0\n- orm: 0.3.1\n\nOnly apistar has no release.",
+        "turns": 2,
+        "seconds": 5.564,
+        "costUsd": 0.0108521,
+        "firstTurnTokens": 6623,
+        "totalInputTokens": 13678,
+        "outputTokens": 127,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1453,
+          "cacheRead": 12221
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconst items = (r.items ?? JSON.parse(typeof r==='string'?r:JSON.stringify(r)).items);\\nconst"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24518412499999978
+          },
+          {
+            "kind": "model",
+            "seconds": 2.249084375000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.6921125839999878
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6053125000000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "vite-tags",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 vitejs repos by stars, with the tag of each one's latest release:\n\n- **vitejs/vite** (84,043★): `v8.3.8`\n- **vitejs/awesome-vite** (17,302★): no release (the API returned 404)\n- **vitejs/devtools** (1,216★): `v0.8.3`\n- **vitejs/vite-plugin-react** (1,186★): `plugin-react@6.3.0`\n- **vitejs/vite-plugin-react-swc** (959★, archived): `v3.8.1`\n\nOnly awesome-vite has no release.",
+        "turns": 7,
+        "seconds": 7.488,
+        "costUsd": 0.04801,
+        "firstTurnTokens": 27230,
+        "totalInputTokens": 88082,
+        "outputTokens": 243,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 8136,
+          "cacheRead": 79940
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:vitejs\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"vite\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"awesome-vite\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"devtools\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"vite-plugin-react\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"vite-plugin-react-swc\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1980852920000034
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9283214580000203
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6793545419999867
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2479026660000088
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.33163329199998426
+          },
+          {
+            "kind": "model",
+            "seconds": 0.36865429200002087
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1897918329999957
+          },
+          {
+            "kind": "model",
+            "seconds": 0.44367004199998306
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.41765441600000486
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8606025840000076
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "vite-tags",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 vitejs repos by stars, with the tag of each one's latest release:\n\n- **vite** (84,043 stars): `v8.3.8`\n- **awesome-vite** (17,302 stars): no release. The latest-release lookup returned 404.\n- **devtools** (1,216 stars): `v0.8.3`\n- **vite-plugin-react** (1,186 stars): `plugin-react@6.3.0`\n- **vite-plugin-react-swc** (959 stars, archived): `v3.8.1`\n\nOnly awesome-vite has no release.",
+        "turns": 4,
+        "seconds": 12.314,
+        "costUsd": 0.022287299999999996,
+        "firstTurnTokens": 6628,
+        "totalInputTokens": 31685,
+        "outputTokens": 268,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3124,
+          "cacheRead": 28553
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:vitejs\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(typeof r==='string'?r.slice(0,3000):JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"vite\\\",\\\"awesome-vite\\\",\\\"devtools\\\",\\\"vite-plugin-react\\\",\\\"vite-plugin-react-swc\\\"]) {\\ntry{const r=await tools.github.get_latest_release({owner:\\\"vitejs\\\",repo:n});console.log(n,typeof r==",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"vite\\\",\\\"devtools\\\",\\\"vite-plugin-react\\\",\\\"vite-plugin-react-swc\\\"]) {\\nconst r=await tools.github.get_latest_release({owner:\\\"vitejs\\\",repo:n});const o=typeof r==='string'?JSON.parse(r):r;c"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24487645800001337
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5865810420000053
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6959481249999953
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7133915409999898
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.643826417000004
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6561467500000147
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.2140596669999937
+          },
+          {
+            "kind": "model",
+            "seconds": 1.788855958000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "vite-tags",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 vitejs repos by stars, with the tag of each latest release:\n- **vite** (84,043 stars): `v8.3.8`\n- **awesome-vite** (17,302 stars): no release. The latest-release lookup returned an error, which I'm reading as no release.\n- **devtools** (1,216 stars): `v0.8.3`\n- **vite-plugin-react** (1,186 stars): `plugin-react@6.3.0`\n- **vite-plugin-react-swc** (959 stars): `v3.8.1`\n\nOnly awesome-vite has no release.",
+        "turns": 3,
+        "seconds": 7.893,
+        "costUsd": 0.0169372,
+        "firstTurnTokens": 6787,
+        "totalInputTokens": 23019,
+        "outputTokens": 247,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2501,
+          "cacheRead": 20512
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:vitejs\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"vite\\\",\\\"awesome-vite\\\",\\\"devtools\\\",\\\"vite-plugin-react\\\",\\\"vite-plugin-react-swc\\\"]) {\\ntry{const r=await tools.github.get_latest_release({owner:\\\"vitejs\\\",repo:n});console.log(n,r.tag_name"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2296901250000228
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6247434999999824
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6545197500000068
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6198183330000027
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.981468916999991
+          },
+          {
+            "kind": "model",
+            "seconds": 1.997256041000015
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "encode-newest",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "django-rest-framework\n\nIts latest release is 3.18.3, published 2026-10-06. Among the top 5 repos by stars, httpx's latest release is 0.28.1 from December 2024. I didn't check the dates for databases and orm. Their latest releases are older versions, and DRF's 3.18.3 is much newer than httpx's. apistar is archived and has no latest release.",
+        "turns": 4,
+        "seconds": 10.255,
+        "costUsd": 0.022672200000000003,
+        "firstTurnTokens": 6617,
+        "totalInputTokens": 31941,
+        "outputTokens": 220,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 3311,
+          "cacheRead": 28622
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"const names=[\\\"django-rest-framework\\\",\\\"httpx\\\",\\\"apistar\\\",\\\"databases\\\",\\\"orm\\\"];\\nconst rs=await Promise.all(names.map(n=>tools.github.get_latest_release({owner:\\\"encode\\\",repo:n}).then(r=>n+\\\" \\\"+JSON.stri",
+          "mcp__tools__run_code {\"code\":\"const r=await tools.github.get_latest_release({owner:\\\"encode\\\",repo:\\\"django-rest-framework\\\"});\\nconsole.log(r.tag_name,r.published_at,r.created_at);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2517017080000078
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5796223750000062
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7098499169999848
+          },
+          {
+            "kind": "model",
+            "seconds": 2.7889847080000036
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.975718500000017
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7741369169999963
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5963841670000107
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8153717499999917
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "encode-newest",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "django-rest-framework\n\nIts latest release is 3.18.3, published 2026-10-06. That is the most recent among the five most-starred encode repos: django-rest-framework, httpx, apistar, databases and orm. The httpx, databases and orm latest releases are older, and apistar has no releases.\n\nstarlette and uvicorn didn't appear in the org search, so I left them out. Both resolve under encode/, but I couldn't confirm they're in the org. If they are, starlette (1.10.0, 2026-10-24) would be more recent.",
+        "turns": 5,
+        "seconds": 20.521,
+        "costUsd": 0.036919,
+        "firstTurnTokens": 6775,
+        "totalInputTokens": 44147,
+        "outputTokens": 51,
+        "inputBreakdown": {
+          "fresh": 10,
+          "cacheWrite": 5027,
+          "cacheRead": 39110
+        },
+        "toolCalls": 4,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"org:encode\\\", sort:\\\"stars\\\", order:\\\"desc\\\", perPage:5});\\nconsole.log(typeof r===\\\"string\\\"?r.slice(0,3000):JSON.stringify(r).slice(0,3000));\"}",
+          "mcp__tools__run_code {\"code\":\"for (const n of [\\\"django-rest-framework\\\",\\\"httpx\\\",\\\"apistar\\\",\\\"databases\\\",\\\"orm\\\",\\\"starlette\\\",\\\"uvicorn\\\"]) {\\ntry{const r = await tools.github.get_latest_release({owner:\\\"encode\\\",repo:n});\\nconsole.log",
+          "mcp__tools__run_code {\"code\":\"const s = await tools.github.search_repositories({query:\\\"org:encode stars:>3000\\\", perPage:20});\\nconsole.log(s.items.map(i=>i.name+\\\" \\\"+i.stargazers_count).join(\\\"\\\\n\\\"));\\nfor (const n of [\\\"django-rest-fra",
+          "mcp__tools__run_code {\"code\":\"const s = await tools.github.search_repositories({query:\\\"repo:encode/starlette repo:encode/uvicorn\\\"});\\nconsole.log(s.items.map(i=>i.name+\\\" \\\"+i.stargazers_count).join(\\\"\\\\n\\\"));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2373522079999966
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2630724170000176
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6589877500000001
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4804937079999942
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.048421708999989
+          },
+          {
+            "kind": "model",
+            "seconds": 2.2523715409999987
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.326381250000006
+          },
+          {
+            "kind": "model",
+            "seconds": 2.576064542000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4361802080000068
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4625320839999745
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "encode-newest",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "django-rest-framework\n\nIts latest release is 3.18.3, published 2026-10-06. That is the most recent of the five.\n\nThe other four published earlier:\n- httpx: 0.28.1, on 2024-12-06.\n- databases: 0.9.0, on 2024-03-01.\n- orm: 0.3.1, on 2021-11-29.\n- apistar: no releases at all.\n\nThe five are the top results from a GitHub search of the org sorted by stars. A second search of `user:encode` returned only four repos, so I don't know whether the search misses any encode repos with more stars than orm.",
+        "turns": 8,
+        "seconds": 9.087,
+        "costUsd": 0.0458257,
+        "firstTurnTokens": 27222,
+        "totalInputTokens": 86789,
+        "outputTokens": 219,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 6986,
+          "cacheRead": 79797
+        },
+        "toolCalls": 7,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:encode\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__search_repositories {\"query\":\"user:encode stars:>3000\",\"sort\":\"stars\",\"perPage\":10}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"django-rest-framework\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"httpx\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"apistar\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"databases\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"orm\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1857770840000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4011003329999803
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6258861670000186
+          },
+          {
+            "kind": "model",
+            "seconds": 3.5673775000000028
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2647212500000018
+          },
+          {
+            "kind": "model",
+            "seconds": 0.05093545799999255
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.021238083000004515
+          },
+          {
+            "kind": "model",
+            "seconds": 0.5468447499999893
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.45484150000000856
+          },
+          {
+            "kind": "model",
+            "seconds": 2.1321582089999875
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "mixed-tags",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run e75ecc8c):\n- **oven-sh/bun:** `bun-v1.4.5`\n- **vitejs/vite:** `v8.3.8`\n- **astral-sh/ruff:** `0.17.6`\n- **tokio-rs/axum:** `axum-v0.8.9`\n- **encode/apistar:** no release. The API returned 404 for its latest release.",
+        "turns": 3,
+        "seconds": 7.479,
+        "costUsd": 0.0171172,
+        "firstTurnTokens": 6806,
+        "totalInputTokens": 22966,
+        "outputTokens": 201,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2428,
+          "cacheRead": 20532
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"vitejs\\\",\\\"vite\\\"],[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"tokio-rs\\\",\\\"axum\\\"],[\\\"encode\\\",\\\"apistar\\\"]];\\nconst rs=await Promise.allSettled(repos.map(([owner,repo])=>tools.github.get",
+          "mcp__tools__run_code {\"code\":\"for (const [owner,repo] of [[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"vitejs\\\",\\\"vite\\\"],[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"tokio-rs\\\",\\\"axum\\\"]]){const r=await tools.github.get_latest_release({owner,repo});console.log(repo,r?.tag_nam"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23124441700000897
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7940848330000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0072912919999801
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4205499169999967
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.0106518750000104
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2313804159999995
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "mixed-tags",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "- oven-sh/bun: `bun-v1.4.5`\n- vitejs/vite: `v8.3.8`\n- astral-sh/ruff: `0.17.6`\n- tokio-rs/axum: `axum-v0.8.9`\n- encode/apistar: no release. The latest-release lookup returned 404, so it has no published GitHub release. I didn't check whether it has plain tags.",
+        "turns": 6,
+        "seconds": 5.454,
+        "costUsd": 0.0533059,
+        "firstTurnTokens": 27249,
+        "totalInputTokens": 62229,
+        "outputTokens": 157,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 10686,
+          "cacheRead": 51539
+        },
+        "toolCalls": 5,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"oven-sh\",\"repo\":\"bun\"}",
+          "mcp__github__get_latest_release {\"owner\":\"vitejs\",\"repo\":\"vite\"}",
+          "mcp__github__get_latest_release {\"owner\":\"astral-sh\",\"repo\":\"ruff\"}",
+          "mcp__github__get_latest_release {\"owner\":\"tokio-rs\",\"repo\":\"axum\"}",
+          "mcp__github__get_latest_release {\"owner\":\"encode\",\"repo\":\"apistar\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1914581249999756
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9197916670000121
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.08431633299999541
+          },
+          {
+            "kind": "model",
+            "seconds": 0.4868552919999929
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5130311660000006
+          },
+          {
+            "kind": "model",
+            "seconds": 2.42061725000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "mixed-tags",
+      "suite": "heldout8",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "- oven-sh/bun: `bun-v1.4.5`\n- vitejs/vite: `v8.3.8`\n- astral-sh/ruff: `0.17.6`\n- tokio-rs/axum: `axum-v0.8.9`\n- encode/apistar: no release. The latest-release lookup returned 404.",
+        "turns": 3,
+        "seconds": 7.823,
+        "costUsd": 0.015696,
+        "firstTurnTokens": 6647,
+        "totalInputTokens": 21935,
+        "outputTokens": 167,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2149,
+          "cacheRead": 19780
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"vitejs\\\",\\\"vite\\\"],[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"tokio-rs\\\",\\\"axum\\\"],[\\\"encode\\\",\\\"apistar\\\"]];\\nconst r=await Promise.all(repos.map(async([owner,repo])=>{try{const x:any=aw",
+          "mcp__tools__run_code {\"code\":\"for (const [owner,repo] of [[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"vitejs\\\",\\\"vite\\\"],[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"tokio-rs\\\",\\\"axum\\\"]]){const x:any=await tools.github.get_latest_release({owner,repo});console.log(repo,x.tag_"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23385895799999706
+          },
+          {
+            "kind": "model",
+            "seconds": 1.828014833000023
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8636974999999802
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4584825420000125
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.5153777079999857
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1425210420000074
+          }
+        ]
+      }
+    }
+  ]
+}
