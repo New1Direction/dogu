@@ -97,7 +97,7 @@ const section = (title: string, records: ReadonlyArray<RunRecord>, tasks: Readon
 
 const program = Effect.scoped(
   Effect.gen(function* () {
-    const ws = yield* makeWorkspace({ memory: TASKS_RUN.some((t) => ["memory-find", "memory-years", "started-in", "entity-year"].includes(t.id)) });
+    const ws = yield* makeWorkspace({ memory: TASKS_RUN.some((t) => ["memory-find", "memory-years", "started-in", "entity-year", "odd-years"].includes(t.id)) });
     const facts = yield* fetchFacts(ws);
     yield* Console.log(`Answers: ${JSON.stringify(Object.fromEntries(facts))}`);
     if (env("BENCH_DRY", "") === "1") {
@@ -131,6 +131,7 @@ const program = Effect.scoped(
       ...section("Held-out tasks, set 4 (frozen before the change about printing whole results)", records.filter((r) => r.suite === "heldout4"), tasksOf("heldout4")),
       ...section("Held-out tasks, set 5 (frozen before the accuracy fix)", records.filter((r) => r.suite === "heldout5"), tasksOf("heldout5")),
       ...section("Held-out tasks, set 6 (frozen before experiment 9)", records.filter((r) => r.suite === "heldout6"), tasksOf("heldout6")),
+      ...section("Multi-step tasks (frozen before any run with them)", records.filter((r) => r.suite === "multistep"), tasksOf("multistep")),
       ...section("Tuning tasks (dogu was tuned while watching these)", records.filter((r) => r.suite === "tuning"), tasksOf("tuning")),
     ].join("\n");
     const out = `${HERE}results/${env("BENCH_OUT", date)}`;

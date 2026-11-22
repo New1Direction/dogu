@@ -16,7 +16,7 @@ export interface Ctx {
   readonly seeded: { readonly word: string; readonly entity: string; readonly year: number; readonly startedThen: string; readonly entityYear: number };
 }
 
-export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3" | "heldout4" | "heldout5" | "heldout6";
+export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3" | "heldout4" | "heldout5" | "heldout6" | "multistep";
 
 /** The facts a right answer must contain. What "contain" means is up to each task's check. */
 export type Facts = ReadonlyArray<string>;
@@ -600,6 +600,79 @@ export const TASKS: ReadonlyArray<Task> = [
     prompt: "How many stars does the GitHub repo encode/httpx have?",
     fetch: (ctx) => ctx.gh("repos/encode/httpx").pipe(Effect.map((r) => [String(r.stargazers_count)])),
     check: (a, f) => near(a, Number(f[0]), 0.01),
+  },
+
+  // --- multi-step: tasks that fan out to several calls, written and frozen before any run with them, and
+  // reported next to the quick tasks, not instead of them ---
+  {
+    id: "deno-tags",
+    suite: "multistep",
+    kind: "a search, then 5 calls",
+    prompt:
+      "For each of the 5 most-starred repos in the denoland GitHub org, what is the tag of its latest release? List each repo with its tag, and say which have no release.",
+    fetch: (ctx) =>
+      Effect.gen(function* () {
+        const top = yield* topRepos(ctx, "denoland", 5);
+        const tags = yield* Effect.forEach(top, (r) =>
+          ctx.gh(`repos/${r.full_name}/releases/latest`).pipe(
+            Effect.map((rel) => String(rel.tag_name)),
+            Effect.orElseSucceed(() => ""),
+          ));
+        return tags.filter((t) => t !== "");
+      }),
+    check: (a, f) => hasAll(a, f),
+  },
+  {
+    id: "astral-issues",
+    suite: "multistep",
+    kind: "adding up across repos",
+    prompt:
+      "Across the 4 most-starred repos in the astral-sh GitHub org, how many open issues are there in total, as GitHub counts them (pull requests included)?",
+    fetch: (ctx) => topRepos(ctx, "astral-sh", 4).pipe(Effect.map((rs) => [String(rs.reduce((n, r) => n + r.open_issues_count, 0))])),
+    check: (a, f) => near(a, Number(f[0]), 0.01),
+  },
+  {
+    id: "mcp-last-push",
+    suite: "multistep",
+    kind: "a search, then 5 calls, compare",
+    prompt:
+      "Of the 5 most-starred repos in the modelcontextprotocol GitHub org, which had a commit on its default branch most recently? Put just its name on the first line.",
+    fetch: (ctx) =>
+      Effect.gen(function* () {
+        const top = yield* topRepos(ctx, "modelcontextprotocol", 5);
+        const dated = yield* Effect.forEach(top, (r) =>
+          ctx.gh(`repos/${r.full_name}/commits?per_page=1`).pipe(Effect.map((c) => ({ name: r.name, at: String(c[0].commit.committer.date) }))));
+        const winner = dated.reduce((a, b) => (b.at > a.at ? b : a)).name;
+        // Facts: the winner first, then the others.
+        return [winner, ...dated.map((d) => d.name).filter((n) => n !== winner)];
+      }),
+    // One repo is named after the org, so drop "modelcontextprotocol/" before comparing names.
+    check: (a, f) => {
+      const words = lower(firstLine(a)).replaceAll("modelcontextprotocol/", "").split(/[^a-z0-9_.-]+/).filter(Boolean);
+      return words.includes(lower(f[0])) && !f.slice(1).some((n) => words.includes(lower(n)));
+    },
+  },
+  {
+    id: "most-sections",
+    suite: "multistep",
+    kind: "3 calls, compare",
+    prompt:
+      "In DeepWiki's documentation, which of these GitHub repos has the most top-level sections: denoland/deno, oven-sh/bun or astral-sh/uv? Put just its owner/name on the first line.",
+    fetch: (ctx) =>
+      Effect.forEach(["denoland/deno", "oven-sh/bun", "astral-sh/uv"], (r) =>
+        deepwikiSections(ctx, r).pipe(Effect.map((s) => ({ r, n: s.length })))).pipe(
+          Effect.map((xs) => [xs.reduce((a, b) => (b.n > a.n ? b : a)).r]),
+        ),
+    check: (a, f) => has(firstLine(a), f[0]),
+  },
+  {
+    id: "odd-years",
+    suite: "multistep",
+    kind: "filtering in a local server",
+    prompt: "In the knowledge graph, list every project that started in an odd-numbered year.",
+    // The projects started 2015 to 2026, one a year, in this order.
+    fetch: () => Effect.succeed(["Alder", "Cedar", "Elm", "Ginkgo", "Ivy", "Larch"]),
+    check: (a, f) => hasAll(a, f) && !hasAny(a, ["Birch", "Dogwood", "Fir", "Hazel", "Juniper", "Maple"]),
   },
 ];
 
