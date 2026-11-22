@@ -128,6 +128,11 @@ const codexArgs = (prompt: string, cwd: string, extra: ReadonlyArray<string>) =>
   // Codex hides variables named like *TOKEN* from commands by default; dogu's tools need GITHUB_TOKEN.
   "-c", "shell_environment_policy.ignore_default_excludes=true",
   "-c", 'approval_policy="never"',
+  // npx writes its cache in ~/.npm, which Codex's sandbox blocks, so local servers started through dogu
+  // die. dogu's README tells Codex users to allow it; BENCH_CODEX_NPM=0 measures without.
+  ...(Deno.env.get("BENCH_CODEX_NPM") === "0"
+    ? []
+    : ["-c", `sandbox_workspace_write.writable_roots=[${JSON.stringify(`${Deno.env.get("HOME")}/.npm`)}]`]),
   ...(CODEX_MODEL ? ["-m", CODEX_MODEL] : []),
   "-C", cwd, ...extra, prompt,
 ];
