@@ -14,15 +14,11 @@ const MODERN: &str = crate::client::MODERN;
 const VERSIONS: [&str; 4] = [MODERN, "2025-11-25", "2025-06-18", "2025-03-26"];
 
 const INSTRUCTIONS: &str = "\
-This server gives you many tools through a few. The description of `run_code` lists every tool with its \
-arguments and the fields it returns, so you can usually call `run_code` straight away with one TypeScript \
-program that calls them as `await tools.<app>.<tool>({...})`. Use `search` only when you need a tool's full \
-type. Do several steps in one program, and print only what you need to see. When a program is worth \
-keeping, save it with `forge` and call it next time as `tools.forged.<name>({...})`.";
-
-/// The tool list in `run_code`'s description stays under this size (about 4k tokens): one line per tool
-/// with its arguments, returns and a short description; then without descriptions; then names only.
-const SIGNATURE_BUDGET: usize = 16_000;
+This server gives you many tools through a few. The description of `search` lists every app and tool. \
+Call `search` with the words of the tool you need to read its TypeScript type. Then call `run_code` with \
+one TypeScript program that calls it as `await tools.<app>.<tool>({...})`. Do several steps in one \
+program, and print only what you need to see. When a program is worth keeping, save it with `forge` and \
+call it next time as `tools.forged.<name>({...})`.";
 
 /// What run_code may hand back to the model. Past this, the middle is cut out with a note, so one
 /// careless print cannot flood the conversation.
@@ -76,10 +72,10 @@ pub fn run(opts: &Options) -> Result<(), String> {
             "tools/list" => Ok(json!({ "tools": [
                 {
                     "name": "search",
-                    "description": "Read tools' full TypeScript types and descriptions, when the list in run_code's \
-                                    description is not enough. With `query`: the best matching tools; put several \
-                                    tool names in one query to get them all at once. With `app`: all that app's \
-                                    types. With nothing: the apps.",
+                    "description": format!("Find tools and read their TypeScript types. With `query`: the best \
+                                    matching tools with their types; put several tool names in one query to get \
+                                    all their types in one call. With `app`: all that app's types. With nothing: \
+                                    the apps.\n\n{}", catalog(opts)),
                     "inputSchema": { "type": "object", "properties": {
                         "app": { "type": "string", "description": "An app name from the list" },
                         "query": { "type": "string", "description": "Words to look for" }
@@ -100,11 +96,9 @@ pub fn run(opts: &Options) -> Result<(), String> {
                 },
                 {
                     "name": "run_code",
-                    "description": format!("Run a TypeScript program in a sandbox. It cannot use files or the network. \
-                                    It can call tools with `await tools.<app>.<tool>({{...}})` and print with \
-                                    console.log; independent calls can run together with Promise.all. Returns what \
-                                    the program printed.\n\nThe tools (arguments → the fields they return):\n{}",
-                                    signatures(opts, SIGNATURE_BUDGET)),
+                    "description": "Run a TypeScript program in a sandbox. It cannot use files or the network. It can \
+                                    call tools with `await tools.<app>.<tool>({...})` and print with console.log. \
+                                    Returns what the program printed.",
                     "inputSchema": { "type": "object", "required": ["code"], "properties": {
                         "code": { "type": "string", "description": "The TypeScript program" }
                     } }
@@ -230,68 +224,6 @@ fn catalog(opts: &Options) -> String {
     }
     let counts: Vec<String> = servers.iter().map(|s| format!("{} ({} tools)", ident(s), tools_of(opts, s).len())).collect();
     format!("Apps: {}", counts.join(", "))
-}
-
-/// A tool's arguments as a short TypeScript object type: `{ q: string, sort?: "stars"|"forks" }`.
-fn compact_args(schema: &Value) -> String {
-    let input = &schema["inputSchema"];
-    let required: Vec<&str> = input["required"].as_array().map(|a| a.iter().filter_map(Value::as_str).collect()).unwrap_or_default();
-    let Some(props) = input["properties"].as_object().filter(|p| !p.is_empty()) else { return "{}".into() };
-    let fields: Vec<String> = props
-        .iter()
-        .map(|(k, p)| format!("{k}{}: {}", if required.contains(&k.as_str()) { "" } else { "?" }, compact_type(p)))
-        .collect();
-    format!("{{ {} }}", fields.join(", "))
-}
-
-fn compact_type(p: &Value) -> String {
-    if let Some(choices) = p["enum"].as_array() {
-        let shown: Vec<String> = choices.iter().take(4).map(|c| c.to_string()).collect();
-        return if choices.len() > 4 { format!("{}|…", shown.join("|")) } else { shown.join("|") };
-    }
-    if let Some(first) = ["anyOf", "oneOf"].iter().find_map(|k| p[*k].as_array().and_then(|a| a.first())) {
-        return compact_type(first);
-    }
-    let kind = match &p["type"] {
-        Value::String(s) => s.as_str(),
-        Value::Array(list) => list.iter().filter_map(Value::as_str).find(|t| *t != "null").unwrap_or(""),
-        _ => "",
-    };
-    match kind {
-        "string" => "string".into(),
-        "number" | "integer" => "number".into(),
-        "boolean" => "boolean".into(),
-        "array" => format!("{}[]", compact_type(&p["items"])),
-        "object" => "object".into(),
-        _ => "any".into(),
-    }
-}
-
-/// Every tool, one line each, for `run_code`'s description, so the model can usually write its program
-/// without a search first. Within `budget`: with descriptions, then without, then the names only.
-fn signatures(opts: &Options, budget: usize) -> String {
-    let servers = servers_of(opts);
-    let render = |about: bool| -> String {
-        servers
-            .iter()
-            .flat_map(|s| tools_of(opts, s).into_iter().map(move |(name, schema)| (ident(s), name, schema)))
-            .map(|(app, name, schema)| {
-                let returns = crate::call::returns_of(&schema).map(|r| format!(" → {r}")).unwrap_or_default();
-                let note = match about {
-                    true => schema["description"]
-                        .as_str()
-                        .map(|d| d.trim().split(['\n', '.']).next().unwrap_or("").chars().take(90).collect::<String>())
-                        .filter(|d| !d.is_empty())
-                        .map(|d| format!(" — {d}"))
-                        .unwrap_or_default(),
-                    false => String::new(),
-                };
-                format!("tools.{app}.{name}({}){returns}{note}", compact_args(&schema))
-            })
-            .collect::<Vec<_>>()
-            .join("\n")
-    };
-    [true, false].into_iter().map(render).find(|t| t.len() <= budget).unwrap_or_else(|| catalog(opts))
 }
 
 fn search(opts: &Options, app: Option<&str>, query: Option<&str>) -> Result<String, String> {
@@ -424,38 +356,11 @@ mod tests {
     }
 
     #[test]
-    fn run_code_lists_every_tool_with_its_arguments_so_no_search_is_needed() {
-        let opts = folder("signatures");
+    fn the_tool_list_names_every_app_and_tool() {
+        let opts = folder("catalog");
 
-        let text = signatures(&opts, SIGNATURE_BUDGET);
+        let text = catalog(&opts);
 
-        assert!(text.contains("tools.fx.search_repositories({ query: string })"), "{text}");
-        assert!(text.contains("tools.fx.count({})"), "{text}");
-        assert!(text.contains("Search GitHub repositories by a query"), "{text}");
-    }
-
-    #[test]
-    fn a_long_tool_list_drops_descriptions_then_falls_back_to_names() {
-        let opts = folder("signature-budget");
-        let full = signatures(&opts, SIGNATURE_BUDGET);
-
-        let short = signatures(&opts, full.len() - 1);
-        let names = signatures(&opts, 10);
-
-        assert!(short.contains("tools.fx.search_repositories({ query: string })") && !short.contains("Search GitHub"), "{short}");
-        assert!(names.contains("fx: count, search_repositories"), "{names}");
-    }
-
-    #[test]
-    fn compact_types_read_like_typescript() {
-        let schema = json!({ "inputSchema": { "type": "object", "required": ["q"], "properties": {
-            "q": { "type": "string" },
-            "sort": { "type": "string", "enum": ["stars", "forks"] },
-            "ids": { "type": "array", "items": { "type": "integer" } },
-            "opts": { "type": "object" },
-            "flag": { "type": "boolean" }
-        } } });
-
-        assert_eq!(compact_args(&schema), r#"{ q: string, sort?: "stars"|"forks", ids?: number[], opts?: object, flag?: boolean }"#);
+        assert!(text.contains("fx: count, search_repositories"), "{text}");
     }
 }
