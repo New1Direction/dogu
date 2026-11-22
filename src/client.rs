@@ -216,6 +216,15 @@ impl Client {
     }
 
     /// Find out which era the server speaks.
+    /// Open the network connection now, so the first tool call does not pay for it. A modern HTTP server
+    /// needs no handshake, so connecting sends nothing; here one small `server/discover` request opens
+    /// the TCP and TLS connection, which the next call reuses. Errors are left for the real call to meet.
+    pub fn open_now(&mut self) {
+        if matches!(self.transport, Transport::Http { .. }) && matches!(self.era, Era::Modern(_)) {
+            let _ = self.send("server/discover", json!({}), &[]);
+        }
+    }
+
     fn detect(&mut self) -> Result<(), String> {
         self.detect_once(false)
     }
@@ -617,8 +626,15 @@ impl Client {
                 if resp.content_type() == "text/event-stream" {
                     // The answer arrives as a stream of events. Read until ours shows up.
                     let mut data = String::new();
-                    for line in BufReader::new(resp.into_reader()).lines() {
-                        let line = line.map_err(|e| Failure::broken(format!("connection lost: {e}")))?;
+                    let mut stream = BufReader::new(resp.into_reader());
+                    let mut line = String::new();
+                    loop {
+                        line.clear();
+                        let read = stream.read_line(&mut line).map_err(|e| Failure::broken(format!("connection lost: {e}")))?;
+                        if read == 0 {
+                            break;
+                        }
+                        let line = line.trim_end_matches(['\r', '\n']);
                         if let Some(d) = line.strip_prefix("data:") {
                             if !data.is_empty() {
                                 data.push('\n');
@@ -627,6 +643,7 @@ impl Client {
                         } else if line.is_empty() && !data.is_empty() {
                             if let Ok(v) = serde_json::from_str::<Value>(&data) {
                                 if let Some(answer) = answer_for(&v, id) {
+                                    finish_in_background(stream);
                                     return answer;
                                 }
                             }
@@ -706,6 +723,23 @@ fn npm_cache_env(
         true => None,
         false => Some(("npm_config_cache".into(), tmp.join("dogu-npm-cache").display().to_string())),
     }
+}
+
+/// How long an answer waits for the rest of its event stream to be read, so the connection is free for
+/// the next call. A server ends the stream right after the answer, so this is normally under a millisecond.
+const DRAIN_WAIT: Duration = Duration::from_millis(100);
+
+/// Read what is left of a response. ureq reuses a connection only once its response has been read to
+/// the end, and the next call then skips a new TLS handshake (about 0.2-0.4 s to GitHub). The reading
+/// runs on another thread, and the answer waits for it at most DRAIN_WAIT, so a server that keeps its
+/// stream open cannot hold the answer up.
+fn finish_in_background(mut rest: impl std::io::Read + Send + 'static) {
+    let (done, finished) = mpsc::channel();
+    std::thread::spawn(move || {
+        let _ = std::io::copy(&mut rest, &mut std::io::sink());
+        let _ = done.send(());
+    });
+    let _ = finished.recv_timeout(DRAIN_WAIT);
 }
 
 /// The `_meta` every modern request carries: the version, who we are, what we can do.

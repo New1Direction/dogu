@@ -684,3 +684,33 @@ fn serve_connects_while_the_model_thinks_so_the_first_program_is_quick() {
     assert!(answer["result"]["content"][0]["text"].as_str().unwrap_or("").contains('1'), "{answer}");
     assert!(took < std::time::Duration::from_millis(600), "the first program waited {took:?} for the server to start");
 }
+
+// --- Calls to an HTTP server reuse one connection ---
+
+#[test]
+fn calls_to_an_http_server_reuse_one_connection() {
+    use std::io::{BufRead, BufReader};
+    let home = scratch("keep-alive");
+    let script = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/http_mcp_server.py");
+    let mut server = Command::new("python3").arg(&script).stdout(Stdio::piped()).spawn().unwrap();
+    let mut port = String::new();
+    BufReader::new(server.stdout.take().unwrap()).read_line(&mut port).unwrap();
+    let config = home.join("web.json");
+    write_json(&config, &json!({ "mcpServers": { "web": { "url": format!("http://127.0.0.1:{}/mcp", port.trim()) } } }));
+    let out = home.join("mcp");
+    dogu(&home, &home, &["sync", "--config", config.to_str().unwrap(), "--out", out.to_str().unwrap()]);
+    let program = "for (let i = 0; i < 4; i++) await tools.web.ping({}); console.log(await tools.web.connections({}));";
+
+    let o = dogu(&home, &home, &["run", "--root", out.to_str().unwrap(), "-e", program]);
+    let started = std::time::Instant::now();
+    let held = dogu(&home, &home, &["run", "--root", out.to_str().unwrap(), "-e", "console.log(await tools.web.hold({}))"]);
+    let took = started.elapsed();
+    let _ = server.kill();
+
+    // Sync used its own connection; the run should add just one for all five calls.
+    let seen: usize = stdout(&o).trim().parse().unwrap_or_else(|_| panic!("{} / {}", stdout(&o), stderr(&o)));
+    assert!(seen <= 2, "the run opened {} connections for 5 calls", seen - 1);
+    // A server that keeps its stream open after the answer must not hold the answer up.
+    assert!(stdout(&held).contains("pong"), "{}", stderr(&held));
+    assert!(took < std::time::Duration::from_millis(1500), "the answer waited {took:?} for the stream to end");
+}

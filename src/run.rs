@@ -283,7 +283,9 @@ pub fn warm_up(opts: &Options) -> Result<(), String> {
         let handle = std::thread::spawn(move || {
             let mut options = ConnectOptions::new(timeout);
             options.era = saved_era(&root, &key);
-            Client::connect(&server, &options)
+            let mut client = Client::connect(&server, &options)?;
+            client.open_now();
+            Ok(client)
         });
         warming.push((name, handle));
     }
