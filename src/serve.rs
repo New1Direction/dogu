@@ -15,7 +15,7 @@ const VERSIONS: [&str; 4] = [MODERN, "2025-11-25", "2025-06-18", "2025-03-26"];
 
 const INSTRUCTIONS: &str = "\
 This server gives you many tools through a few. The description of `run_code` lists every tool with its \
-required arguments. When that is enough, call `run_code` straight away with one TypeScript program that \
+required arguments, and the description of `search` says what each tool does. When that is enough, call `run_code` straight away with one TypeScript program that \
 calls them as `await tools.<app>.<tool>({...})`; if a call fails, its error shows the tool's full type. \
 Start calls that do not depend on each other together with Promise.all: they run at the same time. \
 To look at a result you do not know, print all of it rather than a slice; dogu shortens long output. \
@@ -85,10 +85,7 @@ pub fn run(opts: &Options) -> Result<(), String> {
             "tools/list" => Ok(json!({ "tools": [
                 {
                     "name": "search",
-                    "description": "Read tools' full TypeScript types: every argument and the shape of the \
-                                    result. With `query`: the best matching tools; put several tool names in one \
-                                    query to get them all at once. With `app`: all that app's types. With nothing: \
-                                    the apps.",
+                    "description": search_description(opts),
                     "inputSchema": { "type": "object", "properties": {
                         "app": { "type": "string", "description": "An app name from the list" },
                         "query": { "type": "string", "description": "Words to look for" }
@@ -247,6 +244,70 @@ Calls that do not depend on each other: start them together, so they run at the 
   const [a, b] = await Promise.all([tools.app.one({ id: 1 }), tools.app.two({ id: 2 })]);\n\
   const items = await Promise.all(ids.map((id) => tools.app.get_item({ id })));\n\
 The tools, grouped by the arguments they require, `app (args): tools`:\n";
+
+const SEARCH_ABOUT: &str = "Read tools' full TypeScript types: every argument and the shape of the result. \
+With `query`: the best matching tools; put several tool names in one query to get them all at once. With \
+`app`: all that app's types. With nothing: the apps.\n\nWhat each tool does:\n";
+
+/// `search`'s description carries what each tool does. Claude Code shows each tool's description up to
+/// 4,096 characters, and run_code's is full with the tools' arguments, so this list lives here.
+fn search_description(opts: &Options) -> String {
+    format!("{SEARCH_ABOUT}{}", about_list(opts, DESCRIPTION_LIMIT - SEARCH_ABOUT.len()))
+}
+
+/// One line per tool with the first sentence of its description: `github.search_issues: Search issues
+/// using natural-language semantic matching`. Every line is cut to the same length, the longest that
+/// lets the list fit in `budget`; empty if even short lines do not fit.
+fn about_list(opts: &Options, budget: usize) -> String {
+    let tools: Vec<(String, String)> = servers_of(opts)
+        .iter()
+        .flat_map(|s| tools_of(opts, s).into_iter().map(move |(name, schema)| (format!("{}.{name}", ident(s)), schema)))
+        .map(|(id, schema)| (id, gist(schema["description"].as_str().unwrap_or(""))))
+        .collect();
+    let render = |cut: usize| -> String {
+        tools
+            .iter()
+            .map(|(id, about)| match about.chars().count() > cut {
+                true => format!("{id}: {}…", about.chars().take(cut).collect::<String>().trim_end()),
+                false => format!("{id}: {about}"),
+            })
+            .collect::<Vec<_>>()
+            .join("\n")
+    };
+    let longest = tools.iter().map(|(_, a)| a.chars().count()).max().unwrap_or(0);
+    (MIN_ABOUT..=longest.max(MIN_ABOUT))
+        .rev()
+        .map(render)
+        // Bytes, not characters: whether Claude Code counts its 4,096 in bytes is not known, and bytes are safe.
+        .find(|text| text.len() <= budget)
+        .unwrap_or_default()
+}
+
+/// What a tool does, in as few words as can carry it: any sentence that limits what the tool covers comes
+/// first ("Already scoped to is:issue."), then the first sentence. A name or first sentence can mislead:
+/// GitHub's search_issues sounds like it counts open issues and pull requests, but searches issues only.
+fn gist(description: &str) -> String {
+    let sentences: Vec<&str> = description
+        .split(['\n', '.'])
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+        .collect();
+    let limits = |s: &str| {
+        let s = s.to_lowercase();
+        LIMIT_WORDS.iter().any(|w| s.split(|c: char| !c.is_alphanumeric() && c != ':').any(|word| word == *w))
+    };
+    let first = sentences.first().copied().unwrap_or("");
+    let mut parts: Vec<&str> = sentences.iter().copied().filter(|s| limits(s) && *s != first).collect();
+    parts.push(first);
+    parts.join(". ")
+}
+
+/// Words that say a tool covers less than its name suggests. Not advice words ("instead", "never"): those
+/// sentences say how to use a tool, and would push out what it does.
+const LIMIT_WORDS: [&str; 5] = ["only", "scoped", "excluding", "excludes", "except"];
+
+/// Shorter than this, a description says too little to help pick a tool.
+const MIN_ABOUT: usize = 12;
 
 fn run_code_description(opts: &Options) -> String {
     format!("{RUN_CODE_ABOUT}{}", quick_list(opts, DESCRIPTION_LIMIT - RUN_CODE_ABOUT.len()))
@@ -425,6 +486,32 @@ mod tests {
         assert!(run_code_description(&opts).len() <= DESCRIPTION_LIMIT);
         assert!(run_code_description(&opts).contains("await Promise.all(ids.map("), "shows how to make calls together");
         assert!(run_code_description(&opts).contains("print the whole result"), "says to print whole results");
+    }
+
+    #[test]
+    fn search_says_what_each_tool_does_shortening_only_as_much_as_it_must() {
+        let opts = folder("about-list");
+
+        let roomy = about_list(&opts, 4_000);
+        let tight = about_list(&opts, 75);
+        let none = about_list(&opts, 10);
+
+        assert!(roomy.contains("fx.search_repositories: Search GitHub repositories by a query"), "{roomy}");
+        assert!(roomy.contains("fx.count: Add one to a counter"), "{roomy}");
+        assert!(tight.len() <= 75 && tight.contains("fx.search_repositories: Search") && tight.contains('…'), "{tight}");
+        assert!(none.is_empty(), "{none}");
+        assert!(search_description(&opts).len() <= DESCRIPTION_LIMIT);
+        assert!(search_description(&opts).contains("What each tool does"));
+    }
+
+    #[test]
+    fn what_a_tool_does_puts_its_limits_first() {
+        let about = "Search issues using natural-language semantic matching. Best for conceptual queries. Already scoped to is:issue.";
+
+        let text = gist(about);
+
+        assert_eq!(text, "Already scoped to is:issue. Search issues using natural-language semantic matching");
+        assert_eq!(gist("Get the latest release.\nMore words."), "Get the latest release");
     }
 
     #[test]
