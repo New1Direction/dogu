@@ -92,7 +92,7 @@ const section = (title: string, records: ReadonlyArray<RunRecord>, tasks: Readon
 
 const program = Effect.scoped(
   Effect.gen(function* () {
-    const ws = yield* makeWorkspace({ memory: TASKS_RUN.some((t) => t.id === "memory-find") });
+    const ws = yield* makeWorkspace({ memory: TASKS_RUN.some((t) => t.id === "memory-find" || t.id === "memory-years") });
     const facts = yield* fetchFacts(ws);
     yield* Console.log(`Answers: ${JSON.stringify(Object.fromEntries(facts))}`);
     if (env("BENCH_DRY", "") === "1") {
@@ -123,6 +123,7 @@ const program = Effect.scoped(
       `bench at commit ${commit}${dirty ? " with uncommitted changes" : ""}. Servers: GitHub (official, hosted), Context7, DeepWiki, and the memory server (local).`,
       "",
       ...section("Held-out tasks (written before any run, never tuned against)", records.filter((r) => r.suite === "heldout"), tasksOf("heldout")),
+      ...section("Held-out tasks, set 2 (frozen before the code-mode speed work)", records.filter((r) => r.suite === "heldout2"), tasksOf("heldout2")),
       ...section("Tuning tasks (dogu was tuned while watching these)", records.filter((r) => r.suite === "tuning"), tasksOf("tuning")),
     ].join("\n");
     const out = `${HERE}results/${env("BENCH_OUT", date)}`;

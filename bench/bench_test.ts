@@ -174,6 +174,7 @@ Deno.test("every held-out task is in the held-out suite, and the suites do not s
   assertEquals(new Set(ids).size, ids.length);
   assertEquals(TASKS.filter((t) => t.suite === "heldout").length, 8);
   assertEquals(TASKS.filter((t) => t.suite === "tuning").length, 5);
+  assertEquals(TASKS.filter((t) => t.suite === "heldout2").length, 8);
 });
 
 Deno.test("headline says more, not negative fewer, when a setup used more", () => {
@@ -207,6 +208,15 @@ const SAMPLE_FACTS: Record<string, ReadonlyArray<string>> = {
   "memory-find": ["Project Maple"],
   "tokio-sections": ["13"],
   "axum-releases": ["175"],
+  "open-prs": ["31"],
+  "oldest-issue": ["Add support for resource templates"],
+  "release-author": ["octocat"],
+  "stars-sum": ["123456"],
+  "deno-node": ["Node.js Compatibility Layer"],
+  "deepwiki-node": ["Node.js Compatibility Layer"],
+  "two-libraries": ["/facebook/react", "/websites/react_dev", "|", "/vuejs/core", "/websites/vuejs"],
+  "memory-years": ["4"],
+  "newest-release": ["typescript-sdk"],
 };
 
 Deno.test("every task's check accepts its right answer and rejects a non-answer", () => {
@@ -215,6 +225,19 @@ Deno.test("every task's check accepts its right answer and rejects a non-answer"
     assert(facts, `no sample facts for ${task.id}`);
     assertEquals(checkTheCheck(task, facts), null, task.id);
   }
+});
+
+Deno.test("heldout2 checks are strict where they must be and tolerant where counts move", () => {
+  assert(check("open-prs", "There are 33 open pull requests.", ["31"]));
+  assert(!check("open-prs", "There are 40 open pull requests.", ["31"]));
+  assert(check("stars-sum", "In total 123,900 stars.", ["123456"]));
+  assert(!check("stars-sum", "In total 140,000 stars.", ["123456"]));
+  assert(check("two-libraries", "React: /facebook/react, Vue: /vuejs/core", ["/facebook/react", "|", "/vuejs/core"]));
+  assert(!check("two-libraries", "React: /facebook/react only", ["/facebook/react", "|", "/vuejs/core"]));
+  assert(check("memory-years", "4 entities started before 2019.", ["4"]));
+  assert(!check("memory-years", "14 entities.", ["4"]));
+  assert(check("newest-release", "typescript-sdk\nreleased last week", ["typescript-sdk"]));
+  assert(!check("newest-release", "servers\ntypescript-sdk was earlier", ["typescript-sdk"]));
 });
 
 Deno.test("checkTheCheck catches a check that accepts anything, and one that rejects everything", () => {

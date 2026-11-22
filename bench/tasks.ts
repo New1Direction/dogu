@@ -13,10 +13,10 @@ export interface Ctx {
   readonly gh: (path: string) => Effect.Effect<any, CommandFailed>;
   readonly tool: (path: string, args: ReadonlyArray<string>) => Effect.Effect<string, CommandFailed>;
   /** A word hidden in the memory server's graph, and the entity that holds it. Random each run. */
-  readonly seeded: { readonly word: string; readonly entity: string };
+  readonly seeded: { readonly word: string; readonly entity: string; readonly year: number };
 }
 
-export type Suite = "tuning" | "heldout";
+export type Suite = "tuning" | "heldout" | "heldout2";
 
 /** The facts a right answer must contain. What "contain" means is up to each task's check. */
 export type Facts = ReadonlyArray<string>;
@@ -34,6 +34,12 @@ const lower = (s: string) => s.toLowerCase();
 const has = (text: string, part: string) => lower(text).includes(lower(part));
 const hasAll = (text: string, parts: Facts) => parts.length > 0 && parts.every((p) => has(text, p));
 const hasAny = (text: string, parts: Facts) => parts.some((p) => has(text, p));
+/** Every number written in the text, commas allowed: "92,161 stars" gives 92161. */
+const numbersIn = (text: string) => [...text.matchAll(/\d[\d,]*(\.\d+)?/g)].map((m) => Number(m[0].replaceAll(",", "")));
+/** Some number in the text within `tolerance` (a fraction) of n, for counts that move while a run goes. */
+const near = (text: string, n: number, tolerance: number) =>
+  numbersIn(text).some((x) => Math.abs(x - n) <= Math.max(1, n * tolerance));
+
 /** The number as a whole word, so 12 does not match 120. */
 const hasNumber = (text: string, n: string) => new RegExp(`(^|[^0-9])${n}([^0-9]|$)`).test(text);
 const firstLine = (text: string) => text.trim().split("\n")[0] ?? "";
@@ -209,6 +215,106 @@ export const TASKS: ReadonlyArray<Task> = [
       ),
     check: (a, f) => hasNumber(a, f[0]),
   },
+
+  // --- held out, set 2: written and frozen before the code-mode speed work it is meant to judge ---
+  {
+    id: "open-prs",
+    suite: "heldout2",
+    kind: "a count",
+    prompt: "How many open pull requests does the GitHub repo modelcontextprotocol/python-sdk have right now?",
+    fetch: (ctx) =>
+      ctx.gh("search/issues?q=repo:modelcontextprotocol/python-sdk+is:pr+is:open&per_page=1").pipe(Effect.map((r) => [String(r.total_count)])),
+    // Pull requests open and close during a run; allow 2 either way.
+    check: (a, f) => numbersIn(a).some((x) => Math.abs(x - Number(f[0])) <= 2),
+  },
+  {
+    id: "oldest-issue",
+    suite: "heldout2",
+    kind: "sorting",
+    prompt: "What is the title of the oldest open issue in the GitHub repo modelcontextprotocol/python-sdk?",
+    fetch: (ctx) =>
+      ctx.gh("search/issues?q=repo:modelcontextprotocol/python-sdk+is:issue+is:open&sort=created&order=asc&per_page=1").pipe(
+        Effect.map((r) => [String(r.items[0].title)]),
+      ),
+    check: (a, f) => lower(a).replace(/[^a-z0-9]/g, "").includes(lower(f[0]).replace(/[^a-z0-9]/g, "")),
+  },
+  {
+    id: "release-author",
+    suite: "heldout2",
+    kind: "a nested field",
+    prompt: "Which GitHub user published the latest release of modelcontextprotocol/typescript-sdk? Give their login.",
+    fetch: (ctx) => ctx.gh("repos/modelcontextprotocol/typescript-sdk/releases/latest").pipe(Effect.map((r) => [String(r.author.login)])),
+    check: (a, f) => has(a, f[0]),
+  },
+  {
+    id: "stars-sum",
+    suite: "heldout2",
+    kind: "adding up",
+    prompt: "What is the total number of GitHub stars across the 5 most-starred repos in the denoland GitHub org?",
+    fetch: (ctx) =>
+      ctx.gh("search/repositories?q=org:denoland&sort=stars&per_page=5").pipe(
+        Effect.map((r) => [String((r.items as Array<{ stargazers_count: number }>).reduce((s, i) => s + i.stargazers_count, 0))]),
+      ),
+    // Stars move a little during a run: within 1%.
+    check: (a, f) => near(a, Number(f[0]), 0.01),
+  },
+  {
+    id: "deepwiki-node",
+    suite: "heldout2",
+    kind: "finding one section",
+    prompt: "In DeepWiki's documentation of the GitHub repo denoland/deno, which top-level section covers Node.js compatibility? Give its title.",
+    fetch: (ctx) =>
+      deepwikiSections(ctx, "denoland/deno").pipe(Effect.map((s) => s.filter((t) => /node/i.test(t)).slice(0, 1))),
+    check: (a, f) => has(a, f[0].replace(/\s+/g, " ")),
+  },
+  {
+    id: "two-libraries",
+    suite: "heldout2",
+    kind: "two independent calls",
+    prompt: "Which Context7 library IDs would you use to look up documentation for React, and for Vue? Give one ID for each.",
+    fetch: (ctx) =>
+      Effect.all([
+        ctx.tool("context7/resolve-library-id", ["--libraryName", "react", "--query", "React library documentation"]),
+        ctx.tool("context7/resolve-library-id", ["--libraryName", "vue", "--query", "Vue.js framework documentation"]),
+      ]).pipe(
+        Effect.map(([react, vue]) => {
+          const ids = (t: string) => [...t.matchAll(/library ID:\s*(\S+)/g)].map((m) => m[1]);
+          // Facts: React's IDs, a separator, Vue's IDs.
+          return [...ids(react), "|", ...ids(vue)];
+        }),
+      ),
+    check: (a, f) => {
+      const cut = f.indexOf("|");
+      return hasAny(a, f.slice(0, cut)) && hasAny(a, f.slice(cut + 1));
+    },
+  },
+  {
+    id: "memory-years",
+    suite: "heldout2",
+    kind: "counting in a local server",
+    prompt: "In the knowledge graph, how many entities have an observation saying they started in a year before {year}?",
+    // The projects started 2015, 2016, ... one a year, so before Y there are Y - 2015 of them.
+    fetch: (ctx) => Effect.succeed([String(ctx.seeded.year - 2015)]),
+    check: (a, f) => hasNumber(a, f[0]),
+  },
+  {
+    id: "newest-release",
+    suite: "heldout2",
+    kind: "comparing across calls",
+    prompt:
+      "Of the 3 most-starred repos in the modelcontextprotocol GitHub org, which one published its latest release most recently? Put just its name on the first line.",
+    fetch: (ctx) =>
+      Effect.gen(function* () {
+        const top = yield* topRepos(ctx, "modelcontextprotocol", 3);
+        const dated = yield* Effect.forEach(top, (r) =>
+          ctx.gh(`repos/${r.full_name}/releases/latest`).pipe(
+            Effect.map((rel) => ({ name: r.name, at: String(rel.published_at) })),
+            Effect.orElseSucceed(() => ({ name: r.name, at: "" })),
+          ));
+        return [dated.reduce((a, b) => (b.at > a.at ? b : a)).name];
+      }),
+    check: (a, f) => has(firstLine(a), f[0]),
+  },
 ];
 
 /** An answer no check should accept. */
@@ -225,4 +331,5 @@ export const checkTheCheck = (task: Task, facts: Facts): string | null => {
 };
 
 /** The prompt with this run's seeded facts filled in. */
-export const promptOf = (task: Task, seeded: Ctx["seeded"]) => task.prompt.replaceAll("{word}", seeded.word);
+export const promptOf = (task: Task, seeded: Ctx["seeded"]) =>
+  task.prompt.replaceAll("{word}", seeded.word).replaceAll("{year}", String(seeded.year));
