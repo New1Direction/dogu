@@ -235,6 +235,9 @@ Deno.test("heldout2 checks are strict where they must be and tolerant where coun
   assert(check("two-libraries", "React: /facebook/react, Vue: /vuejs/core", ["/facebook/react", "|", "/vuejs/core"]));
   assert(!check("two-libraries", "React: /facebook/react only", ["/facebook/react", "|", "/vuejs/core"]));
   assert(check("memory-years", "4 entities started before 2019.", ["4"]));
+  // Agents often write small numbers out, and that is a right answer.
+  assert(check("memory-years", "Eight entities started before 2023.", ["8"]));
+  assert(!check("memory-years", "Eighteen entities.", ["8"]));
   assert(!check("memory-years", "14 entities.", ["4"]));
   assert(check("newest-release", "typescript-sdk\nreleased last week", ["typescript-sdk"]));
   assert(!check("newest-release", "servers\ntypescript-sdk was earlier", ["typescript-sdk"]));

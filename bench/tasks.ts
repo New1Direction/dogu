@@ -40,8 +40,15 @@ const numbersIn = (text: string) => [...text.matchAll(/\d[\d,]*(\.\d+)?/g)].map(
 const near = (text: string, n: number, tolerance: number) =>
   numbersIn(text).some((x) => Math.abs(x - n) <= Math.max(1, n * tolerance));
 
-/** The number as a whole word, so 12 does not match 120. */
-const hasNumber = (text: string, n: string) => new RegExp(`(^|[^0-9])${n}([^0-9]|$)`).test(text);
+const NUMBER_WORDS = [
+  "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+  "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty",
+];
+
+/** The number as a whole word, so 12 does not match 120; small numbers may be written out ("eight"). */
+const hasNumber = (text: string, n: string) =>
+  new RegExp(`(^|[^0-9])${n}([^0-9]|$)`).test(text) ||
+  (NUMBER_WORDS[Number(n)] !== undefined && new RegExp(`\\b${NUMBER_WORDS[Number(n)]}\\b`, "i").test(text));
 const firstLine = (text: string) => text.trim().split("\n")[0] ?? "";
 
 /** The longest word of a section title, which a paraphrase almost always keeps. */

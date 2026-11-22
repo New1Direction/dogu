@@ -8,12 +8,18 @@ import type { Ctx } from "./tasks.ts";
 export const RUN_TIMEOUT = Duration.minutes(5);
 export const ANSWER_RULE = " Use only the tools you have been given. Answer in under 6 lines.";
 export const ALL_SETUPS = [
-  "direct", "direct-search", "folder", "folder-read", "codemode",
+  "direct", "direct-search", "folder", "folder-read", "codemode", "codemode-b",
   "codex-direct", "codex-folder",
   "pi-direct", "pi-codemode", "pi-folder",
 ] as const;
 /** pi runs the same model as Claude Code's `sonnet`, with thinking off as in Claude Code's default. */
 const PI_MODEL = Deno.env.get("PI_MODEL") ?? "anthropic/claude-sonnet-5-5";
+/**
+ * An A/B test of two dogu builds in one run, so both meet the same API speed: `codemode` serves with the
+ * dogu on your PATH, `codemode-b` with the binary at BENCH_DOGU_B.
+ */
+const DOGU_B = Deno.env.get("BENCH_DOGU_B");
+
 /** The Codex binary; set CODEX_BIN when it is not on your PATH. CODEX_MODEL picks a model, else Codex's default. */
 const CODEX_BIN = Deno.env.get("CODEX_BIN") ?? "codex";
 const CODEX_MODEL = Deno.env.get("CODEX_MODEL");
@@ -26,6 +32,7 @@ export interface Workspace {
   readonly root: string; // the dogu folder
   readonly directConfig: string; // Claude Code config with every server, token included
   readonly serveConfig: string; // Claude Code config with only `dogu serve`
+  readonly serveConfigB: string; // the same with the BENCH_DOGU_B build
   readonly token: string;
   readonly mcpServers: ReadonlyArray<string>; // `mcp__<name>` for each server, for --allowedTools
   readonly seeded: Ctx["seeded"];
@@ -93,10 +100,10 @@ export const makeWorkspace = (options: { readonly memory: boolean }) =>
       const root = `${dir}/mcp`;
       yield* writePrivate(`${dir}/servers.json`, JSON.stringify({ mcpServers: { ...hosted, ...local } }));
       yield* writePrivate(`${dir}/direct.json`, JSON.stringify(direct));
-      yield* writePrivate(
-        `${dir}/serve.json`,
-        JSON.stringify({ mcpServers: { tools: { command: "dogu", args: ["serve", "--root", root], env: { GITHUB_TOKEN: token } } } }),
-      );
+      const serve = (command: string) =>
+        JSON.stringify({ mcpServers: { tools: { command, args: ["serve", "--root", root], env: { GITHUB_TOKEN: token } } } });
+      yield* writePrivate(`${dir}/serve.json`, serve("dogu"));
+      yield* writePrivate(`${dir}/serve-b.json`, serve(DOGU_B ?? "dogu"));
       yield* runCommand("dogu", ["sync", "--config", `${dir}/servers.json`, "--out", root], { env: { GITHUB_TOKEN: token } });
       const mcpServers = Object.keys(direct.mcpServers).map((n) => `mcp__${n}`);
       // Codex gets its own home with only your login in it, linked, not copied.
@@ -105,7 +112,8 @@ export const makeWorkspace = (options: { readonly memory: boolean }) =>
       const login = `${Deno.env.get("HOME")}/.codex/auth.json`;
       yield* Effect.promise(() => Deno.symlink(login, `${codexHome}/auth.json`).catch(() => undefined));
       return {
-        dir, root, directConfig: `${dir}/direct.json`, serveConfig: `${dir}/serve.json`, token, mcpServers, seeded: memory.seeded,
+        dir, root, directConfig: `${dir}/direct.json`, serveConfig: `${dir}/serve.json`, serveConfigB: `${dir}/serve-b.json`,
+        token, mcpServers, seeded: memory.seeded,
         memoryFile: options.memory ? `${dir}/memory.jsonl` : null, codexHome, hosted,
       };
     }),
@@ -218,16 +226,18 @@ export const argsFor = (setup: Setup, prompt: string, ws: Workspace, runId: stri
     const common = ["-p", `Run ${runId}. ${told}${prompt}`, "--model", model, "--setting-sources", "project", "--strict-mcp-config"];
     const bash = ["--mcp-config", '{"mcpServers":{}}', "--tools", "Bash", "Read", "--allowedTools", "Bash", "Read"];
     const standing = setup === "folder" ? `Your tools are in ${ws.root}. This is its README:\n\n${yield* readme(ws)}` : "";
-    const tools: Record<"direct" | "direct-search" | "folder" | "folder-read" | "codemode", ReadonlyArray<string>> = {
+    const codemode = (config: string) => [
+      "--mcp-config", config, "--tools", "",
+      "--allowedTools", "mcp__tools__search", "mcp__tools__run_code", "mcp__tools__forge",
+    ];
+    const tools: Record<"direct" | "direct-search" | "folder" | "folder-read" | "codemode" | "codemode-b", ReadonlyArray<string>> = {
       direct: ["--mcp-config", ws.directConfig, "--tools", "", "--allowedTools", ...ws.mcpServers],
       // Claude Code's own answer to the same problem: tool definitions deferred, found with ToolSearch.
       "direct-search": ["--mcp-config", ws.directConfig, "--tools", "ToolSearch", "--allowedTools", "ToolSearch", ...ws.mcpServers],
       folder: ["--append-system-prompt", standing, ...bash],
       "folder-read": bash,
-      codemode: [
-        "--mcp-config", ws.serveConfig, "--tools", "",
-        "--allowedTools", "mcp__tools__search", "mcp__tools__run_code", "mcp__tools__forge",
-      ],
+      codemode: codemode(ws.serveConfig),
+      "codemode-b": codemode(ws.serveConfigB),
     };
     const claudeSetup = setup as keyof typeof tools;
     return { agent: "claude", bin: "claude", args: [...common, ...tools[claudeSetup], "--output-format", "stream-json", "--verbose"] } as Call;

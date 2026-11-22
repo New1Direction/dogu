@@ -36,6 +36,7 @@ export const SETUP_LABELS: Record<string, string> = {
   folder: "dogu folder, list in instructions",
   "folder-read": "dogu folder, \"read the README\"",
   codemode: "dogu serve (code mode)",
+  "codemode-b": "dogu code mode, candidate build",
 };
 
 /** One row per setup: how often it was right, and what it cost on average. */
@@ -81,6 +82,7 @@ const BASELINES: Record<string, ReadonlyArray<string>> = {
   folder: ["direct", "direct-search"],
   "folder-read": ["direct", "direct-search"],
   codemode: ["direct", "direct-search"],
+  "codemode-b": ["codemode", "direct"],
   "codex-folder": ["codex-direct"],
   "pi-folder": ["pi-direct", "pi-codemode"],
 };
