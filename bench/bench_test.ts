@@ -291,6 +291,9 @@ Deno.test("heldout2 checks are strict where they must be and tolerant where coun
   // Each repo's tag, and the ones with none must be named.
   assert(check("encode-tags", "httpx 0.28.1, drf 3.18.3; apistar has no release", ["3.18.3", "0.28.1", "|", "apistar"]));
   assert(!check("encode-tags", "httpx 0.28.1, drf 3.18.3", ["3.18.3", "0.28.1", "|", "apistar"]));
+  assert(check("astro-newest", "withastro/astro", ["astro"]));
+  assert(check("astro-newest", "**astro**", ["astro"]));
+  assert(!check("astro-newest", "withastro/starlight", ["astro"]));
   // A repo named after its org: "modelcontextprotocol/servers" must not pass for "modelcontextprotocol".
   assert(check("mcp-last-push", "modelcontextprotocol/modelcontextprotocol", ["modelcontextprotocol", "servers"]));
   assert(check("mcp-last-push", "**modelcontextprotocol**", ["modelcontextprotocol", "servers"]));

@@ -788,7 +788,8 @@ export const TASKS: ReadonlyArray<Task> = [
         Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))),
         Effect.map((xs) => [xs.filter((x) => x.at !== "").reduce((a, b) => (b.at > a.at ? b : a)).repo.split("/")[1]]),
       ),
-    check: (a, f) => has(firstLine(a), f[0]),
+    // "astro" is inside "withastro": drop the org before comparing whole names.
+    check: (a, f) => lower(firstLine(a)).replaceAll("withastro/", "").split(/[^a-z0-9_.@-]+/).includes(lower(f[0])),
   },
 ];
 
