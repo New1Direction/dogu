@@ -290,7 +290,7 @@ The usual `mcp.json`:
 
 ## How it is built
 
-About 3,100 lines of Rust and JavaScript, with five dependencies and no async runtime.
+About 3,300 lines of Rust and JavaScript, with five dependencies and no async runtime.
 
 | File | Job |
 |---|---|
