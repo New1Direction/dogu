@@ -1,0 +1,1962 @@
+{
+  "date": "2026-11-22",
+  "dogu": "dogu 0.7.0",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "8596840",
+  "dirty": false,
+  "answers": {
+    "ruff-issues": [
+      "2336"
+    ],
+    "last-commit": [
+      "docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)"
+    ],
+    "pr-opener": [
+      "jspahrsummers"
+    ],
+    "most-forks": [
+      "pallets/flask"
+    ],
+    "pushed-last": [
+      "oven-sh/bun"
+    ],
+    "ruff-section": [
+      "Ruff Formatter"
+    ],
+    "entity-year": [
+      "2021"
+    ]
+  },
+  "records": [
+    {
+      "setup": "codemode",
+      "task": "ruff-issues",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "astral-sh/ruff has **2,336 open issues** as GitHub counts them, pull requests included. That is 1,752 open issues plus 584 open pull requests.\n\nI got the two numbers from separate GitHub searches, one over issues and one over pull requests, and added them.",
+        "turns": 3,
+        "seconds": 7.069,
+        "costUsd": 0.0134845,
+        "firstTurnTokens": 6751,
+        "totalInputTokens": 21369,
+        "outputTokens": 118,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1658,
+          "cacheRead": 19705
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const [a,b]=await Promise.all([tools.github.search_issues({query:\\\"repo:astral-sh/ruff state:open\\\",perPage:1}),tools.github.search_pull_requests({query:\\\"repo:astral-sh/ruff state:open\\\",perPage:1})]);\\nconsol",
+          "mcp__tools__run_code {\"code\":\"const [a,b]=await Promise.all([tools.github.search_issues({query:\\\"repo:astral-sh/ruff state:open\\\",perPage:1}),tools.github.search_pull_requests({query:\\\"repo:astral-sh/ruff state:open\\\",perPage:1})]);\\nconsol"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3113820840000008
+          },
+          {
+            "kind": "model",
+            "seconds": 2.293116582999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9091146669999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5049794160000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7619611670000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5608489580000011
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "ruff-issues",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "As of now, astral-sh/ruff has **2,336 open issues** by GitHub's count, which includes pull requests.\n\n- Open issues: 1,752\n- Open pull requests: 584\n\nI got these from two GitHub searches, `repo:astral-sh/ruff is:open` as an issue search and as a pull request search, and added the totals.",
+        "turns": 3,
+        "seconds": 9.309,
+        "costUsd": 0.0144952,
+        "firstTurnTokens": 6903,
+        "totalInputTokens": 21931,
+        "outputTokens": 144,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1713,
+          "cacheRead": 20212
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const [a,b]=await Promise.all([tools.github.search_issues({query:\\\"repo:astral-sh/ruff is:open\\\",perPage:1}),tools.github.search_pull_requests({query:\\\"repo:astral-sh/ruff is:open\\\",perPage:1})]);\\nconsole.log(",
+          "mcp__tools__run_code {\"code\":\"const [a,b]=await Promise.all([tools.github.search_issues({query:\\\"repo:astral-sh/ruff is:open\\\",perPage:1}),tools.github.search_pull_requests({query:\\\"repo:astral-sh/ruff is:open\\\",perPage:1})]);\\nconsole.log("
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.31880575000000133
+          },
+          {
+            "kind": "model",
+            "seconds": 2.5462501669999984
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9429252919999995
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5507120830000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8157254580000011
+          },
+          {
+            "kind": "model",
+            "seconds": 3.4087046250000004
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "last-commit",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest commit on the default branch (`862397c`) starts with this line:\n\n`docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)`",
+        "turns": 2,
+        "seconds": 3.542,
+        "costUsd": 0.0099552,
+        "firstTurnTokens": 6910,
+        "totalInputTokens": 14508,
+        "outputTokens": 86,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1712,
+          "cacheRead": 12792
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_commits({owner:\\\"modelcontextprotocol\\\",repo:\\\"modelcontextprotocol\\\",perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3132626670000009
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4731337079999993
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7766084169999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.244213375000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "last-commit",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The first line of the latest commit message on the default branch is:\n\n`docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)`\n\nThe commit is `862397c`, by olaservo, on 2026-11-22.",
+        "turns": 2,
+        "seconds": 3.694,
+        "costUsd": 0.010117000000000001,
+        "firstTurnTokens": 6758,
+        "totalInputTokens": 14204,
+        "outputTokens": 106,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1710,
+          "cacheRead": 12490
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_commits({owner:\\\"modelcontextprotocol\\\",repo:\\\"modelcontextprotocol\\\",perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24996054100000037
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6079827089999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8245140830000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2438184580000016
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "pr-opener",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #7 in modelcontextprotocol/python-sdk, \"Configure CI\", was opened by **jspahrsummers**.\n\nIt was merged on 2024-10-03.",
+        "turns": 2,
+        "seconds": 3.413,
+        "costUsd": 0.0098481,
+        "firstTurnTokens": 6749,
+        "totalInputTokens": 14158,
+        "outputTokens": 89,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1673,
+          "cacheRead": 12481
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.pull_request_read({method:\\\"get\\\",owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",pullNumber:7});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2449444169999988
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4279347500000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8859265410000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0794915
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "pr-opener",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "PR #7 in modelcontextprotocol/python-sdk, \"Configure CI\", was opened by **jspahrsummers**.\n\nIt was created on 2024-10-02 and merged on 2024-10-03.",
+        "turns": 2,
+        "seconds": 3.579,
+        "costUsd": 0.0099763,
+        "firstTurnTokens": 6901,
+        "totalInputTokens": 14462,
+        "outputTokens": 94,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1675,
+          "cacheRead": 12783
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.pull_request_read({method:\\\"get\\\",owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",pullNumber:7});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24457829099999798
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5247015840000022
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8129800829999982
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2219400830000016
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "most-forks",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "pallets/flask\nFork counts (run 76921b75): pallets/flask has 17,294, astral-sh/uv has 3,928 and astral-sh/ruff has 2,775.",
+        "turns": 2,
+        "seconds": 3.223,
+        "costUsd": 0.011248999999999999,
+        "firstTurnTokens": 6908,
+        "totalInputTokens": 14697,
+        "outputTokens": 92,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1903,
+          "cacheRead": 12790
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const rs = await Promise.all([[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"astral-sh\\\",\\\"uv\\\"],[\\\"pallets\\\",\\\"flask\\\"]].map(([owner,repo])=>tools.github.search_repositories({query:`repo:${owner}/${repo}`})));\\nrs.forEach(r=>con"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23132333300000027
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5320245830000023
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7873042920000008
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8832219579999983
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "most-forks",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "pallets/flask\n\nFork counts (run ecf293fd): flask 17,294; uv 3,928; ruff 2,775.",
+        "turns": 2,
+        "seconds": 2.878,
+        "costUsd": 0.0108569,
+        "firstTurnTokens": 6757,
+        "totalInputTokens": 14383,
+        "outputTokens": 73,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1890,
+          "cacheRead": 12489
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await Promise.all([[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"astral-sh\\\",\\\"uv\\\"],[\\\"pallets\\\",\\\"flask\\\"]].map(([owner,repo])=>tools.github.search_repositories({query:`repo:${owner}/${repo}`})));\\nconsole.log(JSON.s"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25349925000000073
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3271441669999984
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7762804160000014
+          },
+          {
+            "kind": "model",
+            "seconds": 0.751214
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "pushed-last",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "oven-sh/bun\n\nBun's latest default-branch commit is from 2026-11-22 21:09 UTC. For uv it's 2026-11-21 17:23 UTC, and for deno 2026-11-17 15:44 UTC. I took the first commit that `list_commits` returned for each repo and compared the committer timestamps.",
+        "turns": 3,
+        "seconds": 8.042,
+        "costUsd": 0.017204700000000003,
+        "firstTurnTokens": 6774,
+        "totalInputTokens": 22870,
+        "outputTokens": 174,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2517,
+          "cacheRead": 20347
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"denoland\\\",\\\"deno\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]];\\nconst rs=await Promise.all(repos.map(([owner,repo])=>tools.github.list_commits({owner,repo,perPage:1})));\\nrs.forEach((r,i)=>",
+          "mcp__tools__run_code {\"code\":\"const repos=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"denoland\\\",\\\"deno\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]];\\nconst rs=await Promise.all(repos.map(([owner,repo])=>tools.github.list_commits({owner,repo,perPage:1})));\\nrs.forEach((r,i)=>"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24496445799999855
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4901369169999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0402348750000021
+          },
+          {
+            "kind": "model",
+            "seconds": 2.968913666999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9680684160000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5572238340000002
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "pushed-last",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "oven-sh/bun\n\nIts latest default-branch commit is a28f3a4, pushed 2026-11-22 at 21:09 UTC. uv's latest was 2026-11-21 at 17:23 UTC, and deno's was 2026-11-17 at 15:44 UTC.",
+        "turns": 3,
+        "seconds": 6.668,
+        "costUsd": 0.017353900000000002,
+        "firstTurnTokens": 6927,
+        "totalInputTokens": 23444,
+        "outputTokens": 154,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2679,
+          "cacheRead": 20759
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const rs = await Promise.all([[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"denoland\\\",\\\"deno\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]].map(([owner,repo])=>tools.github.list_commits({owner,repo,perPage:1})));\\nrs.forEach(r=>console.log(JSON.strin",
+          "mcp__tools__run_code {\"code\":\"const rs = await Promise.all([[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"denoland\\\",\\\"deno\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]].map(([owner,repo])=>tools.github.list_commits({owner,repo,perPage:1})));\\nrs.forEach(r=>console.log(r[0].html_"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2409819580000003
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7342147919999988
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9440130830000018
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5806352919999993
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0032163749999992
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3854077919999988
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section **4, \"Ruff Formatter\"**. Its subsections are:\n- 4.1 Formatter Architecture\n- 4.2 Formatting Rules and Style\n- 4.3 Black Compatibility and Configuration\n- 4.4 Markdown Code Formatting",
+        "turns": 2,
+        "seconds": 2.938,
+        "costUsd": 0.012423,
+        "firstTurnTokens": 6908,
+        "totalInputTokens": 15073,
+        "outputTokens": 132,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2279,
+          "cacheRead": 12790
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23500566699999764
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3730332500000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.25651508300000203
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2899440839999987
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section 4, titled **\"Ruff Formatter\"**, in DeepWiki's documentation of astral-sh/ruff.\n\nIts subsections are:\n- 4.1 Formatter Architecture\n- 4.2 Formatting Rules and Style\n- 4.3 Black Compatibility and Configuration\n- 4.4 Markdown Code Formatting",
+        "turns": 2,
+        "seconds": 2.762,
+        "costUsd": 0.012640700000000001,
+        "firstTurnTokens": 6755,
+        "totalInputTokens": 14767,
+        "outputTokens": 158,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2276,
+          "cacheRead": 12487
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"}); console.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2590123749999984
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1884272920000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.26115599999999906
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2935595410000023
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ginkgo started in **2021**, according to the knowledge graph. Its entity has the observation \"Started in 2021\".",
+        "turns": 2,
+        "seconds": 2.48,
+        "costUsd": 0.0072084,
+        "firstTurnTokens": 6732,
+        "totalInputTokens": 13624,
+        "outputTokens": 71,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1156,
+          "cacheRead": 12464
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.memory.search_nodes({query:\\\"Ginkgo\\\"})))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22975774999999704
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5679766250000031
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.014350332999994775
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8782275829999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ginkgo started in **2021**, according to the knowledge graph.",
+        "turns": 2,
+        "seconds": 2.071,
+        "costUsd": 0.007160700000000001,
+        "firstTurnTokens": 6885,
+        "totalInputTokens": 13935,
+        "outputTokens": 51,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1164,
+          "cacheRead": 12767
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.memory.search_nodes({query:\\\"Ginkgo\\\"});\\nconsole.log(JSON.stringify(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23606145800000014
+          },
+          {
+            "kind": "model",
+            "seconds": 1.342652667000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.011127416999995976
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6955512080000046
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "ruff-issues",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "As of now, astral-sh/ruff has about **2,336 open items** as GitHub counts them, with pull requests included.\n\n- Open issues: 1,752\n- Open pull requests: 584\n\nI got these from two GitHub searches (`state:open`), one for issues and one for pull requests, and added the totals. I didn't pull a single combined count from GitHub, so the sum is my own arithmetic.",
+        "turns": 2,
+        "seconds": 5.258,
+        "costUsd": 0.010778600000000001,
+        "firstTurnTokens": 6904,
+        "totalInputTokens": 14183,
+        "outputTokens": 133,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1393,
+          "cacheRead": 12786
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const [a,b]=await Promise.all([tools.github.search_issues({query:\\\"repo:astral-sh/ruff state:open\\\",perPage:1}),tools.github.search_pull_requests({query:\\\"repo:astral-sh/ruff state:open\\\",perPage:1})]);\\nconsol"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24216366700000072
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4287089169999962
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.013513625000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7956845829999946
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "ruff-issues",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "astral-sh/ruff has **2,336 open issues** right now. That is GitHub's `open_issues_count`, which includes open pull requests.\n\nI got the number from a GitHub repository search for `repo:astral-sh/ruff`. The repo's `updated_at` was 2026-11-22T22:07:53Z.",
+        "turns": 2,
+        "seconds": 3.925,
+        "costUsd": 0.0103605,
+        "firstTurnTokens": 6753,
+        "totalInputTokens": 13980,
+        "outputTokens": 114,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1491,
+          "cacheRead": 12485
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.search_repositories({query:\\\"repo:astral-sh/ruff\\\"});\\nconsole.log(JSON.stringify(r).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2381306659999973
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8397487920000057
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5146318749999992
+          },
+          {
+            "kind": "model",
+            "seconds": 1.551341874999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "last-commit",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The first line of the latest commit message on the default branch is:\n\n`docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)`\n\nThe commit is `862397c`, authored on 2026-11-22. I didn't check which branch is the default. I took the first result from `list_commits` with no branch given, which uses the default branch.",
+        "turns": 2,
+        "seconds": 3.744,
+        "costUsd": 0.010461100000000001,
+        "firstTurnTokens": 6759,
+        "totalInputTokens": 14206,
+        "outputTokens": 140,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1711,
+          "cacheRead": 12491
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_commits({owner:\\\"modelcontextprotocol\\\",repo:\\\"modelcontextprotocol\\\",perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23537712499999908
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4823458329999992
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7568422920000011
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4872508749999982
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "last-commit",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest commit on the default branch (`862397c`) starts with this line:\n\n`docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)`",
+        "turns": 2,
+        "seconds": 2.933,
+        "costUsd": 0.009951100000000001,
+        "firstTurnTokens": 6909,
+        "totalInputTokens": 14506,
+        "outputTokens": 86,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1711,
+          "cacheRead": 12791
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_commits({owner:\\\"modelcontextprotocol\\\",repo:\\\"modelcontextprotocol\\\",perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2928961249999993
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3443893330000065
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.44191745899999635
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1177343750000004
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "pr-opener",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #7 in modelcontextprotocol/python-sdk (\"Configure CI\") was opened by **jspahrsummers**.\n\nIt was opened on 2024-10-02 and merged on 2024-10-03.",
+        "turns": 2,
+        "seconds": 3.435,
+        "costUsd": 0.010006300000000001,
+        "firstTurnTokens": 6901,
+        "totalInputTokens": 14462,
+        "outputTokens": 97,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1675,
+          "cacheRead": 12783
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.pull_request_read({method:\\\"get\\\",owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",pullNumber:7});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.29942370800000206
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3566730830000013
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7588828749999958
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2797954590000007
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "pr-opener",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #7 in modelcontextprotocol/python-sdk, \"Configure CI\", was opened by **jspahrsummers**.\n\nIt was opened on 2024-10-02 and merged on 2024-10-03.",
+        "turns": 2,
+        "seconds": 3.195,
+        "costUsd": 0.0099722,
+        "firstTurnTokens": 6750,
+        "totalInputTokens": 14160,
+        "outputTokens": 101,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1674,
+          "cacheRead": 12482
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.pull_request_read({method:\\\"get\\\",owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",pullNumber:7});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.32179029200000514
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2266886249999953
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9913673330000019
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9517200840000006
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "most-forks",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "pallets/flask\nIt has 17,294 forks. astral-sh/uv has 3,928 and astral-sh/ruff has 2,775.",
+        "turns": 2,
+        "seconds": 3.187,
+        "costUsd": 0.0109949,
+        "firstTurnTokens": 6757,
+        "totalInputTokens": 14390,
+        "outputTokens": 77,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1897,
+          "cacheRead": 12489
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await Promise.all([[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"astral-sh\\\",\\\"uv\\\"],[\\\"pallets\\\",\\\"flask\\\"]].map(([owner,repo])=>tools.github.search_repositories({query:`repo:${owner}/${repo}`})));\\nfor (const x of r)"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2419606249999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.637273583000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7075007079999993
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8239343749999972
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "most-forks",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "pallets/flask\nForks: flask 17,294, uv 3,928, ruff 2,775.",
+        "turns": 2,
+        "seconds": 3.204,
+        "costUsd": 0.0109713,
+        "firstTurnTokens": 6911,
+        "totalInputTokens": 14703,
+        "outputTokens": 59,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1906,
+          "cacheRead": 12793
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const rs = await Promise.all([[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"astral-sh\\\",\\\"uv\\\"],[\\\"pallets\\\",\\\"flask\\\"]].map(([owner,repo])=>tools.github.search_repositories({query:`repo:${owner}/${repo}`})));\\nrs.forEach(r=>con"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.41998683300000267
+          },
+          {
+            "kind": "model",
+            "seconds": 1.587533958
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7447341250000026
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8480863339999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "pushed-last",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "oven-sh/bun\n\nIts latest default-branch commit is a28f3a4, committed 2026-11-22 21:09 UTC. The latest commits on the other two were older. uv's was 2026-11-21 17:23 UTC and deno's was 2026-11-17 15:44 UTC.\n\nI used the commit timestamp as the push time, so a commit written earlier but pushed later could change the order.",
+        "turns": 3,
+        "seconds": 6.992,
+        "costUsd": 0.0166099,
+        "firstTurnTokens": 6927,
+        "totalInputTokens": 23340,
+        "outputTokens": 192,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2455,
+          "cacheRead": 20879
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const rs = await Promise.all([[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"denoland\\\",\\\"deno\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]].map(([owner,repo])=>tools.github.list_commits({owner,repo,perPage:1})));\\nrs.forEach(r=>console.log(JSON.strin",
+          "mcp__tools__run_code {\"code\":\"const rs = await Promise.all([[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"denoland\\\",\\\"deno\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]].map(([owner,repo])=>tools.github.list_commits({owner,repo,perPage:1})));\\nrs.forEach(r=>console.log(r[0].commi"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.339979041999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.717247374999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8351246250000042
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5955785829999947
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9804553330000054
+          },
+          {
+            "kind": "model",
+            "seconds": 1.839962667
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "pushed-last",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "oven-sh/bun\n\nIts latest default-branch commit is a28f3a4, committed 2026-11-22 21:09 UTC. uv's latest was 2026-11-21 17:23 UTC, and deno's was 2026-11-17 15:44 UTC. These are commit timestamps, which can differ slightly from push time.",
+        "turns": 3,
+        "seconds": 7.087,
+        "costUsd": 0.0170845,
+        "firstTurnTokens": 6774,
+        "totalInputTokens": 23010,
+        "outputTokens": 172,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2539,
+          "cacheRead": 20465
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const rs=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"denoland\\\",\\\"deno\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]];\\nconst out=await Promise.all(rs.map(([owner,repo])=>tools.github.list_commits({owner,repo,perPage:1})));\\nout.forEach((o,i)=>cons",
+          "mcp__tools__run_code {\"code\":\"const rs=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"denoland\\\",\\\"deno\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]];\\nconst out=await Promise.all(rs.map(([owner,repo])=>tools.github.list_commits({owner,repo,perPage:1})));\\nout.forEach((o,i)=>cons"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2642025419999991
+          },
+          {
+            "kind": "model",
+            "seconds": 1.799233792000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0165002909999967
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6246631669999987
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9458834580000044
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6813234589999988
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section 4, titled **\"Ruff Formatter\"**. I got this from DeepWiki's page structure for astral-sh/ruff.\n\nIts subsections are:\n- 4.1 Formatter Architecture\n- 4.2 Formatting Rules and Style\n- 4.3 Black Compatibility and Configuration\n- 4.4 Markdown Code Formatting",
+        "turns": 2,
+        "seconds": 3.079,
+        "costUsd": 0.0126789,
+        "firstTurnTokens": 6757,
+        "totalInputTokens": 14771,
+        "outputTokens": 161,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2278,
+          "cacheRead": 12489
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"}); console.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2434241669999974
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3404063749999986
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.15665445800000444
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5664514999999954
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section 4, titled **\"Ruff Formatter\"**. Its subsections are:\n- 4.1 Formatter Architecture\n- 4.2 Formatting Rules and Style\n- 4.3 Black Compatibility and Configuration\n- 4.4 Markdown Code Formatting",
+        "turns": 2,
+        "seconds": 2.53,
+        "costUsd": 0.0124431,
+        "firstTurnTokens": 6909,
+        "totalInputTokens": 15074,
+        "outputTokens": 135,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2279,
+          "cacheRead": 12791
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"});console.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.32004183299999567
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1446586670000034
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1541302080000022
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1919325839999946
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ginkgo started in **2021**, according to the knowledge graph.",
+        "turns": 2,
+        "seconds": 1.881,
+        "costUsd": 0.007090700000000001,
+        "firstTurnTokens": 6885,
+        "totalInputTokens": 13930,
+        "outputTokens": 55,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1159,
+          "cacheRead": 12767
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.memory.search_nodes({query:\\\"Ginkgo\\\"})))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.28107079099999827
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1858824999999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.023401959000002526
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6484457079999995
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ginkgo started in 2021, according to the knowledge graph.",
+        "turns": 2,
+        "seconds": 1.882,
+        "costUsd": 0.0070343,
+        "firstTurnTokens": 6731,
+        "totalInputTokens": 13622,
+        "outputTokens": 54,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1155,
+          "cacheRead": 12463
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.memory.search_nodes({query:\\\"Ginkgo\\\"})))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.26941162500000065
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2058497500000012
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01804570799999783
+          },
+          {
+            "kind": "model",
+            "seconds": 0.6313335829999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "ruff-issues",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "As of now, astral-sh/ruff has **2,336 open issues** when pull requests are counted, as GitHub counts them.\n\n- Open issues: 1,752\n- Open pull requests: 584\n\nI got these totals from two GitHub searches filtered to open items, one for issues and one for pull requests, and added them together.",
+        "turns": 3,
+        "seconds": 7.025,
+        "costUsd": 0.0138145,
+        "firstTurnTokens": 6754,
+        "totalInputTokens": 21406,
+        "outputTokens": 130,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1675,
+          "cacheRead": 19725
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const [a,b]=await Promise.all([tools.github.search_issues({query:\\\"repo:astral-sh/ruff is:open\\\",perPage:1}),tools.github.search_pull_requests({query:\\\"repo:astral-sh/ruff is:open\\\",perPage:1})]);\\nconsole.log(",
+          "mcp__tools__run_code {\"code\":\"const [a,b]=await Promise.all([tools.github.search_issues({query:\\\"repo:astral-sh/ruff is:open\\\",perPage:1}),tools.github.search_pull_requests({query:\\\"repo:astral-sh/ruff is:open\\\",perPage:1})]);\\nconsole.log("
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.265708375000002
+          },
+          {
+            "kind": "model",
+            "seconds": 2.093338458999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.1026149159999985
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2851180420000015
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9149367080000017
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6009657920000029
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "ruff-issues",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "astral-sh/ruff has **2,336 open items** right now, counting pull requests the way GitHub does.\n\n- Open issues: 1,752\n- Open pull requests: 584\n\nI got these from two GitHub searches, one for issues and one for pull requests, and added the totals.",
+        "turns": 2,
+        "seconds": 4.469,
+        "costUsd": 0.0097946,
+        "firstTurnTokens": 6904,
+        "totalInputTokens": 14122,
+        "outputTokens": 93,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1332,
+          "cacheRead": 12786
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const [i,p]=await Promise.all([tools.github.search_issues({query:\\\"repo:astral-sh/ruff is:open\\\",perPage:1}),tools.github.search_pull_requests({query:\\\"repo:astral-sh/ruff is:open\\\",perPage:1})]);\\nconsole.log("
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2790035410000055
+          },
+          {
+            "kind": "model",
+            "seconds": 2.172885583999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9048051249999989
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3703519999999987
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "last-commit",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The first line of the latest commit message on the default branch is:\n\n`docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)`\n\nThe commit is `862397c`, authored by Ola Hungerford on 2026-11-22. I didn't check the default branch's name. I took the latest commit from `list_commits` with no branch given, which uses the default.",
+        "turns": 2,
+        "seconds": 3.716,
+        "costUsd": 0.010577,
+        "firstTurnTokens": 6908,
+        "totalInputTokens": 14504,
+        "outputTokens": 149,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1710,
+          "cacheRead": 12790
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_commits({owner:\\\"modelcontextprotocol\\\",repo:\\\"modelcontextprotocol\\\",perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25392966700000397
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3557738329999993
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7938910829999948
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5481336670000019
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "last-commit",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The latest commit on the default branch (`862397c`) starts with this line:\n\n`docs: add Archestra.AI and mcp-use to the extension client matrix (#3574)`\n\nIt was authored by Ola Hungerford on 2026-11-22.",
+        "turns": 2,
+        "seconds": 3.701,
+        "costUsd": 0.0101511,
+        "firstTurnTokens": 6759,
+        "totalInputTokens": 14206,
+        "outputTokens": 109,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1711,
+          "cacheRead": 12491
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.list_commits({owner:\\\"modelcontextprotocol\\\",repo:\\\"modelcontextprotocol\\\",perPage:1});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24594075000000157
+          },
+          {
+            "kind": "model",
+            "seconds": 1.549758332999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7671512500000028
+          },
+          {
+            "kind": "model",
+            "seconds": 1.36541575
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "pr-opener",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #7 in modelcontextprotocol/python-sdk, \"Configure CI\", was opened by **jspahrsummers**. It was merged on 2024-10-03.",
+        "turns": 2,
+        "seconds": 2.913,
+        "costUsd": 0.0098381,
+        "firstTurnTokens": 6749,
+        "totalInputTokens": 14158,
+        "outputTokens": 84,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1673,
+          "cacheRead": 12481
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.pull_request_read({method:\\\"get\\\",owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",pullNumber:7});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25033729100000346
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4566770419999957
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.41623695800000116
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0222677919999987
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "pr-opener",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Pull request #7 (\"Configure CI\") in modelcontextprotocol/python-sdk was opened by **jspahrsummers**.\n\nIt was merged on 2024-10-03.",
+        "turns": 2,
+        "seconds": 3.272,
+        "costUsd": 0.0098863,
+        "firstTurnTokens": 6901,
+        "totalInputTokens": 14462,
+        "outputTokens": 85,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1675,
+          "cacheRead": 12783
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.github.pull_request_read({method:\\\"get\\\",owner:\\\"modelcontextprotocol\\\",repo:\\\"python-sdk\\\",pullNumber:7});\\nconsole.log(JSON.stringify(r).slice(0,1500));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3038320840000015
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3273177080000023
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8003664999999967
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1204092499999967
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "most-forks",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "pallets/flask\n\nFork counts: pallets/flask has 17,294, astral-sh/uv has 3,928, and astral-sh/ruff has 2,775. I got these from the GitHub repository search.",
+        "turns": 2,
+        "seconds": 2.929,
+        "costUsd": 0.011309,
+        "firstTurnTokens": 6908,
+        "totalInputTokens": 14697,
+        "outputTokens": 94,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1903,
+          "cacheRead": 12790
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const rs = await Promise.all([[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"astral-sh\\\",\\\"uv\\\"],[\\\"pallets\\\",\\\"flask\\\"]].map(([owner,repo])=>tools.github.search_repositories({query:`repo:${owner}/${repo}`})));\\nrs.forEach(r=>con"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24842900000000373
+          },
+          {
+            "kind": "model",
+            "seconds": 1.370880041000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.671840333999993
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8664980829999989
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "most-forks",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "pallets/flask\n\nFork counts (run 458225a4): flask 17,294; uv 3,928; ruff 2,775.",
+        "turns": 2,
+        "seconds": 2.845,
+        "costUsd": 0.0108428,
+        "firstTurnTokens": 6756,
+        "totalInputTokens": 14381,
+        "outputTokens": 72,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1889,
+          "cacheRead": 12488
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await Promise.all([[\\\"astral-sh\\\",\\\"ruff\\\"],[\\\"astral-sh\\\",\\\"uv\\\"],[\\\"pallets\\\",\\\"flask\\\"]].map(([owner,repo])=>tools.github.search_repositories({query:`repo:${owner}/${repo}`})));\\nconsole.log(JSON.s"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2363444579999923
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3810215000000026
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6774719170000028
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7665264999999923
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "pushed-last",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "oven-sh/bun\nIts latest default-branch commit was at 2026-11-22T21:09Z. The other two were older: astral-sh/uv at 2026-11-21T17:23Z and denoland/deno at 2026-11-17T15:44Z.",
+        "turns": 3,
+        "seconds": 6.768,
+        "costUsd": 0.016963100000000002,
+        "firstTurnTokens": 6776,
+        "totalInputTokens": 22876,
+        "outputTokens": 149,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2519,
+          "cacheRead": 20351
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"denoland\\\",\\\"deno\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]];\\nconst rs=await Promise.all(repos.map(([owner,repo])=>tools.github.list_commits({owner,repo,perPage:1})));\\nrs.forEach((r,i)=>",
+          "mcp__tools__run_code {\"code\":\"const repos=[[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"denoland\\\",\\\"deno\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]];\\nconst rs=await Promise.all(repos.map(([owner,repo])=>tools.github.list_commits({owner,repo,perPage:1})));\\nrs.forEach((r,i)=>"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2242567080000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6932795829999958
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0146653749999968
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8199220000000058
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8676481250000077
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3525588749999873
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "pushed-last",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "oven-sh/bun\n\nIts latest default-branch commit was at 2026-11-22T21:09:07Z. The latest commits on the other two were earlier:\n- astral-sh/uv: 2026-11-21T17:23:51Z\n- denoland/deno: 2026-11-17T15:44:23Z",
+        "turns": 3,
+        "seconds": 6.276,
+        "costUsd": 0.016371700000000003,
+        "firstTurnTokens": 6926,
+        "totalInputTokens": 23194,
+        "outputTokens": 165,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 2431,
+          "cacheRead": 20757
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const rs = await Promise.all([[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"denoland\\\",\\\"deno\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]].map(([owner,repo])=>tools.github.list_commits({owner,repo,perPage:1})));\\nrs.forEach(r=>console.log(JSON.strin",
+          "mcp__tools__run_code {\"code\":\"const rs = await Promise.all([[\\\"oven-sh\\\",\\\"bun\\\"],[\\\"denoland\\\",\\\"deno\\\"],[\\\"astral-sh\\\",\\\"uv\\\"]].map(([owner,repo])=>tools.github.list_commits({owner,repo,perPage:1})));\\nrs.forEach(r=>console.log(JSON.strin"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24602504100000078
+          },
+          {
+            "kind": "model",
+            "seconds": 1.658628874999995
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9404957089999955
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6470139159999966
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6398887500000123
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3702228749999925
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section 4, titled **\"Ruff Formatter\"**. It sits in DeepWiki's structure for astral-sh/ruff.\n\nIts subsections are 4.1 Formatter Architecture, 4.2 Formatting Rules and Style, 4.3 Black Compatibility and Configuration, and 4.4 Markdown Code Formatting.",
+        "turns": 2,
+        "seconds": 2.73,
+        "costUsd": 0.0126589,
+        "firstTurnTokens": 6907,
+        "totalInputTokens": 15071,
+        "outputTokens": 156,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2278,
+          "cacheRead": 12789
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2756046659999993
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2264877500000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.18462725000000502
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2910456249999989
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section **4, \"Ruff Formatter\"** in DeepWiki's documentation of astral-sh/ruff.\n\nIts subsections are:\n- 4.1 Formatter Architecture\n- 4.2 Formatting Rules and Style\n- 4.3 Black Compatibility and Configuration\n- 4.4 Markdown Code Formatting",
+        "turns": 2,
+        "seconds": 2.947,
+        "costUsd": 0.012600700000000001,
+        "firstTurnTokens": 6755,
+        "totalInputTokens": 14767,
+        "outputTokens": 154,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2276,
+          "cacheRead": 12487
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"}); console.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.26295883299999695
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2588517920000013
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.15732325000000125
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5129459169999901
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ginkgo started in **2021**. That comes from the knowledge graph entry for \"Project Ginkgo\", which has the observation \"Started in 2021\".",
+        "turns": 2,
+        "seconds": 2.381,
+        "costUsd": 0.0074246,
+        "firstTurnTokens": 6734,
+        "totalInputTokens": 13635,
+        "outputTokens": 82,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1165,
+          "cacheRead": 12466
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.memory.search_nodes({query:\\\"Project Ginkgo\\\"});\\nconsole.log(JSON.stringify(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2386207080000022
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4391026669999991
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.013709541999996855
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9110733330000078
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode-b",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Ginkgo started in **2021**, according to the knowledge graph.",
+        "turns": 2,
+        "seconds": 2.118,
+        "costUsd": 0.007090700000000001,
+        "firstTurnTokens": 6885,
+        "totalInputTokens": 13930,
+        "outputTokens": 55,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1159,
+          "cacheRead": 12767
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.memory.search_nodes({query:\\\"Ginkgo\\\"})))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25143020799999066
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3421426670000074
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01815499999999881
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7383586250000083
+          }
+        ]
+      }
+    }
+  ]
+}

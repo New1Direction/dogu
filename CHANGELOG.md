@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+- `run_code`'s description shows `Promise.allSettled` for calls that may fail, printing just the field needed from each. On new held-out tasks where some calls fail: 11% cheaper, average task 9.3 -> 7.8 s, the same answers; no change on ordinary tasks.
+
 ## [0.7.0] - 2026-11-22
 
 ### Added
