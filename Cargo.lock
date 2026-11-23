@@ -126,7 +126,7 @@ dependencies = [
 
 [[package]]
 name = "dogu"
-version = "0.7.3"
+version = "0.7.4"
 dependencies = [
  "djs-embed",
  "getrandom",
