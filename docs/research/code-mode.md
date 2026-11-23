@@ -107,6 +107,24 @@ Codex's code mode read as much as loading directly and was no faster. The dogu f
 
 UTCP code-mode 1.2.1 (pinned) in Claude Code, on the 11 held-out tasks that need no GitHub token (DeepWiki and the local memory server; `BENCH_SERVERS=deepwiki`, so no token went into any setup's config or environment). 3 runs each ([results](../../bench/results/2026-11-22-utcp-no-token.md)): dogu code mode $0.0115 per task, 2.76 s median, 2.0 turns, 30/33 right; UTCP $0.0221, 4.32 s, 3.2 turns, 31/33; loading directly $0.0155, 2.91 s, 30/33. dogu was cheapest in each of the six task sets alone. UTCP searches before it calls (a turn) and starts in 2.5 s against dogu's 0.27 s.
 
+## A public benchmark: MCPMark
+
+MCPMark ([eval-sys/mcpmark](https://github.com/eval-sys/mcpmark), Apache-2.0, commit `cd45b7f`), its 40 filesystem tasks, judged by its own `verify.py` checkers (fixed expected values, standard library only; we read all 40 before running them). Claude Code 2.1.330 with Sonnet, dogu 0.7.5, 3 runs each, the server MCPMark pins (`@modelcontextprotocol/server-filesystem@2025.12.18`, 14 tools), Claude Code's own tools off. Runner: [`bench/mcpmark.ts`](../../bench/mcpmark.ts); [results](../../bench/results/2026-11-22-mcpmark-filesystem.md).
+
+| | Passed | Cost mean / median | Time median / mean | Turns (mean) | Tokens read (median) |
+|---|---|---|---|---|---|
+| Loading directly | 102/120 (1 timeout) | $0.1991 / $0.0903 | 24.3 / 47.1 s | 13.8 | 51.9k |
+| dogu code mode | 101/120 | $0.0515 / $0.0456 | 11.8 / 13.0 s | 4.2 | 31.9k |
+
+- Standard tasks: 76/90 against 75/90, $0.057 against $0.248, 12.9 against 32.6 s median. Easy: 25/30 against 27/30, $0.036 against $0.056, 6.1 against 11.5 s.
+- Code mode was cheaper on 36 of 40 tasks and faster on 34 (each task's mean of 3 runs).
+- First-turn tokens differ by only 14% (5.7k against 6.6k): with one 14-tool server the saving is in turns (70% fewer), not in the tool list.
+- The timed-out run (10 minutes) has no cost or time and is left out of those averages, which flatters loading directly.
+- Losses: `legal_document/solution_tracing` 0/3 against 3/3 (the same clause each time, flagged by the agent as a judgment call; the comments were in its output, so not cut off; loading directly took 15 to 19 turns against 3 or 4). `easy/file_context/file_splitting` 1/3 against 3/3, `standard/file_context/uppercase` 1/3 against 3/3.
+- Biggest win: `papers/author_folders` 3/3 against 0/3 (44 and 84 turns, and a timeout, against about 21 s each).
+- Nobody passed `easy/file_context/uppercase` (its checker wants an `answer.txt` its prompt never asks for) or `desktop_template/budget_computation`.
+- A harness bug caught before the run: started in an empty folder, loading directly failed every trial task (the tasks say "the current directory"); dogu's agents asked the server for its allowed folders and passed. Claude Code now starts in the task's folder; that trial run was discarded.
+
 ## Where the time goes now
 
 The model's own work is the biggest part of every task: 3.1 to 4.1 s per task on average, depending on the setup. What differs:

@@ -57,7 +57,16 @@ const bars = (title: string, rows: ReadonlyArray<Row>, max: number, ticks: Reado
 };
 
 /** Bars either side of zero: left is cheaper, right costs more. */
-const diverging = (title: string, rows: ReadonlyArray<Row>, min: number, max: number, ticks: ReadonlyArray<[number, string]>) => {
+const COST_KEY: ReadonlyArray<[string, string]> = [["dogu", "Cheaper with dogu"], ["more", "Costs more with dogu"]];
+
+const diverging = (
+  title: string,
+  rows: ReadonlyArray<Row>,
+  min: number,
+  max: number,
+  ticks: ReadonlyArray<[number, string]>,
+  key: ReadonlyArray<[string, string]> = COST_KEY,
+) => {
   const h = TOP + rows.length * ROW + 30;
   const x = (v: number) => PLOT_L + ((v - min) / (max - min)) * (PLOT_R - PLOT_L);
   const grid = ticks.map(([v, t]) =>
@@ -69,7 +78,7 @@ const diverging = (title: string, rows: ReadonlyArray<Row>, min: number, max: nu
     const labelX = r.value < 0 ? end - 6 : end + 6;
     return `<text x="${LABEL}" y="${y + 13}" text-anchor="end">${esc(r.label)}</text>${bar(x(0), end, y, r.cls)}<text x="${labelX}" y="${y + 13}" text-anchor="${r.value < 0 ? "end" : "start"}">${esc(r.shown)}</text>`;
   }).join("");
-  return svg(title, h, `${legend([["dogu", "Cheaper with dogu"], ["more", "Costs more with dogu"]])}${grid}${body}`);
+  return svg(title, h, `${legend(key)}${grid}${body}`);
 };
 
 const svg = (title: string, h: number, body: string) => frame(title, W, h, body);
@@ -90,6 +99,8 @@ const terraFast = load("2026-11-22-heldout-codex-terra-fast1");
 const forge = load("2026-11-22-forge");
 const pi62 = load("2026-11-22-pi-gpt62");
 const codexCodemode = load("2026-11-22-codex-codemode");
+// MCPMark's 40 filesystem tasks (a public benchmark, its own checkers), dogu 0.7.5.
+const mcpmark = load("2026-11-22-mcpmark-filesystem");
 
 const claudeSetups: ReadonlyArray<[string, string, string]> = [
   ["direct", "Loading the servers directly", "other"],
@@ -133,6 +144,26 @@ const charts: Record<string, string> = {
       shown: `${(v as number) > 0 ? "+" : ""}${v}%`,
     }));
     return diverging("Change in cost per task with dogu, by agent", rows, -100, 40, [[-80, "-80%"], [-40, "-40%"], [0, "0"], [40, "+40%"]]);
+  })(),
+  "mcpmark.svg": (() => {
+    const m = (setup: string, f: (x: NonNullable<Rec["metrics"]>) => number, agg: "mean" | "median") => {
+      const xs = mcpmark.filter((r) => r.setup === setup && r.metrics).map((r) => f(r.metrics!));
+      return agg === "mean" ? mean(xs) : [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)];
+    };
+    type Pick = readonly [string, (x: NonNullable<Rec["metrics"]>) => number, "mean" | "median"];
+    const picks: ReadonlyArray<Pick> = [
+      ["Cost per task (mean)", (x) => x.costUsd ?? 0, "mean"],
+      ["Cost per task (median)", (x) => x.costUsd ?? 0, "median"],
+      ["Time per task (median)", (x) => x.seconds, "median"],
+      ["Time per task (mean)", (x) => x.seconds, "mean"],
+      ["Tokens read per task (median)", (x) => x.totalInputTokens, "median"],
+      ["Model turns per task (mean)", (x) => x.turns, "mean"],
+    ];
+    const rows: Row[] = picks.map(([label, f, agg]) => {
+      const v = change(m("codemode", f, agg), m("direct", f, agg));
+      return { label, value: v, cls: v <= 0 ? "dogu" : "more", shown: `${v > 0 ? "+" : ""}${v}%` };
+    });
+    return diverging("MCPMark filesystem tasks: dogu code mode against loading the server directly", rows, -100, 20, [[-100, "-100%"], [-50, "-50%"], [0, "0"]], [["dogu", "Less with dogu"], ["more", "More with dogu"]]);
   })(),
   "fast.svg": bars(
     "Time per task with Codex, normal speed and fast mode, two models",

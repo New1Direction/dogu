@@ -9,6 +9,7 @@ import { change, cost, esc, firstTurn, load, mean, type Rec, type Segment, svg, 
 // dogu 0.7.0, Claude Code with Sonnet (see charts.ts).
 const sonnet = load("2026-11-22-heldout-v0.7.0");
 const pi62 = load("2026-11-22-pi-gpt62");
+const mcpmark = load("2026-11-22-mcpmark-filesystem");
 
 // --- How each way works ---
 
@@ -122,18 +123,16 @@ const correctOf = (rs: Rec[]) => {
 };
 
 /** The time tile says whichever way it went: slower in red, faster in blue. */
-const timeTile = (diff: number): Tile =>
-  diff > 0
-    ? { big: `+${diff.toFixed(1)} s`, line1: "slower per task (code mode)", line2: "vs loading the tools directly", cls: "more" }
-    : { big: `${(-diff).toFixed(1)} s`, line1: "faster per task (code mode)", line2: "vs loading the tools directly", cls: "dogu" };
+
 
 const glance = () => {
   const [right, all] = correctOf(sonnet);
+  const markRight = (setup: string) => mcpmark.filter((r) => r.setup === setup && r.correct).length;
   const tiles: ReadonlyArray<Tile> = [
-    { big: `${-change(cost(sonnet, "codemode"), cost(sonnet, "direct"))}%`, line1: "lower cost per task", line2: "Claude Code, dogu code mode", cls: "dogu" },
-    { big: `${right} / ${all}`, line1: "answers right, every way", line2: "held-out tasks, Sonnet, 0.7.0", cls: "dogu" },
+    { big: `${-change(cost(mcpmark, "codemode"), cost(mcpmark, "direct"))}%`, line1: "lower cost per task", line2: `MCPMark, ${markRight("codemode")} vs ${markRight("direct")} of 120 passed`, cls: "dogu" },
+    { big: `${(time(mcpmark, "direct") / time(mcpmark, "codemode")).toFixed(1)}x`, line1: "faster per task (median)", line2: `MCPMark: ${time(mcpmark, "codemode").toFixed(1)} s vs ${time(mcpmark, "direct").toFixed(1)} s`, cls: "dogu" },
+    { big: `${-change(cost(sonnet, "codemode"), cost(sonnet, "direct"))}%`, line1: "lower cost per task", line2: `our tasks, ${right} of ${all} right`, cls: "dogu" },
     { big: `${-change(cost(pi62, "pi-dogu"), cost(pi62, "pi-codemode"))}%`, line1: "cheaper than pi's code mode", line2: "inside pi, gpt-6.2-sol", cls: "dogu" },
-    timeTile(time(sonnet, "codemode") - time(sonnet, "direct")),
   ];
   // Two by two, so the tiles stay readable when GitHub shrinks the picture on a phone.
   const tw = 240, th = 108, gap = 12, cols = 2;

@@ -14,6 +14,7 @@ export interface Segment {
 export interface Metrics {
   readonly costUsd: number | null;
   readonly seconds: number;
+  readonly turns: number;
   readonly totalInputTokens: number;
   readonly firstTurnTokens: number | null;
   readonly timeline?: ReadonlyArray<Segment>;

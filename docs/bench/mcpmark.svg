@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 278" width="720" height="278" role="img" aria-labelledby="t"><title id="t">MCPMark filesystem tasks: dogu code mode against loading the server directly</title><style>
+  text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 13px; fill: #0b0b0b; }
+  .muted { fill: #52514e; font-size: 12px; }
+  .big { font-size: 34px; font-weight: 650; }
+  .head { font-size: 15px; font-weight: 600; }
+  .grid { stroke: #e1e0d9; stroke-width: 1; }
+  .axis { stroke: #c3c2b7; stroke-width: 1; }
+  .line { stroke: #52514e; stroke-width: 1.5; fill: none; }
+  .card { fill: #f3f2ee; stroke: #e1e0d9; }
+  .page { fill: #fcfcfb; stroke: #8a8983; stroke-width: 1; }
+  .dogu { fill: #2a78d6; } .other { fill: #eb6834; } .more { fill: #e34948; }
+  .s-dogu { stroke: #2a78d6; } .s-other { stroke: #eb6834; }
+  .startup { fill: #eda100; } .model { fill: #6250d6; } .tools { fill: #1baf7a; }
+  .gap { stroke: #fcfcfb; stroke-width: 2; }
+  @media (prefers-color-scheme: dark) {
+    text { fill: #f0efec; } .muted { fill: #c3c2b7; }
+    .grid { stroke: #2c2c2a; } .axis { stroke: #383835; } .line { stroke: #c3c2b7; }
+    .card { fill: #232322; stroke: #383835; } .page { fill: #1a1a19; stroke: #8a8983; }
+    .dogu { fill: #3987e5; } .other { fill: #d95926; } .more { fill: #e66767; }
+    .s-dogu { stroke: #3987e5; } .s-other { stroke: #d95926; }
+    .startup { fill: #c98500; } .model { fill: #9085e9; } .tools { fill: #199e70; }
+    .gap { stroke: #1a1a19; }
+  }</style><rect class="dogu" x="300" y="12" width="12" height="12" rx="3"/><text x="318" y="22">Less with dogu</text><rect class="more" x="490" y="12" width="12" height="12" rx="3"/><text x="508" y="22">More with dogu</text><line class="grid" x1="300" x2="300" y1="40" y2="252"/><text class="muted" x="300" y="268" text-anchor="middle">-100%</text><line class="grid" x1="445.83333333333337" x2="445.83333333333337" y1="40" y2="252"/><text class="muted" x="445.83333333333337" y="268" text-anchor="middle">-50%</text><line class="axis" x1="591.6666666666667" x2="591.6666666666667" y1="40" y2="252"/><text class="muted" x="591.6666666666667" y="268" text-anchor="middle">0</text><text x="290" y="65" text-anchor="end">Cost per task (mean)</text><path class="dogu" d="M591.6666666666667,52 h-211.83333333333337 a4,4 0 0 0 -4,4 v10 a4,4 0 0 0 4,4 h211.83333333333337 z"/><text x="369.83333333333337" y="65" text-anchor="end">-74%</text><text x="290" y="99" text-anchor="end">Cost per task (median)</text><path class="dogu" d="M591.6666666666667,86 h-138.91666666666674 a4,4 0 0 0 -4,4 v10 a4,4 0 0 0 4,4 h138.91666666666674 z"/><text x="442.75" y="99" text-anchor="end">-49%</text><text x="290" y="133" text-anchor="end">Time per task (median)</text><path class="dogu" d="M591.6666666666667,120 h-144.7500000000001 a4,4 0 0 0 -4,4 v10 a4,4 0 0 0 4,4 h144.7500000000001 z"/><text x="436.91666666666663" y="133" text-anchor="end">-51%</text><text x="290" y="167" text-anchor="end">Time per task (mean)</text><path class="dogu" d="M591.6666666666667,154 h-206.00000000000006 a4,4 0 0 0 -4,4 v10 a4,4 0 0 0 4,4 h206.00000000000006 z"/><text x="375.6666666666667" y="167" text-anchor="end">-72%</text><text x="290" y="201" text-anchor="end">Tokens read per task (median)</text><path class="dogu" d="M591.6666666666667,188 h-106.83333333333337 a4,4 0 0 0 -4,4 v10 a4,4 0 0 0 4,4 h106.83333333333337 z"/><text x="474.83333333333337" y="201" text-anchor="end">-38%</text><text x="290" y="235" text-anchor="end">Model turns per task (mean)</text><path class="dogu" d="M591.6666666666667,222 h-200.16666666666674 a4,4 0 0 0 -4,4 v10 a4,4 0 0 0 4,4 h200.16666666666674 z"/><text x="381.5" y="235" text-anchor="end">-70%</text></svg>

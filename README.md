@@ -12,7 +12,7 @@
 
 dogu turns each tool into a small program in a folder. An agent uses them the way it uses any other command: `ls` to find one, `--help` to learn it, a pipe to chain two. For a job with many calls, it writes one TypeScript program and dogu runs it in a sandbox.
 
-Measured with GitHub, Context7 and DeepWiki connected: either way costs about half as much per task as loading the servers into the agent directly, and gets the same answers. [The benchmark](bench/) is in the repo.
+Measured on [MCPMark](https://github.com/eval-sys/mcpmark), a public benchmark we did not write: dogu's code mode passed about as many tasks as loading the server directly (101 against 102 of 120), for about a quarter of the cost and in half the time. On our own tasks with GitHub, Context7 and DeepWiki it costs 68% less. [The benchmarks, in plain words](BENCHMARKS.md).
 
 ```
 curl -fsSL https://raw.githubusercontent.com/New1Direction/dogu/main/install.sh | sh
@@ -42,7 +42,18 @@ Measured, not estimated, on [tasks written before any run](bench/): GitHub's off
 
 ![Cost per task with Claude Code and dogu 0.7.0: loading the servers directly $0.036, with Claude Code's tool search $0.038, dogu folder $0.013, dogu code mode $0.011](docs/bench/cost.svg)
 
-dogu's code mode costs 68% less than loading the servers directly and is also faster; the folder costs 63% less, and is about 1.4 s slower per task once a session is open (counting start-up, which Claude Code's own time leaves out, they tie). Tool search reads fewer tokens than loading everything, but costs more, because it brings tool definitions in mid-session, and those are cached at the higher write price. Times are medians. The cheapest setup measured is dogu's code mode with Haiku: $0.0010 per task, all answers right, 97% less than Sonnet with the servers loaded directly. On Haiku the order of cost is the same: code mode 57% less than loading directly, the folder 53% less. On tasks that fan out to many calls dogu halves the cost too, and code mode is faster when the agent starts the calls together; see [the benchmarks](BENCHMARKS.md#tasks-with-many-calls).
+dogu's code mode costs 68% less than loading the servers directly and is also faster; the folder costs 63% less, and was about 1.4 s slower per task once a session is open (counting start-up, which Claude Code's own time leaves out, they tie); 0.7.4 made the folder 29% faster, and on a newer task set its median beats loading directly (6.3 s against 7.0 s) while its average is still a little slower. Tool search reads fewer tokens than loading everything, but costs more, because it brings tool definitions in mid-session, and those are cached at the higher write price. Times are medians. The cheapest setup measured is dogu's code mode with Haiku: $0.0010 per task, all answers right, 97% less than Sonnet with the servers loaded directly. On Haiku the order of cost is the same: code mode 57% less than loading directly, the folder 53% less. On tasks that fan out to many calls dogu halves the cost too, and code mode is faster when the agent starts the calls together; see [the benchmarks](BENCHMARKS.md#tasks-with-many-calls).
+
+### A public benchmark: MCPMark
+
+Our own tasks could suit dogu, so we also ran someone else's: [MCPMark](https://github.com/eval-sys/mcpmark)'s 40 filesystem tasks, judged by MCPMark's own checkers. Claude Code with Sonnet, dogu 0.7.5, 3 runs each, Claude Code's own file tools off so all work goes through the server:
+
+| | Passed | Cost per task | Time per task (median) | Model turns |
+|---|---|---|---|---|
+| The server loaded directly | 102 of 120 | $0.199 | 24.3 s | 13.8 |
+| **dogu code mode** | 101 of 120 | **$0.052** (74% less) | **11.8 s** (2.1× faster) | **4.2** |
+
+The gap grows with the task: on the 30 standard tasks dogu was 77% cheaper and 2.5× faster, and passed one more (76 against 75 of 90); on the 10 easy ones it passed two fewer. [Details, and where dogu lost](BENCHMARKS.md#1-a-public-benchmark-mcpmark).
 
 ### Other agents
 
@@ -308,7 +319,7 @@ Transports: stdio and Streamable HTTP.
 - **The sandbox escape test**, `tests/escape.ts`.
 - **Real servers**: the official filesystem, memory and everything servers, a server built with the v2 TypeScript SDK, the SDK's OAuth demo server, and these hosted ones: GitHub's official server (with a token), Linear (with `dogu login`, including token refresh), Context7 and DeepWiki.
 - **A real agent**: Claude Code, told only "Your tools are in ~/mcp. Read ~/mcp/README.md first.", used the folder for a three-step job with no errors, and did the same through `dogu serve` with no shell.
-- **A benchmark** (`bench/`, written with [Effect](https://effect.website)): Claude Code, Codex and pi, each with the servers loaded directly and through dogu, on tasks written before any run, with every answer checked. Over 1,700 runs. Results are in `bench/results/`.
+- **A benchmark** (`bench/`, written with [Effect](https://effect.website)): Claude Code, Codex and pi, each with the servers loaded directly and through dogu, on tasks written before any run, with every answer checked, plus MCPMark's public filesystem tasks. Over 2,500 runs. Results are in `bench/results/`.
 
 ## Status
 
