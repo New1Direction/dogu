@@ -16,7 +16,7 @@ export interface Ctx {
   readonly seeded: { readonly word: string; readonly entity: string; readonly year: number; readonly startedThen: string; readonly entityYear: number };
 }
 
-export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3" | "heldout4" | "heldout5" | "heldout6" | "multistep" | "heldout8" | "heldout9";
+export type Suite = "tuning" | "heldout" | "heldout2" | "heldout3" | "heldout4" | "heldout5" | "heldout6" | "multistep" | "heldout8" | "heldout9" | "heldout10";
 
 /** The facts a right answer must contain. What "contain" means is up to each task's check. */
 export type Facts = ReadonlyArray<string>;
@@ -790,6 +790,72 @@ export const TASKS: ReadonlyArray<Task> = [
       ),
     // "astro" is inside "withastro": drop the org before comparing whole names.
     check: (a, f) => lower(firstLine(a)).replaceAll("withastro/", "").split(/[^a-z0-9_.@-]+/).includes(lower(f[0])),
+  },
+  // --- held out, set 10: frozen before experiment 14 (the folder README: start independent calls together,
+  // print only the fields needed). Orgs and repos no earlier set used; a mix of calls that can run together
+  // and single lookups, where the change should make no difference. ---
+  {
+    id: "biome-tags",
+    suite: "heldout10",
+    kind: "fan-out where some calls fail",
+    prompt: "For each of the 5 most-starred repos in the biomejs GitHub org, what is the tag of its latest release? List each repo with its tag, and say which have no release.",
+    fetch: (ctx) => topRepos(ctx, "biomejs", 5).pipe(Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))), Effect.map(tagsAndNones)),
+    check: tagsAndNonesCheck,
+  },
+  {
+    id: "pnpm-tags",
+    suite: "heldout10",
+    kind: "fan-out where some calls fail",
+    prompt: "For each of the 5 most-starred repos in the pnpm GitHub org, what is the tag of its latest release? List each repo with its tag, and say which have no release.",
+    fetch: (ctx) => topRepos(ctx, "pnpm", 5).pipe(Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))), Effect.map(tagsAndNones)),
+    check: tagsAndNonesCheck,
+  },
+  {
+    id: "bevy-tags",
+    suite: "heldout10",
+    kind: "fan-out where some calls fail",
+    prompt: "For each of the 5 most-starred repos in the bevyengine GitHub org, what is the tag of its latest release? List each repo with its tag, and say which have no release.",
+    fetch: (ctx) => topRepos(ctx, "bevyengine", 5).pipe(Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))), Effect.map(tagsAndNones)),
+    check: tagsAndNonesCheck,
+  },
+  {
+    id: "cli-tags",
+    suite: "heldout10",
+    kind: "5 known calls",
+    prompt:
+      "What is the tag of the latest release of each of these GitHub repos: sharkdp/bat, BurntSushi/ripgrep, junegunn/fzf, ajeetdsouza/zoxide and helix-editor/helix? Say which have no release.",
+    fetch: (ctx) => tagsOf(ctx, ["sharkdp/bat", "BurntSushi/ripgrep", "junegunn/fzf", "ajeetdsouza/zoxide", "helix-editor/helix"]).pipe(Effect.map(tagsAndNones)),
+    check: tagsAndNonesCheck,
+  },
+  {
+    id: "pnpm-newest",
+    suite: "heldout10",
+    kind: "fan-out where some calls fail, compare",
+    prompt:
+      "Of the 5 most-starred repos in the pnpm GitHub org, which published its latest release most recently? Put just its name on the first line.",
+    fetch: (ctx) =>
+      topRepos(ctx, "pnpm", 5).pipe(
+        Effect.flatMap((rs) => tagsOf(ctx, rs.map((r) => r.full_name))),
+        Effect.map((xs) => [xs.filter((x) => x.at !== "").reduce((a, b) => (b.at > a.at ? b : a)).repo.split("/")[1]]),
+      ),
+    // A repo can share the org's name (pnpm/pnpm): compare whole names, without the org.
+    check: (a, f) => lower(firstLine(a)).replaceAll("pnpm/", "").split(/[^a-z0-9_.@-]+/).includes(lower(f[0])),
+  },
+  {
+    id: "fd-issue-title",
+    suite: "heldout10",
+    kind: "one call, big result",
+    prompt: "What is the title of issue #2 in the GitHub repo sharkdp/fd?",
+    fetch: (ctx) => ctx.gh("repos/sharkdp/fd/issues/2").pipe(Effect.map((r) => [String(r.title)])),
+    check: (a, f) => lower(a).replace(/[^a-z0-9]/g, "").includes(lower(f[0]).replace(/[^a-z0-9]/g, "")),
+  },
+  {
+    id: "zed-created",
+    suite: "heldout10",
+    kind: "one call, exact",
+    prompt: "On what date (YYYY-MM-DD) was the GitHub repo zed-industries/zed created?",
+    fetch: (ctx) => ctx.gh("repos/zed-industries/zed").pipe(Effect.map((r) => [String(r.created_at).slice(0, 10)])),
+    check: (a, f) => has(a, f[0]),
   },
 ];
 

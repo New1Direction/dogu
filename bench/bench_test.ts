@@ -183,6 +183,7 @@ Deno.test("every held-out task is in the held-out suite, and the suites do not s
   assertEquals(TASKS.filter((t) => t.suite === "multistep").length, 5);
   assertEquals(TASKS.filter((t) => t.suite === "heldout8").length, 5);
   assertEquals(TASKS.filter((t) => t.suite === "heldout9").length, 5);
+  assertEquals(TASKS.filter((t) => t.suite === "heldout10").length, 7);
 });
 
 Deno.test("headline says more, not negative fewer, when a setup used more", () => {
@@ -269,6 +270,13 @@ const SAMPLE_FACTS: Record<string, ReadonlyArray<string>> = {
   "nushell-tags": ["0.117.0", "|", "nupm"],
   "hono-tags": ["v4.13.20", "|", "examples"],
   "astro-newest": ["flue"],
+  "biome-tags": ["@biomejs/biome@2.4.0", "|", "setup-biome"],
+  "pnpm-tags": ["v11.2.0", "|", "pnpm.io"],
+  "bevy-tags": ["v0.18.0", "|", "bevy-website"],
+  "cli-tags": ["v0.26.1", "14.1.1", "v0.67.0", "|", "zoxide"],
+  "pnpm-newest": ["pnpm"],
+  "fd-issue-title": ["Support for regex flags"],
+  "zed-created": ["2021-02-16"],
 };
 
 Deno.test("every task's check accepts its right answer and rejects a non-answer", () => {
@@ -294,6 +302,8 @@ Deno.test("heldout2 checks are strict where they must be and tolerant where coun
   assert(check("astro-newest", "withastro/astro", ["astro"]));
   assert(check("astro-newest", "**astro**", ["astro"]));
   assert(!check("astro-newest", "withastro/starlight", ["astro"]));
+  assert(check("pnpm-newest", "pnpm/pnpm", ["pnpm"]));
+  assert(!check("pnpm-newest", "pnpm/action-setup", ["pnpm"]));
   // A repo named after its org: "modelcontextprotocol/servers" must not pass for "modelcontextprotocol".
   assert(check("mcp-last-push", "modelcontextprotocol/modelcontextprotocol", ["modelcontextprotocol", "servers"]));
   assert(check("mcp-last-push", "**modelcontextprotocol**", ["modelcontextprotocol", "servers"]));
