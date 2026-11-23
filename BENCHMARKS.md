@@ -85,7 +85,7 @@ The whole benchmark, 120 runs, cost **$23.70** loading the server directly and *
 | MCPMark, 34 tasks not studied, × 3 | Passed | Cost per task | Time (median) | Model turns (mean) |
 |---|---|---|---|---|
 | dogu code mode 0.7.5 | 90 of 102 | $0.052 | 11.7 s | 4.3 |
-| **dogu code mode with the fix** (on main, in the next release) | **94 of 102** | **$0.049** (6% less) | **10.9 s** (7% faster) | **4.0** |
+| **dogu code mode with the fix** (0.7.6) | **94 of 102** | **$0.049** (6% less) | **10.9 s** (7% faster) | **4.0** |
 
 The fix turned the easy uppercase task from 0 of 3 to 3 of 3, a task loading directly fails 3 of 3 (we reran it to see why: its copies' content is wrong). It lost one run on one other task ([results](bench/results/2026-11-22-exp15-mcpmark-unstudied.md)). The headline numbers above are still 0.7.5's.
 
