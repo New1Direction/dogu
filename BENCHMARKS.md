@@ -11,6 +11,7 @@ dogu gives the agent the same tools in a lighter way. We tested whether that is 
 - **dogu's code mode is also the fastest:** 3.7 s per task against 3.9 s loading the tools the usual way, and 3.9 s against 5.4 s counting start-up. The folder is still slower in a session that is already open.
 - Inside pi, **dogu's code mode beats pi's own code mode**: about a third cheaper and faster, on two sets of tasks.
 - With Codex, **dogu's folder beats Codex's own code mode**: 26% fewer tokens and 26% faster, and it never went around its tools.
+- Against **UTCP code-mode**, the most-starred standalone code mode for MCP, dogu's code mode was 48% cheaper and 36% faster per task.
 
 ![At a glance, dogu 0.7.0: 68% lower cost per task with dogu's code mode in Claude Code; 84 of 84 answers right; 31% cheaper than pi's own code mode inside pi; and 0.2 s faster per task than loading the tools directly](docs/bench/glance.svg)
 
@@ -116,6 +117,18 @@ Codex has a code mode of its own too, still marked "under development" (Codex 0.
 | dogu code mode (`dogu serve`) | 69.8k | 10.3 s | 8 of 16 |
 
 Codex's code mode saved nothing here. With Codex, use dogu's folder: `dogu serve` works, but Codex went around it with `curl` in half the runs. ([results](bench/results/2026-11-22-codex-codemode.md))
+
+### UTCP code-mode
+
+[UTCP code-mode](https://github.com/universal-tool-calling-protocol/code-mode) is the most-starred standalone code mode for MCP, and it plugs into Claude Code the same way `dogu serve` does. We ran it (version 1.2.1, pinned) on the 11 held-out tasks that need no GitHub token, with DeepWiki and the local memory server, so no token went near a third-party package; every setup got exactly those servers. Claude Code with Sonnet, 3 runs each ([results](bench/results/2026-11-22-utcp-no-token.md)):
+
+| | Answers right | Cost per task | Per task (median) | With start-up (median) | Model turns |
+|---|---|---|---|---|---|
+| Loading the servers directly | 30 of 33 | $0.016 | 2.9 s | 3.9 s | 2.2 |
+| **dogu code mode** | 30 of 33 | **$0.012** | **2.8 s** | **3.0 s** | **2.0** |
+| UTCP code-mode | 31 of 33 | $0.022 | 4.3 s | 6.9 s | 3.2 |
+
+dogu's code mode was 48% cheaper and 36% faster per task than UTCP's, and it was the cheapest of the three in each of the six task sets on its own. UTCP looks a tool up first, which costs a turn, and takes 2.5 s to start. The wrong answers are one task in every setup: the agent put the wrong repo on the first line, then corrected itself. With only 12 tools here, loading them directly is cheap too, so this compares the two code modes more than it measures tool overload.
 
 pi's own code mode was built for exactly this problem. Inside pi, dogu's code mode (`dogu serve`, added to pi as an MCP server) now does it better, with gpt-6.2-sol:
 

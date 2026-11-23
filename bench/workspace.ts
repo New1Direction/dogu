@@ -25,6 +25,9 @@ const DOGU_B = Deno.env.get("BENCH_DOGU_B");
 /** UTCP code-mode, the most-starred standalone code mode for MCP, pinned so a run can be repeated. */
 const UTCP_PACKAGE = "@utcp/code-mode-mcp@1.2.1";
 
+/** BENCH_SERVERS: a comma list of the hosted servers every setup gets (all of bench/servers.json by default). */
+const SERVERS = (Deno.env.get("BENCH_SERVERS") ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+
 /** The Codex binary; set CODEX_BIN when it is not on your PATH. CODEX_MODEL picks a model, else Codex's default. */
 const CODEX_BIN = Deno.env.get("CODEX_BIN") ?? "codex";
 const CODEX_MODEL = Deno.env.get("CODEX_MODEL");
@@ -88,10 +91,13 @@ const seedMemory = () => {
 export const makeWorkspace = (options: { readonly memory: boolean }) =>
   Effect.acquireRelease(
     Effect.gen(function* () {
-      const token = (yield* runCommand("gh", ["auth", "token"])).trim();
       const dir = yield* Effect.promise(() => Deno.makeTempDir({ prefix: "dogu-bench-" }));
       const memory = seedMemory();
-      const hosted = JSON.parse(yield* Effect.promise(() => Deno.readTextFile(`${HERE}servers.json`))).mcpServers;
+      const all = JSON.parse(yield* Effect.promise(() => Deno.readTextFile(`${HERE}servers.json`))).mcpServers;
+      // BENCH_SERVERS=deepwiki,context7 gives every setup only those hosted servers. Without GitHub, no token
+      // goes into any config or any agent's environment (so a third-party setup cannot inherit it).
+      const hosted = Object.fromEntries(Object.entries(all).filter(([n]) => SERVERS.length === 0 || SERVERS.includes(n)));
+      const token = "github" in hosted ? (yield* runCommand("gh", ["auth", "token"])).trim() : "";
       const memoryServer = {
         command: "npx",
         args: ["-y", "@modelcontextprotocol/server-memory"],
@@ -111,7 +117,7 @@ export const makeWorkspace = (options: { readonly memory: boolean }) =>
       yield* writePrivate(`${dir}/servers.json`, JSON.stringify({ mcpServers: { ...hosted, ...local } }));
       yield* writePrivate(`${dir}/direct.json`, JSON.stringify(direct));
       const serve = (command: string) =>
-        JSON.stringify({ mcpServers: { tools: { command, args: ["serve", "--root", root], env: { GITHUB_TOKEN: token } } } });
+        JSON.stringify({ mcpServers: { tools: { command, args: ["serve", "--root", root], env: token ? { GITHUB_TOKEN: token } : {} } } });
       yield* writePrivate(`${dir}/serve.json`, serve("dogu"));
       yield* writePrivate(`${dir}/serve-b.json`, serve(DOGU_B ?? "dogu"));
       // UTCP code-mode gets the same servers and token, in its own config format.
@@ -315,7 +321,7 @@ export const argsFor = (setup: Setup, prompt: string, ws: Workspace, runId: stri
   });
 
 export const envFor = (setup: Setup, ws: Workspace): Record<string, string> => ({
-  GITHUB_TOKEN: ws.token,
+  ...(ws.token ? { GITHUB_TOKEN: ws.token } : {}),
   ...(setup === "direct-search" ? { ENABLE_TOOL_SEARCH: "true" } : {}),
   ...(setup.startsWith("codex") ? { CODEX_HOME: ws.codexHome } : {}),
   ...(setup.startsWith("pi-") ? { PI_CODING_AGENT_DIR: piAgentDir(ws, setup) } : {}),

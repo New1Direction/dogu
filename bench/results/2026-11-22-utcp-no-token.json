@@ -1,0 +1,4799 @@
+{
+  "date": "2026-11-23",
+  "dogu": "dogu 0.7.2",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "d6c816b",
+  "dirty": true,
+  "answers": {
+    "deno-sections": [
+      "Deno Overview",
+      "CLI Architecture",
+      "Runtime Core",
+      "Language Server Protocol",
+      "HTTP, Fetch, and WebSocket",
+      "Web Standards APIs",
+      "Node.js Compatibility Layer",
+      "Foreign Function Interface",
+      "Testing and Benchmarking",
+      "Developer Tools and Productivity",
+      "Unstable and Experimental APIs",
+      "Glossary"
+    ],
+    "memory-find": [
+      "Project Fir"
+    ],
+    "deepwiki-node": [
+      "Node.js Compatibility Layer"
+    ],
+    "memory-years": [
+      "1"
+    ],
+    "bun-section": [
+      "Package Manager"
+    ],
+    "started-in": [
+      "Project Birch"
+    ],
+    "ruff-section": [
+      "Ruff Formatter"
+    ],
+    "entity-year": [
+      "2020"
+    ],
+    "click-testing-section": [
+      "Testing Click Applications"
+    ],
+    "most-sections": [
+      "astral-sh/uv"
+    ],
+    "odd-years": [
+      "Alder",
+      "Cedar",
+      "Elm",
+      "Ginkgo",
+      "Ivy",
+      "Larch"
+    ]
+  },
+  "records": [
+    {
+      "setup": "direct",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki's top-level sections for denoland/deno are:\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 3.381,
+        "costUsd": 0.0176467,
+        "firstTurnTokens": 7030,
+        "totalInputTokens": 15489,
+        "outputTokens": 200,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3518,
+          "cacheRead": 11967
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2524183330000005
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4385100000000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2979976249999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6246126249999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 2.814,
+        "costUsd": 0.013473400000000002,
+        "firstTurnTokens": 5175,
+        "totalInputTokens": 11806,
+        "outputTokens": 195,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2468,
+          "cacheRead": 9334
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"denoland/deno\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3092876670000005
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2119516659999992
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.16248325000000108
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4103822089999993
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 3,
+        "seconds": 4.818,
+        "costUsd": 0.0239227,
+        "firstTurnTokens": 4544,
+        "totalInputTokens": 20197,
+        "outputTokens": 227,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4744,
+          "cacheRead": 15447
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki read wiki structure of a GitHub repo\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"denoland/deno\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.598585250000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3772584169999988
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.014060165999999263
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1501061250000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.15609708400000155
+          },
+          {
+            "kind": "model",
+            "seconds": 2.1084858329999987
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The entity is **Project Fir**. One of its observations reads \"Its build uses the drosorbelka toolchain\".",
+        "turns": 2,
+        "seconds": 2.414,
+        "costUsd": 0.0069978,
+        "firstTurnTokens": 5179,
+        "totalInputTokens": 10521,
+        "outputTokens": 63,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1179,
+          "cacheRead": 9338
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.memory.search_nodes({query:\\\"drosorbelka\\\"});\\nconsole.log(JSON.stringify(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2375539579999986
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3653890830000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.011555084000001381
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0163377499999988
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The entity is **Project Fir**. One of its observations says \"Its build uses the drosorbelka toolchain.\"",
+        "turns": 3,
+        "seconds": 5.748,
+        "costUsd": 0.017345,
+        "firstTurnTokens": 4547,
+        "totalInputTokens": 18945,
+        "outputTokens": 94,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3469,
+          "cacheRead": 15470
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"search knowledge graph nodes by observation\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.memory_search_nodes({query:\\\"drosorbelka\\\"})\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.3320812499999994
+          },
+          {
+            "kind": "model",
+            "seconds": 2.908055083000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.015543332999997439
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5633682920000034
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.010474249999998797
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2378413750000004
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The entity is **Project Fir**. One of its observations says, \"Its build uses the drosorbelka toolchain.\"",
+        "turns": 2,
+        "seconds": 2.557,
+        "costUsd": 0.011085000000000001,
+        "firstTurnTokens": 7033,
+        "totalInputTokens": 14194,
+        "outputTokens": 63,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2220,
+          "cacheRead": 11970
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"drosorbelka\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9049697919999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3604739580000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.0438019999999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1409056669999988
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "In DeepWiki's documentation for denoland/deno, Node.js compatibility is covered by top-level section 7, titled **\"Node.js Compatibility Layer\"**. Its subsections run from 7.1 \"deno_node Extension Architecture\" to 7.9 \"Child Process and IPC\".",
+        "turns": 3,
+        "seconds": 4.98,
+        "costUsd": 0.0232265,
+        "firstTurnTokens": 4554,
+        "totalInputTokens": 20223,
+        "outputTokens": 156,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4752,
+          "cacheRead": 15465
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki documentation of GitHub repo sections\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"denoland/deno\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.2814485840000014
+          },
+          {
+            "kind": "model",
+            "seconds": 1.686998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.010363499999999082
+          },
+          {
+            "kind": "model",
+            "seconds": 1.664907665999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2447087500000018
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3603940839999993
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section is **7. \"Node.js Compatibility Layer\"**. Its subsections cover the deno_node extension architecture, Buffer, zlib, fs, network/HTTP, worker threads, process/TTY/OS, crypto, and child process/IPC.",
+        "turns": 2,
+        "seconds": 3.062,
+        "costUsd": 0.0169036,
+        "firstTurnTokens": 7039,
+        "totalInputTokens": 15507,
+        "outputTokens": 122,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3527,
+          "cacheRead": 11976
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9440221659999989
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3667827500000018
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.15744954199999883
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5260438329999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section is **7 \"Node.js Compatibility Layer\"** in DeepWiki's documentation of denoland/deno.\n\nIts subsections run from 7.1 (deno_node Extension Architecture) to 7.9 (Child Process and IPC).",
+        "turns": 2,
+        "seconds": 4.22,
+        "costUsd": 0.012674399999999999,
+        "firstTurnTokens": 5185,
+        "totalInputTokens": 11826,
+        "outputTokens": 115,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2478,
+          "cacheRead": 9344
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"denoland/deno\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2501008750000001
+          },
+          {
+            "kind": "model",
+            "seconds": 2.706508334000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.15205912499999963
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3390513329999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**1** entity started before 2016: Project Alder, which started in 2015. The next earliest is Project Birch, which started in 2016, so it doesn't count. I checked all 12 entities in the graph.",
+        "turns": 2,
+        "seconds": 2.535,
+        "costUsd": 0.0128658,
+        "firstTurnTokens": 7021,
+        "totalInputTokens": 14625,
+        "outputTokens": 91,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2663,
+          "cacheRead": 11958
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__read_graph {}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.0892360420000005
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1522538749999987
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.02336524999999856
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3461977080000036
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "One entity started before 2016: Project Alder, which started in 2015. The knowledge graph has 12 entities, and the next earliest is Project Birch in 2016.\n\n**Answer: 1**",
+        "turns": 2,
+        "seconds": 2.785,
+        "costUsd": 0.0092466,
+        "firstTurnTokens": 5167,
+        "totalInputTokens": 10989,
+        "outputTokens": 92,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1659,
+          "cacheRead": 9326
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const g=await tools.memory.read_graph({});console.log(JSON.stringify(g).slice(0,6000));console.log(g.entities?.length)\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25159720799999924
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6098360839999986
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.027527333000001875
+          },
+          {
+            "kind": "model",
+            "seconds": 1.115833666999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**1** entity has an observation saying it started before 2016: Project Alder (\"Started in 2015\").\n\nThe graph has 12 entities, each with a \"Started in <year>\" observation. The years run from 2015 (Alder) to 2026 (Maple). Project Birch started in 2016, which isn't before 2016.",
+        "turns": 3,
+        "seconds": 4.565,
+        "costUsd": 0.019252400000000003,
+        "firstTurnTokens": 4535,
+        "totalInputTokens": 19084,
+        "outputTokens": 158,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3634,
+          "cacheRead": 15444
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"knowledge graph read entities observations\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"const g=await servers.memory_read_graph({});\\nreturn {n:g.entities.length, obs:g.entities.flatMap(e=>e.observations.filter(o=>/start|began|found|since|found/i.test(o)).map(o=>e.name+\\\": \\\"+o))};\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.3012435829999993
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3333737500000025
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.018076708000000608
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7938861249999971
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01401116700000049
+          },
+          {
+            "kind": "model",
+            "seconds": 1.391429417000003
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The package manager is covered by top-level section **4, \"Package Manager\"**, in DeepWiki's documentation of oven-sh/bun.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 2,
+        "seconds": 2.88,
+        "costUsd": 0.0139624,
+        "firstTurnTokens": 5185,
+        "totalInputTokens": 12038,
+        "outputTokens": 157,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2690,
+          "cacheRead": 9344
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"oven-sh/bun\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23432429200000116
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3076887910000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2716672499999986
+          },
+          {
+            "kind": "model",
+            "seconds": 1.277634542
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "In DeepWiki's documentation for oven-sh/bun, the package manager is covered by top-level section **4, \"Package Manager\"**.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 3,
+        "seconds": 4.322,
+        "costUsd": 0.0243719,
+        "firstTurnTokens": 4551,
+        "totalInputTokens": 20426,
+        "outputTokens": 185,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4961,
+          "cacheRead": 15459
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki documentation of GitHub repo structure\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"oven-sh/bun\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.5404850420000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.453410667
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.012805457999998993
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1785201669999985
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.16950916600000365
+          },
+          {
+            "kind": "model",
+            "seconds": 1.494296834000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The package manager is covered by top-level section **\"4 Package Manager\"** in DeepWiki's oven-sh/bun documentation.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 2,
+        "seconds": 3.142,
+        "costUsd": 0.0181334,
+        "firstTurnTokens": 7037,
+        "totalInputTokens": 15715,
+        "outputTokens": 159,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3737,
+          "cacheRead": 11974
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9015382500000014
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3459386249999952
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.19106333300000555
+          },
+          {
+            "kind": "model",
+            "seconds": 1.592428999999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "In the knowledge graph, **Project Birch** is the project that started in 2016. Its observations say it was \"Started in 2016\" and is owned by team venaxveka.",
+        "turns": 3,
+        "seconds": 2.837,
+        "costUsd": 0.017310199999999998,
+        "firstTurnTokens": 4524,
+        "totalInputTokens": 18862,
+        "outputTokens": 111,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3434,
+          "cacheRead": 15422
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"knowledge graph query projects entities\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.memory_search_nodes({query:\\\"2016\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.363937374999994
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9306570420000062
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.015333457999993527
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9057283330000065
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.016925833999994033
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9505062079999993
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Birch** started in 2016. The knowledge graph also lists it as owned by team venaxveka.",
+        "turns": 2,
+        "seconds": 2.275,
+        "costUsd": 0.0108825,
+        "firstTurnTokens": 7008,
+        "totalInputTokens": 14134,
+        "outputTokens": 61,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2185,
+          "cacheRead": 11945
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2016\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2199520419999972
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2440037920000033
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.029526790999996333
+          },
+          {
+            "kind": "model",
+            "seconds": 0.982203333999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Birch** started in 2016. It is owned by team venaxveka.",
+        "turns": 2,
+        "seconds": 1.892,
+        "costUsd": 0.008483399999999999,
+        "firstTurnTokens": 5155,
+        "totalInputTokens": 10939,
+        "outputTokens": 55,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1621,
+          "cacheRead": 9314
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.memory.read_graph({})))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.33309474999999655
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1199648330000054
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.016807333999997454
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7420350409999956
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section **4, \"Ruff Formatter\"**. Its subsections are:\n- 4.1 Formatter Architecture\n- 4.2 Formatting Rules and Style\n- 4.3 Black Compatibility and Configuration\n- 4.4 Markdown Code Formatting",
+        "turns": 2,
+        "seconds": 2.869,
+        "costUsd": 0.0162735,
+        "firstTurnTokens": 7038,
+        "totalInputTokens": 15306,
+        "outputTokens": 136,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3327,
+          "cacheRead": 11975
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"astral-sh/ruff\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9539438750000044
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3552687499999958
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.15704095800000495
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3385936250000015
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section 4, titled **\"Ruff Formatter\"**.\n\nIts subsections are 4.1 Formatter Architecture, 4.2 Formatting Rules and Style, 4.3 Black Compatibility and Configuration, and 4.4 Markdown Code Formatting.",
+        "turns": 2,
+        "seconds": 2.666,
+        "costUsd": 0.012074300000000001,
+        "firstTurnTokens": 5184,
+        "totalInputTokens": 11625,
+        "outputTokens": 132,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2278,
+          "cacheRead": 9343
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3089476249999934
+          },
+          {
+            "kind": "model",
+            "seconds": 1.227433834000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.22151233299999884
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1985667079999984
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "In DeepWiki's documentation for astral-sh/ruff, the formatter is covered by top-level section 4, titled **\"Ruff Formatter\"**.\n\nIts subsections are 4.1 Formatter Architecture, 4.2 Formatting Rules and Style, 4.3 Black Compatibility and Configuration, and 4.4 Markdown Code Formatting.",
+        "turns": 3,
+        "seconds": 4.52,
+        "costUsd": 0.022878000000000003,
+        "firstTurnTokens": 4553,
+        "totalInputTokens": 20095,
+        "outputTokens": 182,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4589,
+          "cacheRead": 15500
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki documentation structure for a GitHub repo\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.4119805419999976
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7233864170000013
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.0147642500000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1354685410000016
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1482677499999987
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4844592500000005
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Fir started in **2020**, according to the knowledge graph. I took that from its \"Started in 2020\" observation.\n\nThe run ID you gave (fc25120d) didn't match anything I needed. I only searched the graph for \"Project Fir\".",
+        "turns": 2,
+        "seconds": 2.343,
+        "costUsd": 0.0072377,
+        "firstTurnTokens": 5158,
+        "totalInputTokens": 10473,
+        "outputTokens": 108,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1152,
+          "cacheRead": 9317
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.memory.search_nodes({query:\\\"Project Fir\\\"})))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2374948330000043
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1150140419999954
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.016209166000000552
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1890607920000038
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Fir started in **2020**. The knowledge graph's entry for it says \"Started in 2020\".",
+        "turns": 3,
+        "seconds": 3.638,
+        "costUsd": 0.0172635,
+        "firstTurnTokens": 4528,
+        "totalInputTokens": 18893,
+        "outputTokens": 91,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3452,
+          "cacheRead": 15435
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"knowledge graph query entity Project Fir start year\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.memory_search_nodes({query:\\\"Project Fir\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.272394500000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5614872499999986
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.013487042000000393
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1609825409999974
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01244854200000578
+          },
+          {
+            "kind": "model",
+            "seconds": 0.876493457999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Fir started in 2020, according to the knowledge graph.",
+        "turns": 2,
+        "seconds": 2.183,
+        "costUsd": 0.010829000000000002,
+        "firstTurnTokens": 7013,
+        "totalInputTokens": 14153,
+        "outputTokens": 47,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2199,
+          "cacheRead": 11950
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"Project Fir\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.017528207999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2578358750000043
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.013318624999999695
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8993265839999953
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "click-testing-section",
+      "suite": "heldout5",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The testing section is **\"8 Testing Click Applications\"**. It has two subsections: 8.1 Using CliRunner and 8.2 Testing Strategies and Best Practices.",
+        "turns": 3,
+        "seconds": 3.675,
+        "costUsd": 0.0194133,
+        "firstTurnTokens": 4547,
+        "totalInputTokens": 19353,
+        "outputTokens": 117,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3894,
+          "cacheRead": 15453
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki documentation of GitHub repo structure sections\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"pallets/click\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.3237412089999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1616622080000019
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.012441500000000882
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1147868749999978
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1646088749999981
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2096612920000043
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "click-testing-section",
+      "suite": "heldout5",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section covering testing is **\"8 Testing Click Applications\"**. It has two subsections: 8.1 Using CliRunner and 8.2 Testing Strategies and Best Practices.",
+        "turns": 2,
+        "seconds": 2.712,
+        "costUsd": 0.013208799999999998,
+        "firstTurnTokens": 7031,
+        "totalInputTokens": 14638,
+        "outputTokens": 98,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2666,
+          "cacheRead": 11968
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"pallets/click\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.0039392080000034
+          },
+          {
+            "kind": "model",
+            "seconds": 1.313305124999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.15564954199999903
+          },
+          {
+            "kind": "model",
+            "seconds": 1.225876665999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "click-testing-section",
+      "suite": "heldout5",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section on testing is **\"8 Testing Click Applications\"**. It has two subsections: 8.1 Using CliRunner, and 8.2 Testing Strategies and Best Practices.",
+        "turns": 2,
+        "seconds": 2.825,
+        "costUsd": 0.0090178,
+        "firstTurnTokens": 5179,
+        "totalInputTokens": 10961,
+        "outputTokens": 94,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1619,
+          "cacheRead": 9338
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"pallets/click\\\"}); console.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24550762499999837
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2150234169999967
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.22961375000000417
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3588526249999993
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\n\nBun has 13 top-level sections. Deno has 12 and uv has 15. Counting the numbered entries gives uv 15, Bun 13 and Deno 12, so my first line is wrong. The answer is:\n\nastral-sh/uv",
+        "turns": 4,
+        "seconds": 3.631,
+        "costUsd": 0.0294378,
+        "firstTurnTokens": 7061,
+        "totalInputTokens": 18322,
+        "outputTokens": 122,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 6320,
+          "cacheRead": 11998
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"astral-sh/uv\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9135109159999992
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5337883749999965
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1449294590000063
+          },
+          {
+            "kind": "model",
+            "seconds": 0.007590291000000526
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.30915024999999874
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6196292499999978
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\nTop-level section counts from DeepWiki's structure listing: bun has 13, uv has 15 and deno has 12.\n\nCorrection: uv has the most, with 15. The answer is:\n\nastral-sh/uv\n\n(Run d898b6fc: deno 12, bun 13, uv 15.)",
+        "turns": 2,
+        "seconds": 3.795,
+        "costUsd": 0.0243526,
+        "firstTurnTokens": 5207,
+        "totalInputTokens": 14497,
+        "outputTokens": 130,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 5127,
+          "cacheRead": 9366
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"];\\nconst rs=await Promise.allSettled(repos.map(r=>tools.deepwiki.read_wiki_structure({repoName:r})));\\nrs.forEach((r,i)=>console.log(repos[i],r.st"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23228583300000172
+          },
+          {
+            "kind": "model",
+            "seconds": 1.697048084000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.47868504099999676
+          },
+          {
+            "kind": "model",
+            "seconds": 1.593118834000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\nTop-level sections in DeepWiki's structure listings: bun has 13, uv has 15, and deno has 12.\n\nCorrection: uv has the most, so the first line should be astral-sh/uv.\n\nastral-sh/uv",
+        "turns": 7,
+        "seconds": 15.178,
+        "costUsd": 0.045958900000000004,
+        "firstTurnTokens": 4573,
+        "totalInputTokens": 55320,
+        "outputTokens": 271,
+        "inputBreakdown": {
+          "fresh": 14,
+          "cacheWrite": 8077,
+          "cacheRead": 47229
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki documentation structure of a GitHub repository\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"const out:any={};for(const r of [\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"]){out[r]=(await servers.deepwiki_read_wiki_structure({repoName:r})).result;}return out;\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"var out = {};\\nfor (const r of [\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"]) { out[r] = (await servers.deepwiki_read_wiki_structure({repoName:r})).result; }\\nreturn out;\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"var out = {};\\nfor (const r of [\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"]) { var x = await servers.deepwiki_read_wiki_structure({repoName:r}); out[r] = x.result; }\\nreturn JSON.stringify(out);\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"var x = await servers.deepwiki_read_wiki_structure({repoName:\\\"denoland/deno\\\"});\\nreturn x;\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"var a = await servers.deepwiki_read_wiki_structure({repoName:\\\"oven-sh/bun\\\"});\\nvar b = await servers.deepwiki_read_wiki_structure({repoName:\\\"astral-sh/uv\\\"});\\nreturn [a,b];\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.4983247919999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2140818330000038
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.028823166999994765
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4250632919999986
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.006454583000006231
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4103877499999946
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5476696250000019
+          },
+          {
+            "kind": "model",
+            "seconds": 2.1796215000000023
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9407234999999989
+          },
+          {
+            "kind": "model",
+            "seconds": 1.453795499999993
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.30798987499999875
+          },
+          {
+            "kind": "model",
+            "seconds": 3.767436375000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3955049580000054
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4831687089999903
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 2.235,
+        "costUsd": 0.0092003,
+        "firstTurnTokens": 5164,
+        "totalInputTokens": 10962,
+        "outputTokens": 116,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1635,
+          "cacheRead": 9323
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const g = await tools.memory.read_graph({}); console.log(JSON.stringify(g));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.26866329199999744
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1645368330000057
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.011935541999999133
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0297411250000004
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects in the knowledge graph that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 3,
+        "seconds": 8.357,
+        "costUsd": 0.0194677,
+        "firstTurnTokens": 4531,
+        "totalInputTokens": 19201,
+        "outputTokens": 152,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3758,
+          "cacheRead": 15437
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"knowledge graph query projects with start date\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"const g=await servers.memory_read_graph({});return g.entities.filter(e=>/project/i.test(e.entityType)).map(e=>e.name+\\\": \\\"+e.observations.join(\\\" | \\\"));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.4114813330000033
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8172226669999945
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.017370041000002168
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7915188340000023
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.02759112499999894
+          },
+          {
+            "kind": "model",
+            "seconds": 4.690500540999994
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 5.596,
+        "costUsd": 0.013059400000000002,
+        "firstTurnTokens": 7017,
+        "totalInputTokens": 14617,
+        "outputTokens": 112,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2659,
+          "cacheRead": 11954
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__read_graph {}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9602702500000014
+          },
+          {
+            "kind": "model",
+            "seconds": 2.531868791000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.015066583999999938
+          },
+          {
+            "kind": "model",
+            "seconds": 3.0355019579999936
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 3,
+        "seconds": 3.985,
+        "costUsd": 0.023917,
+        "firstTurnTokens": 4546,
+        "totalInputTokens": 20201,
+        "outputTokens": 227,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4745,
+          "cacheRead": 15450
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki read wiki structure of GitHub repo\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"denoland/deno\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.8002727500000035
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9845436250000059
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.017538416999988815
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9696154999999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1938407080000033
+          },
+          {
+            "kind": "model",
+            "seconds": 1.805611166999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 5.837,
+        "costUsd": 0.0176726,
+        "firstTurnTokens": 7029,
+        "totalInputTokens": 15487,
+        "outputTokens": 203,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3517,
+          "cacheRead": 11966
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2569012079999957
+          },
+          {
+            "kind": "model",
+            "seconds": 3.988975875000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.18471487500000539
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6473509999999951
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 3.009,
+        "costUsd": 0.013473400000000002,
+        "firstTurnTokens": 5175,
+        "totalInputTokens": 11806,
+        "outputTokens": 199,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2468,
+          "cacheRead": 9334
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"denoland/deno\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3121885830000101
+          },
+          {
+            "kind": "model",
+            "seconds": 1.251256416999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.17515087499999193
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5508487500000048
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The entity is **Project Fir**. One of its observations says \"Its build uses the drosorbelka toolchain\".",
+        "turns": 2,
+        "seconds": 2.455,
+        "costUsd": 0.0110709,
+        "firstTurnTokens": 7032,
+        "totalInputTokens": 14192,
+        "outputTokens": 62,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2219,
+          "cacheRead": 11969
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"drosorbelka\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2083170420000098
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3870121660000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01409183399999181
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0404743330000055
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The entity is **Project Fir**. One of its observations reads \"Its build uses the drosorbelka toolchain\".",
+        "turns": 2,
+        "seconds": 2.401,
+        "costUsd": 0.0070101,
+        "firstTurnTokens": 5182,
+        "totalInputTokens": 10527,
+        "outputTokens": 67,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1182,
+          "cacheRead": 9341
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.memory.search_nodes({query:\\\"drosorbelka\\\"});\\nconsole.log(JSON.stringify(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.26434658299999136
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3420796669999981
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.017999374999999374
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9988394170000101
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The entity is **Project Fir**. Its observation reads \"Its build uses the drosorbelka toolchain\".",
+        "turns": 3,
+        "seconds": 5.111,
+        "costUsd": 0.0179431,
+        "firstTurnTokens": 4547,
+        "totalInputTokens": 18968,
+        "outputTokens": 94,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3491,
+          "cacheRead": 15471
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"search knowledge graph nodes by observation text\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"const r = await servers.memory_search_nodes({query:\\\"drosorbelka\\\"});\\nreturn r.entities.map(e=>({n:e.name,o:e.observations.filter(x=>/drosorbelka/i.test(x))}));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.502944292
+          },
+          {
+            "kind": "model",
+            "seconds": 2.462850124999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.012648000000001325
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5407320829999955
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.020770042000003208
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0582900830000002
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section is **7. \"Node.js Compatibility Layer\"** in DeepWiki's documentation of denoland/deno.\n\nIts subsections run from 7.1 (deno_node Extension Architecture) to 7.9 (Child Process and IPC).",
+        "turns": 2,
+        "seconds": 2.64,
+        "costUsd": 0.0126867,
+        "firstTurnTokens": 5188,
+        "totalInputTokens": 11832,
+        "outputTokens": 111,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2481,
+          "cacheRead": 9347
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"denoland/deno\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.29763687500001107
+          },
+          {
+            "kind": "model",
+            "seconds": 1.279971458
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1757842499999971
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1598445829999982
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section on Node.js compatibility is **7 \"Node.js Compatibility Layer\"** in DeepWiki's documentation of denoland/deno.\n\nIts subsections cover the deno_node extension, Buffer, zlib, fs, network/HTTP, worker threads, process/TTY/OS, crypto, and child process.",
+        "turns": 3,
+        "seconds": 4.463,
+        "costUsd": 0.023354800000000002,
+        "firstTurnTokens": 4555,
+        "totalInputTokens": 20228,
+        "outputTokens": 167,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4754,
+          "cacheRead": 15468
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki documentation structure of a GitHub repo\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"denoland/deno\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.5253526249999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5458114589999892
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.016474166000000068
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2269774170000023
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.14747754200000784
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5126043749999951
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section is **7. \"Node.js Compatibility Layer\"** in DeepWiki's documentation of denoland/deno.\n\nIts subsections cover the `deno_node` extension architecture, Buffer and core APIs, zlib/brotli, fs, network/HTTP, worker threads, process/TTY/OS, crypto, and child process/IPC.",
+        "turns": 2,
+        "seconds": 3.537,
+        "costUsd": 0.0172118,
+        "firstTurnTokens": 7041,
+        "totalInputTokens": 15511,
+        "outputTokens": 152,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3529,
+          "cacheRead": 11978
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9567744999999995
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5546607500000102
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.17694233399999204
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7928759160000047
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "One entity started before 2016: Project Alder, which started in 2015. Project Birch started in 2016, so it doesn't count. The other ten projects started in 2017 or later.",
+        "turns": 3,
+        "seconds": 7.621,
+        "costUsd": 0.010326700000000001,
+        "firstTurnTokens": 4535,
+        "totalInputTokens": 14897,
+        "outputTokens": 114,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1804,
+          "cacheRead": 13087
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__list_tools {}",
+          "mcp__utcp__call_tool_chain {\"code\":\"const g = await servers.memory_read_graph({}); return JSON.stringify(g);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.243526540999999
+          },
+          {
+            "kind": "model",
+            "seconds": 5.074306417000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.025421916999999183
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1877355830000011
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.02810691699999701
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2889554579999967
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "One entity has an observation saying it started before 2016: Project Alder (\"Started in 2015\"). Project Birch started in 2016, so it doesn't count. I read the whole knowledge graph, which has 12 entities.",
+        "turns": 2,
+        "seconds": 2.508,
+        "costUsd": 0.012924000000000001,
+        "firstTurnTokens": 7023,
+        "totalInputTokens": 14629,
+        "outputTokens": 96,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2665,
+          "cacheRead": 11960
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__read_graph {}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.956737208000006
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1531017080000017
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.026680666999993274
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3088594169999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "One entity started before 2016: Project Alder, which started in 2015. The graph has 12 entities. The other 11 started in 2016 or later.",
+        "turns": 2,
+        "seconds": 2.642,
+        "costUsd": 0.008922900000000001,
+        "firstTurnTokens": 5170,
+        "totalInputTokens": 10981,
+        "outputTokens": 76,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1648,
+          "cacheRead": 9329
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const g=await tools.memory.read_graph({});console.log(JSON.stringify(g).slice(0,6000))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2752728749999951
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3136675000000104
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01620912499999405
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2895030830000032
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The package manager is covered by top-level section **4, \"Package Manager\"**.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 2,
+        "seconds": 4.932,
+        "costUsd": 0.0179434,
+        "firstTurnTokens": 7037,
+        "totalInputTokens": 15715,
+        "outputTokens": 140,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3737,
+          "cacheRead": 11974
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9068822499999951
+          },
+          {
+            "kind": "model",
+            "seconds": 3.204537582999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.24720933300000691
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4679611670000012
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The package manager is covered by top-level section **4, \"Package Manager\"**, in DeepWiki's documentation of oven-sh/bun.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 2,
+        "seconds": 4.785,
+        "costUsd": 0.0139583,
+        "firstTurnTokens": 5184,
+        "totalInputTokens": 12036,
+        "outputTokens": 157,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2689,
+          "cacheRead": 9343
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"oven-sh/bun\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25125558300000556
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6735519589999894
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.15484116600001308
+          },
+          {
+            "kind": "model",
+            "seconds": 2.932308541999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section covering the package manager is **\"Package Manager\"** (section 4) in DeepWiki's oven-sh/bun docs.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 3,
+        "seconds": 4.587,
+        "costUsd": 0.0243986,
+        "firstTurnTokens": 4554,
+        "totalInputTokens": 20437,
+        "outputTokens": 185,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4965,
+          "cacheRead": 15466
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki read wiki structure of GitHub repo\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"oven-sh/bun\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.5424480829999956
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3799785419999973
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.012823499999998766
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5351969580000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2227001250000029
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4179184999999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Birch** started in 2016. It's owned by team venaxveka.",
+        "turns": 2,
+        "seconds": 2.091,
+        "costUsd": 0.0084875,
+        "firstTurnTokens": 5156,
+        "totalInputTokens": 10941,
+        "outputTokens": 55,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1622,
+          "cacheRead": 9315
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.memory.read_graph({})))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.33500049999999465
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2617573330000014
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.011813999999998437
+          },
+          {
+            "kind": "model",
+            "seconds": 0.79202966700001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Birch started in 2016. It is owned by team venaxveka.",
+        "turns": 3,
+        "seconds": 2.971,
+        "costUsd": 0.018860000000000002,
+        "firstTurnTokens": 4523,
+        "totalInputTokens": 19340,
+        "outputTokens": 81,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3914,
+          "cacheRead": 15420
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"knowledge graph query projects entities\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.memory_read_graph({});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.3471314999999886
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2027350000000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01304929100000285
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9328808339999961
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.029311250000013445
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7793894579999909
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Birch** started in 2016. It's owned by team venaxveka.",
+        "turns": 2,
+        "seconds": 2.327,
+        "costUsd": 0.0107866,
+        "firstTurnTokens": 7009,
+        "totalInputTokens": 14136,
+        "outputTokens": 51,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2186,
+          "cacheRead": 11946
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2016\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.0380741669999989
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3970759580000014
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.03214316700000186
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8711379580000065
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section 4, titled **\"Ruff Formatter\"**, in DeepWiki's documentation for astral-sh/ruff.\n\nIts subsections are:\n- 4.1 Formatter Architecture\n- 4.2 Formatting Rules and Style\n- 4.3 Black Compatibility and Configuration\n- 4.4 Markdown Code Formatting",
+        "turns": 3,
+        "seconds": 4.3,
+        "costUsd": 0.0227845,
+        "firstTurnTokens": 4553,
+        "totalInputTokens": 20025,
+        "outputTokens": 186,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4554,
+          "cacheRead": 15465
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki read wiki structure of a GitHub repository\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.5341055410000117
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4860377089999965
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.0299868750000023
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1804112909999969
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1530611249999927
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4389678750000021
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section **4, \"Ruff Formatter\"** in DeepWiki's astral-sh/ruff documentation.\n\nIts subsections are:\n- 4.1 Formatter Architecture\n- 4.2 Formatting Rules and Style\n- 4.3 Black Compatibility and Configuration\n- 4.4 Markdown Code Formatting",
+        "turns": 2,
+        "seconds": 3.195,
+        "costUsd": 0.0164876,
+        "firstTurnTokens": 7039,
+        "totalInputTokens": 15308,
+        "outputTokens": 157,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3328,
+          "cacheRead": 11976
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"astral-sh/ruff\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.055537208000009
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3557155839999906
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.18618979100001143
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6359408750000002
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section 4, titled **\"Ruff Formatter\"**.\n\nIts subsections are 4.1 Formatter Architecture, 4.2 Formatting Rules and Style, 4.3 Black Compatibility and Configuration, and 4.4 Markdown Code Formatting.",
+        "turns": 2,
+        "seconds": 2.839,
+        "costUsd": 0.012086600000000001,
+        "firstTurnTokens": 5187,
+        "totalInputTokens": 11631,
+        "outputTokens": 132,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2281,
+          "cacheRead": 9346
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3850714169999992
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3352709170000017
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.15926958300000127
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3208572920000006
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Fir started in **2020**, according to the knowledge graph.",
+        "turns": 2,
+        "seconds": 2.333,
+        "costUsd": 0.0108349,
+        "firstTurnTokens": 7012,
+        "totalInputTokens": 14151,
+        "outputTokens": 48,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2198,
+          "cacheRead": 11949
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"Project Fir\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.074252999999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3936559589999962
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.03405354100000091
+          },
+          {
+            "kind": "model",
+            "seconds": 0.894088459000006
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Fir started in **2020**. The knowledge graph's \"Project Fir\" entity has the observation \"Started in 2020\".",
+        "turns": 2,
+        "seconds": 2.182,
+        "costUsd": 0.0069418,
+        "firstTurnTokens": 5159,
+        "totalInputTokens": 10480,
+        "outputTokens": 71,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1158,
+          "cacheRead": 9318
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.memory.search_nodes({query:\\\"Project Fir\\\"}); console.log(JSON.stringify(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24861887500000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.261990625000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.037544791000007516
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8613707089999953
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Fir started in 2020, according to the knowledge graph.",
+        "turns": 3,
+        "seconds": 6.564,
+        "costUsd": 0.0170547,
+        "firstTurnTokens": 4527,
+        "totalInputTokens": 18878,
+        "outputTokens": 79,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3445,
+          "cacheRead": 15427
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"knowledge graph search entities project\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.memory_search_nodes({query:\\\"Project Fir\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.3587704159999996
+          },
+          {
+            "kind": "model",
+            "seconds": 0.990526958999995
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.014905583
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9385190419999994
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.015824208000005946
+          },
+          {
+            "kind": "model",
+            "seconds": 4.591543791999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "click-testing-section",
+      "suite": "heldout5",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section on testing is **\"8 Testing Click Applications\"**. It has two subsections: 8.1 Using CliRunner and 8.2 Testing Strategies and Best Practices.",
+        "turns": 2,
+        "seconds": 2.752,
+        "costUsd": 0.0090119,
+        "firstTurnTokens": 5180,
+        "totalInputTokens": 10963,
+        "outputTokens": 93,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1620,
+          "cacheRead": 9339
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"pallets/click\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2436797499999957
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3450154999999941
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.17689462500000075
+          },
+          {
+            "kind": "model",
+            "seconds": 1.209120750000002
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "click-testing-section",
+      "suite": "heldout5",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "In DeepWiki's documentation for pallets/click, the top-level section on testing is **\"8 Testing Click Applications\"**.\n\nIt has two subsections: 8.1 Using CliRunner and 8.2 Testing Strategies and Best Practices.",
+        "turns": 3,
+        "seconds": 7.729,
+        "costUsd": 0.0196292,
+        "firstTurnTokens": 4547,
+        "totalInputTokens": 19351,
+        "outputTokens": 140,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3893,
+          "cacheRead": 15452
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki documentation structure of a GitHub repo\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"pallets/click\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.297838665999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1135371670000023
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.011762417000005243
+          },
+          {
+            "kind": "model",
+            "seconds": 4.763913541000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2720964169999931
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5550124170000057
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "click-testing-section",
+      "suite": "heldout5",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The testing section is **\"8 Testing Click Applications\"**. It has two subsections: 8.1 Using CliRunner and 8.2 Testing Strategies and Best Practices.",
+        "turns": 2,
+        "seconds": 5.747,
+        "costUsd": 0.013162899999999998,
+        "firstTurnTokens": 7032,
+        "totalInputTokens": 14640,
+        "outputTokens": 93,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2667,
+          "cacheRead": 11969
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"pallets/click\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.0243490829999937
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3605205419999982
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.30783041599999716
+          },
+          {
+            "kind": "model",
+            "seconds": 4.067161208999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\n\nTop-level sections in DeepWiki's structure: bun has 13, uv has 15, and deno has 12. Wait, uv has more, so the answer is corrected below.\n\nastral-sh/uv\n\nIt has 15 top-level sections (Overview through Glossary). Bun has 13 and deno has 12.",
+        "turns": 4,
+        "seconds": 6.246,
+        "costUsd": 0.0370496,
+        "firstTurnTokens": 4577,
+        "totalInputTokens": 30399,
+        "outputTokens": 198,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 7555,
+          "cacheRead": 22836
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki read wiki structure of GitHub repository\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"const out:any={};for(const r of [\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"]){out[r]=await servers.deepwiki_read_wiki_structure({repoName:r});}return out;\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"var out = {};\\nfor (const r of [\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"]) { out[r] = await servers.deepwiki_read_wiki_structure({repoName:r}); }\\nreturn out;\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.4521303330000084
+          },
+          {
+            "kind": "model",
+            "seconds": 1.421250332999989
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.014199000000007622
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4491475419999915
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.013856500000009042
+          },
+          {
+            "kind": "model",
+            "seconds": 1.313155125000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5589691249999884
+          },
+          {
+            "kind": "model",
+            "seconds": 1.460886333000003
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\n\nTop-level sections: bun has 13, deno has 12, and uv has 15. Counting the numbered top-level entries gives uv the most (15), so the first line above is wrong. The correct answer is:\n\n**astral-sh/uv**",
+        "turns": 4,
+        "seconds": 4.311,
+        "costUsd": 0.0293896,
+        "firstTurnTokens": 7059,
+        "totalInputTokens": 18318,
+        "outputTokens": 118,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 6318,
+          "cacheRead": 11996
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"astral-sh/uv\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1999864159999998
+          },
+          {
+            "kind": "model",
+            "seconds": 2.344042499999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.38932429200000485
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5638080000000043
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\nTop-level section counts from DeepWiki's structure listings: bun has 13, uv has 15, and deno has 12.\n\nCorrection: uv has the most, with 15 top-level sections, so the answer is:\n\nastral-sh/uv",
+        "turns": 2,
+        "seconds": 3.636,
+        "costUsd": 0.0241526,
+        "firstTurnTokens": 5207,
+        "totalInputTokens": 14497,
+        "outputTokens": 110,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 5127,
+          "cacheRead": 9366
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"];\\nconst rs=await Promise.allSettled(repos.map(r=>tools.deepwiki.read_wiki_structure({repoName:r})));\\nrs.forEach((r,i)=>console.log(repos[i],r.st"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.382304541999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6587117500000021
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5161830000000047
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4362945409999957
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 2.652,
+        "costUsd": 0.013059400000000002,
+        "firstTurnTokens": 7017,
+        "totalInputTokens": 14617,
+        "outputTokens": 112,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2659,
+          "cacheRead": 11954
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__read_graph {}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.040449999999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3589266249999927
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.016083708000005803
+          },
+          {
+            "kind": "model",
+            "seconds": 1.252219374999986
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in odd-numbered years:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 2.712,
+        "costUsd": 0.009116200000000001,
+        "firstTurnTokens": 5163,
+        "totalInputTokens": 10955,
+        "outputTokens": 115,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1629,
+          "cacheRead": 9322
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.memory.read_graph({})))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3463110830000078
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3255231249999924
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.011873707999999317
+          },
+          {
+            "kind": "model",
+            "seconds": 1.351210584000015
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 3,
+        "seconds": 3.773,
+        "costUsd": 0.0196076,
+        "firstTurnTokens": 4531,
+        "totalInputTokens": 19370,
+        "outputTokens": 144,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3928,
+          "cacheRead": 15436
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"knowledge graph query projects start year\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"const g = await servers.memory_read_graph({}); return g;\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.4784487499999814
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4810385830000157
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.023132083000004133
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1109659589999943
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.011242499999992717
+          },
+          {
+            "kind": "model",
+            "seconds": 1.134496500000008
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 3.367,
+        "costUsd": 0.013473400000000002,
+        "firstTurnTokens": 5175,
+        "totalInputTokens": 11806,
+        "outputTokens": 195,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2468,
+          "cacheRead": 9334
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"denoland/deno\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24640612499997952
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2065280420000197
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.48096670799999286
+          },
+          {
+            "kind": "model",
+            "seconds": 1.652686959000013
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 3,
+        "seconds": 4.211,
+        "costUsd": 0.0239044,
+        "firstTurnTokens": 4543,
+        "totalInputTokens": 20192,
+        "outputTokens": 227,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4742,
+          "cacheRead": 15444
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki documentation structure of a GitHub repo\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"denoland/deno\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.40480025
+          },
+          {
+            "kind": "model",
+            "seconds": 1.152727583
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.019714333999989453
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1778175000000046
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.23384058300001165
+          },
+          {
+            "kind": "model",
+            "seconds": 1.611444167000009
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "deno-sections",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "DeepWiki lists 12 top-level sections for denoland/deno:\n1. Deno Overview\n2. CLI Architecture\n3. Runtime Core\n4. Language Server Protocol\n5. HTTP, Fetch, and WebSocket\n6. Web Standards APIs\n7. Node.js Compatibility Layer\n8. Foreign Function Interface\n9. Testing and Benchmarking\n10. Developer Tools and Productivity\n11. Unstable and Experimental APIs\n12. Glossary",
+        "turns": 2,
+        "seconds": 4.282,
+        "costUsd": 0.0176767,
+        "firstTurnTokens": 7030,
+        "totalInputTokens": 15489,
+        "outputTokens": 203,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3518,
+          "cacheRead": 11967
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.0845774579999852
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3653599169999941
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.16557783300001772
+          },
+          {
+            "kind": "model",
+            "seconds": 2.7372192499999946
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The entity is **Project Fir**. Its observation \"Its build uses the drosorbelka toolchain\" mentions the word.",
+        "turns": 3,
+        "seconds": 4.289,
+        "costUsd": 0.0173949,
+        "firstTurnTokens": 4546,
+        "totalInputTokens": 18944,
+        "outputTokens": 98,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3469,
+          "cacheRead": 15469
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"search knowledge graph nodes by observation text\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.memory_search_nodes({query:\\\"drosorbelka\\\"})\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.512812291999988
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4626721250000116
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.011864166000013832
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4601971249999774
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01451250000001103
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3256262920000008
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The entity is **Project Fir**. One of its observations says \"Its build uses the drosorbelka toolchain\".",
+        "turns": 2,
+        "seconds": 2.477,
+        "costUsd": 0.0110791,
+        "firstTurnTokens": 7034,
+        "totalInputTokens": 14196,
+        "outputTokens": 62,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2221,
+          "cacheRead": 11971
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"drosorbelka\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.0113594999999913
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3872121249999911
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.014430667000007613
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0610060410000153
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "memory-find",
+      "suite": "heldout",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The entity is **Project Fir**. One of its observations reads \"Its build uses the drosorbelka toolchain\".",
+        "turns": 2,
+        "seconds": 3.82,
+        "costUsd": 0.0069937,
+        "firstTurnTokens": 5178,
+        "totalInputTokens": 10519,
+        "outputTokens": 63,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1178,
+          "cacheRead": 9337
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.memory.search_nodes({query:\\\"drosorbelka\\\"});\\nconsole.log(JSON.stringify(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24927404200000455
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4100938749999914
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01795083300000977
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3701901669999934
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section is **7 Node.js Compatibility Layer**. In DeepWiki's documentation for denoland/deno, it covers the `deno_node` extension architecture, Buffer, zlib, fs, network, worker threads, process, crypto and child process polyfills.",
+        "turns": 2,
+        "seconds": 8.112,
+        "costUsd": 0.0169195,
+        "firstTurnTokens": 7038,
+        "totalInputTokens": 15505,
+        "outputTokens": 124,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3526,
+          "cacheRead": 11975
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9472467079999914
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3428726670000182
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.23985087500000368
+          },
+          {
+            "kind": "model",
+            "seconds": 6.513483416000002
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Section 7, **\"Node.js Compatibility Layer\"**, covers Node.js compatibility in DeepWiki's documentation of denoland/deno. Its subsections include 7.1 \"deno_node Extension Architecture\" and 7.2 \"Buffer and Core APIs\".",
+        "turns": 2,
+        "seconds": 2.76,
+        "costUsd": 0.012754399999999999,
+        "firstTurnTokens": 5185,
+        "totalInputTokens": 11826,
+        "outputTokens": 119,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2478,
+          "cacheRead": 9344
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"denoland/deno\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2357567080000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.264208666999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.20150854100001747
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2719431669999905
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "deepwiki-node",
+      "suite": "heldout2",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section is **7. \"Node.js Compatibility Layer\"** in DeepWiki's documentation of denoland/deno.\n\nIts subsections cover the `deno_node` extension architecture, Buffer, zlib, fs, network/HTTP, worker threads, process/TTY/OS, crypto and child process.",
+        "turns": 3,
+        "seconds": 4.283,
+        "costUsd": 0.0233753,
+        "firstTurnTokens": 4555,
+        "totalInputTokens": 20238,
+        "outputTokens": 162,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4759,
+          "cacheRead": 15473
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki documentation of GitHub repo structure / wiki contents\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"denoland/deno\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.426199499999988
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2313327500000013
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.018550167000008333
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3298978329999955
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.21192054200000676
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4785722919999973
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Only one entity has an observation saying it started before 2016: **Project Alder**, which \"Started in 2015\".\n\nI read the full graph, which has 12 entities. Project Birch started in 2016, and the rest started in 2017–2026.\n\n**Answer: 1**",
+        "turns": 2,
+        "seconds": 2.481,
+        "costUsd": 0.0093128,
+        "firstTurnTokens": 5169,
+        "totalInputTokens": 10980,
+        "outputTokens": 114,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1648,
+          "cacheRead": 9328
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const g = await tools.memory.read_graph({});\\nconsole.log(JSON.stringify(g).slice(0,3000));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23333995799999685
+          },
+          {
+            "kind": "model",
+            "seconds": 1.199079792000004
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.013844249999994673
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2464917499999866
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "One entity has an observation saying it started before 2016: **Project Alder** (\"Started in 2015\"). The graph has 12 entities with \"Started in <year>\" observations, covering 2015 to 2026. Project Birch started in 2016, which doesn't count as before 2016.",
+        "turns": 3,
+        "seconds": 4.32,
+        "costUsd": 0.0191251,
+        "firstTurnTokens": 4538,
+        "totalInputTokens": 19119,
+        "outputTokens": 146,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3662,
+          "cacheRead": 15451
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"read knowledge graph entities and observations\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"const g=await servers.memory_read_graph({});\\nreturn g.entities.map(e=>[e.name,e.observations.filter(o=>/start|began|since|found|found|20\\\\d\\\\d|19\\\\d\\\\d/i.test(o))]);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.3987220419999793
+          },
+          {
+            "kind": "model",
+            "seconds": 1.378377417000011
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.012161166000005164
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5595199589999975
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.015797915999980816
+          },
+          {
+            "kind": "model",
+            "seconds": 1.341110417000018
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "memory-years",
+      "suite": "heldout2",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "One entity started before 2016: Project Alder, which started in 2015. Project Birch started in 2016, so it doesn't count.\n\n**Answer: 1**",
+        "turns": 2,
+        "seconds": 2.445,
+        "costUsd": 0.012724000000000001,
+        "firstTurnTokens": 7023,
+        "totalInputTokens": 14629,
+        "outputTokens": 76,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2665,
+          "cacheRead": 11960
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__read_graph {}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.0839396659999911
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1427731250000068
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.012807124999992148
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2646870420000051
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The package manager is covered by top-level section 4, titled **\"Package Manager\"**, in DeepWiki's documentation of oven-sh/bun.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 3,
+        "seconds": 4.526,
+        "costUsd": 0.0244385,
+        "firstTurnTokens": 4553,
+        "totalInputTokens": 20436,
+        "outputTokens": 188,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4965,
+          "cacheRead": 15465
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki read wiki structure of a GitHub repo\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"oven-sh/bun\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.3758402500000084
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4098161250000119
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.009188291999977505
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1686572500000185
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.28981733299998425
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6375445420000174
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The package manager is covered by top-level section **4, \"Package Manager\"**. Its subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 2,
+        "seconds": 4.2,
+        "costUsd": 0.017933400000000002,
+        "firstTurnTokens": 7037,
+        "totalInputTokens": 15715,
+        "outputTokens": 139,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3737,
+          "cacheRead": 11974
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9080375420000055
+          },
+          {
+            "kind": "model",
+            "seconds": 1.365572207999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.26011704199999786
+          },
+          {
+            "kind": "model",
+            "seconds": 2.5615226250000127
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "bun-section",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The package manager is covered by top-level section **4, \"Package Manager\"**, in DeepWiki's oven-sh/bun documentation.\n\nIts subsections are:\n- 4.1 Installation Pipeline and Lockfile\n- 4.2 Dependency Resolution\n- 4.3 NPM Registry and Network Layer\n- 4.4 Workspace and Monorepo Support",
+        "turns": 2,
+        "seconds": 3.196,
+        "costUsd": 0.0139483,
+        "firstTurnTokens": 5184,
+        "totalInputTokens": 12036,
+        "outputTokens": 156,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2689,
+          "cacheRead": 9343
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"oven-sh/bun\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22804979199997616
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2370528330000232
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.23201591699998247
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7063586660000145
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Birch** started in 2016. It's owned by team venaxveka.",
+        "turns": 2,
+        "seconds": 2.188,
+        "costUsd": 0.0107866,
+        "firstTurnTokens": 7009,
+        "totalInputTokens": 14136,
+        "outputTokens": 51,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2186,
+          "cacheRead": 11946
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"2016\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9240838750000112
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3143432079999768
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.02102870900000564
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8391730830000013
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "**Project Birch** started in 2016. It's owned by team venaxveka.",
+        "turns": 2,
+        "seconds": 2.205,
+        "costUsd": 0.008483399999999999,
+        "firstTurnTokens": 5155,
+        "totalInputTokens": 10939,
+        "outputTokens": 55,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1621,
+          "cacheRead": 9314
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.memory.read_graph({})))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25942225000000324
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2719981249999839
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.014956459000007971
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8942623749999912
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "started-in",
+      "suite": "heldout3",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Birch started in 2016. The knowledge graph lists it as owned by team venaxveka.",
+        "turns": 3,
+        "seconds": 2.762,
+        "costUsd": 0.017096,
+        "firstTurnTokens": 4523,
+        "totalInputTokens": 18859,
+        "outputTokens": 90,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3433,
+          "cacheRead": 15420
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"knowledge graph query projects entities\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.memory_search_nodes({query:\\\"2016\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.42990945799998
+          },
+          {
+            "kind": "model",
+            "seconds": 0.999443750000006
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.01132204200001441
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8972683749999848
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.010182792000007268
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8294544579999927
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section 4, titled **\"Ruff Formatter\"**.\n\nIts subsections are:\n- 4.1 Formatter Architecture\n- 4.2 Formatting Rules and Style\n- 4.3 Black Compatibility and Configuration\n- 4.4 Markdown Code Formatting",
+        "turns": 2,
+        "seconds": 3.118,
+        "costUsd": 0.0121184,
+        "firstTurnTokens": 5185,
+        "totalInputTokens": 11627,
+        "outputTokens": 132,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2279,
+          "cacheRead": 9344
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24969625000000814
+          },
+          {
+            "kind": "model",
+            "seconds": 1.306557208000013
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2056928339999866
+          },
+          {
+            "kind": "model",
+            "seconds": 1.584315499999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section 4, titled **\"Ruff Formatter\"**. I got this from DeepWiki's wiki structure for astral-sh/ruff.\n\nIts subsections are:\n- 4.1 Formatter Architecture\n- 4.2 Formatting Rules and Style\n- 4.3 Black Compatibility and Configuration\n- 4.4 Markdown Code Formatting",
+        "turns": 3,
+        "seconds": 4.279,
+        "costUsd": 0.0228528,
+        "firstTurnTokens": 4554,
+        "totalInputTokens": 20030,
+        "outputTokens": 191,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4556,
+          "cacheRead": 15468
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki documentation of GitHub repo wiki structure\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"astral-sh/ruff\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.3299095419999793
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4725566250000268
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.014760416999982873
+          },
+          {
+            "kind": "model",
+            "seconds": 1.139791375000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.22669512499999822
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4121271249999987
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "ruff-section",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The formatter is covered by top-level section 4, titled **\"Ruff Formatter\"**. It has four subsections:\n- 4.1 Formatter Architecture\n- 4.2 Formatting Rules and Style\n- 4.3 Black Compatibility and Configuration\n- 4.4 Markdown Code Formatting",
+        "turns": 2,
+        "seconds": 3.02,
+        "costUsd": 0.0162994,
+        "firstTurnTokens": 7037,
+        "totalInputTokens": 15304,
+        "outputTokens": 139,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3326,
+          "cacheRead": 11974
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"astral-sh/ruff\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.8967567920000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4190004579999949
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.1631571249999979
+          },
+          {
+            "kind": "model",
+            "seconds": 1.425720209000021
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Fir started in **2020**. That comes from the knowledge graph entry \"Project Fir\", which has the observation \"Started in 2020\".",
+        "turns": 3,
+        "seconds": 3.761,
+        "costUsd": 0.0173469,
+        "firstTurnTokens": 4526,
+        "totalInputTokens": 18883,
+        "outputTokens": 103,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3448,
+          "cacheRead": 15429
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"knowledge graph query entity Project Fir\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.memory_search_nodes({query:\\\"Project Fir\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.3262068750000036
+          },
+          {
+            "kind": "model",
+            "seconds": 1.093896582999994
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.019198459000006718
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4036067079999777
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.012893500000005886
+          },
+          {
+            "kind": "model",
+            "seconds": 1.219493625000002
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Fir started in 2020, according to the knowledge graph.",
+        "turns": 2,
+        "seconds": 2.063,
+        "costUsd": 0.010833100000000002,
+        "firstTurnTokens": 7014,
+        "totalInputTokens": 14155,
+        "outputTokens": 47,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2200,
+          "cacheRead": 11951
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__search_nodes {\"query\":\"Project Fir\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9452547090000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2610896249999932
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.0212514160000139
+          },
+          {
+            "kind": "model",
+            "seconds": 0.7660762499999834
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "entity-year",
+      "suite": "heldout4",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Project Fir started in **2020**. The knowledge graph's \"Project Fir\" entity has the observation \"Started in 2020\".",
+        "turns": 2,
+        "seconds": 2.027,
+        "costUsd": 0.0069500000000000004,
+        "firstTurnTokens": 5161,
+        "totalInputTokens": 10484,
+        "outputTokens": 71,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1160,
+          "cacheRead": 9320
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.memory.search_nodes({query:\\\"Project Fir\\\"}); console.log(JSON.stringify(r));\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3147506660000072
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1224578749999927
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.02695520900000714
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8608709999999844
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "click-testing-section",
+      "suite": "heldout5",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The testing section is top-level section 8, titled **\"Testing Click Applications\"**. It has two subsections: 8.1 Using CliRunner and 8.2 Testing Strategies and Best Practices.",
+        "turns": 2,
+        "seconds": 2.911,
+        "costUsd": 0.013232899999999999,
+        "firstTurnTokens": 7032,
+        "totalInputTokens": 14640,
+        "outputTokens": 100,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2667,
+          "cacheRead": 11969
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"pallets/click\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9610300829999906
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2915837919999906
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.34555841700002166
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2602087909999828
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "click-testing-section",
+      "suite": "heldout5",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The testing section is **8 \"Testing Click Applications\"**. It has two subsections: 8.1 Using CliRunner and 8.2 Testing Strategies and Best Practices.",
+        "turns": 2,
+        "seconds": 2.494,
+        "costUsd": 0.0089801,
+        "firstTurnTokens": 5182,
+        "totalInputTokens": 10967,
+        "outputTokens": 89,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1622,
+          "cacheRead": 9341
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const r = await tools.deepwiki.read_wiki_structure({repoName:\\\"pallets/click\\\"});\\nconsole.log(r);\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25891554099999486
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1494182919999876
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3625023750000109
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9514965420000081
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "click-testing-section",
+      "suite": "heldout5",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The top-level section on testing is **\"8 Testing Click Applications\"**. It has two subsections: 8.1 Using CliRunner and 8.2 Testing Strategies and Best Practices.",
+        "turns": 3,
+        "seconds": 4.277,
+        "costUsd": 0.019457500000000003,
+        "firstTurnTokens": 4548,
+        "totalInputTokens": 19356,
+        "outputTokens": 121,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 3895,
+          "cacheRead": 15455
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki read wiki structure of a GitHub repo\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"return await servers.deepwiki_read_wiki_structure({repoName:\\\"pallets/click\\\"});\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.59330799999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6329541669999892
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.013059208000020028
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1491809999999827
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.387892707999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0819009589999915
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\nTop-level section counts: bun has 13, uv has 15, and deno has 12. I counted these wrong, so I'm recounting.\n\nRecount from the listings: deno runs 1–12 (12 sections), bun runs 1–13 (13 sections), and uv runs 1–15 (15 sections).\n\nastral-sh/uv\n\nuv has the most top-level sections, with 15. Bun has 13 and deno has 12. The first line above is wrong, and the correct answer is:\n\n**astral-sh/uv**",
+        "turns": 2,
+        "seconds": 4.457,
+        "costUsd": 0.0250526,
+        "firstTurnTokens": 5207,
+        "totalInputTokens": 14497,
+        "outputTokens": 201,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 5127,
+          "cacheRead": 9366
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"const repos=[\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"];\\nconst rs=await Promise.allSettled(repos.map(r=>tools.deepwiki.read_wiki_structure({repoName:r})));\\nrs.forEach((r,i)=>console.log(repos[i],r.st"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24738658300001407
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7386199170000036
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.653813750000001
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0405880409999813
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "astral-sh/uv\n\nDeepWiki lists 15 top-level sections for uv, against 13 for oven-sh/bun and 12 for denoland/deno. I counted the numbered top-level entries in each repo's wiki structure and included the Glossary in every count.",
+        "turns": 4,
+        "seconds": 6.537,
+        "costUsd": 0.03707100000000001,
+        "firstTurnTokens": 4575,
+        "totalInputTokens": 30391,
+        "outputTokens": 94,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 7553,
+          "cacheRead": 22830
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"DeepWiki documentation structure of a GitHub repository\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"const r:any={};for(const n of [\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"]){r[n]=await servers.deepwiki_read_wiki_structure({repoName:n});}return r;\"}",
+          "mcp__utcp__call_tool_chain {\"code\":\"const r = {};\\nfor (const n of [\\\"denoland/deno\\\",\\\"oven-sh/bun\\\",\\\"astral-sh/uv\\\"]) { r[n] = await servers.deepwiki_read_wiki_structure({repoName:n}); }\\nreturn r;\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.7679792919999744
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0792424580000226
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.011924375000002208
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4141135419999773
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.007006750000000395
+          },
+          {
+            "kind": "model",
+            "seconds": 1.737235042000015
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.690367291000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5851434169999852
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "most-sections",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": false,
+      "metrics": {
+        "answer": "oven-sh/bun\n\nTop-level section counts: bun has 13, uv has 15 and deno has 12. Wait, uv's count is higher, so the correct answer is below.\n\nastral-sh/uv\n\n- astral-sh/uv: 15 top-level sections\n- oven-sh/bun: 13\n- denoland/deno: 12",
+        "turns": 4,
+        "seconds": 3.578,
+        "costUsd": 0.0296519,
+        "firstTurnTokens": 7062,
+        "totalInputTokens": 18324,
+        "outputTokens": 143,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 6321,
+          "cacheRead": 11999
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"denoland/deno\"}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"oven-sh/bun\"}",
+          "mcp__deepwiki__read_wiki_structure {\"repoName\":\"astral-sh/uv\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.9543300419999868
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5065072499999954
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.12797491700001373
+          },
+          {
+            "kind": "model",
+            "seconds": 0.03837512499999152
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.30113270799999015
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5916678330000145
+          }
+        ]
+      }
+    },
+    {
+      "setup": "utcp",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 4,
+        "seconds": 3.669,
+        "costUsd": 0.021022299999999997,
+        "firstTurnTokens": 4531,
+        "totalInputTokens": 19904,
+        "outputTokens": 144,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 4195,
+          "cacheRead": 15703
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__utcp__search_tools {\"task_description\":\"knowledge graph query projects start date\"}",
+          "mcp__utcp__list_tools {}",
+          "mcp__utcp__call_tool_chain {\"code\":\"const g = await servers.memory_read_graph({}); return g;\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 2.3490749999999827
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1948593330000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.02221416699999823
+          },
+          {
+            "kind": "model",
+            "seconds": 0.0034047910000083448
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.005991875000006974
+          },
+          {
+            "kind": "model",
+            "seconds": 1.181767124999984
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.017310458999999945
+          },
+          {
+            "kind": "model",
+            "seconds": 1.231157583000022
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 2.436,
+        "costUsd": 0.0130512,
+        "firstTurnTokens": 7015,
+        "totalInputTokens": 14613,
+        "outputTokens": 112,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2657,
+          "cacheRead": 11952
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__memory__read_graph {}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.011577499999985
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1926630839999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.008934540999995022
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2218770420000071
+          }
+        ]
+      }
+    },
+    {
+      "setup": "codemode",
+      "task": "odd-years",
+      "suite": "multistep",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Projects that started in an odd-numbered year:\n- Project Alder (2015)\n- Project Cedar (2017)\n- Project Elm (2019)\n- Project Ginkgo (2021)\n- Project Ivy (2023)\n- Project Larch (2025)",
+        "turns": 2,
+        "seconds": 3.049,
+        "costUsd": 0.0091122,
+        "firstTurnTokens": 5163,
+        "totalInputTokens": 10954,
+        "outputTokens": 112,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1628,
+          "cacheRead": 9322
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__tools__run_code {\"code\":\"console.log(JSON.stringify(await tools.memory.read_graph()))\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2546824170000036
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7042522499999904
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.027768458000005936
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2954661249999773
+          }
+        ]
+      }
+    }
+  ]
+}

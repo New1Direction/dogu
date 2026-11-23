@@ -102,6 +102,10 @@ Codex 0.171 has a code mode of its own, still marked "under development" (`code_
 
 Codex's code mode read as much as loading directly and was no faster. The dogu folder beat it by 26% on tokens and on time. `dogu serve` in Codex is the weak spot: Codex went around it with `curl` in half the runs, so for Codex the folder is the way to use dogu; in pi and Claude Code, code mode is.
 
+## Against UTCP code-mode
+
+UTCP code-mode 1.2.1 (pinned) in Claude Code, on the 11 held-out tasks that need no GitHub token (DeepWiki and the local memory server; `BENCH_SERVERS=deepwiki`, so no token went into any setup's config or environment). 3 runs each ([results](../../bench/results/2026-11-22-utcp-no-token.md)): dogu code mode $0.0115 per task, 2.76 s median, 2.0 turns, 30/33 right; UTCP $0.0221, 4.32 s, 3.2 turns, 31/33; loading directly $0.0155, 2.91 s, 30/33. dogu was cheapest in each of the six task sets alone. UTCP searches before it calls (a turn) and starts in 2.5 s against dogu's 0.27 s.
+
 ## Where the time goes now
 
 The model's own work is the biggest part of every task: 3.1 to 4.1 s per task on average, depending on the setup. What differs:
@@ -141,7 +145,7 @@ The same pattern runs through all of them, and through ours: code mode saves a l
 
 ## Not done yet
 
-- **UTCP code-mode** in the same bench. The setup is written (`utcp`, version 1.2.1 pinned) but not run: it would hand the GitHub token to a third-party package, which needs the owner's OK.
+- ~~UTCP code-mode~~: run without a token (above); a run with GitHub still needs the owner's OK for a token.
 - **A multi-step task set**, written and frozen before any tuning for it, reported next to the quick tasks, not instead of them.
 - **The folder's tool list** in the compact form from experiment 3 (about 2 KB instead of 18 KB).
 - ~~A warm folder~~: done in experiment 10.
