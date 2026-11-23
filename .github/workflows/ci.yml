@@ -43,6 +43,8 @@ jobs:
         run: sh tests/escape.sh
       - name: Sandbox escape test (Deno)
         run: DOGU_SANDBOX=deno sh tests/escape.sh
+      - name: An MCP server built with Effect 4 (stdio and HTTP, both protocol eras)
+        run: sh tests/effect.sh
       - name: Benchmark harness tests
         run: deno test bench/bench_test.ts
 

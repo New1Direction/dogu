@@ -168,6 +168,8 @@ fn parse_args(args: &[&String], input: &Value) -> Result<Map<String, Value>, Str
                 Ok(Value::Array(items)) => list.as_array_mut().unwrap().extend(items),
                 _ => list.as_array_mut().unwrap().push(convert(&key, &value, &item_kind)?),
             }
+        } else if prop.is_some_and(|p| fixed_values(p).contains(&&json!(value))) {
+            out.insert(key.clone(), json!(value)); // a value the schema names, such as "Infinity"
         } else {
             out.insert(key.clone(), convert(&key, &value, &kind)?);
         }
@@ -182,8 +184,37 @@ fn kind_of(schema: &Value) -> String {
         Value::Array(list) => {
             list.iter().filter_map(Value::as_str).find(|t| *t != "null").unwrap_or("").to_string()
         }
+        _ => union_kind(schema),
+    }
+}
+
+/// The kind of a union whose choices, apart from null and fixed values, are all one kind: Effect's
+/// `Schema.Number` is a number or the strings "Infinity", "-Infinity" and "NaN"; an optional field is
+/// a kind or null. A union of two real kinds (a string or a list) says nothing: "".
+fn union_kind(schema: &Value) -> String {
+    let Some(choices) = ["anyOf", "oneOf"].iter().find_map(|k| schema[*k].as_array()) else {
+        return String::new();
+    };
+    let kinds: std::collections::BTreeSet<String> = choices
+        .iter()
+        .filter(|c| c["enum"].is_null() && c["const"].is_null())
+        .map(kind_of)
+        .filter(|k| k != "null")
+        .collect();
+    match kinds.len() {
+        1 => kinds.into_iter().next().unwrap_or_default(),
         _ => String::new(),
     }
+}
+
+/// The fixed values a union allows besides its kind, such as "Infinity" for Effect's numbers.
+fn fixed_values(schema: &Value) -> Vec<&Value> {
+    ["anyOf", "oneOf"]
+        .iter()
+        .filter_map(|k| schema[*k].as_array())
+        .flatten()
+        .flat_map(|c| c["enum"].as_array().into_iter().flatten().chain(Some(&c["const"]).filter(|v| !v.is_null())))
+        .collect()
 }
 
 fn convert(key: &str, text: &str, kind: &str) -> Result<Value, String> {
@@ -443,6 +474,40 @@ mod tests {
 
     fn schema(input: Value) -> Value {
         json!({ "name": "t", "description": "A tool.", "inputSchema": input })
+    }
+
+    /// Effect's `Schema.Number`: a number, or one of three strings JSON cannot hold as a number.
+    fn effect_number() -> Value {
+        json!({ "anyOf": [{ "type": "number" }, { "type": "string", "enum": ["Infinity", "-Infinity", "NaN"] }] })
+    }
+
+    #[test]
+    fn a_number_with_named_special_values_is_shown_and_parsed_as_a_number() {
+        let input = json!({ "type": "object", "properties": { "a": effect_number() }, "required": ["a"] });
+
+        let flags = flags_of(&schema(input.clone()));
+        let parsed = parse_args(&[&"--a".to_string(), &"2.5".to_string()], &input).unwrap();
+
+        assert_eq!(flags, " --a <number>");
+        assert_eq!(parsed["a"], json!(2.5));
+    }
+
+    #[test]
+    fn a_named_special_value_is_passed_as_the_string_the_schema_allows() {
+        let input = json!({ "type": "object", "properties": { "a": effect_number() } });
+
+        let parsed = parse_args(&[&"--a".to_string(), &"Infinity".to_string()], &input).unwrap();
+
+        assert_eq!(parsed["a"], json!("Infinity"));
+    }
+
+    #[test]
+    fn a_union_of_two_real_kinds_stays_untyped() {
+        let input = json!({ "type": "object", "properties": {
+            "q": { "anyOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] }
+        } });
+
+        assert_eq!(flags_of(&schema(input)), " [--q <value>]");
     }
 
     #[test]

@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- A parameter that is a number or a few named values (Effect's `Schema.Number` allows the strings `Infinity`, `-Infinity` and `NaN`) showed as `<value>` in the folder's README and `--help`; it now shows as `<number>` and is parsed as one, and a named value is passed as the string the schema allows. The same rule types optional parameters written as "a kind or null".
+
+### Added
+
+- `tests/effect.sh`, run in CI: dogu against an MCP server built with Effect 4's own MCP modules, over stdio and Streamable HTTP, in both protocol eras (2025-11-25 and the stateless 2026-07-28). It checks sync, folder calls, a failing call, a program with `Promise.all` and `Promise.allSettled`, and the read cache.
+
 ## [0.7.4] - 2026-11-22
 
 ### Changed
