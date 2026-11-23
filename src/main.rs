@@ -43,8 +43,8 @@ dogu — your MCP tools as a folder of commands, and as a sandboxed code API
       Run one tool. The scripts in the folder do this for you.
 
   dogu run [--root <folder>] [--allow <pattern>]... [--timeout <seconds>] <program.ts | - | -e 'code'>
-      Run a TypeScript program in a sandbox (needs Deno). The program cannot touch files or the
-      network. It can only call tools: await tools.<app>.<tool>({...})
+      Run a TypeScript program in a sandbox built into dogu (DOGU_SANDBOX=deno uses Deno instead).
+      The program cannot touch files or the network. It can only call tools: await tools.<app>.<tool>({...})
       --allow limits the tools: `--allow github` or `--allow 'files/read_*'`. Default: all.
 
   dogu serve [--root <folder>] [--allow <pattern>]...

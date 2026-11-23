@@ -528,10 +528,14 @@ fn find_deno() -> Result<PathBuf, String> {
     }
     let mut dirs: Vec<PathBuf> = std::env::split_paths(&std::env::var_os("PATH").unwrap_or_default()).collect();
     dirs.push(config::home().join(".deno/bin"));
-    dirs.iter().map(|d| d.join("deno")).find(|p| p.is_file()).ok_or_else(|| {
-        "code mode needs Deno, which is the sandbox. Install it (`brew install deno`, or see https://deno.com) \
-         and try again."
-            .to_string()
+    dirs.iter().map(|d| d.join("deno")).find(|p| p.is_file()).ok_or_else(|| match cfg!(feature = "djs") {
+        // Only reached when DOGU_SANDBOX=deno asked for Deno: the built-in sandbox needs nothing.
+        true => "DOGU_SANDBOX=deno runs programs in Deno, and Deno was not found. Install it (`brew install deno`, \
+                 or see https://deno.com), or unset DOGU_SANDBOX to use the sandbox built into dogu."
+            .to_string(),
+        false => "this dogu was built without its own sandbox, so code mode needs Deno. Install it \
+                  (`brew install deno`, or see https://deno.com) and try again."
+            .to_string(),
     })
 }
 

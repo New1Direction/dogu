@@ -873,3 +873,14 @@ fn the_warm_folder_answers_a_repeated_read_only_command_from_memory() {
 
     assert_eq!(stdout(&first).trim(), stdout(&again).trim(), "{} / {}", stderr(&first), stderr(&again));
 }
+
+#[test]
+fn the_help_says_the_sandbox_is_built_in_not_that_deno_is_needed() {
+    let home = scratch("help-sandbox");
+
+    let o = dogu(&home, &home, &["--help"]);
+
+    let text = stdout(&o);
+    assert!(!text.contains("needs Deno"), "{text}");
+    assert!(text.contains("built into dogu"), "{text}");
+}

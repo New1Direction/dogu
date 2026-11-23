@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- `dogu --help` no longer says `dogu run` needs Deno: the sandbox has been built in since 0.5.0. The error when `DOGU_SANDBOX=deno` is set and Deno is missing now says to install Deno or unset `DOGU_SANDBOX`.
+
 ## [0.7.2] - 2026-11-22
 
 ### Added
