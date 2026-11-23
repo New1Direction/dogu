@@ -1,0 +1,4 @@
+
+  Indented line, kept as it is.
+A line with a tab	here and trailing spaces   
+Numbers: 3.14159, -0, 1e10, "quoted", {braces}, [brackets]

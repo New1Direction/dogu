@@ -370,11 +370,18 @@ export const runAgent = (
   agent: Agent,
   bin: string,
   args: ReadonlyArray<string>,
-  options: { readonly cwd: string; readonly env: Record<string, string>; readonly timeout: Duration.Duration },
+  options: {
+    readonly cwd: string;
+    readonly env: Record<string, string>;
+    readonly timeout: Duration.Duration;
+    /** Also save the agent's whole event stream here, to see what each tool returned. */
+    readonly saveStreamTo?: string;
+  },
 ): Effect.Effect<RunMetrics, CommandFailed | NoResult | Cause.TimeoutError> =>
   Effect.gen(function* () {
     const started = performance.now();
     const { stdout: stream, times } = yield* runCommandTimed(bin, args, { cwd: options.cwd, env: options.env });
+    if (options.saveStreamTo) yield* Effect.promise(() => Deno.writeTextFile(options.saveStreamTo!, stream));
     const seconds = (performance.now() - started) / 1000;
     return yield* (agent === "codex"
       ? codexMetricsOf(stream, seconds)
@@ -389,5 +396,5 @@ export const runAgent = (
 /** One headless Claude Code run. */
 export const runClaude = (
   args: ReadonlyArray<string>,
-  options: { readonly cwd: string; readonly env: Record<string, string>; readonly timeout: Duration.Duration },
+  options: { readonly cwd: string; readonly env: Record<string, string>; readonly timeout: Duration.Duration; readonly saveStreamTo?: string },
 ) => runAgent("claude", "claude", args, options);

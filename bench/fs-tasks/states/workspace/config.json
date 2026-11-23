@@ -1,0 +1,24 @@
+{
+  "name": "orchard-sync",
+  "version": "1.4.2",
+  "features": {
+    "retry": {
+      "max": 5,
+      "backoffMs": 250
+    },
+    "telemetry": false,
+    "regions": [
+      "eu-west",
+      "ap-south"
+    ]
+  },
+  "owners": [
+    "ines",
+    "tomas"
+  ],
+  "limits": {
+    "daily": 10000,
+    "burst": 120.5
+  },
+  "notes": "keep in sync with deploy/values.yaml"
+}

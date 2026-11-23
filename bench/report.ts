@@ -10,6 +10,8 @@ export interface RunRecord {
   readonly correct: boolean;
   readonly metrics?: RunMetrics;
   readonly error?: string;
+  /** What the benchmark's own checker printed, when it has one (MCPMark's verify.py). */
+  readonly check?: string;
 }
 
 const mean = (xs: ReadonlyArray<number>) => (xs.length === 0 ? 0 : xs.reduce((a, b) => a + b, 0) / xs.length);

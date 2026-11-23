@@ -47,6 +47,8 @@ jobs:
         run: sh tests/effect.sh
       - name: Benchmark harness tests
         run: deno test bench/bench_test.ts
+      - name: The filesystem tasks' checkers accept right answers and reject the start
+        run: python3 bench/fs-tasks/check_checks.py
 
   conformance:
     name: MCP conformance suite

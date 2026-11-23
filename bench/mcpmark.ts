@@ -12,7 +12,13 @@
 //
 // Settings: MCPMARK_DIR (required), MCPMARK_TASKS (all, easy, standard, or a comma list of
 // level/category/task), BENCH_SETUPS (direct,codemode), BENCH_REPS (3), BENCH_CONCURRENCY (3),
-// BENCH_MODEL (sonnet), BENCH_OUT (results file name), DOGU_BIN (dogu).
+// BENCH_MODEL (sonnet), BENCH_OUT (results file name), DOGU_BIN (dogu), BENCH_STREAMS (a folder to save
+// each run's whole event stream in, to see what every tool returned), DOGU_B_BIN (a candidate dogu build,
+// run as the setup codemode-b, for a same-run A/B).
+//
+// MCPMARK_DIR can also be a folder of tasks in MCPMark's layout that are not MCPMark's, such as
+// bench/fs-tasks: a task's meta.json may give its starting files as "local:<name>", the folder
+// <MCPMARK_DIR>/states/<name>.
 
 import { Duration, Effect } from "npm:effect@4.1.5";
 import { runClaude, runCommand } from "./claude.ts";
@@ -27,13 +33,16 @@ const PINNED_COMMIT = "cd45b7f";
 const SERVER = "@modelcontextprotocol/server-filesystem@2025.12.18";
 /** The line MCPMark adds to every task's description (src/base/task_manager.py). */
 const NOTE = "\n\nNote: Based on your understanding, solve the task all at once by yourself, don't ask for my opinions on anything.";
-const SETUPS = env("BENCH_SETUPS", "direct,codemode").split(",") as ReadonlyArray<"direct" | "codemode">;
+type Setup = "direct" | "codemode" | "codemode-b";
+const SETUPS = env("BENCH_SETUPS", "direct,codemode").split(",") as ReadonlyArray<Setup>;
 const REPS = Number(env("BENCH_REPS", "3"));
 const CONCURRENCY = Number(env("BENCH_CONCURRENCY", "3"));
 const MODEL = env("BENCH_MODEL", "sonnet");
 const DOGU = env("DOGU_BIN", "dogu");
+const DOGU_B = Deno.env.get("DOGU_B_BIN");
 const FILTER = env("MCPMARK_TASKS", "all");
 const RUN_TIMEOUT = Duration.minutes(10);
+const STREAMS = Deno.env.get("BENCH_STREAMS");
 const HERE = new URL(".", import.meta.url).pathname;
 
 interface MarkTask {
@@ -70,6 +79,7 @@ const chosen = (all: ReadonlyArray<MarkTask>) =>
 /** Downloads and unpacks each starting state once. The zips hold one folder named like the state. */
 const unpack = (cache: string, url: string) =>
   Effect.gen(function* () {
+    if (url.startsWith("local:")) return `${MCPMARK}/states/${url.slice("local:".length)}`;
     const name = new URL(url).pathname.split("/").pop()!.replace(/\.zip$/, "");
     const out = `${cache}/${name}`;
     const exists = yield* Effect.promise(() => Deno.stat(`${out}/${name}`).then(() => true, () => false));
@@ -87,7 +97,7 @@ const unpack = (cache: string, url: string) =>
  * the model where it started. (Started anywhere else, agents looked there and found nothing.) Its own
  * file and shell tools are off, so starting there gives no way around the server.
  */
-const prepare = (state: string, runDir: string, setup: "direct" | "codemode") =>
+const prepare = (state: string, runDir: string, setup: Setup) =>
   Effect.gen(function* () {
     const testDir = `${runDir}/${state.split("/").pop()}`;
     yield* Effect.promise(() => Deno.mkdir(runDir, { recursive: true }));
@@ -101,9 +111,11 @@ const prepare = (state: string, runDir: string, setup: "direct" | "codemode") =>
     }
     const root = `${runDir}/mcp`;
     yield* Effect.promise(() => Deno.writeTextFile(`${runDir}/servers.json`, JSON.stringify({ mcpServers: { filesystem: server } })));
-    yield* runCommand(DOGU, ["sync", "--config", `${runDir}/servers.json`, "--out", root]);
+    const dogu = setup === "codemode-b" ? DOGU_B : DOGU;
+    if (!dogu) throw new Error("codemode-b needs DOGU_B_BIN");
+    yield* runCommand(dogu, ["sync", "--config", `${runDir}/servers.json`, "--out", root]);
     const config = `${runDir}/serve.json`;
-    yield* Effect.promise(() => Deno.writeTextFile(config, JSON.stringify({ mcpServers: { tools: { command: DOGU, args: ["serve", "--root", root] } } })));
+    yield* Effect.promise(() => Deno.writeTextFile(config, JSON.stringify({ mcpServers: { tools: { command: dogu, args: ["serve", "--root", root] } } })));
     const tools = ["--mcp-config", config, "--tools", "", "--allowedTools", "mcp__tools__search", "mcp__tools__run_code", "mcp__tools__forge"];
     return { testDir, cwd, tools };
   });
@@ -119,11 +131,11 @@ const verify = (task: MarkTask, testDir: string) =>
       stderr: "piped",
     }).output()
   ).pipe(
-    Effect.map((o) => ({ pass: o.success, output: new TextDecoder().decode(o.stdout).slice(-600) })),
+    Effect.map((o) => ({ pass: o.success, output: new TextDecoder().decode(o.stdout).slice(-1500) })),
     Effect.orElseSucceed(() => ({ pass: false, output: "verify.py did not run" })),
   );
 
-const runOne = (task: MarkTask, setup: "direct" | "codemode", rep: number, work: string, cache: string) =>
+const runOne = (task: MarkTask, setup: Setup, rep: number, work: string, cache: string) =>
   Effect.gen(function* () {
     const runId = `${task.id.replaceAll("/", "-")}-${setup}-${rep}-${crypto.randomUUID().slice(0, 8)}`;
     const runDir = `${work}/${runId}`;
@@ -131,10 +143,11 @@ const runOne = (task: MarkTask, setup: "direct" | "codemode", rep: number, work:
     const { testDir, cwd, tools } = yield* prepare(state, runDir, setup);
     const prompt = `Run ${runId}. ${Deno.readTextFileSync(`${task.dir}/description.md`)}${NOTE}`;
     const args = ["-p", prompt, "--model", MODEL, "--setting-sources", "project", "--strict-mcp-config", ...tools, "--output-format", "stream-json", "--verbose"];
-    const metrics = yield* runClaude(args, { cwd, env: {}, timeout: RUN_TIMEOUT });
+    const saveStreamTo = STREAMS ? `${STREAMS}/${runId}.jsonl` : undefined;
+    const metrics = yield* runClaude(args, { cwd, env: {}, timeout: RUN_TIMEOUT, saveStreamTo });
     const checked = yield* verify(task, testDir);
     console.error(`${checked.pass ? "PASS" : "fail"} ${setup} ${task.id}#${rep} ${metrics.seconds.toFixed(1)}s $${metrics.costUsd?.toFixed(4)}`);
-    return { setup, task: task.id, suite: task.level, rep, correct: checked.pass, metrics } satisfies RunRecord;
+    return { setup, task: task.id, suite: task.level, rep, correct: checked.pass, metrics, check: checked.output } satisfies RunRecord;
   }).pipe(
     Effect.catch((e: unknown) =>
       Effect.succeed({ setup, task: task.id, suite: task.level, rep, correct: false, error: String((e as { detail?: string }).detail ?? e).slice(0, 300) } satisfies RunRecord)
@@ -142,7 +155,7 @@ const runOne = (task: MarkTask, setup: "direct" | "codemode", rep: number, work:
   );
 
 const main = Effect.gen(function* () {
-  const head = (yield* runCommand("git", ["-C", MCPMARK, "rev-parse", "--short", "HEAD"])).trim();
+  const head = (yield* runCommand("git", ["-C", MCPMARK, "rev-parse", "--short", "HEAD"]).pipe(Effect.orElseSucceed(() => "local"))).trim();
   if (!head.startsWith(PINNED_COMMIT)) console.error(`note: MCPMark is at ${head}, results were taken at ${PINNED_COMMIT}`);
   const tasks = chosen(discover());
   if (tasks.length === 0) throw new Error(`no MCPMark filesystem tasks match ${FILTER}`);
