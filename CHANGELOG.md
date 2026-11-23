@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+- The folder's README tells agents to start calls that do not depend on each other together (`Promise.all` in a `./run` program, `Promise.allSettled` when some may fail) and to print only the fields they need; a shell loop runs calls one after another. On a task set frozen before the change, folder tasks got 29% faster at the median (8.8 → 6.3 s), with tool time halved and the same answers.
+
 ## [0.7.3] - 2026-11-22
 
 ### Fixed

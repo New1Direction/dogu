@@ -528,15 +528,25 @@ fn root_readme(index: &[IndexEntry]) -> String {
          | Run a tool with JSON from a pipe | `... \\| <app>/<tool> -` |\n\n\
          Results print to stdout. Errors print to stderr and the exit code is 1.\n\
          When a result may be big, send it to a file or through `head` / `jq`. Do not print all of it.\n\n\
-         ## Many steps at once: write a program\n\n\
+         ## Several calls: write a program, and start them together\n\n\
          When a job needs several tool calls, loops, or filtering of big results, write one\n\
          TypeScript program and run it with `./run`. It runs in a sandbox: it cannot read files,\n\
          use the network or start programs. It can only call tools and print.\n\n\
+         Calls that do not depend on each other: start them together with `Promise.all`, so they run\n\
+         at the same time and five calls take about as long as one. A shell loop, or a loop with `await`\n\
+         inside, runs them one after another, which is much slower. Print only the fields you need.\n\n\
          ```\n\
          ./run - <<'EOF'\n\
-         const items = await tools.some_app.some_tool({{ name: \"value\" }});\n\
-         console.log(items.length);   // print only what you need to see\n\
+         const ids = [\"a\", \"b\", \"c\"];\n\
+         const items = await Promise.all(ids.map((id) => tools.some_app.get_item({{ id }})));\n\
+         items.forEach((item, i) => console.log(ids[i], item.name));\n\
          EOF\n\
+         ```\n\n\
+         When some calls may fail (a thing that does not exist), use `Promise.allSettled`: they still\n\
+         run together, and one failure does not stop the rest:\n\n\
+         ```\n\
+         const rs = await Promise.allSettled(ids.map((id) => tools.some_app.get_item({{ id }})));\n\
+         rs.forEach((r, i) => console.log(ids[i], r.status === \"fulfilled\" ? r.value.name : \"none\"));\n\
          ```\n\n\
          - `tools.<app>.<tool>({{...}})` returns a Promise. A failed call throws.\n\
          - In code, write `-` and `.` in names as `_`: the tool `get-sum` is `tools.app.get_sum`.\n\
@@ -676,5 +686,15 @@ mod tests {
 
         assert!(text.contains("tool_0, tool_1"), "{text}");
         assert!(!text.contains("--repo"), "{text}");
+    }
+
+    #[test]
+    fn the_readme_says_to_start_independent_calls_together_and_print_one_field() {
+        let text = root_readme(&[app(1, 10)]);
+
+        assert!(text.contains("Promise.all("), "{text}");
+        assert!(text.contains("Promise.allSettled("), "{text}");
+        assert!(text.contains("one after another"), "{text}");
+        assert!(text.contains("r.value.name"), "{text}");
     }
 }

@@ -1,0 +1,3332 @@
+{
+  "date": "2026-11-23",
+  "dogu": "dogu 0.7.2",
+  "claude": "2.1.330 (Claude Code)",
+  "model": "sonnet",
+  "commit": "28c669a",
+  "dirty": true,
+  "answers": {
+    "biome-tags": [
+      "@biomejs/biome@2.6.8",
+      "v0.0.3",
+      "v0.3.1",
+      "v3.8.1",
+      "v2.7.1",
+      "|"
+    ],
+    "pnpm-tags": [
+      "v12.21.0",
+      "v6.1.1",
+      "v0.1.3",
+      "|",
+      "only-allow",
+      "benchmarks"
+    ],
+    "bevy-tags": [
+      "v0.20.1",
+      "|",
+      "bevy-assets",
+      "bevy_editor_prototypes",
+      "bevy_github_ci_template",
+      "bevy-website"
+    ],
+    "cli-tags": [
+      "v0.26.1",
+      "16.0.0",
+      "v0.75.0",
+      "v0.10.0",
+      "25.07.1",
+      "|"
+    ],
+    "pnpm-newest": [
+      "pnpm"
+    ],
+    "fd-issue-title": [
+      "Do not search hidden folders / files"
+    ],
+    "zed-created": [
+      "2021-02-20"
+    ]
+  },
+  "records": [
+    {
+      "setup": "direct",
+      "task": "biome-tags",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 biomejs repos by stars, with the tag of each one's latest release:\n- biomejs/biome (26,180★): `@biomejs/biome@2.6.8`\n- biomejs/gritql (4,630★): `v0.0.3`\n- biomejs/biome-zed (510★): `v0.3.1`\n- biomejs/biome-vscode (433★): `v3.8.1`\n- biomejs/setup-biome (137★): `v2.7.1`\n\nAll five have a release, so none are missing one.",
+        "turns": 7,
+        "seconds": 8.719,
+        "costUsd": 0.11337459999999999,
+        "firstTurnTokens": 27236,
+        "totalInputTokens": 102854,
+        "outputTokens": 219,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 24602,
+          "cacheRead": 78246
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:biomejs\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"biome\"}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"gritql\"}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"biome-zed\"}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"biome-vscode\"}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"setup-biome\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.334768
+          },
+          {
+            "kind": "model",
+            "seconds": 2.405540000000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7103279999999974
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9616147500000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.11763075
+          },
+          {
+            "kind": "model",
+            "seconds": 0.21181925000000046
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.03886920900000046
+          },
+          {
+            "kind": "model",
+            "seconds": 0.23055170799999924
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.714568332999999
+          },
+          {
+            "kind": "model",
+            "seconds": 2.310456334000003
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "biome-tags",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 biomejs repos by stars, with the tag of each latest release:\n- **biome** (26,180★): `@biomejs/biome@2.6.8`\n- **gritql** (4,630★): `v0.0.3`\n- **biome-zed** (510★): `v0.3.1`\n- **biome-vscode** (433★): `v3.8.1`\n- **setup-biome** (137★): `v2.7.1`\n\nAll five have a release, so none are missing one.",
+        "turns": 2,
+        "seconds": 12.05,
+        "costUsd": 0.045257799999999994,
+        "firstTurnTokens": 12191,
+        "totalInputTokens": 24918,
+        "outputTokens": 170,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 9656,
+          "cacheRead": 15258
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r:any = await tools.github.search_repositories({query:\"org:biomejs\", sort:\"stars\", o"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.4450743330000005
+          },
+          {
+            "kind": "model",
+            "seconds": 3.8212844579999987
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.8457546670000005
+          },
+          {
+            "kind": "model",
+            "seconds": 3.358227582999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "biome-tags",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 biomejs repos by stars, with the tag of each latest release:\n- biomejs/biome: `@biomejs/biome@2.6.8`\n- biomejs/gritql: `v0.0.3`\n- biomejs/biome-zed: `v0.3.1`\n- biomejs/biome-vscode: `v3.8.1`\n- biomejs/setup-biome: `v2.7.1`\n\nAll five have a release, so none are without one.",
+        "turns": 2,
+        "seconds": 11.762,
+        "costUsd": 0.0466159,
+        "firstTurnTokens": 12452,
+        "totalInputTokens": 25492,
+        "outputTokens": 165,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 9969,
+          "cacheRead": 15519
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:biomejs\", sort:\"stars\", ord"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.626067500000001
+          },
+          {
+            "kind": "model",
+            "seconds": 3.6393659169999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.459534583
+          },
+          {
+            "kind": "model",
+            "seconds": 5.642513833999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "pnpm-tags",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 pnpm org repos by stars, with the tag of each latest release:\n- **pnpm** (37,155★): v12.21.0\n- **action-setup** (1,330★): v6.1.1\n- **pacquet** (1,155★): v0.1.3\n- **only-allow** (659★): no release\n- **benchmarks** (433★): no release",
+        "turns": 2,
+        "seconds": 8.788,
+        "costUsd": 0.013044900000000002,
+        "firstTurnTokens": 12190,
+        "totalInputTokens": 24959,
+        "outputTokens": 133,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1526,
+          "cacheRead": 23429
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r:any = await tools.github.search_repositories({query:\"org:pnpm\", sort:\"stars\", orde"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23481662499999947
+          },
+          {
+            "kind": "model",
+            "seconds": 2.9157836669999995
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.340453875
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4910169580000003
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "pnpm-tags",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 pnpm org repos by stars, with the tag of each latest release:\n- **pnpm** (37,155★): v12.21.0\n- **action-setup** (1,330★): v6.1.1\n- **pacquet** (1,155★): v0.1.3\n- **only-allow** (659★): no release\n- **benchmarks** (433★): no release\n\nFor only-allow and benchmarks, the latest-release lookup returned an error. I didn't read the error text, so I'm assuming that means no release.",
+        "turns": 2,
+        "seconds": 6.017,
+        "costUsd": 0.013583200000000002,
+        "firstTurnTokens": 12454,
+        "totalInputTokens": 25481,
+        "outputTokens": 180,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1525,
+          "cacheRead": 23952
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:pnpm\", sort:\"stars\", order:"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24089537500000005
+          },
+          {
+            "kind": "model",
+            "seconds": 2.3921547910000007
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.9236872089999966
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6566939160000036
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "pnpm-tags",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 pnpm org repos by stars, with each one's latest release tag:\n- pnpm/pnpm (37,155★): `v12.21.0`\n- pnpm/action-setup (1,330★): `v6.1.1`\n- pnpm/pacquet (1,155★, archived): `v0.1.3`\n- pnpm/only-allow (659★, archived): no release\n- pnpm/benchmarks (433★): no release\n\nonly-allow and benchmarks have no release. Both returned 404 from the latest-release endpoint.",
+        "turns": 7,
+        "seconds": 7.333,
+        "costUsd": 0.06371399999999999,
+        "firstTurnTokens": 27233,
+        "totalInputTokens": 92017,
+        "outputTokens": 225,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 12131,
+          "cacheRead": 79880
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:pnpm\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"pnpm\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"action-setup\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"pacquet\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"only-allow\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"benchmarks\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.286079832999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3177894589999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7392725830000053
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0844154169999967
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.10805320799999762
+          },
+          {
+            "kind": "model",
+            "seconds": 0.20320362500000222
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.06498145800000188
+          },
+          {
+            "kind": "model",
+            "seconds": 0.20306862499999934
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6532779589999995
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9324619159999994
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "bevy-tags",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 bevyengine repos by stars, with the tag of each latest release:\n- **bevy** (49,947 stars): v0.20.1\n- **bevy-assets** (1,101): no release\n- **bevy_editor_prototypes** (418): no release\n- **bevy_github_ci_template** (268): no release\n- **bevy-website** (251): no release\n\nThe four \"no release\" results are from the latest-release lookup failing. The error text was cut off, so I didn't confirm it was a 404 rather than another error.",
+        "turns": 2,
+        "seconds": 6.641,
+        "costUsd": 0.0146214,
+        "firstTurnTokens": 12456,
+        "totalInputTokens": 25650,
+        "outputTokens": 188,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1692,
+          "cacheRead": 23954
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:bevyengine\", sort:\"stars\", "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2287086249999993
+          },
+          {
+            "kind": "model",
+            "seconds": 2.7843750830000062
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.1261492079999953
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6882929169999983
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "bevy-tags",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 bevyengine repos by stars, with the tag of each latest release:\n- **bevy** (49,947★): `v0.20.1`\n- **bevy-assets** (1,101★): no release\n- **bevy_editor_prototypes** (418★): no release\n- **bevy_github_ci_template** (268★): no release\n- **bevy-website** (251★): no release\n\nOnly bevy has a release. The other four returned 404 from the latest-release endpoint, which GitHub returns when a repo has no published release.",
+        "turns": 7,
+        "seconds": 7.537,
+        "costUsd": 0.035575,
+        "firstTurnTokens": 27235,
+        "totalInputTokens": 84945,
+        "outputTokens": 216,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5069,
+          "cacheRead": 79870
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:bevyengine\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy\"}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy-assets\"}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy_editor_prototypes\"}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy_github_ci_template\"}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy-website\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2554533330000048
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3649668329999989
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6747949999999983
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0941160420000013
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.37811554199999975
+          },
+          {
+            "kind": "model",
+            "seconds": 0.28762041599999755
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8358843750000018
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8779779589999963
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "bevy-tags",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 bevyengine repos by stars, with the tag of each latest release:\n- **bevyengine/bevy** (~49.9k stars): **v0.20.1**\n- **bevyengine/bevy-assets** (~1.1k): no release\n- **bevyengine/bevy_editor_prototypes** (~418): no release\n- **bevyengine/bevy_github_ci_template** (~268): no release\n- **bevyengine/bevy-website** (~251): no release\n\nFor the four \"no release\" repos, the latest-release lookup returned an error. I cut the message off before the status code, so I'm inferring a 404 (no releases) rather than having confirmed it.",
+        "turns": 2,
+        "seconds": 10.363,
+        "costUsd": 0.015311300000000002,
+        "firstTurnTokens": 12194,
+        "totalInputTokens": 25062,
+        "outputTokens": 25,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1625,
+          "cacheRead": 23433
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:bevyengine\", sort:\"stars\", or"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.228843375000004
+          },
+          {
+            "kind": "model",
+            "seconds": 2.923769790999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.347050000000003
+          },
+          {
+            "kind": "model",
+            "seconds": 3.0523889589999955
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "cli-tags",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "All five repos have a release, so none are missing one (run c83cb66f).\n\n- sharkdp/bat: `v0.26.1`\n- BurntSushi/ripgrep: `16.0.0`\n- junegunn/fzf: `v0.75.0`\n- ajeetdsouza/zoxide: `v0.10.0`\n- helix-editor/helix: `25.07.1`",
+        "turns": 6,
+        "seconds": 4.231,
+        "costUsd": 0.0522838,
+        "firstTurnTokens": 27265,
+        "totalInputTokens": 61982,
+        "outputTokens": 151,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 10420,
+          "cacheRead": 51558
+        },
+        "toolCalls": 5,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"sharkdp\",\"repo\":\"bat\"}",
+          "mcp__github__get_latest_release {\"owner\":\"BurntSushi\",\"repo\":\"ripgrep\"}",
+          "mcp__github__get_latest_release {\"owner\":\"junegunn\",\"repo\":\"fzf\"}",
+          "mcp__github__get_latest_release {\"owner\":\"ajeetdsouza\",\"repo\":\"zoxide\"}",
+          "mcp__github__get_latest_release {\"owner\":\"helix-editor\",\"repo\":\"helix\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1923193749999992
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4019419170000036
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.25703774999999585
+          },
+          {
+            "kind": "model",
+            "seconds": 0.02386112500000337
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3466926250000033
+          },
+          {
+            "kind": "model",
+            "seconds": 0.020661707999999557
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2403374999999941
+          },
+          {
+            "kind": "model",
+            "seconds": 0.027319458000005348
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.689230917000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.201812374999994
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "cli-tags",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run 557e584f):\n- sharkdp/bat: `v0.26.1`\n- BurntSushi/ripgrep: `16.0.0`\n- junegunn/fzf: `v0.75.0`\n- ajeetdsouza/zoxide: `v0.10.0`\n- helix-editor/helix: `25.07.1`\n\nAll five repos have a release.",
+        "turns": 2,
+        "seconds": 7.152,
+        "costUsd": 0.012818,
+        "firstTurnTokens": 12221,
+        "totalInputTokens": 24950,
+        "outputTokens": 143,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1486,
+          "cacheRead": 23460
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const repos = [[\"sharkdp\",\"bat\"],[\"BurntSushi\",\"ripgrep\"],[\"junegunn\",\"fzf\"],[\"ajeetdsouza"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24211325000000217
+          },
+          {
+            "kind": "model",
+            "seconds": 2.512617082999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.1566890000000054
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4393225419999949
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "cli-tags",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run b22865b5):\n- sharkdp/bat: `v0.26.1`\n- BurntSushi/ripgrep: `16.0.0`\n- junegunn/fzf: `v0.75.0`\n- ajeetdsouza/zoxide: `v0.10.0`\n- helix-editor/helix: `25.07.1`\n\nAll five repos have a release.",
+        "turns": 2,
+        "seconds": 4.642,
+        "costUsd": 0.012928,
+        "firstTurnTokens": 12482,
+        "totalInputTokens": 25477,
+        "outputTokens": 143,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1493,
+          "cacheRead": 23980
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const repos = [[\"sharkdp\",\"bat\"],[\"BurntSushi\",\"ripgrep\"],[\"junegunn\",\"fzf\"],[\"ajeetdsou"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22601691700000084
+          },
+          {
+            "kind": "model",
+            "seconds": 2.305696624999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0535659169999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.240781208000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "pnpm-newest",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "pnpm\n\nOf the top 5 repos by stars in the pnpm org, `pnpm/pnpm` has the most recent latest release. That release is v12.21.0, published 2026-11-13. `pnpm/action-setup` is next, with v6.1.1 on 2026-11-03. `pnpm/pacquet` last released in 2023. `pnpm/only-allow` and `pnpm/benchmarks` have no releases.",
+        "turns": 3,
+        "seconds": 9.938,
+        "costUsd": 0.0163125,
+        "firstTurnTokens": 12184,
+        "totalInputTokens": 37770,
+        "outputTokens": 176,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1819,
+          "cacheRead": 35945
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:pnpm\" --sort stars --order desc --perPage 5 --minimal_output true ",
+          "cd <work>/mcp && for r in pnpm action-setup pacquet only-allow benchmarks; do echo $r; github/get_latest_release --owner pn"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21891766700000154
+          },
+          {
+            "kind": "model",
+            "seconds": 1.912063583000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.3113306250000023
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7956367079999982
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.161930500000002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7147453339999998
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "pnpm-newest",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "pnpm\nOf the 5 most-starred repos in the pnpm org, pnpm's latest release is the most recent, published 2026-11-13.\nThe runner-up is action-setup (2026-11-03). pacquet's latest release dates from 2023-07-31. only-allow and benchmarks have no releases.",
+        "turns": 2,
+        "seconds": 5.858,
+        "costUsd": 0.012462500000000001,
+        "firstTurnTokens": 12447,
+        "totalInputTokens": 25404,
+        "outputTokens": 119,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1455,
+          "cacheRead": 23945
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:pnpm\", sort:\"stars\", order:"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.243799583
+          },
+          {
+            "kind": "model",
+            "seconds": 2.5088714580000016
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.891255041999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4155749579999979
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "pnpm-newest",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "pnpm\n\nAmong the five most-starred pnpm org repos, `pnpm/pnpm` has the most recent latest release. It is v12.21.0, published 2026-11-13.\n\n- `pnpm/action-setup`: v6.1.1, published 2026-11-03.\n- `pnpm/pacquet`: v0.1.3, published 2023-07-31.\n- `pnpm/only-allow` and `pnpm/benchmarks` have no releases.",
+        "turns": 7,
+        "seconds": 7.444,
+        "costUsd": 0.063443,
+        "firstTurnTokens": 27228,
+        "totalInputTokens": 92002,
+        "outputTokens": 200,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 12126,
+          "cacheRead": 79870
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:pnpm\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"pnpm\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"action-setup\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"pacquet\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"only-allow\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"benchmarks\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2099110839999994
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6502240410000013
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.611998625
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0698541250000058
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.24293770899999778
+          },
+          {
+            "kind": "model",
+            "seconds": 0.08818541599999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.12983437499999884
+          },
+          {
+            "kind": "model",
+            "seconds": 0.13800604200000066
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.46556412499999755
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0261743750000027
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "fd-issue-title",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #2 in sharkdp/fd is titled **\"Do not search hidden folders / files\"**.\n\nIt was opened on 2017-05-09 and closed as completed on 2017-05-12.",
+        "turns": 3,
+        "seconds": 7.228,
+        "costUsd": 0.014869900000000002,
+        "firstTurnTokens": 12429,
+        "totalInputTokens": 38421,
+        "outputTokens": 98,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1776,
+          "cacheRead": 36639
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/issue_read --owner sharkdp --repo fd --issue_number 2 --method get --json | jq '{title}'",
+          "cd <work>/mcp-b && github/issue_read --owner sharkdp --repo fd --issue_number 2 --method get | head -c 600"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2454892919999984
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6759503750000075
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.4124143329999932
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5367776250000023
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9139303340000042
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6432065829999924
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "fd-issue-title",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #2 in sharkdp/fd is titled **\"Do not search hidden folders / files\"**.\n\nIt was opened on 2017-05-09 and closed as completed on 2017-05-12.",
+        "turns": 2,
+        "seconds": 3.021,
+        "costUsd": 0.0204544,
+        "firstTurnTokens": 27211,
+        "totalInputTokens": 54852,
+        "outputTokens": 89,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3344,
+          "cacheRead": 51504
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__issue_read {\"method\":\"get\",\"owner\":\"sharkdp\",\"repo\":\"fd\",\"issue_number\":2}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1623602080000055
+          },
+          {
+            "kind": "model",
+            "seconds": 1.372423082999987
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8156711670000076
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8165724999999946
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "fd-issue-title",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #2 in sharkdp/fd is titled **\"Do not search hidden folders / files\"**.\n\nIt was opened on 2017-05-09 and closed as completed on 2017-05-12.",
+        "turns": 3,
+        "seconds": 5.865,
+        "costUsd": 0.0147879,
+        "firstTurnTokens": 12166,
+        "totalInputTokens": 37640,
+        "outputTokens": 97,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1775,
+          "cacheRead": 35859
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/issue_read --owner sharkdp --repo fd --issue_number 2 --method get --json | jq '{title, number}'",
+          "cd <work>/mcp && github/issue_read --owner sharkdp --repo fd --issue_number 2 --method get --json | head -c 600"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23827091599999403
+          },
+          {
+            "kind": "model",
+            "seconds": 1.825759042000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.2078190000000033
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5268869169999961
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.02831625000000315
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2317266660000028
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "zed-created",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub repo zed-industries/zed was created on **2021-02-20**. The GitHub API reports `created_at` as 2021-02-20T03:01:06Z.",
+        "turns": 2,
+        "seconds": 5.335,
+        "costUsd": 0.0207231,
+        "firstTurnTokens": 27218,
+        "totalInputTokens": 54976,
+        "outputTokens": 83,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3461,
+          "cacheRead": 51511
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:zed-industries/zed\",\"minimal_output\":false,\"perPage\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.166919624999995
+          },
+          {
+            "kind": "model",
+            "seconds": 3.536298833000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5869394999999935
+          },
+          {
+            "kind": "model",
+            "seconds": 1.185277000000002
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "zed-created",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub repo zed-industries/zed was created on **2021-02-20**. The GitHub repository search returned a `created_at` of 2021-02-20T03:01:06Z.",
+        "turns": 2,
+        "seconds": 3.598,
+        "costUsd": 0.0097211,
+        "firstTurnTokens": 12172,
+        "totalInputTokens": 24663,
+        "outputTokens": 78,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1248,
+          "cacheRead": 23411
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"repo:zed-industries/zed\" --json | jq '.items[0] | {full_name, created_"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2359557919999934
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8171294579999957
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.625754000000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1141534170000087
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "zed-created",
+      "suite": "heldout10",
+      "rep": 1,
+      "correct": true,
+      "metrics": {
+        "answer": "zed-industries/zed was created on **2021-02-20**. The GitHub search API gives its `created_at` as 2021-02-20T03:01:06Z.",
+        "turns": 2,
+        "seconds": 3.414,
+        "costUsd": 0.0097371,
+        "firstTurnTokens": 12433,
+        "totalInputTokens": 25189,
+        "outputTokens": 70,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1254,
+          "cacheRead": 23931
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/search_repositories --query \"repo:zed-industries/zed\" --json | jq '.items[0] | {full_name, create"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22898920900000666
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6698166659999987
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7917016250000015
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9110817090000056
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "biome-tags",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags for the 5 most-starred biomejs repos (run 0b06ab70):\n- **biome** (26,180 stars): `@biomejs/biome@2.6.8`\n- **gritql** (4,630): `v0.0.3`\n- **biome-zed** (510): `v0.3.1`\n- **biome-vscode** (433): `v3.8.1`\n- **setup-biome** (137): `v2.7.1`\n\nAll five have a release, so none are missing one.",
+        "turns": 2,
+        "seconds": 8.762,
+        "costUsd": 0.013113200000000002,
+        "firstTurnTokens": 12193,
+        "totalInputTokens": 24899,
+        "outputTokens": 174,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1463,
+          "cacheRead": 23432
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r:any = await tools.github.search_repositories({query:\"org:biomejs\", sort:\"stars\", o"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23406291699998838
+          },
+          {
+            "kind": "model",
+            "seconds": 2.8549334159999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.20772050000001
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6567976669999913
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "biome-tags",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 biomejs repos by stars, with the tag of each latest release:\n- biome (26,180★): `@biomejs/biome@2.6.8`\n- gritql (4,630★): `v0.0.3`\n- biome-zed (510★): `v0.3.1`\n- biome-vscode (433★): `v3.8.1`\n- setup-biome (137★): `v2.7.1`\n\nAll five have a release, so none are missing one.",
+        "turns": 2,
+        "seconds": 6.377,
+        "costUsd": 0.013009100000000001,
+        "firstTurnTokens": 12453,
+        "totalInputTokens": 25419,
+        "outputTokens": 160,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1464,
+          "cacheRead": 23951
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:biomejs\", sort:\"stars\", ord"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22976670799999557
+          },
+          {
+            "kind": "model",
+            "seconds": 2.5136469590000052
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.114080290999991
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7056157090000053
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "biome-tags",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 biomejs repos by stars, with the tag of each latest release:\n\n- **biomejs/biome** (26,180★): `@biomejs/biome@2.6.8`\n- **biomejs/gritql** (4,630★): `v0.0.3`\n- **biomejs/biome-zed** (510★): `v0.3.1`\n- **biomejs/biome-vscode** (433★): `v3.8.1`\n- **biomejs/setup-biome** (137★): `v2.7.1`\n\nAll five have a release, so none are missing one.",
+        "turns": 7,
+        "seconds": 8.663,
+        "costUsd": 0.1066446,
+        "firstTurnTokens": 27234,
+        "totalInputTokens": 102848,
+        "outputTokens": 227,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 22856,
+          "cacheRead": 79986
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:biomejs\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"biome\"}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"gritql\"}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"biome-zed\"}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"biome-vscode\"}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"setup-biome\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2781022920000105
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0066682909999947
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6723667920000005
+          },
+          {
+            "kind": "model",
+            "seconds": 2.690162292000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.13393324999998768
+          },
+          {
+            "kind": "model",
+            "seconds": 0.19998512500000665
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.10852445799999977
+          },
+          {
+            "kind": "model",
+            "seconds": 0.5223346250000027
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.33538866699999215
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9753971250000024
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "pnpm-tags",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 most-starred repos in the pnpm org, with their latest release tag:\n- pnpm (37,155★): v12.21.0\n- action-setup (1,330★): v6.1.1\n- pacquet (1,155★): v0.1.3\n- only-allow (659★): no release\n- benchmarks (433★): no release\n\nThe two \"no release\" results come from the latest-release lookup failing. I didn't print the full error, so I can't confirm the cause. A missing release is the likely one.",
+        "turns": 2,
+        "seconds": 6.085,
+        "costUsd": 0.013585100000000001,
+        "firstTurnTokens": 12453,
+        "totalInputTokens": 25483,
+        "outputTokens": 175,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1528,
+          "cacheRead": 23951
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:pnpm\", sort:\"stars\", order:"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24265599999998813
+          },
+          {
+            "kind": "model",
+            "seconds": 2.3851277499999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.8907847080000066
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7676388750000038
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "pnpm-tags",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 pnpm org repos by stars, with the tag of each one's latest release:\n- **pnpm/pnpm** (37,155★): `v12.21.0`\n- **pnpm/action-setup** (1,330★): `v6.1.1`\n- **pnpm/pacquet** (1,155★, archived): `v0.1.3`\n- **pnpm/only-allow** (659★, archived): no release (the API returned 404)\n- **pnpm/benchmarks** (433★): no release (the API returned 404)\n\nTwo repos have no release: only-allow and benchmarks.",
+        "turns": 7,
+        "seconds": 8.619,
+        "costUsd": 0.0638724,
+        "firstTurnTokens": 27235,
+        "totalInputTokens": 92023,
+        "outputTokens": 240,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 12133,
+          "cacheRead": 79884
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:pnpm\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"pnpm\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"action-setup\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"pacquet\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"only-allow\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"benchmarks\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2948617499999964
+          },
+          {
+            "kind": "model",
+            "seconds": 2.7035576250000015
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6257038750000059
+          },
+          {
+            "kind": "model",
+            "seconds": 1.837170415999994
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2827337090000075
+          },
+          {
+            "kind": "model",
+            "seconds": 0.32395345799998854
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7422852080000011
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0812407090000065
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "pnpm-tags",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 pnpm org repos by stars, with the tag of each latest release:\n- pnpm/pnpm (37,155★): v12.21.0\n- pnpm/action-setup (1,330★): v6.1.1\n- pnpm/pacquet (1,155★): v0.1.3\n- pnpm/only-allow (659★): no release\n- pnpm/benchmarks (433★): no release\n\nFor only-allow and benchmarks, the latest-release lookup returned an error, which I took to mean no release. The error text was cut off, so I didn't confirm the cause.",
+        "turns": 2,
+        "seconds": 9.524,
+        "costUsd": 0.013969200000000001,
+        "firstTurnTokens": 12193,
+        "totalInputTokens": 24998,
+        "outputTokens": 203,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1562,
+          "cacheRead": 23432
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r:any = await tools.github.search_repositories({query:\"org:pnpm\", sort:\"stars\", orde"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.25115279100000043
+          },
+          {
+            "kind": "model",
+            "seconds": 3.2800510839999917
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.103361958000009
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0990828329999927
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "bevy-tags",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 bevyengine repos by stars, with the tag of each one's latest release:\n- **bevy** (49,947★): `v0.20.1`\n- **bevy-assets** (1,101★): no release\n- **bevy_editor_prototypes** (418★, archived): no release\n- **bevy_github_ci_template** (268★): no release\n- **bevy-website** (251★): no release\n\nFour of the five have no release. The latest-release endpoint returned 404 for each of them.",
+        "turns": 7,
+        "seconds": 7.625,
+        "costUsd": 0.035464999999999997,
+        "firstTurnTokens": 27235,
+        "totalInputTokens": 84945,
+        "outputTokens": 205,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5069,
+          "cacheRead": 79870
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:bevyengine\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy\"}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy-assets\"}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy_editor_prototypes\"}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy_github_ci_template\"}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy-website\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.360083083999998
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5632341659999947
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7554372920000025
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9654157080000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.11828412500000507
+          },
+          {
+            "kind": "model",
+            "seconds": 0.2525161249999952
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.005896584000002036
+          },
+          {
+            "kind": "model",
+            "seconds": 0.2669612500000076
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9113573749999917
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7697084580000082
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "bevy-tags",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The five most-starred bevyengine repos and their latest release tags (run 9671dcf8):\n- **bevy** (49,947 stars): v0.20.1\n- **bevy-assets** (1,101): no release\n- **bevy_editor_prototypes** (418): no release\n- **bevy_github_ci_template** (268): no release\n- **bevy-website** (251): no release\n\nI confirmed the 404 \"Not Found\" response from the latest-release call only for bevy-assets. The other three failed the same way, but I didn't read their full error text.",
+        "turns": 4,
+        "seconds": 17.245,
+        "costUsd": 0.0261053,
+        "firstTurnTokens": 12194,
+        "totalInputTokens": 52486,
+        "outputTokens": 213,
+        "inputBreakdown": {
+          "fresh": 8,
+          "cacheWrite": 2685,
+          "cacheRead": 49793
+        },
+        "toolCalls": 3,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:bevyengine\", sort:\"stars\", or",
+          "cd <work>/mcp && ./run - <<'EOF' for (const r of [\"bevy-assets\",\"bevy_editor_prototypes\",\"bevy_github_ci_template\",\"bevy-we",
+          "cd <work>/mcp && ./run - <<'EOF' try { await tools.github.get_latest_release({owner:\"bevyengine\", repo:\"bevy-assets\"}); } c"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.27505312500000584
+          },
+          {
+            "kind": "model",
+            "seconds": 3.0868404579999917
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.528068000000014
+          },
+          {
+            "kind": "model",
+            "seconds": 2.7088455419999944
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.0192394999999976
+          },
+          {
+            "kind": "model",
+            "seconds": 1.705340750000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.0612289159999921
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0811761250000114
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "bevy-tags",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 bevyengine repos by stars, with the tag of each latest release:\n- **bevy** (49,947 stars): v0.20.1\n- **bevy-assets** (1,101): no release\n- **bevy_editor_prototypes** (418): no release\n- **bevy_github_ci_template** (268): no release\n- **bevy-website** (251): no release\n\nFor the four with no release, the latest-release call failed. I cut off the error text, so I inferred \"no release\" from the failed call and didn't see a 404 confirmed.",
+        "turns": 2,
+        "seconds": 7.873,
+        "costUsd": 0.0153931,
+        "firstTurnTokens": 12453,
+        "totalInputTokens": 25720,
+        "outputTokens": 26,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1765,
+          "cacheRead": 23951
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:bevyengine\", sort:\"stars\", "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2814857079999929
+          },
+          {
+            "kind": "model",
+            "seconds": 3.3858612080000023
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.1138910840000023
+          },
+          {
+            "kind": "model",
+            "seconds": 2.310891375000007
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "cli-tags",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run 1f073ad1):\n- sharkdp/bat: v0.26.1\n- BurntSushi/ripgrep: 16.0.0\n- junegunn/fzf: v0.75.0\n- ajeetdsouza/zoxide: v0.10.0\n- helix-editor/helix: 25.07.1\n\nAll five repos have a release.",
+        "turns": 2,
+        "seconds": 7.76,
+        "costUsd": 0.0126822,
+        "firstTurnTokens": 12223,
+        "totalInputTokens": 24948,
+        "outputTokens": 137,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1482,
+          "cacheRead": 23462
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const repos=[[\"sharkdp\",\"bat\"],[\"BurntSushi\",\"ripgrep\"],[\"junegunn\",\"fzf\"],[\"ajeetdsouza\","
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.26546495799999686
+          },
+          {
+            "kind": "model",
+            "seconds": 2.602355708999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.3728957079999966
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7312980000000096
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "cli-tags",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run 170974f2):\n- sharkdp/bat: v0.26.1\n- BurntSushi/ripgrep: 16.0.0\n- junegunn/fzf: v0.75.0\n- ajeetdsouza/zoxide: v0.10.0\n- helix-editor/helix: 25.07.1\n\nAll five repos have a release, so none are missing one.",
+        "turns": 2,
+        "seconds": 4.765,
+        "costUsd": 0.013058,
+        "firstTurnTokens": 12482,
+        "totalInputTokens": 25487,
+        "outputTokens": 142,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1503,
+          "cacheRead": 23980
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const repos = [[\"sharkdp\",\"bat\"],[\"BurntSushi\",\"ripgrep\"],[\"junegunn\",\"fzf\"],[\"ajeetdsou"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.30152016700000966
+          },
+          {
+            "kind": "model",
+            "seconds": 2.336568749999991
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.1789512499999981
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1947017920000071
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "cli-tags",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "All five repos have a latest release, so none are missing one.\n- sharkdp/bat: `v0.26.1`\n- BurntSushi/ripgrep: `16.0.0`\n- junegunn/fzf: `v0.75.0`\n- ajeetdsouza/zoxide: `v0.10.0`\n- helix-editor/helix: `25.07.1`",
+        "turns": 6,
+        "seconds": 4.748,
+        "costUsd": 0.0522238,
+        "firstTurnTokens": 27265,
+        "totalInputTokens": 61982,
+        "outputTokens": 145,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 10420,
+          "cacheRead": 51558
+        },
+        "toolCalls": 5,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"sharkdp\",\"repo\":\"bat\"}",
+          "mcp__github__get_latest_release {\"owner\":\"BurntSushi\",\"repo\":\"ripgrep\"}",
+          "mcp__github__get_latest_release {\"owner\":\"junegunn\",\"repo\":\"fzf\"}",
+          "mcp__github__get_latest_release {\"owner\":\"ajeetdsouza\",\"repo\":\"zoxide\"}",
+          "mcp__github__get_latest_release {\"owner\":\"helix-editor\",\"repo\":\"helix\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2465500420000026
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8705999169999994
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.022109333000000397
+          },
+          {
+            "kind": "model",
+            "seconds": 0.22649095800000962
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3335402089999988
+          },
+          {
+            "kind": "model",
+            "seconds": 0.28618799999999434
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7063754999999952
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2701327080000047
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "pnpm-newest",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "pnpm\nOf the 5 most-starred repos in the pnpm org, pnpm has the most recent latest release: v12.21.0, published 2026-11-13.\nThe next closest is action-setup, with v6.1.1 on 2026-11-03.\nThe other three are pacquet (last released 2023-07-31), only-allow (no releases) and benchmarks (no releases).",
+        "turns": 2,
+        "seconds": 8.302,
+        "costUsd": 0.0129422,
+        "firstTurnTokens": 12444,
+        "totalInputTokens": 25431,
+        "outputTokens": 140,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1485,
+          "cacheRead": 23942
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:pnpm\", sort:\"stars\", order:"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23408637499999896
+          },
+          {
+            "kind": "model",
+            "seconds": 3.9922764999999925
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.9837683749999995
+          },
+          {
+            "kind": "model",
+            "seconds": 2.283592041000011
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "pnpm-newest",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "pnpm\n\nOf the five most-starred repos in the pnpm org, `pnpm/pnpm` has the most recent latest release. That release is v12.21.0, published 2026-11-13.\n\n- `action-setup`: v6.1.1, published 2026-11-03.\n- `pacquet`: v0.1.3, published 2023-07-31.\n- `only-allow` and `benchmarks`: no releases.",
+        "turns": 7,
+        "seconds": 6.613,
+        "costUsd": 0.063273,
+        "firstTurnTokens": 27228,
+        "totalInputTokens": 92002,
+        "outputTokens": 183,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 12126,
+          "cacheRead": 79870
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:pnpm\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"pnpm\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"action-setup\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"pacquet\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"only-allow\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"benchmarks\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.138602165999997
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3260009169999973
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7365024170000107
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5748925409999943
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.24948362499999277
+          },
+          {
+            "kind": "model",
+            "seconds": 0.08081787500000814
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.2854177919999934
+          },
+          {
+            "kind": "model",
+            "seconds": 0.0490233330000045
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.10824175000000036
+          },
+          {
+            "kind": "model",
+            "seconds": 0.15995725000000682
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.4642039589999918
+          },
+          {
+            "kind": "model",
+            "seconds": 1.561230500000005
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "pnpm-newest",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "pnpm\nOf the 5 most-starred repos in the pnpm org, pnpm has the most recent latest release. It is v12.21.0, published 2026-11-13.\n- action-setup: v6.1.1, 2026-11-03\n- pacquet: v0.1.3, 2023-07-31\n- only-allow and benchmarks: no releases",
+        "turns": 2,
+        "seconds": 7.727,
+        "costUsd": 0.0125245,
+        "firstTurnTokens": 12186,
+        "totalInputTokens": 24885,
+        "outputTokens": 132,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1456,
+          "cacheRead": 23425
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r:any = await tools.github.search_repositories({query:\"org:pnpm\",sort:\"stars\",order:"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2515488329999935
+          },
+          {
+            "kind": "model",
+            "seconds": 2.672599291999999
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.5119043749999985
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5020096659999975
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "fd-issue-title",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #2 in sharkdp/fd is titled **\"Do not search hidden folders / files\"**.\n\nIt's closed as completed. sharkdp opened it on 2017-05-09 and closed it on 2017-05-12.",
+        "turns": 2,
+        "seconds": 2.836,
+        "costUsd": 0.0205503,
+        "firstTurnTokens": 27210,
+        "totalInputTokens": 54850,
+        "outputTokens": 99,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3343,
+          "cacheRead": 51503
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__issue_read {\"method\":\"get\",\"owner\":\"sharkdp\",\"repo\":\"fd\",\"issue_number\":2}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2149017080000049
+          },
+          {
+            "kind": "model",
+            "seconds": 1.147686082999993
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7740555420000019
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8916205420000041
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "fd-issue-title",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #2 in sharkdp/fd is titled **\"Do not search hidden folders / files\"**.\n\nIt was opened on 2017-05-09 and closed as completed on 2017-05-12.",
+        "turns": 3,
+        "seconds": 6.404,
+        "costUsd": 0.014736800000000001,
+        "firstTurnTokens": 12165,
+        "totalInputTokens": 37624,
+        "outputTokens": 97,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1770,
+          "cacheRead": 35848
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/issue_read --owner sharkdp --repo fd --issue_number 2 --method get --json | jq '{title}'",
+          "cd <work>/mcp && github/issue_read --owner sharkdp --repo fd --issue_number 2 --method get | head -c 1000"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2096714590000047
+          },
+          {
+            "kind": "model",
+            "seconds": 2.503062875000003
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9754867909999887
+          },
+          {
+            "kind": "model",
+            "seconds": 1.769578000000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.022321708999996304
+          },
+          {
+            "kind": "model",
+            "seconds": 1.0917824160000018
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "fd-issue-title",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #2 in sharkdp/fd is titled **\"Do not search hidden folders / files\"**.\n\nIt was opened on 2017-05-09 and closed as completed on 2017-05-12.",
+        "turns": 3,
+        "seconds": 5.238,
+        "costUsd": 0.014908,
+        "firstTurnTokens": 12428,
+        "totalInputTokens": 38424,
+        "outputTokens": 98,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1778,
+          "cacheRead": 36640
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/issue_read --owner sharkdp --repo fd --issue_number 2 --method get --json | jq '{title:.title}'",
+          "cd <work>/mcp-b && github/issue_read --owner sharkdp --repo fd --issue_number 2 --method get | head -c 600"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2190767499999929
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6646607079999958
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.8936223750000063
+          },
+          {
+            "kind": "model",
+            "seconds": 1.7251963749999994
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.029469375000000575
+          },
+          {
+            "kind": "model",
+            "seconds": 0.8835842920000001
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "zed-created",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub repo zed-industries/zed was created on **2021-02-20**. The GitHub search tool returned a `created_at` of 2021-02-20T03:01:06Z.\n\nYou mentioned \"run decc8552\", but I didn't see anything in the tools I was given that matches that, so I ran the lookup directly.",
+        "turns": 2,
+        "seconds": 4.034,
+        "costUsd": 0.010157,
+        "firstTurnTokens": 12171,
+        "totalInputTokens": 24661,
+        "outputTokens": 122,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1247,
+          "cacheRead": 23410
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"repo:zed-industries/zed\" --json | jq '.items[0] | {full_name, created_"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22688937499999884
+          },
+          {
+            "kind": "model",
+            "seconds": 1.864719624999998
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.639867416000008
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4881554589999872
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "zed-created",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The zed-industries/zed repo was created on **2021-02-20**. GitHub's repository search returned a `created_at` of 2021-02-20T03:01:06Z.",
+        "turns": 2,
+        "seconds": 3.797,
+        "costUsd": 0.0097771,
+        "firstTurnTokens": 12433,
+        "totalInputTokens": 25189,
+        "outputTokens": 74,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1254,
+          "cacheRead": 23931
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/search_repositories --query \"repo:zed-industries/zed\" --json | jq '.items[0] | {full_name, create"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24617291699998894
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9069245830000146
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6538809579999945
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1917349999999858
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "zed-created",
+      "suite": "heldout10",
+      "rep": 2,
+      "correct": true,
+      "metrics": {
+        "answer": "The zed-industries/zed repo was created on **2021-02-20**. GitHub's `created_at` for it is 2021-02-20T03:01:06Z.",
+        "turns": 2,
+        "seconds": 3.478,
+        "costUsd": 0.020669,
+        "firstTurnTokens": 27217,
+        "totalInputTokens": 54974,
+        "outputTokens": 78,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3460,
+          "cacheRead": 51510
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:zed-industries/zed\",\"minimal_output\":false,\"perPage\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.141532625000007
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3369198330000072
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5459421250000016
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5756613749999961
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "biome-tags",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 biomejs repos by stars, with the tag of each latest release:\n- biome (26,180★): `@biomejs/biome@2.6.8`\n- gritql (4,630★): `v0.0.3`\n- biome-zed (510★): `v0.3.1`\n- biome-vscode (433★): `v3.8.1`\n- setup-biome (137★): `v2.7.1`\n\nAll five have a release.",
+        "turns": 2,
+        "seconds": 6.256,
+        "costUsd": 0.0130931,
+        "firstTurnTokens": 12453,
+        "totalInputTokens": 25430,
+        "outputTokens": 153,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1475,
+          "cacheRead": 23951
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:biomejs\", sort:\"stars\", ord"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.21670925000001443
+          },
+          {
+            "kind": "model",
+            "seconds": 2.6403806669999903
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.039799250000011
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5340737500000108
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "biome-tags",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 biomejs repos by stars, with the tag of each latest release:\n\n1. biomejs/biome (26,180★): `@biomejs/biome@2.6.8`\n2. biomejs/gritql (4,630★): `v0.0.3`\n3. biomejs/biome-zed (510★): `v0.3.1`\n4. biomejs/biome-vscode (433★): `v3.8.1`\n5. biomejs/setup-biome (137★): `v2.7.1`\n\nAll five have a release, so none are missing one.",
+        "turns": 7,
+        "seconds": 8.153,
+        "costUsd": 0.1065988,
+        "firstTurnTokens": 27235,
+        "totalInputTokens": 102851,
+        "outputTokens": 222,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 22857,
+          "cacheRead": 79988
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:biomejs\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"biome\"}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"gritql\"}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"biome-zed\"}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"biome-vscode\"}",
+          "mcp__github__get_latest_release {\"owner\":\"biomejs\",\"repo\":\"setup-biome\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.1791407909999834
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9556020840000128
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6590135829999926
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9065048330000134
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.13851320899999742
+          },
+          {
+            "kind": "model",
+            "seconds": 0.20655095800000733
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.293731749999977
+          },
+          {
+            "kind": "model",
+            "seconds": 0.30584470800001906
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6653924589999951
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0043710000000132
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "biome-tags",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 biomejs repos by stars, with the tag of each one's latest release:\n- biome (26,180 stars): `@biomejs/biome@2.6.8`\n- gritql (4,630): `v0.0.3`\n- biome-zed (510): `v0.3.1`\n- biome-vscode (433): `v3.8.1`\n- setup-biome (137): `v2.7.1`\n\nAll five have a release, so none are missing one.",
+        "turns": 3,
+        "seconds": 9.199,
+        "costUsd": 0.016299800000000003,
+        "firstTurnTokens": 12193,
+        "totalInputTokens": 37842,
+        "outputTokens": 176,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1778,
+          "cacheRead": 36058
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:biomejs\" --sort stars --order desc --perPage 5 --minimal_output tr",
+          "cd <work>/mcp && for r in biome gritql biome-zed biome-vscode setup-biome; do echo $r; github/get_latest_release --owner bi"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.20928504100002465
+          },
+          {
+            "kind": "model",
+            "seconds": 2.0150048749999843
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7922868749999905
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8278499590000141
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.837034875000012
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6857706659999963
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "pnpm-tags",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 pnpm org repos by stars, with the tag of each latest release:\n- **pnpm/pnpm** (37,156★): `v12.21.0`\n- **pnpm/action-setup** (1,330★): `v6.1.1`\n- **pnpm/pacquet** (1,155★, archived): `v0.1.3`\n- **pnpm/only-allow** (659★, archived): no release (the API returned 404)\n- **pnpm/benchmarks** (433★): no release (the API returned 404)\n\nTwo repos have no release: only-allow and benchmarks.",
+        "turns": 7,
+        "seconds": 7.678,
+        "costUsd": 0.0638566,
+        "firstTurnTokens": 27236,
+        "totalInputTokens": 92026,
+        "outputTokens": 238,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 12134,
+          "cacheRead": 79886
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:pnpm\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"pnpm\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"action-setup\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"pacquet\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"only-allow\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"benchmarks\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.262097792000015
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3367023329999939
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6830932500000055
+          },
+          {
+            "kind": "model",
+            "seconds": 1.505246416999987
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.42256366600000206
+          },
+          {
+            "kind": "model",
+            "seconds": 0.0018914170000066122
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.009033874999993863
+          },
+          {
+            "kind": "model",
+            "seconds": 0.22971137500001326
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.13321341699999145
+          },
+          {
+            "kind": "model",
+            "seconds": 0.13923379100000588
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7338053749999967
+          },
+          {
+            "kind": "model",
+            "seconds": 2.458597666999994
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "pnpm-tags",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 pnpm org repos by stars, with the tag of each latest release:\n- **pnpm** (37,156 stars): v12.21.0\n- **action-setup** (1,330 stars): v6.1.1\n- **pacquet** (1,155 stars): v0.1.3\n- **only-allow** (659 stars): no release\n- **benchmarks** (433 stars): no release\n\nFor only-allow and benchmarks, the latest-release lookup returned an error from the GitHub API. I'm reading that as \"no release\" without checking the cause.",
+        "turns": 2,
+        "seconds": 8.569,
+        "costUsd": 0.013505000000000001,
+        "firstTurnTokens": 12191,
+        "totalInputTokens": 24950,
+        "outputTokens": 198,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1516,
+          "cacheRead": 23430
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r:any = await tools.github.search_repositories({query:\"org:pnpm\", sort:\"stars\", orde"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2664705419999955
+          },
+          {
+            "kind": "model",
+            "seconds": 2.871070999999996
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.804055375000025
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8439579579999839
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "pnpm-tags",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 pnpm repos by stars, with the tag of each latest release:\n- **pnpm** (37,156★): v12.21.0\n- **action-setup** (1,330★): v6.1.1\n- **pacquet** (1,155★): v0.1.3\n- **only-allow** (659★): no release (the API returned 404)\n- **benchmarks** (433★): no release (the API returned 404)",
+        "turns": 2,
+        "seconds": 5.905,
+        "costUsd": 0.015573200000000002,
+        "firstTurnTokens": 12454,
+        "totalInputTokens": 26091,
+        "outputTokens": 148,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2135,
+          "cacheRead": 23952
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:pnpm\", sort:\"stars\", order:"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.26196604200001455
+          },
+          {
+            "kind": "model",
+            "seconds": 2.441196499999991
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.8706152500000028
+          },
+          {
+            "kind": "model",
+            "seconds": 1.543300083000009
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "bevy-tags",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 bevyengine repos by stars, with the tag of each latest release:\n- **bevy** (49,947★): v0.20.1\n- **bevy-assets** (1,101★): no release\n- **bevy_editor_prototypes** (418★): no release\n- **bevy_github_ci_template** (268★): no release\n- **bevy-website** (251★): no release\n\nThe four \"no release\" results came from the latest-release call returning an error. I cut the error text off before seeing the status code, so I assumed it was a 404 (no releases) and didn't confirm it.",
+        "turns": 2,
+        "seconds": 10.39,
+        "costUsd": 0.0152452,
+        "firstTurnTokens": 12193,
+        "totalInputTokens": 25067,
+        "outputTokens": 21,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1631,
+          "cacheRead": 23432
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const r:any = await tools.github.search_repositories({query:\"org:bevyengine\", sort:\"stars\""
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2274381669999857
+          },
+          {
+            "kind": "model",
+            "seconds": 3.0876229170000005
+          },
+          {
+            "kind": "tools",
+            "seconds": 4.11253233300001
+          },
+          {
+            "kind": "model",
+            "seconds": 3.1498427919999807
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "bevy-tags",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Top 5 most-starred repos in bevyengine, with the tag of each latest release:\n- **bevy** (about 49.9k stars): v0.20.1\n- **bevy-assets** (about 1.1k stars): no release\n- **bevy_editor_prototypes** (418 stars): no release\n- **bevy_github_ci_template** (268 stars): no release\n- **bevy-website** (251 stars): no release\n\nFour of the five have no release. For those four, the latest-release lookup returned 404 Not Found.",
+        "turns": 2,
+        "seconds": 6.737,
+        "costUsd": 0.0188032,
+        "firstTurnTokens": 12454,
+        "totalInputTokens": 26801,
+        "outputTokens": 185,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 2845,
+          "cacheRead": 23952
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:bevyengine\", sort:\"stars\", "
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.3241706249999988
+          },
+          {
+            "kind": "model",
+            "seconds": 2.7315623750000086
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.1081574580000013
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8419545419999919
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "bevy-tags",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Run 0456d7ee. These are the 5 most-starred repos in bevyengine, with the tag of each one's latest release:\n- **bevy** (49,947 stars): v0.20.1\n- **bevy-assets** (1,101 stars): no release\n- **bevy_editor_prototypes** (418 stars, archived): no release\n- **bevy_github_ci_template** (268 stars): no release\n- **bevy-website** (251 stars): no release\n\nFour of the five have no release: bevy-assets, bevy_editor_prototypes, bevy_github_ci_template and bevy-website. The releases/latest endpoint returned 404 for each of them.",
+        "turns": 7,
+        "seconds": 7.79,
+        "costUsd": 0.0360534,
+        "firstTurnTokens": 27237,
+        "totalInputTokens": 84951,
+        "outputTokens": 263,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 5071,
+          "cacheRead": 79874
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:bevyengine\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy\"}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy-assets\"}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy_editor_prototypes\"}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy_github_ci_template\"}",
+          "mcp__github__get_latest_release {\"owner\":\"bevyengine\",\"repo\":\"bevy-website\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.3119714589999931
+          },
+          {
+            "kind": "model",
+            "seconds": 1.6981704160000082
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6174256670000031
+          },
+          {
+            "kind": "model",
+            "seconds": 1.5365711249999872
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.18668225000001293
+          },
+          {
+            "kind": "model",
+            "seconds": 0.5792795829999964
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.0551921670000004
+          },
+          {
+            "kind": "model",
+            "seconds": 0.20258537499999552
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7624108330000015
+          },
+          {
+            "kind": "model",
+            "seconds": 2.134167249999999
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "cli-tags",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (from GitHub's latest-release lookup):\n- sharkdp/bat: v0.26.1\n- BurntSushi/ripgrep: 16.0.0\n- junegunn/fzf: v0.75.0\n- ajeetdsouza/zoxide: v0.10.0\n- helix-editor/helix: 25.07.1\n\nAll five repos have a release, so none are missing one.",
+        "turns": 2,
+        "seconds": 8.674,
+        "costUsd": 0.012946,
+        "firstTurnTokens": 12482,
+        "totalInputTokens": 25474,
+        "outputTokens": 149,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1490,
+          "cacheRead": 23980
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r=[[\"sharkdp\",\"bat\"],[\"BurntSushi\",\"ripgrep\"],[\"junegunn\",\"fzf\"],[\"ajeetdsouza\",\"z"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.24651008299997193
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4040708340000125
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.1392536250000123
+          },
+          {
+            "kind": "model",
+            "seconds": 5.079236040999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "cli-tags",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run 79c27dbe):\n- sharkdp/bat: `v0.26.1`\n- BurntSushi/ripgrep: `16.0.0`\n- junegunn/fzf: `v0.75.0`\n- ajeetdsouza/zoxide: `v0.10.0`\n- helix-editor/helix: `25.07.1`\n\nAll five repos have a release, so none are missing one.",
+        "turns": 6,
+        "seconds": 5.391,
+        "costUsd": 0.052377900000000005,
+        "firstTurnTokens": 27266,
+        "totalInputTokens": 61984,
+        "outputTokens": 160,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 10421,
+          "cacheRead": 51559
+        },
+        "toolCalls": 5,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__get_latest_release {\"owner\":\"sharkdp\",\"repo\":\"bat\"}",
+          "mcp__github__get_latest_release {\"owner\":\"BurntSushi\",\"repo\":\"ripgrep\"}",
+          "mcp__github__get_latest_release {\"owner\":\"junegunn\",\"repo\":\"fzf\"}",
+          "mcp__github__get_latest_release {\"owner\":\"ajeetdsouza\",\"repo\":\"zoxide\"}",
+          "mcp__github__get_latest_release {\"owner\":\"helix-editor\",\"repo\":\"helix\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.26864420900002
+          },
+          {
+            "kind": "model",
+            "seconds": 1.687600999999995
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3230444159999899
+          },
+          {
+            "kind": "model",
+            "seconds": 0.042926834000012626
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.15660366599998055
+          },
+          {
+            "kind": "model",
+            "seconds": 0.18768941700001607
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.3491262920000011
+          },
+          {
+            "kind": "model",
+            "seconds": 2.6210501249999796
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "cli-tags",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Latest release tags (run b33857b8):\n- sharkdp/bat: `v0.26.1`\n- BurntSushi/ripgrep: `16.0.0`\n- junegunn/fzf: `v0.75.0`\n- ajeetdsouza/zoxide: `v0.10.0`\n- helix-editor/helix: `25.07.1`\n\nAll five repos have a release.",
+        "turns": 2,
+        "seconds": 11.45,
+        "costUsd": 0.012433999999999999,
+        "firstTurnTokens": 12221,
+        "totalInputTokens": 24899,
+        "outputTokens": 143,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1435,
+          "cacheRead": 23460
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && ./run - <<'EOF' const repos=[[\"sharkdp\",\"bat\"],[\"BurntSushi\",\"ripgrep\"],[\"junegunn\",\"fzf\"],[\"ajeetdsouza\","
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2392290839999914
+          },
+          {
+            "kind": "model",
+            "seconds": 6.986533415999991
+          },
+          {
+            "kind": "tools",
+            "seconds": 3.077954958999996
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3447220410000007
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "pnpm-newest",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "pnpm\n\nThe latest release of pnpm/pnpm is v12.21.0, published 2026-11-13. That is the most recent of the five repos.\n- action-setup: v6.1.1, published 2026-11-03.\n- pacquet: v0.1.3, published 2023-07-31.\n- only-allow and benchmarks: no releases.",
+        "turns": 7,
+        "seconds": 7.035,
+        "costUsd": 0.0630488,
+        "firstTurnTokens": 27227,
+        "totalInputTokens": 91999,
+        "outputTokens": 161,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 12125,
+          "cacheRead": 79868
+        },
+        "toolCalls": 6,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"org:pnpm\",\"sort\":\"stars\",\"order\":\"desc\",\"perPage\":5}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"pnpm\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"action-setup\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"pacquet\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"only-allow\"}",
+          "mcp__github__get_latest_release {\"owner\":\"pnpm\",\"repo\":\"benchmarks\"}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2521821660000132
+          },
+          {
+            "kind": "model",
+            "seconds": 1.4646137089999973
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7125499999999887
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8763944159999957
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.048590083999995315
+          },
+          {
+            "kind": "model",
+            "seconds": 0.5543080000000193
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.5406397080000023
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8131792919999867
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "pnpm-newest",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "pnpm\n\nOf the five most-starred repos in the pnpm org, pnpm/pnpm has the most recent latest release. It is v12.21.0, published 2026-11-13.\n\nThe runner-up is action-setup, whose latest release is v6.1.1 from 2026-11-03. pacquet's latest is from 2023. only-allow and benchmarks have no releases.",
+        "turns": 3,
+        "seconds": 10.115,
+        "costUsd": 0.0167682,
+        "firstTurnTokens": 12183,
+        "totalInputTokens": 38045,
+        "outputTokens": 155,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1957,
+          "cacheRead": 36082
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"org:pnpm\" --sort stars --order desc --perPage 5 --minimal_output true ",
+          "cd <work>/mcp && for r in pnpm action-setup pacquet only-allow benchmarks; do echo $r; github/get_latest_release --owner pn"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.23390620800000034
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4587981670000008
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7561625000000056
+          },
+          {
+            "kind": "model",
+            "seconds": 2.156361917000002
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.7130023329999826
+          },
+          {
+            "kind": "model",
+            "seconds": 1.9906973330000177
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "pnpm-newest",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "pnpm\n\nAmong the five most-starred repos in the pnpm org, pnpm's latest release was published most recently, on 2026-11-13. The others:\n- action-setup: 2026-11-03\n- pacquet: 2023-07-31\n- only-allow and benchmarks: no releases",
+        "turns": 2,
+        "seconds": 7.121,
+        "costUsd": 0.012336399999999999,
+        "firstTurnTokens": 12446,
+        "totalInputTokens": 25399,
+        "outputTokens": 111,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1451,
+          "cacheRead": 23944
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && ./run - <<'EOF' const r = await tools.github.search_repositories({query:\"org:pnpm\", sort:\"stars\", order:"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2813289170000062
+          },
+          {
+            "kind": "model",
+            "seconds": 2.628379667000001
+          },
+          {
+            "kind": "tools",
+            "seconds": 2.006028500000015
+          },
+          {
+            "kind": "model",
+            "seconds": 2.4404332500000017
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "fd-issue-title",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #2 in sharkdp/fd is titled **\"Do not search hidden folders / files\"**.\n\nIt was opened on 2017-05-09 and closed as completed on 2017-05-12.",
+        "turns": 3,
+        "seconds": 8.375,
+        "costUsd": 0.014793700000000002,
+        "firstTurnTokens": 12165,
+        "totalInputTokens": 37642,
+        "outputTokens": 98,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1779,
+          "cacheRead": 35857
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/issue_read --owner sharkdp --repo fd --issue_number 2 --method get --json | jq '{title, number}'",
+          "cd <work>/mcp && github/issue_read --owner sharkdp --repo fd --issue_number 2 --method get | head -c 1000"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.262880541999999
+          },
+          {
+            "kind": "model",
+            "seconds": 1.8353755409999866
+          },
+          {
+            "kind": "tools",
+            "seconds": 1.013776792000019
+          },
+          {
+            "kind": "model",
+            "seconds": 4.353669666999981
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.041190500000025665
+          },
+          {
+            "kind": "model",
+            "seconds": 1.084953207999991
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "fd-issue-title",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #2 in sharkdp/fd is titled **\"Do not search hidden folders / files\"**.\n\nIt was opened on 2017-05-09 and closed as completed on 2017-05-12.",
+        "turns": 3,
+        "seconds": 6.879,
+        "costUsd": 0.014969000000000001,
+        "firstTurnTokens": 12430,
+        "totalInputTokens": 38449,
+        "outputTokens": 97,
+        "inputBreakdown": {
+          "fresh": 6,
+          "cacheWrite": 1793,
+          "cacheRead": 36650
+        },
+        "toolCalls": 2,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/issue_read --owner sharkdp --repo fd --issue_number 2 --method get --json | jq '{title, number}'",
+          "cd <work>/mcp-b && github/issue_read --owner sharkdp --repo fd --issue_number 2 --method get | head -c 1500"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2829286250000005
+          },
+          {
+            "kind": "model",
+            "seconds": 3.24788737500002
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.9737125829999864
+          },
+          {
+            "kind": "model",
+            "seconds": 1.3861537499999974
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.04279654199999605
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1848310420000052
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "fd-issue-title",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "Issue #2 in sharkdp/fd is titled **\"Do not search hidden folders / files\"**.\n\nIt was opened on 2017-05-09 and closed as completed on 2017-05-12.",
+        "turns": 2,
+        "seconds": 3.004,
+        "costUsd": 0.0204544,
+        "firstTurnTokens": 27211,
+        "totalInputTokens": 54852,
+        "outputTokens": 89,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3344,
+          "cacheRead": 51504
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__issue_read {\"method\":\"get\",\"owner\":\"sharkdp\",\"repo\":\"fd\",\"issue_number\":2}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.2121525829999882
+          },
+          {
+            "kind": "model",
+            "seconds": 1.2067810000000174
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.7933877499999942
+          },
+          {
+            "kind": "model",
+            "seconds": 0.9826363750000016
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder-b",
+      "task": "zed-created",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The zed-industries/zed repo was created on **2021-02-20**. GitHub's repository search returned a `created_at` of 2021-02-20T03:01:06Z.",
+        "turns": 2,
+        "seconds": 4.644,
+        "costUsd": 0.0097812,
+        "firstTurnTokens": 12434,
+        "totalInputTokens": 25191,
+        "outputTokens": 74,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1255,
+          "cacheRead": 23932
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp-b && github/search_repositories --query \"repo:zed-industries/zed\" --json | jq '.items[0] | {full_name, create"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.22408300000001327
+          },
+          {
+            "kind": "model",
+            "seconds": 2.663959499999997
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6026286250000124
+          },
+          {
+            "kind": "model",
+            "seconds": 1.337678249999997
+          }
+        ]
+      }
+    },
+    {
+      "setup": "direct",
+      "task": "zed-created",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub repo zed-industries/zed was created on **2021-02-20**. The search API returned `created_at` as 2021-02-20T03:01:06Z.",
+        "turns": 2,
+        "seconds": 2.97,
+        "costUsd": 0.0206808,
+        "firstTurnTokens": 27215,
+        "totalInputTokens": 54970,
+        "outputTokens": 80,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 3458,
+          "cacheRead": 51508
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "mcp__github__search_repositories {\"query\":\"repo:zed-industries/zed\",\"minimal_output\":false,\"perPage\":1}"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 1.373819583000004
+          },
+          {
+            "kind": "model",
+            "seconds": 1.326880582999991
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.49775875000000847
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1286352089999996
+          }
+        ]
+      }
+    },
+    {
+      "setup": "folder",
+      "task": "zed-created",
+      "suite": "heldout10",
+      "rep": 3,
+      "correct": true,
+      "metrics": {
+        "answer": "The GitHub repo zed-industries/zed was created on **2021-02-20**. The GitHub repository search returned a `created_at` of 2021-02-20T03:01:06Z.",
+        "turns": 2,
+        "seconds": 3.682,
+        "costUsd": 0.0103753,
+        "firstTurnTokens": 12174,
+        "totalInputTokens": 24861,
+        "outputTokens": 78,
+        "inputBreakdown": {
+          "fresh": 4,
+          "cacheWrite": 1444,
+          "cacheRead": 23413
+        },
+        "toolCalls": 1,
+        "bypassedTools": false,
+        "steps": [
+          "cd <work>/mcp && github/search_repositories --query \"repo:zed-industries/zed\" --json | head -c 1500"
+        ],
+        "timeline": [
+          {
+            "kind": "startup",
+            "seconds": 0.2483969170000055
+          },
+          {
+            "kind": "model",
+            "seconds": 1.853106749999977
+          },
+          {
+            "kind": "tools",
+            "seconds": 0.6805352500000157
+          },
+          {
+            "kind": "model",
+            "seconds": 1.1086524159999969
+          }
+        ]
+      }
+    }
+  ]
+}
