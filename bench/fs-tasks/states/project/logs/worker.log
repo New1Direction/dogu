@@ -1,0 +1,6 @@
+job 1 ok
+job 2 ERROR: missing file
+job 3 ok
+job 4 error lowercase is not counted
+job 5 ERROR: missing file
+job 6 ERROR: disk full

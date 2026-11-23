@@ -1,0 +1,12 @@
+{
+  "task_id": "doc_index",
+  "category_id": "docs",
+  "author": "dogu bench",
+  "created_at": "2026-11-22",
+  "mcp": [
+    "filesystem"
+  ],
+  "meta_data": {
+    "stateUrl": "local:project"
+  }
+}

@@ -1,4 +1,4 @@
-# Held-out filesystem tasks (set 11)
+# Held-out filesystem tasks (sets 11 and 12)
 
 Seven tasks in [MCPMark](https://github.com/eval-sys/mcpmark)'s layout, so `bench/mcpmark.ts` runs them:
 a prompt (`description.md`), a starting folder (`states/workspace`, named in `meta.json` as
@@ -10,3 +10,7 @@ what tool results look like), to judge it; see docs/research/code-mode.md.
 
     python3 bench/fs-tasks/check_checks.py          # each checker rejects the start, accepts a right answer
     MCPMARK_DIR=bench/fs-tasks deno run -A bench/mcpmark.ts
+
+Set 12 (`heldout12`, starting folder `states/project`) was committed before experiment 16 (fewer
+programs per task). Its prompts do not name the files: the agent has to look, read, then act, which is
+where turns add up.

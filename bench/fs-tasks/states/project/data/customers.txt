@@ -1,0 +1,8 @@
+ines@example.com
+Tomas@Example.com
+ana@example.org
+ines@example.com
+TOMAS@example.com
+li@example.net
+Ana@Example.org
+zoe@example.com
