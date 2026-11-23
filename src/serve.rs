@@ -236,6 +236,8 @@ fn catalog(opts: &Options) -> String {
 
 const RUN_CODE_ABOUT: &str = "Run a TypeScript program in a sandbox (no files, no network). Call tools with \
 `await tools.<app>.<tool>({...})` and print with console.log. Returns what the program printed.\n\
+A call returns the tool's own result, with no `content[0].text` wrapper: an object when the tool gives \
+structured results (for example `{ content: \"...\" }`), otherwise its text, parsed when it is JSON.\n\
 When you do not know what a tool returns, print the whole result (`console.log(r)`), not a slice of it: \
 dogu shortens long output itself, keeping the start and the end, so one look is \
 usually enough to answer.\n\
@@ -491,6 +493,7 @@ mod tests {
         assert!(run_code_description(&opts).contains("await Promise.all(ids.map("), "shows how to make calls together");
         assert!(run_code_description(&opts).contains("Promise.allSettled("), "shows how to make calls together when some may fail");
         assert!(run_code_description(&opts).contains("print the whole result"), "says to print whole results");
+        assert!(run_code_description(&opts).contains("no `content[0].text`"), "says results are not MCP's content array");
     }
 
     #[test]

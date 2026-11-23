@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+- Code mode's `run_code` description says what a call returns: the tool's own result, with no `content[0].text` wrapper. On MCPMark, agents that guessed MCP's raw shape wrote JSON into files instead of their text; on a task set frozen before the change, the guess went from 3 of 21 runs to none, and tasks got 15% faster at the median.
+
 ## [0.7.5] - 2026-11-22
 
 ### Fixed
