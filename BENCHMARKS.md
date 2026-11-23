@@ -78,7 +78,16 @@ The whole benchmark, 120 runs, cost **$23.70** loading the server directly and *
 
 **Where dogu lost.** On the easy tasks it passed 2 fewer. The task that matters most: tracing which person first proposed each final clause across 11 versions of a contract. Loading directly passed it 3 times out of 3; dogu failed it 3 times out of 3, every time on the same clause, and every time it said in its answer that this clause was a judgment call. The comments it needed were in what it read, so it was not cut off: it weighed them differently. Taking 15 to 19 turns against dogu's 3 or 4, the agent loading directly read more slowly and more closely. The [per-task results](bench/results/2026-11-22-mcpmark-filesystem.md) list every task.
 
-**Two tasks nobody passed.** One is broken as written: the easy "uppercase" task's checker wants an `answer.txt` with word counts that its prompt never asks for (the standard version's prompt does ask for it). The other is a budget task neither setup solved. We kept both in the score.
+**Two tasks nobody passed in this run:** a budget task, and the easy "uppercase" task. *Correction:* we first wrote here that the uppercase task was broken, because its checker file has checks for an `answer.txt` the prompt never asks for. That was wrong: the checker never runs those checks. Both setups failed it on the files' content. Loading directly, the model retyped the text in capitals and changed it along the way; dogu failed it because of a bug we then found and fixed (next paragraph).
+
+**What we found by studying dogu's losses, and the fix.** Code mode's tool list says what each tool takes, not what it returns, so agents guessed MCP's raw `content[0].text` wrapper. dogu returns the tool's own result (for a file, `{content: "..."}`), so the guess failed, and programs wrote JSON into files that should have held text. A one-line change tells the agent what a call returns ([experiment 15](docs/research/code-mode.md)). To judge it without re-scoring the tasks we had studied to find it, we ran both builds on **the 34 MCPMark tasks we had not studied**, in the same run, 3 runs each:
+
+| MCPMark, 34 tasks not studied, × 3 | Passed | Cost per task | Time (median) | Model turns (mean) |
+|---|---|---|---|---|
+| dogu code mode 0.7.5 | 90 of 102 | $0.052 | 11.7 s | 4.3 |
+| **dogu code mode with the fix** (on main, in the next release) | **94 of 102** | **$0.049** (6% less) | **10.9 s** (7% faster) | **4.0** |
+
+The fix turned the easy uppercase task from 0 of 3 to 3 of 3, a task loading directly fails 3 of 3 (we reran it to see why: its copies' content is wrong). It lost one run on one other task ([results](bench/results/2026-11-22-exp15-mcpmark-unstudied.md)). The headline numbers above are still 0.7.5's.
 
 **A bug we caught in our own harness first.** In a first trial run, loading directly failed every task while dogu passed. That was our mistake: we had started Claude Code in an empty folder, the tasks say "the current directory", and the agents looked there. dogu's agents happened to ask the server where the files were. We threw that run away and started Claude Code in the task's folder, as MCPMark intends; after that, both setups passed and failed the same trial tasks. The runner is [`bench/mcpmark.ts`](bench/mcpmark.ts).
 
@@ -244,7 +253,7 @@ We also tried letting a strong model (Sonnet) save the tool and a cheap model (H
 2. **Fewer turns save more than a shorter tool list.** On MCPMark, what the agent reads before its first step (instructions, tools and the task) is only 14% smaller with dogu (5.7k against 6.6k tokens), yet tasks cost 74% less, because the agent needed 70% fewer turns. Every turn re-reads the whole conversation so far.
 3. **Telling the agent how to work is a feature.** Two lines in the folder's README ("start calls that do not depend on each other together") made folder tasks 29% faster in 0.7.4. No code changed in how calls run.
 4. **Claude Code's own clock leaves out start-up.** Loading servers directly spends about a second connecting before Claude Code starts counting. We report both clocks.
-5. **Checks can be wrong in both directions.** Twice an answer looked right and our check looked too strict; both times GitHub's own numbers showed the check was right. Public benchmarks have broken checks too (MCPMark's easy "uppercase" task). Look at the source before changing a check.
+5. **Checks can be wrong in both directions.** Twice an answer looked right and our check looked too strict; both times GitHub's own numbers showed the check was right. Look at the source before changing a check, and read what a checker actually runs before calling it broken: we called one MCPMark task broken from the checks in its file, and those checks are never run.
 6. **The order of runs matters.** When the build under test always ran last on a task, it met the others' rate limits and looked slower. Setups now take turns going first.
 7. **Judge a change on tasks saved before it.** Watching agents on a set of tasks to find the next change makes that set a poor judge of it. Each change since 0.6.0 was judged on a new set committed before the change was written.
 
@@ -257,7 +266,7 @@ We also tried letting a strong model (Sonnet) save the tool and a cheap model (H
 - **The checks are checked:** before any test, each check must accept the right answer and reject "I don't know."
 - **The competitors' best features were included:** Claude Code's tool search and pi's code mode.
 - **Each task ran 2 or 3 times**, and the files keep every single run, including the steps each agent took.
-- **A public benchmark with its own checkers:** MCPMark's prompts, starting files and checkers were used as published (commit `cd45b7f`), with the server version it pins. We changed nothing in its tasks, including the broken one.
+- **A public benchmark with its own checkers:** MCPMark's prompts, starting files and checkers were used as published (commit `cd45b7f`), with the server version it pins. We changed nothing in its tasks.
 - **Caching was handled like real use:** the same project folder each time, a new conversation each time, and one warm-up first, so no way got an unfair head start.
 
 ## Run it yourself
