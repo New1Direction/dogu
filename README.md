@@ -8,16 +8,23 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"></a>
 </p>
 
-**Code mode and a local folder of commands, for every MCP tool you have.**
+**Code mode for your MCP tools: a quarter of the cost, half the time.**
 
-dogu turns each tool into a small program in a folder. An agent uses them the way it uses any other command: `ls` to find one, `--help` to learn it, a pipe to chain two. For a job with many calls, it writes one TypeScript program and dogu runs it in a sandbox.
+Your agent stops reading every tool's manual before every task. It writes one short TypeScript program that calls just the tools it needs; dogu runs it in a sandbox, runs the calls at the same time, and only what the program prints comes back. Or it uses each tool as a command in a folder: `ls` to find one, `--help` to learn it, a pipe to chain two.
 
-Measured on [MCPMark](https://github.com/eval-sys/mcpmark), a public benchmark we did not write: dogu's code mode passed about as many tasks as loading the server directly (101 against 102 of 120), for about a quarter of the cost and in half the time. On our own tasks with GitHub, Context7 and DeepWiki it costs 68% less. [The benchmarks, in plain words](BENCHMARKS.md).
+- **74% cheaper and 2.1× faster** on [MCPMark](https://github.com/eval-sys/mcpmark), a public benchmark we did not write, judged by its own checkers (101 of 120 tasks passed, against 102 with the server loaded directly).
+- **68% cheaper** on our own tasks with GitHub, Context7 and DeepWiki, every answer right.
+- **Ahead of every other code mode we could run:** UTCP's (48% cheaper), pi's own (31% cheaper), Codex's own (26% fewer tokens).
+
+[The benchmarks, in plain words](BENCHMARKS.md), including where dogu loses.
 
 ```
 curl -fsSL https://raw.githubusercontent.com/New1Direction/dogu/main/install.sh | sh
-dogu sync
+dogu import                                        # copies your servers into dogu and syncs them
+claude mcp add --scope user tools -- dogu serve    # Claude Code now uses code mode
 ```
+
+`dogu import` prints the `claude mcp remove` lines that take the servers out of Claude Code, so it stops loading them itself. Codex, pi, Cursor and any agent with a shell work too: see [Install](#install).
 
 <p align="center">
   <img src="assets/agent.gif" width="100%" alt="Claude Code, run headless, is told only: Your tools are in the mcp folder, read its README first. It reads the README, greps the github and deepwiki READMEs, reads search_repositories --help, searches GitHub for the modelcontextprotocol repos with the most stars, then reads the DeepWiki structure of the top one. It answers with servers, python-sdk and typescript-sdk and the six doc sections of servers, in 6 turns and 10 seconds.">
@@ -90,7 +97,15 @@ Or build it with [Rust](https://rustup.rs):
 cargo install --git https://github.com/New1Direction/dogu
 ```
 
-Then:
+Then, to move your servers to dogu (once):
+
+```
+dogu import
+```
+
+It copies your servers from the config below into dogu's own, `~/.config/dogu/mcp.json` (as written, so `${VAR}` secrets stay unexpanded; readable only by you), syncs them, and prints how to switch your app over. Your app's own config is not changed. After that, your app can stop loading the servers itself while dogu keeps them. For Claude Code that is `claude mcp add --scope user tools -- dogu serve`, plus a `claude mcp remove` line per server, which `dogu import` prints.
+
+Or, to leave your servers where they are:
 
 ```
 dogu sync
@@ -323,7 +338,7 @@ Transports: stdio and Streamable HTTP.
 
 ## Status
 
-This is version 0.7.6 and it is new. Here is what has not been done yet:
+This is version 0.7.7 and it is new. Here is what has not been done yet:
 
 - It has been built and run on **Linux and macOS**. Windows does not work: the tools are `sh` scripts.
 - Of the **hosted servers**, GitHub, Linear, Context7 and DeepWiki have been tried. Notion and others have not. Real services have quirks. If one breaks, please open an issue with the output of `DOGU_DEBUG=1 dogu sync`.

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.7] - 2026-11-22
+
+### Added
+
+- `dogu import` copies your servers from Claude Code, Claude Desktop, Cursor or any MCP config into dogu's own (`~/.config/dogu/mcp.json`), syncs them, and prints how to switch the app over (for Claude Code, the exact `claude mcp add` and `claude mcp remove` lines, with each server's scope). Until now, taking a server out of Claude Code so it stops loading it also took it away from dogu, which read the same file. It copies entries as written (`${VAR}` stays unexpanded), keeps each local server running in the folder it ran in, never replaces a server already in dogu's config, never changes the app's config, and writes the file readable only by you.
+
 ## [0.7.6] - 2026-11-22
 
 ### Changed

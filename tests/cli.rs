@@ -884,3 +884,71 @@ fn the_help_says_the_sandbox_is_built_in_not_that_deno_is_needed() {
     assert!(!text.contains("needs Deno"), "{text}");
     assert!(text.contains("built into dogu"), "{text}");
 }
+
+/// Claude Code's config with one user server and one for the project folder `project`.
+fn claude_code_home(name: &str) -> (PathBuf, PathBuf, PathBuf) {
+    let home = scratch(name);
+    let project = home.join("project");
+    std::fs::create_dir_all(&project).unwrap();
+    let server = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/mcp_server.py");
+    let claude = home.join(".claude.json");
+    write_json(
+        &claude,
+        &json!({
+            "mcpServers": {
+                "fx": { "command": "python3", "args": [server], "env": { "TOKEN": "${MY_TOKEN}" } },
+                "tools": { "command": "dogu", "args": ["serve"] }
+            },
+            "projects": { project.to_str().unwrap(): { "mcpServers": { "local1": { "command": "python3", "args": [server] } } } }
+        }),
+    );
+    (home, project, claude)
+}
+
+#[test]
+fn import_copies_claude_codes_servers_into_dogus_own_config_and_says_how_to_switch() {
+    let (home, project, claude) = claude_code_home("import");
+    let before = std::fs::read(&claude).unwrap();
+
+    let o = dogu(&home, &project, &["import"]);
+
+    let text = stdout(&o);
+    assert!(o.status.success(), "{text}{}", stderr(&o));
+    let ours: Value = serde_json::from_str(&std::fs::read_to_string(home.join(".config/dogu/mcp.json")).unwrap()).unwrap();
+    assert_eq!(ours["mcpServers"]["fx"]["env"]["TOKEN"], "${MY_TOKEN}", "secrets stay unexpanded");
+    assert_eq!(ours["mcpServers"]["fx"]["cwd"], home.to_str().unwrap(), "runs where Claude Code ran it");
+    assert_eq!(ours["mcpServers"]["local1"]["cwd"], project.to_str().unwrap());
+    assert!(ours["mcpServers"].get("tools").is_none(), "dogu does not import itself");
+    assert_eq!(std::fs::read(&claude).unwrap(), before, "Claude Code's config is not touched");
+    assert!(home.join("mcp/fx").is_dir() && home.join("mcp/local1").is_dir(), "{text}");
+    assert!(text.contains("claude mcp add --scope user tools -- dogu serve"), "{text}");
+    assert!(text.contains("claude mcp remove fx --scope user"), "{text}");
+    assert!(text.contains("claude mcp remove local1 --scope local"), "{text}");
+}
+
+#[cfg(unix)]
+#[test]
+fn imported_servers_are_readable_only_by_you() {
+    use std::os::unix::fs::PermissionsExt;
+    let (home, project, _) = claude_code_home("import-mode");
+
+    let o = dogu(&home, &project, &["import"]);
+
+    assert!(o.status.success(), "{}", stderr(&o));
+    let mode = std::fs::metadata(home.join(".config/dogu/mcp.json")).unwrap().permissions().mode();
+    assert_eq!(mode & 0o777, 0o600);
+}
+
+#[test]
+fn import_keeps_servers_already_in_dogus_config() {
+    let (home, project, _) = claude_code_home("import-keep");
+    let mine = json!({ "mcpServers": { "fx": { "command": "my-own-fx" } } });
+    write_json(&home.join(".config/dogu/mcp.json"), &mine);
+
+    let o = dogu(&home, &project, &["import", "--config", home.join(".claude.json").to_str().unwrap()]);
+
+    let ours: Value = serde_json::from_str(&std::fs::read_to_string(home.join(".config/dogu/mcp.json")).unwrap()).unwrap();
+    assert_eq!(ours["mcpServers"]["fx"]["command"], "my-own-fx", "{}", stdout(&o));
+    assert!(ours["mcpServers"]["local1"].is_object());
+    assert!(stdout(&o).contains("kept yours: fx"), "{}", stdout(&o));
+}

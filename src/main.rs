@@ -12,6 +12,7 @@ mod client;
 mod config;
 mod conformance;
 mod forge;
+mod import;
 mod run;
 #[cfg(feature = "djs")]
 mod sandbox_djs;
@@ -34,6 +35,11 @@ dogu — your MCP tools as a folder of commands, and as a sandboxed code API
       `mcp-tools`, so agents that read Agent Skills find the tools on their own.
       --read-only keeps only the tools each server marks read-only, and is remembered for later
       syncs; --all-tools brings the rest back.
+
+  dogu import [--config <mcp.json>] [--out <folder>] [--read-only | --all-tools]
+      Copy your servers (from Claude Code, Claude Desktop, Cursor...) into dogu's own config,
+      ~/.config/dogu/mcp.json, sync them, and print how to switch the app to dogu. Use it once, so
+      the app can stop loading the servers itself without dogu losing them. Changes only dogu's file.
 
   dogu login [--config <mcp.json>] [server...]
       Log in to remote servers that need it (opens your browser). With no name: all that need it.
@@ -101,6 +107,24 @@ fn run(args: &[String]) -> Result<i32, String> {
         return Ok(0);
     }
     match command {
+        "import" => {
+            let mut config_arg = None;
+            let mut out = default_root;
+            let mut read_only = None;
+            let mut it = args[1..].iter();
+            while let Some(a) = it.next() {
+                match a.as_str() {
+                    "--config" => config_arg = Some(it.next().ok_or("--config needs a file")?.clone()),
+                    "--out" => out = PathBuf::from(it.next().ok_or("--out needs a folder")?),
+                    "--read-only" => read_only = Some(true),
+                    "--all-tools" => read_only = Some(false),
+                    other => return Err(format!("unknown option {other}\n\n{USAGE}")),
+                }
+            }
+            let source = config::find(config_arg.as_deref())?;
+            import::run(&source, &out, read_only)?;
+            Ok(0)
+        }
         "sync" => {
             let mut config_arg = None;
             let mut out = default_root;
